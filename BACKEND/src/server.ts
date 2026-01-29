@@ -2,6 +2,7 @@ import mongoose from "mongoose"
 import { enviromentVariables } from "./app/config/env"
 import { Server } from "http"
 import app from "./app"
+import { seedSuperAdmin } from "./app/utils/seedSuperAdmin"
 let server: Server
 
 const startServer = async () => {
@@ -11,6 +12,7 @@ const startServer = async () => {
         server = app.listen(enviromentVariables.PORT, () => {
             console.log(`Server is Listening to port http://localhost:${enviromentVariables.PORT} 🚀✅😍`)
         })
+        seedSuperAdmin()
     } catch (error) {
         console.log(error)
     }

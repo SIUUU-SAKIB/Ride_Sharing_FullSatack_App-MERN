@@ -1,45 +1,57 @@
 import { model, Schema } from "mongoose";
-import { IUser, IUserRole } from "./user.interface";
+import { IAuthProvider, IUser, IUserRole } from "./user.interface";
+import { date } from "zod";
 
-const UserSchema = new Schema<IUser>({
-    id: {
-        type: String,
-    },
-    name: {
-        type: String,
-        required: true,
-        trim: true
-    },
-    phone: {
-        type: String,
-        required: true,
-        unique: true
-    },
-    email: {
-        type: String,
-        required: true,
-        unique: true,
-        lowercase: true
-    },
-    password: {
-        type: String,
-        required: true,
-        unique: true,
-        select: false
-    }, isActive: {
-        type: Boolean,
-        default: true,
-    },
-    isVerified: {
-        type: Boolean,
-        default: false,
-    },
+const authProviderSchema = new Schema<IAuthProvider>({
+    provider: { type: String, required: true },
+    providerId: { type: String, required: true }
+}, {
+    versionKey: false,
+    _id: false
+})
 
-    role: {
-        type: String,
-        enum: Object.values(IUserRole),
-        default: IUserRole.RIDER
-    }
+
+const UserSchema = new Schema<IUser>(
+    {
+        name: {
+            type: String,
+            required: true,
+            trim: true
+        },
+        phone: {
+            type: String,
+            unique: true
+        },
+        email: {
+            type: String,
+            required: true,
+            unique: true,
+            lowercase: true,
+        },
+        password: {
+            type: String,
+            required: true,
+            select: false
+        }, isActive: {
+            type: Boolean,
+            default: true,
+        },
+        isVerified: {
+            type: Boolean,
+            default: false,
+        },
+
+        role: {
+            type: String,
+            enum: Object.values(IUserRole),
+            default: IUserRole.RIDER
+        },
+        auths: [authProviderSchema]
+    }, {
+    timestamps: true,
+    versionKey:false,
+ 
+
 })
 
 export const UserDB = model('User', UserSchema)
