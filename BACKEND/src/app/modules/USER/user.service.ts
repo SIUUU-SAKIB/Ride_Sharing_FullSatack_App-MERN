@@ -1,7 +1,7 @@
 import { StatusCodes } from "http-status-codes"
 import AppError from "../../utils/createError"
 import { UserDB } from "./user.model"
-import { IAuthProvider, IUser } from "./user.interface"
+import { IAuthProvider, IUser, IUserRole } from "./user.interface"
 import bcrypt from "bcryptjs";
 import { enviromentVariables } from "../../config/env";
 import { createUserTokens } from "../../utils/tokens";
@@ -24,14 +24,23 @@ const createUser = async (payload: IUser) => {
     return user
 }
 
-const getAllUser = async() => {
+const getAllUser = async () => {
     const allUser = await UserDB.find()
     const totalUser = await UserDB.countDocuments()
     return {
-        user:{
-        allUser, totalUser
+        user: {
+            allUser, totalUser
         }
     }
 }
 
-export const UserService = { createUser, getAllUser}
+const getUserByRole = async (role: string, page: number, limit: number, skip: number) => {
+
+    console.log(page, limit, skip)
+    const user = await UserDB.find({ role: role.toUpperCase() }).skip(skip).limit(limit)
+    const total = user.length
+    return {
+        user, total
+    }
+}
+export const UserService = { createUser, getAllUser, getUserByRole }

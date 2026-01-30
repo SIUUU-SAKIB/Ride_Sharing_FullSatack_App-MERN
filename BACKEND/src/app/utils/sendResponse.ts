@@ -8,7 +8,8 @@ interface SendResponseOptions<T> {
     meta?: {
         page?: number,
         limit?: number,
-        total?: number
+        total?: number,
+        totalPage?:number
     }
 }
 
@@ -27,6 +28,7 @@ const sendResponse = <T>(
         success,
         message,
         meta, 
+
         data
     })
 }
