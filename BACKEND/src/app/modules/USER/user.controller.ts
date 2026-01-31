@@ -4,9 +4,6 @@ import { UserService } from "./user.service";
 import sendResponse from "../../utils/sendResponse";
 import { StatusCodes } from "http-status-codes";
 import AppError from "../../utils/createError";
-import { IUserRole } from "./user.interface";
-import { includes } from "zod";
-
 
 const createUser = catchAsync(async (req: Request, res: Response) => {
     const payload = req.body
@@ -21,13 +18,19 @@ const createUser = catchAsync(async (req: Request, res: Response) => {
 })
 
 const getAllUser = catchAsync(async (req: Request, res: Response) => {
-    const result = await UserService.getAllUser()
+
+    const { page = "1", limit = "10" } = req.query
+    const pageNumber = Number(page)
+    const limitNumber = Number(limit)
+    const skip = (pageNumber - 1) * limitNumber
+
+    const result = await UserService.getAllUser(pageNumber, limitNumber, skip)
     sendResponse(res, {
         success: true,
         statusCode: StatusCodes.OK,
         message: "All user retrived successfully 😍",
-        meta: { total: result.user.totalUser },
-        data: result.user.allUser,
+        meta: { total: result.totalUser, page: pageNumber, limit: limitNumber, totalPage: Math.ceil(result.totalUser / limitNumber) },
+        data: result.allUser,
 
     })
 })
@@ -56,4 +59,64 @@ const getUserByRole = catchAsync(async (req: Request, res: Response) => {
     })
 })
 
-export const UserController = { createUser, getAllUser, getUserByRole }
+
+const getSingleUser = catchAsync(async (req: Request, res: Response) => {
+    const { id } = req.params
+    if (!id) {
+        throw new AppError(StatusCodes.BAD_REQUEST, "No id received !")
+    }
+    const result = await UserService.getSingleUser(id as string)
+    sendResponse(res, {
+        success: true,
+        statusCode: StatusCodes.OK,
+        message: `User with ID ${result?._id} retrived successfully.`,
+        data: result
+    })
+
+})
+
+const updateUser = catchAsync(async (req: Request, res: Response) => {
+    const { id } = req.params
+    const payload = req.body
+    const result = await UserService.updateUser(payload, id as string)
+
+    sendResponse(res, {
+        success: true,
+        statusCode: StatusCodes.OK,
+        message: "User updated successfully",
+        data: result,
+    })
+})
+
+
+const updateUserByAdmin = catchAsync(async (req: Request, res: Response) => {
+    const { id } = req.params;
+    const payload = req.body;
+    const result = await UserService.updateUserByAdmin(id as string, payload)
+    sendResponse(res, {
+        success: true,
+        statusCode: StatusCodes.OK,
+        message: `User updated by ${req.user?.role} successfully`,
+        data: result,
+    })
+
+})
+
+const deleteUser = catchAsync(async (req: Request, res: Response) => {
+    if (!req.user?.userId) {
+        throw new AppError(StatusCodes.UNAUTHORIZED, "Unauthrized request")
+    }
+
+    const id = req.params.id
+    const result = await UserService.deleteUser(id as string, req.user?.userId)
+
+
+    sendResponse(res, {
+        success: true,
+        statusCode: StatusCodes.OK,
+        message: `Account deleted successfully`,
+        data: result,
+    })
+
+})
+export const UserController = { createUser, getAllUser, getUserByRole, getSingleUser, updateUser, updateUserByAdmin, deleteUser }

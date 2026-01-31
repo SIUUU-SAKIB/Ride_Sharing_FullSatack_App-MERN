@@ -8,14 +8,17 @@ import { IUserRole } from "./user.interface";
 
 const router = Router()
 
-// Create User (ALL USER)
 router.post('/create', validateZodSchema(UserZodSchema.createUser), UserController.createUser)
 
-
-// Get all user (ADMIN/SUPER_ADMIN)
 router.get('/all-user', authentication(IUserRole.ADMIN, IUserRole.SUPER_ADMIN), UserController.getAllUser)
 
-// Get user by role (ADMIN/SUPER_ADMIN)
 router.get(`/get-user-by-role/:role`, authentication(IUserRole.ADMIN, IUserRole.SUPER_ADMIN), UserController.getUserByRole)
 
+router.get(`/get-single-user/:id`, authentication(IUserRole.ADMIN, IUserRole.SUPER_ADMIN), UserController.getSingleUser)
+
+router.patch('/update-profile/:id',validateZodSchema(UserZodSchema.udpateUser), UserController.updateUser)
+
+router.patch('/update-by-admin/:id', authentication(IUserRole.ADMIN, IUserRole.SUPER_ADMIN), UserController.updateUserByAdmin)
+
+router.delete('/delete/:id', authentication(IUserRole.RIDER, IUserRole.DRIVER), UserController.deleteUser)
 export const UserRoutes = router

@@ -6,8 +6,8 @@ import { setAuthCookie } from "../../utils/setCookies";
 import { createUserTokens } from "../../utils/tokens";
 import { AuthService } from "./auth.service";
 
+
 const credentialsLogin = catchAsync(async (req: Request, res: Response) => {
-    console.log(req.user)
     const payload = req.body
     const result = await AuthService.credentialsLogin(payload)
 
@@ -23,11 +23,24 @@ const credentialsLogin = catchAsync(async (req: Request, res: Response) => {
 })
 
 const logout = catchAsync(async (req: Request, res: Response) => {
-    // await UserService.logout(req?.user?.userId)
-    sendResponse(res, {
-        statusCode: 200,
-        message: 'Logged out successflly'
-    })
+  const cookieOptions = {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production",
+    sameSite: "lax" as const,
+    path: "/",
+  }
+
+  res.clearCookie("accessToken", cookieOptions)
+  res.clearCookie("refreshToken", cookieOptions)
+
+  sendResponse(res, {
+    success: true,
+    statusCode: StatusCodes.OK,
+    message: "User logged out successfully",
+    data: null,
+  })
 })
+
+
 
 export const AuthController = { credentialsLogin, logout }

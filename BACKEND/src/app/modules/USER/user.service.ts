@@ -5,6 +5,7 @@ import { IAuthProvider, IUser, IUserRole } from "./user.interface"
 import bcrypt from "bcryptjs";
 import { enviromentVariables } from "../../config/env";
 import { createUserTokens } from "../../utils/tokens";
+import { isUserExist } from "../../utils/help";
 const createUser = async (payload: IUser) => {
     const { password, ...rest } = payload
     const isUserExist = await UserDB.findOne({ email: payload.email })
@@ -24,13 +25,11 @@ const createUser = async (payload: IUser) => {
     return user
 }
 
-const getAllUser = async () => {
-    const allUser = await UserDB.find()
+const getAllUser = async (page: number, limit: number, skip: number) => {
+    const allUser = await UserDB.find().skip(skip).limit(limit)
     const totalUser = await UserDB.countDocuments()
     return {
-        user: {
-            allUser, totalUser
-        }
+        allUser, totalUser
     }
 }
 
@@ -43,4 +42,51 @@ const getUserByRole = async (role: string, page: number, limit: number, skip: nu
         user, total
     }
 }
-export const UserService = { createUser, getAllUser, getUserByRole }
+
+const getSingleUser = async (id: string) => {
+    const user = await UserDB.findById(id)
+    return user
+}
+
+const updateUser = async (payload: Partial<IUser>, id: string) => {
+
+    const isUserExist = await UserDB.findById(id)
+    if (!isUserExist) {
+        throw new AppError(StatusCodes.NOT_FOUND, "User not found")
+    }
+    const user = await UserDB.findByIdAndUpdate(id, payload, {
+        new: true,
+        runValidators: true
+    }).select("-password")
+    return {
+        user
+    }
+}
+
+const updateUserByAdmin = async (id: string, payload: Partial<IUser>) => {
+    const isUserExist = await UserDB.findById(id)
+    if (!isUserExist) {
+        throw new AppError(StatusCodes.NOT_FOUND, "User not found")
+    }
+
+    const user = await UserDB.findByIdAndUpdate(id, payload, {
+        new: true, runValidators: true
+    })
+
+    return user
+}
+
+const deleteUser = async (id: string, userId:string) => {
+    const isUserExist = await UserDB.findById(id)
+    if (!isUserExist) {
+        throw new AppError(StatusCodes.NOT_FOUND, "User not found")
+    }
+    const authenticateAccount = userId === isUserExist._id.toString()
+    if(!authenticateAccount) {
+        throw new AppError(StatusCodes.FORBIDDEN, "You are not allowed to delete this account")
+    }
+    return await UserDB.findByIdAndDelete(id)
+}
+
+
+export const UserService = { createUser, getAllUser, getUserByRole, getSingleUser, updateUser, updateUserByAdmin, deleteUser}

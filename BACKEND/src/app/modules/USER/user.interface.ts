@@ -21,6 +21,7 @@ export interface IUser {
     email: string,
     phone?: string,
     password: string,
+    profilePhoto?:string,
     role: IUserRole,
     isActive?: boolean,
     isVerified: boolean,
