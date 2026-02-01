@@ -93,6 +93,7 @@ const updateUserByAdmin = catchAsync(async (req: Request, res: Response) => {
     const { id } = req.params;
     const payload = req.body;
     const result = await UserService.updateUserByAdmin(id as string, payload)
+    console.log(req.user)
     sendResponse(res, {
         success: true,
         statusCode: StatusCodes.OK,

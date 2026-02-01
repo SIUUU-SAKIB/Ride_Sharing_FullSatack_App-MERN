@@ -10,9 +10,9 @@ import { AuthService } from "./auth.service";
 const credentialsLogin = catchAsync(async (req: Request, res: Response) => {
     const payload = req.body
     const result = await AuthService.credentialsLogin(payload)
-
     const userTokens = createUserTokens(result.user)
     setAuthCookie(res, userTokens)
+    console.log(req.user)
     sendResponse(res, {
         success: true,
         statusCode: StatusCodes.OK,
@@ -41,6 +41,26 @@ const logout = catchAsync(async (req: Request, res: Response) => {
   })
 })
 
+const changePassword = catchAsync(async(req:Request, res:Response) => {
+  const id = req.user?.userId
+  const {oldPass, newPass} = req.body
+  await AuthService.changePassword(id as string, oldPass, newPass)
+   const cookieOptions = {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production",
+    sameSite: "lax" as const,
+    path: "/",
+  }
 
+  res.clearCookie("accessToken", cookieOptions)
+  res.clearCookie("refreshToken", cookieOptions)
 
-export const AuthController = { credentialsLogin, logout }
+ sendResponse(res, {
+    success: true,
+    statusCode: StatusCodes.OK,
+    message: "Password Change successfully",
+    data: null,
+  })
+})
+
+export const AuthController = { credentialsLogin, logout, changePassword }

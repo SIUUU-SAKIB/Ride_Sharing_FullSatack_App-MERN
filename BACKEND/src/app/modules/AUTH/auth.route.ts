@@ -8,4 +8,5 @@ const router = Router()
 // User login (ALL USER)
 router.post('/login', AuthController.credentialsLogin)
 router.post('/logout', AuthController.logout)
+router.patch('/change-password', authentication(...Object.values(IUserRole)), AuthController.changePassword)
 export const AuthRoutes = router

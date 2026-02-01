@@ -4,6 +4,8 @@ import bcrypt from "bcryptjs";
 import { createUserTokens } from "../../utils/tokens";
 import { UserDB } from "../USER/user.model";
 import { IUser } from "../USER/user.interface";
+import { bcryptHashing } from "../../utils/bcrypt";
+import { enviromentVariables } from "../../config/env";
 
 const credentialsLogin = async (payload: Partial<IUser>) => {
     const { email, password } = payload;
@@ -28,6 +30,25 @@ const credentialsLogin = async (payload: Partial<IUser>) => {
     }
 }
 
+const changePassword = async (id: string, oldPass: string, newPass: string) => {
+    const user = await UserDB.findById(id).select("+password")
+    if (!user) {
+        throw new AppError(StatusCodes.NOT_FOUND, "User does not exist")
+    }
+    const isPasswordMatched = await bcrypt.compare(oldPass, user.password)
+    if (!isPasswordMatched) {
+        throw new AppError(StatusCodes.BAD_REQUEST, "Old password is incorrect.")
+    }
+    if(oldPass === newPass) {
+        throw new AppError(StatusCodes.BAD_REQUEST, "New password must be different from old password")
+    }
+    const hashedPassword = await bcrypt.hash(newPass as string, Number(enviromentVariables.BCRYPT_SALT_ROUND))
+    user.password = hashedPassword
+    await user.save()
+    
+    return null
+}
 
 
-export const AuthService = { credentialsLogin }
+
+export const AuthService = { credentialsLogin, changePassword }

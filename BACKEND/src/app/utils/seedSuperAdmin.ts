@@ -12,9 +12,7 @@ export const seedSuperAdmin = async () => {
         const isSuperAdminExist = await UserDB.findOne({ email })
 
         if (isSuperAdminExist) {
-            console.log('super_admin already exist')
             return
-
         }
         const hashedPassword = await bcrypt.hash(password, Number(enviromentVariables.BCRYPT_SALT_ROUND))
 

@@ -4,8 +4,7 @@ import { UserDB } from "./user.model"
 import { IAuthProvider, IUser, IUserRole } from "./user.interface"
 import bcrypt from "bcryptjs";
 import { enviromentVariables } from "../../config/env";
-import { createUserTokens } from "../../utils/tokens";
-import { isUserExist } from "../../utils/help";
+
 const createUser = async (payload: IUser) => {
     const { password, ...rest } = payload
     const isUserExist = await UserDB.findOne({ email: payload.email })

@@ -20,9 +20,9 @@ const getEnv = (key: string, defaultValue?: string): string => {
 
 export const enviromentVariables = {
   DATABASE_URL: getEnv("DATABASE_URL"),
-  PORT: Number(getEnv("PORT")), // 🔥 should be number
+  PORT: Number(getEnv("PORT")), 
   NODE_ENVIROMENT: getEnv("NODE_ENVIROMENT"),
-
+ FRONTEND_URL:getEnv('FRONTEND_URL'),
   BCRYPT_SALT_ROUND: Number(getEnv("BCRYPT_SALT_ROUND")),
 
   SUPER_ADMIN_PASSWORD: getEnv("SUPER_ADMIN_PASSWORD"),
@@ -31,7 +31,7 @@ export const enviromentVariables = {
   JWT_SECRET: getEnv("JWT_SECRET"),
   JWT_REFRESH_SECRET: getEnv("JWT_REFRESH_SECRET"),
 
-  // ✅ THIS IS THE FIX
+
   JWT_SECRET_TOKEN_EXPIRES:
     getEnv("JWT_SECRET_TOKEN_EXPIRES") as SignOptions["expiresIn"],
 
