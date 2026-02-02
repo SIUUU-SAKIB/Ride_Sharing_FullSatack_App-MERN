@@ -6,6 +6,8 @@ import { UserDB } from "../USER/user.model";
 import { IUser } from "../USER/user.interface";
 import { bcryptHashing } from "../../utils/bcrypt";
 import { enviromentVariables } from "../../config/env";
+import { verifyToken } from "../../utils/jwt";
+import { JwtPayload } from "jsonwebtoken";
 
 const credentialsLogin = async (payload: Partial<IUser>) => {
     const { email, password } = payload;
@@ -39,16 +41,27 @@ const changePassword = async (id: string, oldPass: string, newPass: string) => {
     if (!isPasswordMatched) {
         throw new AppError(StatusCodes.BAD_REQUEST, "Old password is incorrect.")
     }
-    if(oldPass === newPass) {
+    if (oldPass === newPass) {
         throw new AppError(StatusCodes.BAD_REQUEST, "New password must be different from old password")
     }
     const hashedPassword = await bcrypt.hash(newPass as string, Number(enviromentVariables.BCRYPT_SALT_ROUND))
     user.password = hashedPassword
     await user.save()
-    
+
     return null
 }
 
+const refreshToken = async (refreshToken: string) => {
+    const decodedToken = verifyToken(refreshToken, enviromentVariables.JWT_REFRESH_SECRET) as JwtPayload
+    const user = await UserDB.findById(decodedToken._id)
+    if (!user) {
+        throw new AppError(StatusCodes.UNAUTHORIZED, "User no longer exist")
+    }
+    return createUserTokens({
+        _id: user._id?.toString(),
+        role: user.role,
+    })
+}
 
 
-export const AuthService = { credentialsLogin, changePassword }
+export const AuthService = { credentialsLogin, changePassword, refreshToken }

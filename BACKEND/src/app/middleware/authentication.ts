@@ -20,7 +20,7 @@ export const authentication = (...authRoles: string[]) => async (req: Request, r
         const verifiedToken = verifyToken(accessToken, enviromentVariables.JWT_SECRET) as JwtPayload
 
      
-        const isUserExist = await UserDB.findById(verifiedToken.userId)
+        const isUserExist = await UserDB.findById(verifiedToken._id)
 
         if (!isUserExist) {
             throw new AppError(StatusCodes.BAD_REQUEST, "User does not exist")

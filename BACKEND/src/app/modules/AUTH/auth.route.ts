@@ -9,4 +9,5 @@ const router = Router()
 router.post('/login', AuthController.credentialsLogin)
 router.post('/logout', AuthController.logout)
 router.patch('/change-password', authentication(...Object.values(IUserRole)), AuthController.changePassword)
+router.post('/refresh-token', AuthController.refreshToken)
 export const AuthRoutes = router

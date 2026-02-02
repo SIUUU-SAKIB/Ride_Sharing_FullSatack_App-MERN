@@ -8,7 +8,7 @@ export const createUserTokens = (user: Partial<IUser>) => {
   }
 
   const jwtPayload = {
-    userId: user._id?.toString(),
+    _id: user._id?.toString(),
     role: user.role,
   };
 
