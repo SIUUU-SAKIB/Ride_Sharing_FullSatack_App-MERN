@@ -89,4 +89,19 @@ const forgetPassword = async (email: string) => {
         }
     })
 }
-export const AuthService = { credentialsLogin, changePassword, refreshToken, forgetPassword }
+
+const resetPassword = async (payload: Record<string, any>, decodedToken: JwtPayload) => {
+    if (payload._id != decodedToken._id) {
+        throw new AppError(401, "You cannot reset password")
+    }
+    const isUserExist = await UserDB.findById(decodedToken._id)
+    if (!isUserExist) {
+        throw new AppError(StatusCodes.NOT_FOUND, 'User does not exist')
+    }
+
+    const hashedPassword = await bcrypt.hash(payload.newPassword, Number(enviromentVariables.BCRYPT_SALT_ROUND))
+    isUserExist.password = hashedPassword
+    await isUserExist.save()
+
+}
+export const AuthService = { credentialsLogin, changePassword, refreshToken, forgetPassword, resetPassword }

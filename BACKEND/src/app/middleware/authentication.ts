@@ -11,7 +11,7 @@ import jwt, { JwtPayload } from "jsonwebtoken";
 export const authentication = (...authRoles: string[]) => async (req: Request, res: Response, next: NextFunction) => {
 
     try {
-        const accessToken = req.cookies?.accessToken;
+        const accessToken = req.cookies?.accessToken || req.headers.authorization;
 
         if (!accessToken) {
             throw new AppError(403, "No Token Recieved")
