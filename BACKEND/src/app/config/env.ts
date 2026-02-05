@@ -37,4 +37,11 @@ export const enviromentVariables = {
 
   JWT_REFRESH_TOKEN_EXPIRES:
     getEnv("JWT_REFRESH_TOKEN_EXPIRES") as SignOptions["expiresIn"],
+    EMAIL_SENDER:{
+      SMTP_PASSWORD:getEnv('SMTP_PASSWORD'),
+      SMTP_PORT:getEnv('SMTP_PORT'),
+      SMTP_USER:getEnv('SMTP_USER'),
+      SMTP_FROM:getEnv('SMTP_FROM'),
+      SMTP_HOST:getEnv('SMTP_HOST')
+    }
 };

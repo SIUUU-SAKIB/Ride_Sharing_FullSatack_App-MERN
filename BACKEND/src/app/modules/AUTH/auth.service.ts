@@ -8,7 +8,8 @@ import { bcryptHashing } from "../../utils/bcrypt";
 import { enviromentVariables } from "../../config/env";
 import { verifyToken } from "../../utils/jwt";
 import { JwtPayload } from "jsonwebtoken";
-
+import jwt from "jsonwebtoken"
+import { sendEmail } from "../../utils/sendEmail";
 const credentialsLogin = async (payload: Partial<IUser>) => {
     const { email, password } = payload;
     const isUserExist = await UserDB.findOne({ email }).select("+password")
@@ -63,5 +64,29 @@ const refreshToken = async (refreshToken: string) => {
     })
 }
 
+const forgetPassword = async (email: string) => {
+    const isUserExist = await UserDB.findOne({ email })
+    if (!isUserExist) {
+        throw new AppError(StatusCodes.NOT_FOUND, 'User does not exist')
+    }
+    if (isUserExist.isVerified === false) {
+        throw new AppError(StatusCodes.UNAUTHORIZED, 'User is not verfified')
+    }
+    const jwtPayload: JwtPayload = {
+        _id: isUserExist._id.toString(),
+        role: isUserExist.role
+    }
+    const resetToken = jwt.sign(jwtPayload, enviromentVariables.JWT_SECRET, { expiresIn: "10m" })
+    const resetUILink = `${enviromentVariables.FRONTEND_URL}/reset-password?id=${isUserExist._id}&token=${resetToken}`
 
-export const AuthService = { credentialsLogin, changePassword, refreshToken }
+    sendEmail({
+        to: isUserExist.email,
+        subject: "Password Reset",
+        templateName: "forgetPassword",
+        templateData: {
+            name: isUserExist.name,
+            resetUILink
+        }
+    })
+}
+export const AuthService = { credentialsLogin, changePassword, refreshToken, forgetPassword }
