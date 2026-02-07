@@ -18,6 +18,9 @@ const UserSchema = new Schema<IUser>(
             required: true,
             trim: true
         },
+        googleId:{
+          type:String
+        },
         phone: {
             type: String,
             unique: true
@@ -30,7 +33,6 @@ const UserSchema = new Schema<IUser>(
         },
         password: {
             type: String,
-            required: true,
             select: false
         }, isActive: {
             type: Boolean,

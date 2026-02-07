@@ -1,7 +1,9 @@
-import { Router } from "express";
+import { Request, Response, Router } from "express";
 import { AuthController } from "./auth.controller";
 import { authentication } from "../../middleware/authentication";
 import { IUserRole } from "../USER/user.interface";
+import passport from "passport";
+import { enviromentVariables } from "../../config/env";
 
 const router = Router()
 
@@ -12,5 +14,24 @@ router.patch('/change-password', authentication(...Object.values(IUserRole)), Au
 router.post('/refresh-token', AuthController.refreshToken)
 router.post(`/forget-password`, AuthController.forgetPassword)
 router.post(`/reset-password`, authentication(...Object.values(IUserRole)), AuthController.resetPassword)
+router.get(
+    "/google",
+    passport.authenticate("google", {
+        scope: ["profile", "email"],
+    })
+)
+
+// Callback
+router.get(
+    "/google/callback",
+    passport.authenticate("google", {
+        session:false,
+        failureRedirect: "/login",
+    }), 
+    (req:Request, res:Response) => {
+      const {user, token} = req.user as any 
+      res.redirect(`${enviromentVariables.FRONTEND_URL}/auth/success?token=${token}`)
+    }
+)
 export const AuthRoutes = router
 

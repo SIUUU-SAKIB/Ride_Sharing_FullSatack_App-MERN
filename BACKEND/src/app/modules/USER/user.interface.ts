@@ -17,6 +17,7 @@ export interface JwtUserPayload extends JwtPayload {
 
 export interface IUser {
     _id?: string,
+    googleId:string,
     name: string,
     email: string,
     phone?: string,

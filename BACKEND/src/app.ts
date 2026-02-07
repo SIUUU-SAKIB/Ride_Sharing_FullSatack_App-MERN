@@ -8,7 +8,22 @@ import { globalErrorHandler } from "./app/middleware/globalErrorHandler"
 import { notFoundHandler } from "./app/middleware/notFound"
 import { UserRoutes } from "./app/modules/USER/user.routes"
 import { AuthRoutes } from "./app/modules/AUTH/auth.route"
+import session from "express-session"
+import passport  from "passport";
+import "./app/config/passport"
 const app = express()
+// google 
+
+// app.use(
+//     session({
+//         secret: "supersecret",
+//         resave: false,
+//         saveUninitialized: false,
+//     })
+// )
+
+app.use(passport.initialize())
+// app.use(passport.session())
 app.use(cookieParser())
 app.use(express.json())
 app.use(cors())

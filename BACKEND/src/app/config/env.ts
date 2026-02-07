@@ -43,5 +43,10 @@ export const enviromentVariables = {
       SMTP_USER:getEnv('SMTP_USER'),
       SMTP_FROM:getEnv('SMTP_FROM'),
       SMTP_HOST:getEnv('SMTP_HOST')
+    },
+    GOOGLE:{
+      GOOGLE_CLIENT_ID:getEnv('GOOGLE_CLIENT_ID'),
+      GOOGLE_CLIENT_SECRET:getEnv('GOOGLE_CLIENT_SECRET')
+
     }
 };

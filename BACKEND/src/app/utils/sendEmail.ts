@@ -1,5 +1,4 @@
 import nodemailer from "nodemailer";
-import SMTPTransport from "nodemailer/lib/smtp-transport";
 import { enviromentVariables } from "../config/env";
 import path from "node:path";
 import ejs from "ejs"
@@ -52,6 +51,6 @@ export const sendEmail = async ({ to,
 
     } catch (error) {
         console.log(error)
-        // throw new AppError(401, 'Email error')
+        throw new AppError(401, 'Email error')
     }
 }
