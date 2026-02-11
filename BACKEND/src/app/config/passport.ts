@@ -4,6 +4,7 @@ import { UserDB } from '../modules/USER/user.model'
 import { enviromentVariables } from './env'
 import { generateToken } from '../utils/jwt'
 import jwt from "jsonwebtoken"
+import { IAuthProvider } from '../modules/USER/user.interface'
 
 passport.use(
     new googleStrategy({
@@ -14,13 +15,12 @@ passport.use(
         async (_accessToken, _refreshToken, profile, done) => {
             try {
                 let user = await UserDB.findOne({ googleId: profile.id })
-
                 if (!user) {
                     user = await UserDB.create({
                         googleId: profile.id,
                         name: profile.displayName,
                         email: profile.emails?.[0].value,
-                        profilePhoto: profile.photos?.[0].value
+                        profilePhoto: profile.photos?.[0].value,
                     })
                 }
                 const jwtPayload = {

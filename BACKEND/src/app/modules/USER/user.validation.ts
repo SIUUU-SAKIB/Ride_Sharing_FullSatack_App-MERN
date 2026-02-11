@@ -6,7 +6,7 @@ const createUser = z.object({
     name: z.string().min(2, "Name must be at lest 2 character long."),
     email: z.string({ message: "Email required" }).email(),
     phone: z.string({ message: "Phone number required" }).min(10),
-    password: z.string({ message: "Password required" }).min(6),
+    password: z.string({ message: "Password required" }).min(6)
 })
 
 

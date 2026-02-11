@@ -1,5 +1,5 @@
 import { model, Schema } from "mongoose";
-import { IAuthProvider, IUser, IUserRole } from "./user.interface";
+import { IAuthProvider, IUser, IUserRole, IVehicleType } from "./user.interface";
 import { date } from "zod";
 
 const authProviderSchema = new Schema<IAuthProvider>({
@@ -18,8 +18,8 @@ const UserSchema = new Schema<IUser>(
             required: true,
             trim: true
         },
-        googleId:{
-          type:String
+        googleId: {
+            type: String
         },
         phone: {
             type: String,
@@ -30,6 +30,11 @@ const UserSchema = new Schema<IUser>(
             required: true,
             unique: true,
             lowercase: true,
+        },
+        vehicleType: {
+            enum: Object.values(IVehicleType),
+            type: String,
+            default: IVehicleType.TWO_WHEELER
         },
         password: {
             type: String,
@@ -42,7 +47,6 @@ const UserSchema = new Schema<IUser>(
             type: Boolean,
             default: false,
         },
-
         role: {
             type: String,
             enum: Object.values(IUserRole),
@@ -51,8 +55,8 @@ const UserSchema = new Schema<IUser>(
         auths: [authProviderSchema]
     }, {
     timestamps: true,
-    versionKey:false,
- 
+    versionKey: false,
+
 
 })
 

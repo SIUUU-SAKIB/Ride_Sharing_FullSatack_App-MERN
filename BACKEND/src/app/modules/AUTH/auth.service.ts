@@ -48,7 +48,6 @@ const changePassword = async (id: string, oldPass: string, newPass: string) => {
     const hashedPassword = await bcrypt.hash(newPass as string, Number(enviromentVariables.BCRYPT_SALT_ROUND))
     user.password = hashedPassword
     await user.save()
-
     return null
 }
 
