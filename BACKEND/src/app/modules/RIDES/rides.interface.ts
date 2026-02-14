@@ -16,6 +16,7 @@ export enum PaymentStatus {
 }
 
 export interface IRider extends IUser {
+    _id?: string,
     role: IUserRole.RIDER,
     defaultPickupLocation?: {
         lat: number,
@@ -24,6 +25,7 @@ export interface IRider extends IUser {
     }
 }
 export interface IDriver extends IUser {
+    _id?: string,
     role: IUserRole.DRIVER,
     isAvailable: boolean,
     currentLocation: {
@@ -37,6 +39,13 @@ export interface IRideLocation {
     lng: number,
     address: string
 }
+export enum RideRequestStatus {
+    PENDING = "PENDING",
+    MATCHED = "MATCHED",
+    CANCELLED = "CANCELLED",
+    EXPIRED = "EXPIRED"
+}
+
 export enum paymentMethod {
     CASH = "CASH",
     BKASH = "BKASH",
@@ -44,7 +53,7 @@ export enum paymentMethod {
 }
 
 export interface IRide {
-    id: string,
+    id_?: string,
     riderId: Types.ObjectId,
     driverId: Types.ObjectId,
     pickupLocation: IRideLocation,
@@ -66,4 +75,14 @@ export interface IRide {
     cancelledAt?: Date,
 
     cancelledBy?: IUserRole
+}
+export interface IRideRequest {
+    riderId: Types.ObjectId,
+    pickupLocation: IRideLocation,
+    dropOffLocation: IRideLocation,
+
+    status: RideRequestStatus,
+    expiresAt: Date,
+    createdAt: Date,
+    updatedAt: Date
 }
