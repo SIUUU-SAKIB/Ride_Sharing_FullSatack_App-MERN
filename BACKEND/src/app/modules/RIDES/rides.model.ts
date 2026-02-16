@@ -53,4 +53,4 @@ export const RideRequestSchema = new Schema<IRideRequest>(
     }
 )
 
-export const RidesDB = model('Rides', RideRequestSchema)
+export const RidesRQDB = model('RidesRQ', RideRequestSchema)

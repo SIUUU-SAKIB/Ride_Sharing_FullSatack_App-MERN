@@ -11,6 +11,7 @@ import { AuthRoutes } from "./app/modules/AUTH/auth.route"
 import session from "express-session"
 import passport  from "passport";
 import "./app/config/passport"
+import { RideRoutes } from "./app/modules/RIDES/rides.route";
 const app = express()
 // google 
 
@@ -31,6 +32,7 @@ app.use(urlencoded({ extended: true }))
 
 app.use('/api/v1/user', UserRoutes)
 app.use(`/api/v1/auth`, AuthRoutes)
+app.use('/api/v1/rides', RideRoutes)
 // Default Route
 app.get('/api/v1', (req: Request, res: Response) => {
     res.status(StatusCodes.OK).json({

@@ -93,7 +93,6 @@ const updateUserByAdmin = catchAsync(async (req: Request, res: Response) => {
     const { id } = req.params;
     const payload = req.body;
     const result = await UserService.updateUserByAdmin(id as string, payload)
-    console.log(req.user)
     sendResponse(res, {
         success: true,
         statusCode: StatusCodes.OK,
@@ -104,19 +103,18 @@ const updateUserByAdmin = catchAsync(async (req: Request, res: Response) => {
 })
 
 const deleteUser = catchAsync(async (req: Request, res: Response) => {
-    if (!req.user?.userId) {
+    if (!req.user?._id) {
         throw new AppError(StatusCodes.UNAUTHORIZED, "Unauthrized request")
     }
-
     const id = req.params.id
-    const result = await UserService.deleteUser(id as string, req.user?.userId)
+    const result = await UserService.deleteUser(id as string , req.user?._id)
 
 
     sendResponse(res, {
         success: true,
         statusCode: StatusCodes.OK,
         message: `Account deleted successfully`,
-        data: result,
+        data: null,
     })
 
 })

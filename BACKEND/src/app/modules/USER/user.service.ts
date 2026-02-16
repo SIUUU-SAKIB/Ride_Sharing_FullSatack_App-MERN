@@ -87,5 +87,4 @@ const deleteUser = async (id: string, userId:string) => {
     return await UserDB.findByIdAndDelete(id)
 }
 
-
 export const UserService = { createUser, getAllUser, getUserByRole, getSingleUser, updateUser, updateUserByAdmin, deleteUser}
