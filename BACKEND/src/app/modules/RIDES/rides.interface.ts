@@ -53,7 +53,7 @@ export enum paymentMethod {
 }
 
 export interface IRide {
-    id_?: string,
+
     riderId: Types.ObjectId,
     driverId: Types.ObjectId,
     pickupLocation: IRideLocation,

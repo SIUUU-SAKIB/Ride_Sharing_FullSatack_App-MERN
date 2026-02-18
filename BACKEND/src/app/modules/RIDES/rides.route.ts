@@ -6,4 +6,6 @@ import { authentication } from "../../middleware/authentication";
 const router = Router()
 router.post('/create-ride-request', authentication(IUserRole.RIDER), RidesController.createRideRequest)
 
+router.get('/get-all-pending-rides', authentication(IUserRole.DRIVER), RidesController.getAllRideRequest)
+
 export const RideRoutes = router

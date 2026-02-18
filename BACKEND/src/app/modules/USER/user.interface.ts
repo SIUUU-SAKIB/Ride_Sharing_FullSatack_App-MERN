@@ -30,6 +30,7 @@ export interface IUser {
     password: string,
     profilePhoto?: string,
     role: IUserRole,
+    baseLocation:string,
     isActive?: boolean,
     isVerified: boolean,
     createdAt?: Date,

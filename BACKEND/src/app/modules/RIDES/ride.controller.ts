@@ -11,7 +11,7 @@ const createRideRequest = catchAsync(async (req: Request, res: Response) => {
    if (!riderId) {
       throw new AppError(StatusCodes.NOT_FOUND, 'Rider not found.')
    }
-
+   
    const result = await RidesService.createRideRequest(riderId, pickupLocation, dropOffLocation)
 
    sendResponse(res, {
@@ -22,4 +22,20 @@ const createRideRequest = catchAsync(async (req: Request, res: Response) => {
    })
 })
 
-export const RidesController = { createRideRequest }
+const getAllRideRequest = catchAsync(async(req:Request, res:Response) => {
+   const {page="1", limit = "10"} = req.query
+   const pageNumber = Number(page)
+   const limitNumber = Number(limit)
+   const skip = (pageNumber - 1 ) * limitNumber
+
+   const result = await RidesService.getAllRideRequest(pageNumber, limitNumber, skip)
+       sendResponse(res, {
+        success: true,
+        statusCode: StatusCodes.OK,
+        message: "All available rides retrived successfully 😍",
+        meta: { total: result.totalRides, page: pageNumber, limit: limitNumber, totalPage: Math.ceil(result.totalRides / limitNumber) },
+        data: result.allAvailableRides,
+
+    })
+})
+export const RidesController = { createRideRequest, getAllRideRequest }

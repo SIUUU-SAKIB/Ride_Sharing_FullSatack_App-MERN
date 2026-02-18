@@ -3,6 +3,7 @@ import { enviromentVariables } from "./app/config/env"
 import { Server } from "http"
 import app from "./app"
 import { seedSuperAdmin } from "./app/utils/seedSuperAdmin"
+import { startRideExpirationWorker } from "./app/modules/RIDES/rides.worker"
 let server: Server
 
 const startServer = async () => {
@@ -13,11 +14,13 @@ const startServer = async () => {
             console.log(`Server is Listening to port http://localhost:${enviromentVariables.PORT} 🚀✅😍`)
         })
         seedSuperAdmin()
+        startRideExpirationWorker()
     } catch (error) {
         console.log(error)
     }
 }
 startServer()
+
 process.on("SIGTERM", () => {
     console.log("SIGTERM signal recieved... Server shutting down..");
 
@@ -26,7 +29,6 @@ process.on("SIGTERM", () => {
             process.exit(1)
         });
     }
-
     process.exit(1)
 })
 
