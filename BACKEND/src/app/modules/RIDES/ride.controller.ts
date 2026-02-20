@@ -11,7 +11,7 @@ const createRideRequest = catchAsync(async (req: Request, res: Response) => {
    if (!riderId) {
       throw new AppError(StatusCodes.NOT_FOUND, 'Rider not found.')
    }
-   
+
    const result = await RidesService.createRideRequest(riderId, pickupLocation, dropOffLocation)
 
    sendResponse(res, {
@@ -22,20 +22,38 @@ const createRideRequest = catchAsync(async (req: Request, res: Response) => {
    })
 })
 
-const getAllRideRequest = catchAsync(async(req:Request, res:Response) => {
-   const {page="1", limit = "10"} = req.query
+const getAllRideRequest = catchAsync(async (req: Request, res: Response) => {
+   const { page = "1", limit = "10" } = req.query
    const pageNumber = Number(page)
    const limitNumber = Number(limit)
-   const skip = (pageNumber - 1 ) * limitNumber
+   const skip = (pageNumber - 1) * limitNumber
 
    const result = await RidesService.getAllRideRequest(pageNumber, limitNumber, skip)
-       sendResponse(res, {
-        success: true,
-        statusCode: StatusCodes.OK,
-        message: "All available rides retrived successfully 😍",
-        meta: { total: result.totalRides, page: pageNumber, limit: limitNumber, totalPage: Math.ceil(result.totalRides / limitNumber) },
-        data: result.allAvailableRides,
+   sendResponse(res, {
+      success: true,
+      statusCode: StatusCodes.OK,
+      message: "All available rides retrived successfully 😍",
+      meta: { total: result.totalRides, page: pageNumber, limit: limitNumber, totalPage: Math.ceil(result.totalRides / limitNumber) },
+      data: result.allAvailableRides,
 
-    })
+   })
 })
-export const RidesController = { createRideRequest, getAllRideRequest }
+
+const cancelRideRequest = catchAsync(async (req: Request, res: Response) => {
+   const riderId = req.user?._id
+   const {rideRqId} = req.params 
+   if(!riderId || !rideRqId) {
+      throw new AppError(StatusCodes.NOT_ACCEPTABLE, "Rider id and ride requst id is required")
+   }
+   const result = await RidesService.cancelRideRequest(riderId, rideRqId as string)
+
+    sendResponse(res, {
+      success: true,
+      statusCode: StatusCodes.OK,
+      message: `Requsted ride cancelled successfully.`,
+      data: result
+
+   })
+
+})
+export const RidesController = { createRideRequest, getAllRideRequest, cancelRideRequest }

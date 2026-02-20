@@ -83,6 +83,7 @@ export interface IRideRequest {
 
     status: RideRequestStatus,
     expiresAt: Date,
+    cancelledAt?:Date,
     createdAt: Date,
     updatedAt: Date
 }

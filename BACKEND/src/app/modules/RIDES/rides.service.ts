@@ -3,12 +3,20 @@ import AppError from "../../utils/createError";
 import { UserDB } from "../USER/user.model";
 import { IRideLocation, RideRequestStatus } from "./rides.interface";
 import { RidesRQDB } from "./rides.model";
-
+import { Types } from "mongoose";
+// RIDER 
 const createRideRequest = async (riderId: string, pickupLocation: IRideLocation, dropOffLocation: IRideLocation) => {
 
     const user = await UserDB.findById(riderId)
     if (!user?.isVerified) {
         throw new AppError(StatusCodes.BAD_REQUEST, "User is not verified")
+    }
+    const existingRequest = await RidesRQDB.findOne({
+        riderId: new Types.ObjectId(riderId),
+        status: RideRequestStatus.PENDING
+    })
+    if (existingRequest) {
+        throw new AppError(StatusCodes.BAD_REQUEST, "You already have an active request")
     }
     const expiresAt = new Date(Date.now() + 2 * 60 * 1000)
 
@@ -21,7 +29,19 @@ const createRideRequest = async (riderId: string, pickupLocation: IRideLocation,
     })
     return rideRequest
 }
+// RIDER
+const cancelRideRequest = async (riderId: string, rideRqId: string) => {
 
+   
+    const cancelledRide = await RidesRQDB.findOneAndUpdate({
+        id: rideRqId,
+        riderId: new Types.ObjectId(riderId),
+        status: RideRequestStatus.PENDING
+    }, {
+        status: RideRequestStatus.CANCELLED
+    }, { new: true })
+    return cancelledRide
+}
 const getAllRideRequest = async (page: number, limit: number, skip: number) => {
 
     const filter = { status: "PENDING" }
@@ -31,6 +51,6 @@ const getAllRideRequest = async (page: number, limit: number, skip: number) => {
         allAvailableRides, totalRides
     }
 }
-export const RidesService = { createRideRequest, getAllRideRequest }
+export const RidesService = { createRideRequest, getAllRideRequest, cancelRideRequest }
 
 

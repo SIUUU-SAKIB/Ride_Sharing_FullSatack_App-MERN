@@ -8,4 +8,5 @@ router.post('/create-ride-request', authentication(IUserRole.RIDER), RidesContro
 
 router.get('/get-all-pending-rides', authentication(IUserRole.DRIVER), RidesController.getAllRideRequest)
 
+router.patch('/cancel-ride/:rideRqId', authentication(IUserRole.RIDER), RidesController.cancelRideRequest)
 export const RideRoutes = router
