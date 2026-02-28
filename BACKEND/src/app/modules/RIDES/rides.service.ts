@@ -30,18 +30,32 @@ const createRideRequest = async (riderId: string, pickupLocation: IRideLocation,
     return rideRequest
 }
 // RIDER
-const cancelRideRequest = async (riderId: string, rideRqId: string) => {
+const cancelRideRequest = async (
+    riderId: string,
+    rideRqId: string
+) => {
+    const cancelledRide = await RidesRQDB.findOneAndUpdate(
+        {
+            _id: rideRqId,
+            riderId: new Types.ObjectId(riderId),
+            status: RideRequestStatus.PENDING,
+        },
+        {
+            status: RideRequestStatus.CANCELLED,
+        },
+        { new: true }
+    );
 
-   
-    const cancelledRide = await RidesRQDB.findOneAndUpdate({
-        id: rideRqId,
-        riderId: new Types.ObjectId(riderId),
-        status: RideRequestStatus.PENDING
-    }, {
-        status: RideRequestStatus.CANCELLED
-    }, { new: true })
-    return cancelledRide
-}
+    if (!cancelledRide) {
+        throw new AppError(
+            StatusCodes.NOT_FOUND,
+            "No pending ride request found to cancel"
+        );
+    }
+
+    return cancelledRide;
+};
+
 const getAllRideRequest = async (page: number, limit: number, skip: number) => {
 
     const filter = { status: "PENDING" }

@@ -46,7 +46,6 @@ const cancelRideRequest = catchAsync(async (req: Request, res: Response) => {
       throw new AppError(StatusCodes.NOT_ACCEPTABLE, "Rider id and ride requst id is required")
    }
    const result = await RidesService.cancelRideRequest(riderId, rideRqId as string)
-
     sendResponse(res, {
       success: true,
       statusCode: StatusCodes.OK,
