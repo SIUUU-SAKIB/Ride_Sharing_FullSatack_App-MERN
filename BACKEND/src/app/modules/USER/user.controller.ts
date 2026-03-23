@@ -4,18 +4,32 @@ import { UserService } from "./user.service";
 import sendResponse from "../../utils/sendResponse";
 import { StatusCodes } from "http-status-codes";
 import AppError from "../../utils/createError";
+import { request } from "node:http";
+import { uploadToCloudinary } from "../../utils/cloudinary/uploadToCloudinary";
+
 
 const createUser = catchAsync(async (req: Request, res: Response) => {
-    const payload = req.body
-    const result = await UserService.createUser(payload)
-    sendResponse(res, {
-        success: true,
-        statusCode: StatusCodes.OK,
-        message: "User created successfully ✅",
-        data: result
-    })
+  const payload = req.body;
+  const file = req.file;
+  let imageUrl
+  if (file) {
+    imageUrl = await uploadToCloudinary(file);
+    console.log('file detected')
+  }
 
-})
+  const result = await UserService.createUser({
+    ...payload,
+    profilePhoto : imageUrl,
+  });
+
+  sendResponse(res, {
+    success: true,
+    statusCode: StatusCodes.OK,
+    message: "User created successfully ✅",
+    data: result,
+  });
+});
+
 
 const getAllUser = catchAsync(async (req: Request, res: Response) => {
 
@@ -107,7 +121,7 @@ const deleteUser = catchAsync(async (req: Request, res: Response) => {
         throw new AppError(StatusCodes.UNAUTHORIZED, "Unauthrized request")
     }
     const id = req.params.id
-    const result = await UserService.deleteUser(id as string , req.user?._id)
+    const result = await UserService.deleteUser(id as string, req.user?._id)
 
 
     sendResponse(res, {

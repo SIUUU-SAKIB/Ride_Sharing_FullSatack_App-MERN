@@ -33,8 +33,7 @@ const UserSchema = new Schema<IUser>(
         },
         vehicleType: {
             enum: Object.values(IVehicleType),
-            type: String,
-            default: IVehicleType.TWO_WHEELER
+            type: String
         },
         password: {
             type: String,
@@ -51,6 +50,9 @@ const UserSchema = new Schema<IUser>(
             type: String,
             enum: Object.values(IUserRole),
             default: IUserRole.RIDER
+        },
+        profilePhoto: {
+            type: String
         },
         auths: [authProviderSchema]
     }, {

@@ -68,3 +68,4 @@ const getAllRideRequest = async (page: number, limit: number, skip: number) => {
 export const RidesService = { createRideRequest, getAllRideRequest, cancelRideRequest }
 
 
+ 

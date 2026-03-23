@@ -11,12 +11,13 @@ const createUser = async (payload: IUser) => {
     if (isUserExist) {
         throw new AppError(StatusCodes.BAD_REQUEST, "Oops user already exist")
     }
-
     const hashedPassword = await bcrypt.hash(password as string, Number(enviromentVariables.BCRYPT_SALT_ROUND))
     const authProvider: IAuthProvider = { provider: "credentials", providerId: payload.email }
+    console.log(payload.profilePhoto)
     const user = await UserDB.create(
         {
             ...rest,
+            profilePhoto:payload.profilePhoto,
             password: hashedPassword,
             auths: authProvider
         }

@@ -11,7 +11,7 @@ const startServer = async () => {
         await mongoose.connect(enviromentVariables.DATABASE_URL)
         console.log("SERVER IS RUNNING ✅🚀")
         server = app.listen(enviromentVariables.PORT, () => {
-            console.log(`Server is Listening to port http://localhost:${enviromentVariables.PORT} 🚀✅😍`)
+            console.log(`Server is Listening to port http://localhost:${enviromentVariables.PORT}/api/v1 🚀✅😍`)
         })
         seedSuperAdmin()
         startRideExpirationWorker()

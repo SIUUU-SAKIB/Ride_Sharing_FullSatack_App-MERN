@@ -37,6 +37,7 @@ export const enviromentVariables = {
 
   JWT_REFRESH_TOKEN_EXPIRES:
     getEnv("JWT_REFRESH_TOKEN_EXPIRES") as SignOptions["expiresIn"],
+    // smtp email sender
     EMAIL_SENDER:{
       SMTP_PASSWORD:getEnv('SMTP_PASSWORD'),
       SMTP_PORT:getEnv('SMTP_PORT'),
@@ -44,9 +45,16 @@ export const enviromentVariables = {
       SMTP_FROM:getEnv('SMTP_FROM'),
       SMTP_HOST:getEnv('SMTP_HOST')
     },
+    // google login
     GOOGLE:{
       GOOGLE_CLIENT_ID:getEnv('GOOGLE_CLIENT_ID'),
       GOOGLE_CLIENT_SECRET:getEnv('GOOGLE_CLIENT_SECRET')
 
+    },
+    // cloudinary
+    CLOUDINARY:{
+      CLOUDINARY_API_KEY:getEnv('CLOUDINARY_API_KEY'),
+      CLOUDINARY_CLOUD_NAME:getEnv('CLOUDINARY_CLOUD_NAME'),
+      CLOUDINARY_API_SECRET:getEnv('CLOUDINARY_API_SECRET')
     }
 };
