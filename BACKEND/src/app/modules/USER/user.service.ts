@@ -25,14 +25,14 @@ const createUser = async (payload: IUser) => {
     )
     return user
 }
-const updateUser = async (payload: any) => {
-    const { id, ...updatedData } = payload
-    const isUserExist = await UserDB.findById(payload.id)
+const updateUser = async (payload:Partial<IUser>) => {
+    const { _id, ...updatedData } = payload
+    const isUserExist = await UserDB.findById(_id)
     if (!isUserExist) {
         throw new AppError(StatusCodes.NOT_FOUND, "User not found")
     }
     const updatedUser = await UserDB.findByIdAndUpdate(
-        id,
+        _id,
         {
             ...updatedData,
             ... (payload && {

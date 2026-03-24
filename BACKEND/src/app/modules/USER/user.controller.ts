@@ -40,8 +40,8 @@ const updateUser = catchAsync(async (req: Request, res: Response) => {
         console.log('file detected')
     }
     const result = await UserService.updateUser({
-        payload,
-        id,
+        ...payload,
+        _id: id,
         profilePhoto: imageUrl
     })
 

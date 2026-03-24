@@ -17,7 +17,7 @@ router.get(`/get-user-by-role/:role`, authentication(IUserRole.ADMIN, IUserRole.
 
 router.get(`/get-single-user/:id`, authentication(IUserRole.ADMIN, IUserRole.SUPER_ADMIN), UserController.getSingleUser)
 
-router.patch('/update-profile/:id', validateZodSchema(UserZodSchema.udpateUser), UserController.updateUser)
+router.patch('/update-profile/:id',upload.single("file"), validateZodSchema(UserZodSchema.udpateUser), UserController.updateUser)
 
 router.patch('/update-by-admin/:id', authentication(IUserRole.ADMIN, IUserRole.SUPER_ADMIN), UserController.updateUserByAdmin)
 
