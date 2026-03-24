@@ -12,7 +12,9 @@ const createUser = z.object({
 
 const udpateUser = z.object({
     name: z.string().min(2, "Name must be at lest 2 character long.").optional(),
-    phone: z.string({ message: "Phone number must be at least 10 digits" }).min(10)
+    phone: z.string({ message: "Phone number must be at least 10 digits" }).min(10).optional(),
+    password: z.string().optional(),
+    profilePhoto: z.string().optional()
 })
 
 const updatePassword = z.object({

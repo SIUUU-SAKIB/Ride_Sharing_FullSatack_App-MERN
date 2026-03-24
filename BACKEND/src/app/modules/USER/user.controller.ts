@@ -9,27 +9,49 @@ import { uploadToCloudinary } from "../../utils/cloudinary/uploadToCloudinary";
 
 
 const createUser = catchAsync(async (req: Request, res: Response) => {
-  const payload = req.body;
-  const file = req.file;
-  let imageUrl
-  if (file) {
-    imageUrl = await uploadToCloudinary(file);
-    console.log('file detected')
-  }
+    const payload = req.body;
+    const file = req.file;
+    let imageUrl
+    if (file) {
+        imageUrl = await uploadToCloudinary(file);
+        console.log('file detected')
+    }
 
-  const result = await UserService.createUser({
-    ...payload,
-    profilePhoto : imageUrl,
-  });
+    const result = await UserService.createUser({
+        ...payload,
+        profilePhoto: imageUrl,
+    });
 
-  sendResponse(res, {
-    success: true,
-    statusCode: StatusCodes.OK,
-    message: "User created successfully ✅",
-    data: result,
-  });
+    sendResponse(res, {
+        success: true,
+        statusCode: StatusCodes.OK,
+        message: "User created successfully ✅",
+        data: result,
+    });
 });
+const updateUser = catchAsync(async (req: Request, res: Response) => {
+    const { id } = req.params
+    const payload = req.body
+    const file = req.file;
+    console.log(file, payload)
+    let imageUrl
+    if (file) {
+        imageUrl = await uploadToCloudinary(file);
+        console.log('file detected')
+    }
+    const result = await UserService.updateUser({
+        payload,
+        id,
+        profilePhoto: imageUrl
+    })
 
+    sendResponse(res, {
+        success: true,
+        statusCode: StatusCodes.OK,
+        message: "User updated successfully",
+        data: result,
+    })
+})
 
 const getAllUser = catchAsync(async (req: Request, res: Response) => {
 
@@ -89,18 +111,7 @@ const getSingleUser = catchAsync(async (req: Request, res: Response) => {
 
 })
 
-const updateUser = catchAsync(async (req: Request, res: Response) => {
-    const { id } = req.params
-    const payload = req.body
-    const result = await UserService.updateUser(payload, id as string)
 
-    sendResponse(res, {
-        success: true,
-        statusCode: StatusCodes.OK,
-        message: "User updated successfully",
-        data: result,
-    })
-})
 
 
 const updateUserByAdmin = catchAsync(async (req: Request, res: Response) => {
