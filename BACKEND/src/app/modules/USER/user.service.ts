@@ -1,10 +1,13 @@
 import { StatusCodes } from "http-status-codes"
 import AppError from "../../utils/createError"
 import { UserDB } from "./user.model"
-import { IAuthProvider, IUser, IUserRole } from "./user.interface"
+import { IAuthProvider, IUser } from "./user.interface"
 import bcrypt from "bcryptjs";
 import { enviromentVariables } from "../../config/env";
-import { profile } from "node:console";
+import cloudinary from "../../utils/cloudinary/cloudinary";
+import crypto from "crypto"
+import { sendEmail } from "../../utils/sendEmail";
+
 
 const createUser = async (payload: IUser) => {
     const { password, ...rest } = payload
@@ -12,31 +15,42 @@ const createUser = async (payload: IUser) => {
     if (isUserExist) {
         throw new AppError(StatusCodes.BAD_REQUEST, "Oops user already exist")
     }
+    const token = crypto.randomBytes(32).toString("hex");
     const hashedPassword = await bcrypt.hash(password as string, Number(enviromentVariables.BCRYPT_SALT_ROUND))
     const authProvider: IAuthProvider = { provider: "credentials", providerId: payload.email }
-    console.log(payload.profilePhoto)
     const user = await UserDB.create(
         {
             ...rest,
             profilePhoto: payload.profilePhoto,
+            profilePhotoId: payload.profilePhotoId,
             password: hashedPassword,
-            auths: authProvider
+            auths: authProvider,
+            verificationToken: token,
+            verificationTokenExpires: Date.now() + 10 * 60 * 1000
         }
     )
+    const link = `http://localhost:${enviromentVariables.PORT}/api/v1/auth/verify-email?token=${token}`
+    await sendEmail(user?.email, `Verify Email`, link)
     return user
 }
-const updateUser = async (payload:Partial<IUser>) => {
+const updateUser = async (payload: Partial<IUser>) => {
     const { _id, ...updatedData } = payload
     const isUserExist = await UserDB.findById(_id)
     if (!isUserExist) {
         throw new AppError(StatusCodes.NOT_FOUND, "User not found")
     }
+
+    if (payload.profilePhoto && isUserExist.profilePhotoId) {
+        await cloudinary.uploader.destroy(isUserExist.profilePhotoId as string)
+    }
+
     const updatedUser = await UserDB.findByIdAndUpdate(
         _id,
         {
             ...updatedData,
             ... (payload && {
-                profilePhoto: payload.profilePhoto
+                profilePhoto: payload.profilePhoto,
+                profilePhotoId: payload.profilePhotoId
             })
         }, {
         new: true,

@@ -78,15 +78,15 @@ const forgetPassword = async (email: string) => {
     const resetToken = jwt.sign(jwtPayload, enviromentVariables.JWT_SECRET, { expiresIn: "10m" })
     const resetUILink = `${enviromentVariables.FRONTEND_URL}/reset-password?id=${isUserExist._id}&token=${resetToken}`
 
-    sendEmail({
-        to: isUserExist.email,
-        subject: "Password Reset",
-        templateName: "forgetPassword",
-        templateData: {
-            name: isUserExist.name,
-            resetUILink
-        }
-    })
+    // sendEmail({
+    //     to: isUserExist.email,
+    //     subject: "Password Reset",
+    //     templateName: "forgetPassword",
+    //     templateData: {
+    //         name: isUserExist.name,
+    //         resetUILink
+    //     }
+    // })
 }
 
 const resetPassword = async (payload: Record<string, any>, decodedToken: JwtPayload) => {

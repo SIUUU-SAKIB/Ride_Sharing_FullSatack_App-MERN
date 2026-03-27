@@ -7,6 +7,8 @@ import { createUserTokens } from "../../utils/tokens";
 import { AuthService } from "./auth.service";
 import AppError from "../../utils/createError";
 import { JwtPayload } from "jsonwebtoken";
+import { UserDB } from "../USER/user.model";
+import { enviromentVariables } from "../../config/env";
 
 
 const credentialsLogin = catchAsync(async (req: Request, res: Response) => {
@@ -99,7 +101,7 @@ const forgetPassword = catchAsync(async (req: Request, res: Response) => {
   });
 })
 
-const resetPassword = catchAsync(async(req:Request, res:Response) => {
+const resetPassword = catchAsync(async (req: Request, res: Response) => {
   const decodedToken = req.user
   await AuthService.resetPassword(req.body, decodedToken as JwtPayload
   )
@@ -110,11 +112,30 @@ const resetPassword = catchAsync(async(req:Request, res:Response) => {
     data: null,
   });
 })
+
+const verifyEmail = catchAsync(async (req: Request, res: Response) => {
+  const { token } = req.query;
+  const user = await UserDB.findOne({
+    verificationToken: token,
+    verificationTokenExpires: { $gt: Date.now() },
+  });
+console.log(user)
+  if (!user) {
+    return res.redirect(`${enviromentVariables.FRONTEND_URL}/token-expired`)
+  }
+  user.isVerified = true,
+  user.verificationToken = undefined
+  user.verificationTokenExpires = undefined
+  await user.save()
+  res.redirect(`${enviromentVariables.FRONTEND_URL}/auth/login`)
+})
+
 export const AuthController = {
   credentialsLogin,
   logout,
   changePassword,
   refreshToken,
   forgetPassword,
-  resetPassword
+  resetPassword,
+  verifyEmail
 }

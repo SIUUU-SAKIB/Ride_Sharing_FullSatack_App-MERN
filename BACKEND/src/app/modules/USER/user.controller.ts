@@ -7,7 +7,6 @@ import AppError from "../../utils/createError";
 import { request } from "node:http";
 import { uploadToCloudinary } from "../../utils/cloudinary/uploadToCloudinary";
 
-
 const createUser = catchAsync(async (req: Request, res: Response) => {
     const payload = req.body;
     const file = req.file;
@@ -19,13 +18,15 @@ const createUser = catchAsync(async (req: Request, res: Response) => {
 
     const result = await UserService.createUser({
         ...payload,
-        profilePhoto: imageUrl,
+        profilePhoto: imageUrl?.url,
+        profilePhotoId: imageUrl?.public_id,
+        isVerified:false
     });
 
     sendResponse(res, {
         success: true,
         statusCode: StatusCodes.OK,
-        message: "User created successfully ✅",
+        message: "User created successfully ✅, Now check email to verify",
         data: result,
     });
 });
@@ -33,16 +34,17 @@ const updateUser = catchAsync(async (req: Request, res: Response) => {
     const { id } = req.params
     const payload = req.body
     const file = req.file;
-    console.log(file, payload)
+
     let imageUrl
     if (file) {
         imageUrl = await uploadToCloudinary(file);
-        console.log('file detected')
     }
+
     const result = await UserService.updateUser({
         ...payload,
         _id: id,
-        profilePhoto: imageUrl
+        profilePhoto: imageUrl?.url,
+        profilePhotoId: imageUrl?.public_id
     })
 
     sendResponse(res, {

@@ -10,5 +10,8 @@ export const uploadToCloudinary = async (file: Express.Multer.File) => {
       .end(file.buffer);
   });
 
-  return result.secure_url;
+  return {
+    url: result.secure_url,
+    public_id: result.public_id
+  };
 };

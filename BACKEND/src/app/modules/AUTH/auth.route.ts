@@ -14,6 +14,7 @@ router.patch('/change-password', authentication(...Object.values(IUserRole)), Au
 router.post('/refresh-token', AuthController.refreshToken)
 router.post(`/forget-password`, AuthController.forgetPassword)
 router.post(`/reset-password`, authentication(...Object.values(IUserRole)), AuthController.resetPassword)
+router.get(`/verify-email`, AuthController.verifyEmail)
 router.get(
     "/google",
     passport.authenticate("google", {

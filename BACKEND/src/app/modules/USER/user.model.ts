@@ -54,6 +54,15 @@ const UserSchema = new Schema<IUser>(
         profilePhoto: {
             type: String
         },
+        profilePhotoId: {
+            type: String
+        },
+        verificationToken: {
+            type: String, default: undefined
+        },
+        verificationTokenExpires: {
+            type: Date, defalut: undefined
+        },
         auths: [authProviderSchema]
     }, {
     timestamps: true,
