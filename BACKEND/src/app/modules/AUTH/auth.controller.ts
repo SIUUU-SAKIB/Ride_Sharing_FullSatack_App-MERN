@@ -9,8 +9,9 @@ import AppError from "../../utils/createError";
 import { JwtPayload } from "jsonwebtoken";
 import { UserDB } from "../USER/user.model";
 import { enviromentVariables } from "../../config/env";
+import { bcryptHashing } from "../../utils/bcrypt";
 
-
+import bcrypt from "bcryptjs"
 const credentialsLogin = catchAsync(async (req: Request, res: Response) => {
   const payload = req.body
   const result = await AuthService.credentialsLogin(payload)
@@ -96,15 +97,25 @@ const forgetPassword = catchAsync(async (req: Request, res: Response) => {
   sendResponse(res, {
     success: true,
     statusCode: StatusCodes.OK,
-    message: "Verification code sent at " + email,
+    message: "Please click to the link we sent you on " + email,
     data: null,
   });
 })
 
 const resetPassword = catchAsync(async (req: Request, res: Response) => {
-  const decodedToken = req.user
-  await AuthService.resetPassword(req.body, decodedToken as JwtPayload
-  )
+  const { token, newPassword } = req.body
+  const user = await UserDB.findOne({
+    resetToken: token,
+    resetTokenExpires: { gt: Date.now() }
+  })
+  if (!user) {
+    return res.send("Invalid or expired token ❌")
+  }
+  const hashedPassword = await bcrypt.hash(newPassword, 10)
+  user.password = hashedPassword
+  user.resetToken = undefined
+  user.resetTokenExpires = undefined
+  await user.save()
   sendResponse(res, {
     success: true,
     statusCode: StatusCodes.OK,
@@ -119,12 +130,12 @@ const verifyEmail = catchAsync(async (req: Request, res: Response) => {
     verificationToken: token,
     verificationTokenExpires: { $gt: Date.now() },
   });
-console.log(user)
+  console.log(user)
   if (!user) {
     return res.redirect(`${enviromentVariables.FRONTEND_URL}/token-expired`)
   }
   user.isVerified = true,
-  user.verificationToken = undefined
+    user.verificationToken = undefined
   user.verificationTokenExpires = undefined
   await user.save()
   res.redirect(`${enviromentVariables.FRONTEND_URL}/auth/login`)

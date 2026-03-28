@@ -8,7 +8,7 @@ import { bcryptHashing } from "../../utils/bcrypt";
 import { enviromentVariables } from "../../config/env";
 import { verifyToken } from "../../utils/jwt";
 import { JwtPayload } from "jsonwebtoken";
-import jwt from "jsonwebtoken"
+import crypto from "crypto"
 import { sendEmail } from "../../utils/sendEmail";
 const credentialsLogin = async (payload: Partial<IUser>) => {
     const { email, password } = payload;
@@ -68,25 +68,15 @@ const forgetPassword = async (email: string) => {
     if (!isUserExist) {
         throw new AppError(StatusCodes.NOT_FOUND, 'User does not exist')
     }
-    if (isUserExist.isVerified === false) {
-        throw new AppError(StatusCodes.UNAUTHORIZED, 'User is not verfified')
-    }
-    const jwtPayload: JwtPayload = {
-        _id: isUserExist._id.toString(),
-        role: isUserExist.role
-    }
-    const resetToken = jwt.sign(jwtPayload, enviromentVariables.JWT_SECRET, { expiresIn: "10m" })
-    const resetUILink = `${enviromentVariables.FRONTEND_URL}/reset-password?id=${isUserExist._id}&token=${resetToken}`
-
-    // sendEmail({
-    //     to: isUserExist.email,
-    //     subject: "Password Reset",
-    //     templateName: "forgetPassword",
-    //     templateData: {
-    //         name: isUserExist.name,
-    //         resetUILink
-    //     }
-    // })
+    const token = crypto.randomBytes(32).toString(`hex`)
+    isUserExist.resetToken = token
+    isUserExist.resetTokenExpires = new Date(Date.now() + 10 * 60 * 1000)
+    await isUserExist.save()
+    const link = `${enviromentVariables.FRONTEND_URL}/reset-password?=${token}`
+    await sendEmail(
+        isUserExist.email, "Reset Password", link
+    )
+    return 'Password reset Link sent'
 }
 
 const resetPassword = async (payload: Record<string, any>, decodedToken: JwtPayload) => {

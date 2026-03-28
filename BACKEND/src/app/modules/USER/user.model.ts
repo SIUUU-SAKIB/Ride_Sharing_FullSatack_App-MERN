@@ -63,6 +63,12 @@ const UserSchema = new Schema<IUser>(
         verificationTokenExpires: {
             type: Date, defalut: undefined
         },
+        resetToken: {
+            type: String, default: undefined
+        },
+        resetTokenExpires: {
+            type: String, default: undefined
+        },
         auths: [authProviderSchema]
     }, {
     timestamps: true,

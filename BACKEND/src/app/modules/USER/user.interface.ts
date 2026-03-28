@@ -28,6 +28,8 @@ export interface IUser {
     email: string,
     phone?: string,
     password: string,
+    resetToken?:string,
+    resetTokenExpires?:Date,
     profilePhoto?: string,
     profilePhotoId: string,
     verificationToken?: string,
