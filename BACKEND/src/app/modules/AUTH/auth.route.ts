@@ -10,10 +10,11 @@ const router = Router()
 // User login (ALL USER)
 router.post('/login', AuthController.credentialsLogin)
 router.post('/logout', AuthController.logout)
-router.patch('/change-password', authentication(...Object.values(IUserRole)), AuthController.changePassword)
 router.post('/refresh-token', AuthController.refreshToken)
-router.post(`/forget-password`, AuthController.forgetPassword)
-router.post(`/reset-password`, authentication(...Object.values(IUserRole)), AuthController.resetPassword)
+router.get(`/forget-password`, AuthController.forgetPassword)
+router.get(`/change-password`, AuthController.changePassword)
+router.post(`/reset-password`, AuthController.resetPassword)
+
 router.get(`/verify-email`, AuthController.verifyEmail)
 router.get(
     "/google",

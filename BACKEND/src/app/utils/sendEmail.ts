@@ -53,20 +53,38 @@ import { enviromentVariables } from "../config/env";
 //         throw new AppError(401, 'Email error')
 //     }
 // }
+const transporter = nodemailer.createTransport({
+    service: "gmail",
+    auth: {
+        user: enviromentVariables.EMAIL_SENDER.SMTP_USER,
+        pass: enviromentVariables.EMAIL_SENDER.SMTP_PASSWORD
+    }
+})
 
-
-export const sendEmail = async(to:string, subject:string, text:string) => {
-    const transporter = nodemailer.createTransport({
-        service : "gmail" ,
-        auth:{
-            user:enviromentVariables.EMAIL_SENDER.SMTP_USER,
-            pass:enviromentVariables.EMAIL_SENDER.SMTP_PASSWORD
-        }
-    })
+export const sendEmail = async (to: string, subject: string, text: string = '') => {
     await transporter.sendMail({
-        from:enviromentVariables.EMAIL_SENDER.SMTP_FROM,
+        from: enviromentVariables.EMAIL_SENDER.SMTP_FROM,
         to,
         subject,
         text
+    })
+}
+
+export const sendOtp = async (to: string, subject: string, otp?: string) => {
+
+     const emailHtml = `
+        <div style="font-family: Arial, sans-serif; padding: 20px;">
+            <h2>Your OTP Code</h2>
+            <p>Your One-Time Password (OTP) is:</p>
+            <h1 style="font-size: 32px; color: #4CAF50; letter-spacing: 5px;">${otp}</h1>
+            <p>This OTP will expire in <strong>10 minutes</strong>.</p>
+            <p>If you didn't request this, please ignore this email.</p>
+        </div>
+    `;
+    await transporter.sendMail({
+        from: enviromentVariables.EMAIL_SENDER.SMTP_FROM,
+        to,
+        subject,
+        html:emailHtml
     })
 }

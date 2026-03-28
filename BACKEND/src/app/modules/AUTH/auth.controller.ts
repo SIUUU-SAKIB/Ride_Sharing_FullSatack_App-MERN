@@ -46,28 +46,6 @@ const logout = catchAsync(async (req: Request, res: Response) => {
   })
 })
 
-const changePassword = catchAsync(async (req: Request, res: Response) => {
-  const id = req.user?.userId
-  const { oldPass, newPass } = req.body
-  await AuthService.changePassword(id as string, oldPass, newPass)
-  const cookieOptions = {
-    httpOnly: true,
-    secure: process.env.NODE_ENV === "production",
-    sameSite: "lax" as const,
-    path: "/",
-  }
-
-  res.clearCookie("accessToken", cookieOptions)
-  res.clearCookie("refreshToken", cookieOptions)
-
-  sendResponse(res, {
-    success: true,
-    statusCode: StatusCodes.OK,
-    message: "Password Change successfully",
-    data: null,
-  })
-})
-
 export const refreshToken = catchAsync(
   async (req: Request, res: Response) => {
     const refreshToken = req.cookies?.refreshToken;
@@ -101,20 +79,27 @@ const forgetPassword = catchAsync(async (req: Request, res: Response) => {
     data: null,
   });
 })
-
+const changePassword = catchAsync(async (req: Request, res: Response) => {
+  const { token } = req.query;
+  const { password } = req.body
+  if (!token || !password) {
+    throw new AppError(StatusCodes.NOT_FOUND, `Please provide token and password`)
+  }
+  res.redirect(`http://localhost:${enviromentVariables.PORT}/auth/reset-password`)
+})
 const resetPassword = catchAsync(async (req: Request, res: Response) => {
-  const { token, newPassword } = req.body
+  const { otp, newPassword } = req.body
   const user = await UserDB.findOne({
-    resetToken: token,
-    resetTokenExpires: { gt: Date.now() }
+    otp: otp,
+    otpExpires: { $gt: Date.now() }
   })
   if (!user) {
-    return res.send("Invalid or expired token ❌")
+    return res.send("Invalid or expired otp ❌")
   }
   const hashedPassword = await bcrypt.hash(newPassword, 10)
   user.password = hashedPassword
-  user.resetToken = undefined
-  user.resetTokenExpires = undefined
+  user.otp = undefined
+  user.otpExpires = undefined
   await user.save()
   sendResponse(res, {
     success: true,

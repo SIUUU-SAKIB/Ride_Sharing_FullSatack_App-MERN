@@ -8,8 +8,7 @@ import { bcryptHashing } from "../../utils/bcrypt";
 import { enviromentVariables } from "../../config/env";
 import { verifyToken } from "../../utils/jwt";
 import { JwtPayload } from "jsonwebtoken";
-import crypto from "crypto"
-import { sendEmail } from "../../utils/sendEmail";
+import { sendOtp } from "../../utils/sendEmail";
 const credentialsLogin = async (payload: Partial<IUser>) => {
     const { email, password } = payload;
     const isUserExist = await UserDB.findOne({ email }).select("+password")
@@ -66,15 +65,14 @@ const refreshToken = async (refreshToken: string) => {
 const forgetPassword = async (email: string) => {
     const isUserExist = await UserDB.findOne({ email })
     if (!isUserExist) {
-        throw new AppError(StatusCodes.NOT_FOUND, 'User does not exist')
+        throw new AppError(StatusCodes.NOT_FOUND, "If account exists, OTP sent")
     }
-    const token = crypto.randomBytes(32).toString(`hex`)
-    isUserExist.resetToken = token
-    isUserExist.resetTokenExpires = new Date(Date.now() + 10 * 60 * 1000)
+    const otp = Math.floor(100000 + Math.random() * 900000).toString()
+    isUserExist.otp = otp
+    isUserExist.otpExpires = new Date(Date.now() + 10 * 60 * 1000)
     await isUserExist.save()
-    const link = `${enviromentVariables.FRONTEND_URL}/reset-password?=${token}`
-    await sendEmail(
-        isUserExist.email, "Reset Password", link
+    await sendOtp(
+        isUserExist.email, "Reset Password Token", otp
     )
     return 'Password reset Link sent'
 }

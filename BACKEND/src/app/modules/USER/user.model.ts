@@ -63,11 +63,11 @@ const UserSchema = new Schema<IUser>(
         verificationTokenExpires: {
             type: Date, defalut: undefined
         },
-        resetToken: {
+        otp: {
             type: String, default: undefined
         },
-        resetTokenExpires: {
-            type: String, default: undefined
+        otpExpires: {
+            type: Date, default: undefined
         },
         auths: [authProviderSchema]
     }, {
