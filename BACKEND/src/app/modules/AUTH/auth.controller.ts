@@ -13,9 +13,9 @@ import bcrypt from "bcryptjs"
 const credentialsLogin = catchAsync(async (req: Request, res: Response) => {
   const payload = req.body
   const result = await AuthService.credentialsLogin(payload)
+
   const userTokens = createUserTokens(result.user)
   setAuthCookie(res, userTokens)
-  console.log(req.user)
   sendResponse(res, {
     success: true,
     statusCode: StatusCodes.OK,
@@ -137,7 +137,6 @@ const getMe = catchAsync(async (req: Request, res: Response) => {
     verificationTokenExpires: 0,
     resetToken: 0,
     resetTokenExpires: 0
-
   })
   if (!user) {
     throw new AppError(StatusCodes.NOT_FOUND, "User not found")

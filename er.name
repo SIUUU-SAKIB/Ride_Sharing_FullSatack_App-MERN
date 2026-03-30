@@ -1,0 +1,131 @@
+[33mcommit 544cb6adae9f7386a5273cb7eb945470791cb7ca[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m)[m
+Author: Sakib Islam <your-email@example.com>
+Date:   Tue Mar 31 00:05:00 2026 +0600
+
+    get me implemented
+
+[33mcommit 1dbbcea1724cd8af8eb7adb5f2cad8a87e5d3bfc[m
+Author: Sakib Islam <your-email@example.com>
+Date:   Sat Mar 28 22:21:45 2026 +0600
+
+    reset password implemented
+
+[33mcommit b30a0d3ca3e4092297448e059a80c3bf10bbdb15[m
+Author: Sakib Islam <your-email@example.com>
+Date:   Sat Mar 28 20:43:05 2026 +0600
+
+    reset password implemented
+
+[33mcommit 5f66e1124b10d1fbb28f7d4723cb5abba1647d28[m
+Author: Sakib Islam <your-email@example.com>
+Date:   Fri Mar 27 23:56:11 2026 +0600
+
+    verify email implemented
+
+[33mcommit 6e13c68c17c1a0e456ef941888b0761e507df174[m
+Author: Sakib Islam <your-email@example.com>
+Date:   Wed Mar 25 00:51:08 2026 +0600
+
+    profile update
+
+[33mcommit bfb7d66642baab83a00ca7e4575eadfab2d7d769[m
+Author: Sakib Islam <your-email@example.com>
+Date:   Wed Mar 25 00:40:20 2026 +0600
+
+    update user implemented
+
+[33mcommit d762318def0cad371cdaf084dce82a39627e550f[m
+Author: Sakib Islam <your-email@example.com>
+Date:   Tue Mar 24 01:17:00 2026 +0600
+
+    image upload implemented
+
+[33mcommit 115d9cb492985b4eaf92db462541c883624aa70a[m
+Author: Sakib Islam <your-email@example.com>
+Date:   Sat Feb 28 22:51:28 2026 +0600
+
+    asd
+
+[33mcommit 9dc224baacac554c63c29cf20cb04707bfbc57ae[m
+Author: Sakib Islam <your-email@example.com>
+Date:   Sat Feb 21 01:59:37 2026 +0600
+
+    cancel ride implemented
+
+[33mcommit 3f91fefddc322ac749c7a75fef73236d9f59bc2d[m
+Author: Sakib Islam <your-email@example.com>
+Date:   Wed Feb 18 21:59:42 2026 +0600
+
+    added rides worker
+
+[33mcommit 333ec9e936c8e99f080a385748a4890b17efd7b9[m
+Author: Sakib Islam <your-email@example.com>
+Date:   Mon Feb 16 21:15:26 2026 +0600
+
+    ride request completed
+
+[33mcommit e6e54547635ec8362d1421b1e2f49ff8a292a930[m
+Author: Sakib Islam <your-email@example.com>
+Date:   Sun Feb 15 01:15:44 2026 +0600
+
+    done rides scehmas
+
+[33mcommit 973223a055930af98bd9130f88fc7038e069b788[m
+Author: Sakib Islam <your-email@example.com>
+Date:   Wed Feb 11 20:08:32 2026 +0600
+
+    dsa
+
+[33mcommit d9bbd2ffb7d8ac26674e14bc2dfacc49dc5f1c41[m
+Author: Sakib Islam <your-email@example.com>
+Date:   Sun Feb 8 00:22:48 2026 +0600
+
+    google login implemented
+
+[33mcommit 95774f68272176bf9f78a7833b8a0f733aa9e657[m
+Author: Sakib Islam <your-email@example.com>
+Date:   Fri Feb 6 00:02:17 2026 +0600
+
+    reset password implemented
+
+[33mcommit f587a1366b3bdf518dad2ae501a20a04bfc06064[m
+Author: Sakib Islam <your-email@example.com>
+Date:   Thu Feb 5 23:24:18 2026 +0600
+
+    forget email solved
+
+[33mcommit b66be789dc00fc3bc98500fa945f227267bd9f1c[m
+Author: Sakib Islam <your-email@example.com>
+Date:   Mon Feb 2 21:09:26 2026 +0600
+
+    more authentication
+
+[33mcommit 41b934cc6a7e4f314746508eb905ce74ca207bff[m
+Author: Sakib Islam <your-email@example.com>
+Date:   Sun Feb 1 21:41:29 2026 +0600
+
+    change password functionality
+
+[33mcommit 1f80992370909c42038868ffc69f43883cc74c3a[m
+Author: Sakib Islam <your-email@example.com>
+Date:   Sat Jan 31 21:35:36 2026 +0600
+
+    more authrization
+
+[33mcommit b45552c6cbe8d484eab538906ca3dcaa1e69d563[m
+Author: Sakib Islam <your-email@example.com>
+Date:   Fri Jan 30 15:18:45 2026 +0600
+
+    authrization
+
+[33mcommit 4e1bae812f0b2678413a719ddcfe0598a5bfdf0e[m
+Author: Sakib Islam <your-email@example.com>
+Date:   Thu Jan 29 21:19:21 2026 +0600
+
+    authentication and authrorization
+
+[33mcommit bf81d8b44252a328eed2de79364834075100ee30[m
+Author: Sakib Islam <your-email@example.com>
+Date:   Thu Jan 22 23:30:09 2026 +0600
+
+    first commit

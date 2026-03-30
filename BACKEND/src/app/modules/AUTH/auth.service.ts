@@ -13,6 +13,7 @@ const credentialsLogin = async (payload: Partial<IUser>) => {
     const { email, password } = payload;
     const isUserExist = await UserDB.findOne({ email }).select({
         password: 1,
+        role:1
     })
     if (!isUserExist) {
         throw new AppError(StatusCodes.BAD_REQUEST, "OOPS user does not exist")
@@ -21,10 +22,11 @@ const credentialsLogin = async (payload: Partial<IUser>) => {
     if (!isPasswordMatched) {
         throw new AppError(StatusCodes.BAD_REQUEST, "Incorrect password")
     }
-    if (isUserExist.isVerified === false) {
-        throw new AppError(StatusCodes.CONFLICT, 'OOPS youre not verified yet')
-    }
+    // if (isUserExist.isVerified === false) {
+    //     throw new AppError(StatusCodes.CONFLICT, 'OOPS youre not verified yet')
+    // }
     const tokens = createUserTokens(isUserExist)
+    console.log(isUserExist)
     const { password: pass, ...rest } = isUserExist.toObject()
     return {
         accessToken: tokens.accessToken,
