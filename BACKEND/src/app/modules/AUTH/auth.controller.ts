@@ -6,10 +6,8 @@ import { setAuthCookie } from "../../utils/setCookies";
 import { createUserTokens } from "../../utils/tokens";
 import { AuthService } from "./auth.service";
 import AppError from "../../utils/createError";
-import { JwtPayload } from "jsonwebtoken";
 import { UserDB } from "../USER/user.model";
 import { enviromentVariables } from "../../config/env";
-import { bcryptHashing } from "../../utils/bcrypt";
 
 import bcrypt from "bcryptjs"
 const credentialsLogin = catchAsync(async (req: Request, res: Response) => {
@@ -125,9 +123,37 @@ const verifyEmail = catchAsync(async (req: Request, res: Response) => {
   await user.save()
   res.redirect(`${enviromentVariables.FRONTEND_URL}/auth/login`)
 })
+const getMe = catchAsync(async (req: Request, res: Response) => {
+  const userId = req.user?._id
+  console.log(userId)
+  const user = await UserDB.findById(userId).select({
+    password: 0,
+    auths: 0,
+    refreshToken: 0,
+    profilePhotoId: 0,
+    otp: 0,
+    otpExpires: 0,
+    verificationToken: 0,
+    verificationTokenExpires: 0,
+    resetToken: 0,
+    resetTokenExpires: 0
 
+  })
+  if (!user) {
+    throw new AppError(StatusCodes.NOT_FOUND, "User not found")
+  }
+  sendResponse(res, {
+    success: true,
+    statusCode: StatusCodes.OK,
+    message: "User fetched successfully",
+    data: user
+  })
+
+
+})
 export const AuthController = {
   credentialsLogin,
+  getMe,
   logout,
   changePassword,
   refreshToken,

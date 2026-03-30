@@ -10,7 +10,6 @@ import { upload } from "../../middleware/multer";
 const router = Router()
 
 router.post('/create', upload.single('file'), validateZodSchema(UserZodSchema.createUser), UserController.createUser)
-
 router.get('/all-user', authentication(IUserRole.ADMIN, IUserRole.SUPER_ADMIN), UserController.getAllUser)
 
 router.get(`/get-user-by-role/:role`, authentication(IUserRole.ADMIN, IUserRole.SUPER_ADMIN), UserController.getUserByRole)
@@ -21,5 +20,5 @@ router.patch('/update-profile/:id', upload.single("file"), validateZodSchema(Use
 
 router.patch('/update-by-admin/:id', authentication(IUserRole.ADMIN, IUserRole.SUPER_ADMIN), UserController.updateUserByAdmin)
 
-router.delete('/delete/:id', authentication(IUserRole.RIDER, IUserRole.DRIVER), UserController.deleteUser)
+router.delete('/delete/:id', authentication(IUserRole.ADMIN), UserController.deleteUser)
 export const UserRoutes = router
