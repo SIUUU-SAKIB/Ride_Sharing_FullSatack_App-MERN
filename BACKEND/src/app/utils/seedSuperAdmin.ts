@@ -3,7 +3,7 @@ import { enviromentVariables } from "../config/env"
 import { UserDB } from "../modules/USER/user.model"
 import AppError from "./createError"
 import bcrypt from "bcryptjs";
-import { IAuthProvider, IUser, IUserRole } from "../modules/USER/user.interface";
+import { IAuthProvider, IUser, IUserRole } from "../modules/USER/rider.interface";
 export const seedSuperAdmin = async () => {
     try {
         const email = enviromentVariables.SUPER_ADMIN_EMAIL

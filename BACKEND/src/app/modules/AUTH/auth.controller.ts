@@ -8,8 +8,9 @@ import { AuthService } from "./auth.service";
 import AppError from "../../utils/createError";
 import { UserDB } from "../USER/user.model";
 import { enviromentVariables } from "../../config/env";
-
 import bcrypt from "bcryptjs"
+
+
 const credentialsLogin = catchAsync(async (req: Request, res: Response) => {
   const payload = req.body
   const result = await AuthService.credentialsLogin(payload)
@@ -113,7 +114,6 @@ const verifyEmail = catchAsync(async (req: Request, res: Response) => {
     verificationToken: token,
     verificationTokenExpires: { $gt: Date.now() },
   });
-  console.log(user)
   if (!user) {
     return res.redirect(`${enviromentVariables.FRONTEND_URL}/token-expired`)
   }
@@ -125,7 +125,6 @@ const verifyEmail = catchAsync(async (req: Request, res: Response) => {
 })
 const getMe = catchAsync(async (req: Request, res: Response) => {
   const userId = req.user?._id
-  console.log(userId)
   const user = await UserDB.findById(userId).select({
     password: 0,
     auths: 0,

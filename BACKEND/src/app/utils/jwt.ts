@@ -1,6 +1,6 @@
 import jwt, { JsonWebTokenError, JwtPayload, SignOptions, TokenExpiredError } from "jsonwebtoken"
 
-import { JwtUserPayload } from "../modules/USER/user.interface";
+import { JwtUserPayload } from "../modules/USER/rider.interface";
 
 export const generateToken = (
   payload: JwtUserPayload,

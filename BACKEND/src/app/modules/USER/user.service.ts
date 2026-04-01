@@ -1,14 +1,12 @@
 import { StatusCodes } from "http-status-codes"
+import { IAuthProvider, IUser } from "./rider.interface"
 import AppError from "../../utils/createError"
-import { UserDB } from "./user.model"
-import { IAuthProvider, IUser } from "./user.interface"
-import bcrypt from "bcryptjs";
-import { enviromentVariables } from "../../config/env";
-import cloudinary from "../../utils/cloudinary/cloudinary";
 import crypto from "crypto"
-import { sendEmail } from "../../utils/sendEmail";
-
-
+import { enviromentVariables } from "../../config/env"
+import bcrypt from "bcryptjs"
+import { UserDB } from "./user.model"
+import { sendVerifyEmail } from "../../utils/sendEmail"
+import cloudinary from "../../utils/cloudinary/cloudinary"
 const createUser = async (payload: IUser) => {
     const { password, ...rest } = payload
     const isUserExist = await UserDB.findOne({ email: payload.email })
@@ -30,7 +28,7 @@ const createUser = async (payload: IUser) => {
         }
     )
     const link = `http://localhost:${enviromentVariables.PORT}/api/v1/auth/verify-email?token=${token}`
-    await sendEmail(user?.email, `Verify Email`, link)
+    await sendVerifyEmail(user?.email, `Verify Email`, link)
     return user
 }
 const updateUser = async (payload: Partial<IUser>) => {
@@ -71,7 +69,6 @@ const getAllUser = async (page: number, limit: number, skip: number) => {
 
 const getUserByRole = async (role: string, page: number, limit: number, skip: number) => {
 
-    console.log(page, limit, skip)
     const user = await UserDB.find({ role: role.toUpperCase() }).skip(skip).limit(limit)
     const total = user.length
     return {

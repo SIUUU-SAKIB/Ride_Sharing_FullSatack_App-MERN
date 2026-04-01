@@ -3,8 +3,7 @@ import AppError from "../../utils/createError"
 import bcrypt from "bcryptjs";
 import { createUserTokens } from "../../utils/tokens";
 import { UserDB } from "../USER/user.model";
-import { IUser } from "../USER/user.interface";
-import { bcryptHashing } from "../../utils/bcrypt";
+import { IUser } from "../USER/rider.interface";
 import { enviromentVariables } from "../../config/env";
 import { verifyToken } from "../../utils/jwt";
 import { JwtPayload } from "jsonwebtoken";
@@ -22,11 +21,14 @@ const credentialsLogin = async (payload: Partial<IUser>) => {
     if (!isPasswordMatched) {
         throw new AppError(StatusCodes.BAD_REQUEST, "Incorrect password")
     }
-    // if (isUserExist.isVerified === false) {
-    //     throw new AppError(StatusCodes.CONFLICT, 'OOPS youre not verified yet')
-    // }
-    const tokens = createUserTokens(isUserExist)
-    console.log(isUserExist)
+    if (isUserExist.isVerified === false) {
+        throw new AppError(StatusCodes.CONFLICT, 'OOPS youre not verified yet')
+    }
+    const tokenPayload = {
+        _id:isUserExist._id,
+        role:isUserExist.role
+    }
+    const tokens = createUserTokens(tokenPayload)
     const { password: pass, ...rest } = isUserExist.toObject()
     return {
         accessToken: tokens.accessToken,

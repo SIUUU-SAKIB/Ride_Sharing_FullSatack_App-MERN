@@ -1,21 +1,18 @@
 import { Request, Response } from "express";
-import catchAsync from "../../utils/catchAsync";
-import { UserService } from "./user.service";
-import sendResponse from "../../utils/sendResponse";
 import { StatusCodes } from "http-status-codes";
-import AppError from "../../utils/createError";
 import { request } from "node:http";
 import { uploadToCloudinary } from "../../utils/cloudinary/uploadToCloudinary";
-
+import sendResponse from "../../utils/sendResponse";
+import AppError from "../../utils/createError";
+import { UserService } from "./user.service";
+import catchAsync from "../../utils/catchAsync";
 const createUser = catchAsync(async (req: Request, res: Response) => {
     const payload = req.body;
     const file = req.file;
     let imageUrl
     if (file) {
         imageUrl = await uploadToCloudinary(file);
-        console.log('file detected')
     }
-
     const result = await UserService.createUser({
         ...payload,
         profilePhoto: imageUrl?.url,

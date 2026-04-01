@@ -1,5 +1,5 @@
 import { Types } from "mongoose";
-import { IUser, IUserRole } from "../USER/user.interface";
+import { IUser, IUserRole } from "../USER/rider.interface";
 
 export enum RideStatus {
     REQUESTED = "requested",

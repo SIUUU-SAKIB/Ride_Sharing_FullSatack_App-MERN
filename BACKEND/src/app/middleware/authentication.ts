@@ -4,8 +4,7 @@ import AppError from "../utils/createError";
 import { verifyToken } from "../utils/jwt";
 import { enviromentVariables } from "../config/env";
 import { UserDB } from "../modules/USER/user.model";
-import jwt, { JwtPayload } from "jsonwebtoken";
-import { access } from "node:fs";
+import { JwtPayload } from "jsonwebtoken";
 
 
 
@@ -24,12 +23,6 @@ export const authentication = (...authRoles: string[]) => async (req: Request, r
         if (!isUserExist.isVerified) {
             throw new AppError(StatusCodes.BAD_REQUEST, "User is not verified")
         }
-        // if (isUserExist.isActive === IsActive.BLOCKED || isUserExist.isActive === IsActive.INACTIVE) {
-        //     throw new AppError(httpStatus.BAD_REQUEST, `User is ${isUserExist.isActive}`)
-        // }
-        // if (isUserExist.isDeleted) {
-        //     throw new AppError(httpStatus.BAD_REQUEST, "User is deleted")
-        // }
 
         if (!authRoles.includes(verifiedToken.role)) {
             throw new AppError(403, "You are not permitted to view this route!!!")

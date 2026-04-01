@@ -1,7 +1,7 @@
 import { Request, Response, Router } from "express";
 import { AuthController } from "./auth.controller";
 import { authentication } from "../../middleware/authentication";
-import { IUserRole } from "../USER/user.interface";
+import { IUserRole } from "../USER/rider.interface";
 import passport from "passport";
 import { enviromentVariables } from "../../config/env";
 
@@ -12,7 +12,7 @@ router.post('/login', AuthController.credentialsLogin)
 router.get(`/me`,authentication(...Object.values(IUserRole)), AuthController.getMe)
 router.post('/logout', AuthController.logout)
 router.post('/refresh-token', AuthController.refreshToken)
-router.post(`/forget-password`, AuthController.forgetPassword)
+router.get(`/forget-password`, AuthController.forgetPassword)
 router.patch(`/change-password`, AuthController.changePassword)
 router.post(`/reset-password`, AuthController.resetPassword)
 

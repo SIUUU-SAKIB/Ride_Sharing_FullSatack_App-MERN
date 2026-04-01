@@ -1,10 +1,11 @@
 import { Router } from "express";
 import { validateZodSchema } from "../../middleware/validate";
 import { UserZodSchema } from "./user.validation";
-import { UserController } from "./user.controller";
+
 import { authentication } from "../../middleware/authentication";
-import { IUserRole } from "./user.interface";
+import { IUserRole } from "./rider.interface";
 import { upload } from "../../middleware/multer";
+import { UserController } from "./user.controller";
 
 
 const router = Router()

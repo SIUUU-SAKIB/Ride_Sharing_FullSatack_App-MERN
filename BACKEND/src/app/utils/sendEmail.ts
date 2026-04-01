@@ -61,25 +61,91 @@ const transporter = nodemailer.createTransport({
     }
 })
 
-export const sendEmail = async (to: string, subject: string, text: string = '') => {
-    await transporter.sendMail({
-        from: enviromentVariables.EMAIL_SENDER.SMTP_FROM,
-        to,
-        subject,
-        text
-    })
-}
+export const sendVerifyEmail = async (to: string, subject:string, link: string) => {
+  const html = `
+  <div style="background: #f4f6f8; padding: 40px 0; font-family: 'Segoe UI', Arial, sans-serif;">
+    <div style="max-width: 500px; margin: auto; background: #ffffff; border-radius: 12px; padding: 30px; box-shadow: 0 10px 25px rgba(0,0,0,0.08); text-align: center;">
+
+      <h2 style="color: #333; margin-bottom: 10px;">🎉 Welcome!</h2>
+      <p style="color: #666; font-size: 14px; margin-bottom: 25px;">
+        Please verify your email to activate your account.
+      </p>
+
+      <!-- Button -->
+      <a href="${link}" 
+         style="display: inline-block; padding: 14px 28px; background: #4f46e5; color: #fff; text-decoration: none; border-radius: 8px; font-weight: 600; font-size: 16px;">
+         Verify Email
+      </a>
+
+      <!-- Fallback link -->
+      <p style="margin-top: 20px; font-size: 13px; color: #888;">
+        Or copy and paste this link into your browser:
+      </p>
+
+      <p style="word-break: break-all; font-size: 12px; color: #4f46e5;">
+        ${link}
+      </p>
+
+      <hr style="margin: 25px 0; border: none; border-top: 1px solid #eee;" />
+
+      <p style="font-size: 13px; color: #999;">
+        If you didn’t create an account, you can safely ignore this email.
+      </p>
+
+      <p style="font-size: 12px; color: #bbb; margin-top: 20px;">
+        © 2026 Ride Sharing App
+      </p>
+
+    </div>
+  </div>
+  `;
+
+  await transporter.sendMail({
+    from: enviromentVariables.EMAIL_SENDER.SMTP_FROM,
+    to,
+    subject: "Verify Your Email",
+    html,
+  });
+};
 
 export const sendOtp = async (to: string, subject: string, otp?: string) => {
 
      const emailHtml = `
-        <div style="font-family: Arial, sans-serif; padding: 20px;">
-            <h2>Your OTP Code</h2>
-            <p>Your One-Time Password (OTP) is:</p>
-            <h1 style="font-size: 32px; color: #4CAF50; letter-spacing: 5px;">${otp}</h1>
-            <p>This OTP will expire in <strong>10 minutes</strong>.</p>
-            <p>If you didn't request this, please ignore this email.</p>
-        </div>
+        <div style="background: #f4f6f8; padding: 40px 0; font-family: 'Segoe UI', Arial, sans-serif;">
+  <div style="max-width: 500px; margin: auto; background: #ffffff; border-radius: 12px; padding: 30px; box-shadow: 0 10px 25px rgba(0,0,0,0.08); text-align: center;">
+    
+    <!-- Logo / Title -->
+    <h2 style="margin-bottom: 10px; color: #333;">🔐 Verify Your Identity</h2>
+    <p style="color: #777; font-size: 14px; margin-bottom: 25px;">
+      Use the OTP below to complete your action
+    </p>
+
+    <!-- OTP BOX -->
+    <div style="background: #f1f5ff; border: 2px dashed #4f46e5; padding: 20px; border-radius: 10px; margin-bottom: 25px;">
+      <span style="font-size: 36px; font-weight: bold; color: #4f46e5; letter-spacing: 8px;">
+        ${otp}
+      </span>
+    </div>
+
+    <!-- Expiry -->
+    <p style="color: #555; font-size: 14px;">
+      ⏳ This code will expire in <strong>10 minutes</strong>
+    </p>
+
+    <!-- Divider -->
+    <hr style="margin: 25px 0; border: none; border-top: 1px solid #eee;" />
+
+    <!-- Footer -->
+    <p style="font-size: 13px; color: #999;">
+      If you didn’t request this, you can safely ignore this email.
+    </p>
+
+    <p style="font-size: 12px; color: #bbb; margin-top: 20px;">
+      © 2026 Ride Sharing App
+    </p>
+
+  </div>
+</div>
     `;
     await transporter.sendMail({
         from: enviromentVariables.EMAIL_SENDER.SMTP_FROM,

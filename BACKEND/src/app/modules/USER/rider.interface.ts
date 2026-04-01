@@ -6,11 +6,6 @@ export enum IUserRole {
     RIDER = "RIDER",
     DRIVER = "DRIVER"
 }
-export enum IVehicleType {
-    TWO_WHEELER = "TWO_WHEELER",
-    THREE_WHEELER = "THREE_WHEELER",
-    FOUR_WHEELER = "FOUR_WHEELER"
-}
 export interface IAuthProvider {
     provider: "google" | "credentials",
     providerId: string
@@ -24,7 +19,6 @@ export interface IUser {
     _id?: string,
     googleId: string,
     name: string,
-    vehicleType: IVehicleType,
     email: string,
     phone?: string,
     password: string,

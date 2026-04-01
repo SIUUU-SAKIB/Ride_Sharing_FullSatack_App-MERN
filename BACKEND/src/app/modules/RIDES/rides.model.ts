@@ -1,6 +1,6 @@
 import { model, Schema, Types } from "mongoose";
 import { IRide, IRideLocation, IRideRequest, PaymentStatus, RideRequestStatus, RideStatus } from "./rides.interface";
-import { IUserRole } from "../USER/user.interface";
+import { IUserRole } from "../USER/rider.interface";
 
 
 export const RideLocationSchema = new Schema<IRideLocation>({

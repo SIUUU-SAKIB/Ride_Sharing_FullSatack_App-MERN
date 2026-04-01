@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { IUserRole } from "../USER/user.interface";
+import { IUserRole } from "../USER/rider.interface";
 import { RidesController } from "./ride.controller";
 import { authentication } from "../../middleware/authentication";
 
