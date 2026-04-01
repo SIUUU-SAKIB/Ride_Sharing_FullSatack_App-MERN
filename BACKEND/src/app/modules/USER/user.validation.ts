@@ -1,8 +1,8 @@
 import z from "zod";
-import { IUserRole } from "./rider.interface";
+import { IUserRole } from "./user.interface";
 
 const createUser = z.object({
-    role: z.enum(Object.values(IUserRole.RIDER)),
+    role: z.enum(Object.values(IUserRole.RIDER)).optional(),
     name: z.string().min(2, "Name must be at lest 2 character long."),
     email: z.string({ message: "Email required" }).email(),
     phone: z.string({ message: "Phone number required" }).min(10),

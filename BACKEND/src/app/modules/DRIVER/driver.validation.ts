@@ -2,7 +2,7 @@ import { z } from "zod";
 import { IVehicleType, IGender, IVehicleOwnsership } from "./driver.interface";
 
 const driverApplicationZodSchema = z.object({
-  body: z.object({
+
     licenseNumber: z
       .string({ message: "License number is required" })
       .min(5, "License number too short"),
@@ -39,7 +39,6 @@ const driverApplicationZodSchema = z.object({
       Object.values(IVehicleOwnsership) 
     ),
 
-  }),
 });
 
 export const driverValidation = {driverApplicationZodSchema}

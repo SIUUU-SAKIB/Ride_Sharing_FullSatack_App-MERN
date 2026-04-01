@@ -17,7 +17,7 @@ export interface JwtUserPayload extends JwtPayload {
 
 export interface IUser {
     _id?: string,
-    googleId: string,
+    googleId?: string,
     name: string,
     email: string,
     phone?: string,
@@ -25,11 +25,11 @@ export interface IUser {
     otp?:string,
     otpExpires?:Date,
     profilePhoto?: string,
-    profilePhotoId: string,
+    profilePhotoId?: string,
     verificationToken?: string,
     verificationTokenExpires?: Date,
     role: IUserRole,
-    baseLocation: string,
+    baseLocation?: string,
     isActive?: boolean,
     isVerified: boolean,
     createdAt?: Date,

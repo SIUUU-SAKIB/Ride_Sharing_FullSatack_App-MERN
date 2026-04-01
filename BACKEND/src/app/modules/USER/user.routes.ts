@@ -3,7 +3,7 @@ import { validateZodSchema } from "../../middleware/validate";
 import { UserZodSchema } from "./user.validation";
 
 import { authentication } from "../../middleware/authentication";
-import { IUserRole } from "./rider.interface";
+import { IUserRole } from "./user.interface";
 import { upload } from "../../middleware/multer";
 import { UserController } from "./user.controller";
 

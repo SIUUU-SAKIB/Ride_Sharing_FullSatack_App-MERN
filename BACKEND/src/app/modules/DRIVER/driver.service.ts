@@ -3,7 +3,7 @@ import AppError from "../../utils/createError";
 import { UserDB } from "../USER/user.model";
 import { IDriverApplication, IStatus } from "./driver.interface";
 import { DriverApplicationDB } from "./driver.model";
-import { IUserRole } from "../USER/rider.interface";
+import { IUserRole } from "../USER/user.interface";
 import { Types } from "mongoose";
 
 const driverApplication = async (_id: string, payload: IDriverApplication) => {

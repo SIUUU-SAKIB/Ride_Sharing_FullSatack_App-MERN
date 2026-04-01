@@ -37,7 +37,6 @@ export interface IDriverApplication {
     status: IStatus;
 }
 
-
 export interface IDriverProfile {
     userId: ObjectId,
     vehicleNumber: string,

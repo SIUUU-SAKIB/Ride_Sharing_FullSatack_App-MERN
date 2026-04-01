@@ -1,5 +1,5 @@
 import { enviromentVariables } from "../config/env";
-import { IUser } from "../modules/USER/rider.interface";
+import { IUser } from "../modules/USER/user.interface";
 import { generateToken } from "./jwt";
 
 export const createUserTokens = (user: Partial<IUser>) => {

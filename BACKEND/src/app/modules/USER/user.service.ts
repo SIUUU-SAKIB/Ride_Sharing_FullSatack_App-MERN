@@ -1,5 +1,5 @@
 import { StatusCodes } from "http-status-codes"
-import { IAuthProvider, IUser } from "./rider.interface"
+import { IAuthProvider, IUser } from "./user.interface"
 import AppError from "../../utils/createError"
 import crypto from "crypto"
 import { enviromentVariables } from "../../config/env"

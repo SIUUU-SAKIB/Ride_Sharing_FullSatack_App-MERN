@@ -1,5 +1,5 @@
 import { model, Schema } from "mongoose";
-import { IAuthProvider, IUser, IUserRole } from "./rider.interface";
+import { IAuthProvider, IUser, IUserRole } from "./user.interface";
 import { date } from "zod";
 
 const authProviderSchema = new Schema<IAuthProvider>({
@@ -52,13 +52,13 @@ const UserSchema = new Schema<IUser>(
         },
         
         profilePhotoId: {
-            type: String
+            type: String,
         },
         verificationToken: {
             type: String, default: undefined
         },
         verificationTokenExpires: {
-            type: Date, defalut: undefined
+            type: Date, default: undefined
         },
         otp: {
             type: String, default: undefined

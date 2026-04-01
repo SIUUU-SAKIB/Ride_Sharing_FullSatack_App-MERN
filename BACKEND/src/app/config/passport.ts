@@ -4,7 +4,7 @@ import { UserDB } from '../modules/USER/user.model'
 import { enviromentVariables } from './env'
 import { generateToken } from '../utils/jwt'
 import jwt from "jsonwebtoken"
-import { IAuthProvider } from '../modules/USER/rider.interface'
+import { IAuthProvider } from '../modules/USER/user.interface'
 
 passport.use(
     new googleStrategy({

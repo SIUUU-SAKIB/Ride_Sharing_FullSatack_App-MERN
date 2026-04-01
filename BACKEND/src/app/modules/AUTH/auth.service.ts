@@ -3,7 +3,7 @@ import AppError from "../../utils/createError"
 import bcrypt from "bcryptjs";
 import { createUserTokens } from "../../utils/tokens";
 import { UserDB } from "../USER/user.model";
-import { IUser } from "../USER/rider.interface";
+import { IUser } from "../USER/user.interface";
 import { enviromentVariables } from "../../config/env";
 import { verifyToken } from "../../utils/jwt";
 import { JwtPayload } from "jsonwebtoken";

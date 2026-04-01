@@ -1,7 +1,7 @@
 import { Request, Response, Router } from "express";
 import { AuthController } from "./auth.controller";
 import { authentication } from "../../middleware/authentication";
-import { IUserRole } from "../USER/rider.interface";
+import { IUserRole } from "../USER/user.interface";
 import passport from "passport";
 import { enviromentVariables } from "../../config/env";
 
