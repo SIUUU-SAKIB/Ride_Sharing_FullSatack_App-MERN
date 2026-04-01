@@ -44,7 +44,7 @@ const UserSchema = new Schema<IUser>(
         },
         role: {
             type: String,
-            enum: Object.values(IUserRole.RIDER),
+            enum: Object.values(IUserRole),
             default: IUserRole.RIDER
         },
         profilePhoto: {

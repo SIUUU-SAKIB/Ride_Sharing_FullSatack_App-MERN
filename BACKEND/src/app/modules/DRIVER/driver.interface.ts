@@ -25,19 +25,15 @@ export interface IDriverApplication {
     licenseNumber: string;
     vehicleNumber: string;
     vehicleType: IVehicleType;
-
     nidNumber: string;
     phoneNumber: string;
-
     bloodType: string;
     address: string;
     gender: IGender;
     vehicleOwnership: IVehicleOwnsership;
-
     licenseImage?: string;
     nidImage?: string;
     vehicleImage?: string;
-
     status: IStatus;
 }
 

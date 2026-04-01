@@ -2,66 +2,66 @@ import { model, Schema } from "mongoose";
 import { IDriverApplication, IDriverProfile, IGender, IStatus, IVehicleOwnsership, IVehicleType } from "./driver.interface";
 
 const DriverApplicationSchema = new Schema<IDriverApplication>({
-    userId: {
-        type: Schema.Types.ObjectId,
-        ref: "User",
-        required: true,
-        unique: true
-    },
-    licenseNumber: {
-        type: String,
-        required: true
-    },
-    licenseImage: {
-        type: String,
-        required: true
-    },
-    vehicleNumber: {
-        type: String,
-        required: true,
-    },
-    vehicleType: {
-        type: String,
-        enum: Object.values(IVehicleType),
-        required: true
-    },
-    nidNumber: {
-        type: String,
-        required: true,
-    },
+  userId: {
+    type: Schema.Types.ObjectId,
+    ref: "User",
+    required: true,
+    unique: true
+  },
+  licenseNumber: {
+    type: String,
+    required: true
+  },
+  licenseImage: {
+    type: String,
+    required: true
+  },
+  vehicleNumber: {
+    type: String,
+    required: true,
+  },
+  vehicleType: {
+    type: String,
+    enum: Object.values(IVehicleType),
+    required: true
+  },
+  nidNumber: {
+    type: String,
+    required: true,
+  },
+  phoneNumber: {
+    type: String,
+    required: true,
+  },
 
-    phoneNumber: {
-        type: String,
-        required: true,
-    },
+  bloodType: {
+    type: String,
+    required: true,
+  },
+  address: {
+    type: String,
+    required: true,
+  },
 
-    bloodType: {
-        type: String,
-        required: true,
-    },
-    address: {
-        type: String,
-        required: true,
-    },
-
-    gender: {
-        type: String,
-        enum: Object.values(IGender),
-        required: true,
-    }, vehicleOwnership: {
-        type: String,
-        enum: Object.values(IVehicleOwnsership),
-        required: true,
-    }, status: {
-        type: String,
-        enum: Object.values(IStatus),
-        default: IStatus.PENDING,
-    }
+  gender: {
+    type: String,
+    enum: Object.values(IGender),
+    required: true,
+  }, vehicleOwnership: {
+    type: String,
+    enum: Object.values(IVehicleOwnsership),
+    required: true,
+  }, 
+  status: {
+    type: String,
+    enum: Object.values(IStatus),
+    default: IStatus.PENDING,
+  }
 },
-    {
-        timestamps: true,
-        versionKey: false
-    }).index({userId:1})
+  {
+    timestamps: true,
+    versionKey: false
+  }).index({ userId: 1 })
 
 
 const DriverProfileSchema = new Schema<IDriverProfile>(
@@ -118,5 +118,5 @@ export const DriverProfileDB = model<IDriverProfile>(
   DriverProfileSchema
 );
 export const DriverApplicationDB = model<IDriverApplication>(
-    "DriverApplicationo", DriverApplicationSchema
+  "DriverApplicationo", DriverApplicationSchema
 )

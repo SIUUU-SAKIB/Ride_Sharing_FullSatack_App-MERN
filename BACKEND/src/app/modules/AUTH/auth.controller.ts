@@ -14,8 +14,8 @@ import bcrypt from "bcryptjs"
 const credentialsLogin = catchAsync(async (req: Request, res: Response) => {
   const payload = req.body
   const result = await AuthService.credentialsLogin(payload)
-
   const userTokens = createUserTokens(result.user)
+
   setAuthCookie(res, userTokens)
   sendResponse(res, {
     success: true,
