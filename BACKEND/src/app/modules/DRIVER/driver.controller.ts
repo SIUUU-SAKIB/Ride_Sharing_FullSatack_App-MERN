@@ -6,7 +6,7 @@ import { DriverServices } from "./driver.service";
 import sendResponse from "../../utils/sendResponse";
 
 const driverApplication = catchAsync(async (req: Request, res: Response) => {
-    const userId = req.user?._id
+    const { userId } = req.params
     const payload = req.body
     if (!userId) {
         throw new AppError(StatusCodes.BAD_REQUEST, "userId is required")

@@ -8,14 +8,13 @@ const driverApplicationZodSchema = z.object({
       .min(5, "License number too short"),
 
     licenseImage: z
-      .string({ message: "License image is required" })
-      .url("License image must be a valid URL"),
+      .string({ message: "License image is required" }),
 
     vehicleNumber: z
       .string({ message: "Vehicle number is required" })
       .min(3, "Vehicle number too short"),
 
-    vehicleType: z.enum(Object.values(IVehicleType) as [string, ...string[]]),
+    vehicleType: z.enum(Object.values(IVehicleType)),
 
     nidNumber: z
       .string({ message: "NID number is required" })
