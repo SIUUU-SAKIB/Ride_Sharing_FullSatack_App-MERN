@@ -23,7 +23,7 @@ const createUser = catchAsync(async (req: Request, res: Response) => {
     sendResponse(res, {
         success: true,
         statusCode: StatusCodes.OK,
-        message: "User created successfully ✅, Now check email to verify",
+        message: "User created successfully ✅, Now check email to verify in 5 minutes",
         data: result,
     });
 });

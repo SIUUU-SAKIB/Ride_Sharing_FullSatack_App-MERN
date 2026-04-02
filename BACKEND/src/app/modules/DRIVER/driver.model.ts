@@ -61,7 +61,7 @@ const DriverApplicationSchema = new Schema<IDriverApplication>({
   {
     timestamps: true,
     versionKey: false
-  }).index({ userId: 1 })
+  })
 
 
 const DriverProfileSchema = new Schema<IDriverProfile>(

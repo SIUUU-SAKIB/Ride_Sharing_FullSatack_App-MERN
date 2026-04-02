@@ -72,6 +72,12 @@ const UserSchema = new Schema<IUser>(
     versionKey: false,
 
 
-})
+}).index(
+  { verificationTokenExpires: 1 },
+  {
+    expireAfterSeconds: 0,
+    partialFilterExpression: { isVerified: false },
+  }
+);
 
 export const UserDB = model('User', UserSchema)

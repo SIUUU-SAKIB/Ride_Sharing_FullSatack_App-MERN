@@ -10,19 +10,17 @@ import { JwtPayload } from "jsonwebtoken";
 import { sendOtp } from "../../utils/sendEmail";
 const credentialsLogin = async (payload: Partial<IUser>) => {
     const { email, password } = payload;
-    const isUserExist = await UserDB.findOne({ email }).select({
-        password: 1,
-        role:1
-    })
+    const isUserExist = await UserDB.findOne({ email })
     if (!isUserExist) {
         throw new AppError(StatusCodes.BAD_REQUEST, "OOPS user does not exist")
+    }
+    console.log(isUserExist)
+    if (isUserExist.isVerified === false) {
+        throw new AppError(StatusCodes.CONFLICT, 'OOPS youre not verified yet')
     }
     const isPasswordMatched = await bcrypt.compare(password as string as string, isUserExist.password)
     if (!isPasswordMatched) {
         throw new AppError(StatusCodes.BAD_REQUEST, "Incorrect password")
-    }
-    if (isUserExist.isVerified === false) {
-        throw new AppError(StatusCodes.CONFLICT, 'OOPS youre not verified yet')
     }
     const tokenPayload = {
         _id:isUserExist._id,

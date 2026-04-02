@@ -54,14 +54,14 @@ import { enviromentVariables } from "../config/env";
 //     }
 // }
 const transporter = nodemailer.createTransport({
-    service: "gmail",
-    auth: {
-        user: enviromentVariables.EMAIL_SENDER.SMTP_USER,
-        pass: enviromentVariables.EMAIL_SENDER.SMTP_PASSWORD
-    }
+  service: "gmail",
+  auth: {
+    user: enviromentVariables.EMAIL_SENDER.SMTP_USER,
+    pass: enviromentVariables.EMAIL_SENDER.SMTP_PASSWORD
+  }
 })
 
-export const sendVerifyEmail = async (to: string, subject:string, link: string) => {
+export const sendVerifyEmail = async (to: string, subject: string, link: string) => {
   const html = `
   <div style="background: #f4f6f8; padding: 40px 0; font-family: 'Segoe UI', Arial, sans-serif;">
     <div style="max-width: 500px; margin: auto; background: #ffffff; border-radius: 12px; padding: 30px; box-shadow: 0 10px 25px rgba(0,0,0,0.08); text-align: center;">
@@ -76,7 +76,7 @@ export const sendVerifyEmail = async (to: string, subject:string, link: string) 
          style="display: inline-block; padding: 14px 28px; background: #4f46e5; color: #fff; text-decoration: none; border-radius: 8px; font-weight: 600; font-size: 16px;">
          Verify Email
       </a>
-
+  
       <!-- Fallback link -->
       <p style="margin-top: 20px; font-size: 13px; color: #888;">
         Or copy and paste this link into your browser:
@@ -85,6 +85,7 @@ export const sendVerifyEmail = async (to: string, subject:string, link: string) 
       <p style="word-break: break-all; font-size: 12px; color: #4f46e5;">
         ${link}
       </p>
+          <p style="text:18px; text-align:center; color:#4f46e5">This link will expire in 5 minutes</p>
 
       <hr style="margin: 25px 0; border: none; border-top: 1px solid #eee;" />
 
@@ -110,7 +111,7 @@ export const sendVerifyEmail = async (to: string, subject:string, link: string) 
 
 export const sendOtp = async (to: string, subject: string, otp?: string) => {
 
-     const emailHtml = `
+  const emailHtml = `
         <div style="background: #f4f6f8; padding: 40px 0; font-family: 'Segoe UI', Arial, sans-serif;">
   <div style="max-width: 500px; margin: auto; background: #ffffff; border-radius: 12px; padding: 30px; box-shadow: 0 10px 25px rgba(0,0,0,0.08); text-align: center;">
     
@@ -147,10 +148,10 @@ export const sendOtp = async (to: string, subject: string, otp?: string) => {
   </div>
 </div>
     `;
-    await transporter.sendMail({
-        from: enviromentVariables.EMAIL_SENDER.SMTP_FROM,
-        to,
-        subject,
-        html:emailHtml
-    })
+  await transporter.sendMail({
+    from: enviromentVariables.EMAIL_SENDER.SMTP_FROM,
+    to,
+    subject,
+    html: emailHtml
+  })
 }

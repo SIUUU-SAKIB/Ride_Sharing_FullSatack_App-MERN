@@ -6,7 +6,7 @@ import { authentication } from "../../middleware/authentication";
 import { IUserRole } from "../USER/user.interface";
 
 const router = Router()
-router.post(`/apply/:userId`, validateZodSchema(driverValidation.driverApplicationZodSchema), DriverController.driverApplication)
+router.post(`/apply`,authentication(...Object.values(IUserRole)), validateZodSchema(driverValidation.driverApplicationZodSchema), DriverController.driverApplication)
 
 
 export const DriverRoutes = router
