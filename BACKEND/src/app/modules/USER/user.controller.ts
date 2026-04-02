@@ -19,7 +19,7 @@ const createUser = catchAsync(async (req: Request, res: Response) => {
         profilePhotoId: imageUrl?.public_id,
         isVerified:false
     });
-
+    
     sendResponse(res, {
         success: true,
         statusCode: StatusCodes.OK,

@@ -7,27 +7,20 @@ import bcrypt from "bcryptjs"
 import { UserDB } from "./user.model"
 import { sendVerifyEmail } from "../../utils/sendEmail"
 import cloudinary from "../../utils/cloudinary/cloudinary"
+import { Response } from "express"
 const createUser = async (payload: IUser) => {
     const { password, ...rest } = payload;
 
     const isUserExist = await UserDB.findOne({ email: payload.email });
 
-    // ✅ already verified
+    const token = crypto.randomBytes(32).toString("hex");
+
+    const link = `${enviromentVariables.PORT}/api/v1/auth/verify-email?token=${token}`;
+
+    //  existing verified
     if (isUserExist && isUserExist.isVerified) {
         throw new AppError(StatusCodes.BAD_REQUEST, "User already exists");
     }
-
-    const token = crypto.randomBytes(32).toString("hex");
-
-    const hashedPassword = await bcrypt.hash(
-        password as string,
-        Number(enviromentVariables.BCRYPT_SALT_ROUND)
-    );
-
-    const authProvider: IAuthProvider = {
-        provider: "credentials",
-        providerId: payload.email,
-    };
 
     //  resend verification
     if (isUserExist && !isUserExist.isVerified) {
@@ -40,18 +33,32 @@ const createUser = async (payload: IUser) => {
                 "Please wait before requesting another verification email"
             );
         }
+
         isUserExist.verificationToken = token;
         isUserExist.verificationTokenExpires = new Date(Date.now() + 5 * 60 * 1000);
 
         await isUserExist.save();
 
-        const link = `http://localhost:${enviromentVariables.PORT}/api/v1/auth/verify-email?token=${token}`;
-
         await sendVerifyEmail(isUserExist.email, "Verify Email", link);
 
         return isUserExist;
     }
-    // for new user
+
+    //  create new user
+    let hashedPassword
+    if (!isUserExist) {
+        hashedPassword = await bcrypt.hash(
+            password as string,
+            Number(enviromentVariables.BCRYPT_SALT_ROUND)
+        );
+    }
+
+
+    const authProvider: IAuthProvider = {
+        provider: "credentials",
+        providerId: payload.email,
+    };
+
     const user = await UserDB.create({
         ...rest,
         profilePhoto: payload.profilePhoto,
@@ -61,8 +68,9 @@ const createUser = async (payload: IUser) => {
         verificationToken: token,
         verificationTokenExpires: new Date(Date.now() + 5 * 60 * 1000),
     });
-    const link = `http://localhost:${enviromentVariables.PORT}/api/v1/auth/verify-email?token=${token}`;
+
     await sendVerifyEmail(user.email, "Verify Email", link);
+
     return user;
 };
 const updateUser = async (payload: Partial<IUser>) => {
