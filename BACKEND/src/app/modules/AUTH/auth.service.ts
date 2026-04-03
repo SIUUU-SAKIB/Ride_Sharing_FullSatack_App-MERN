@@ -8,26 +8,40 @@ import { enviromentVariables } from "../../config/env";
 import { verifyToken } from "../../utils/jwt";
 import { JwtPayload } from "jsonwebtoken";
 import { sendOtp } from "../../utils/sendEmail";
+const MAX_ATTEMPTS = 5;
+const LOCK_TIME = 15 * 60 * 1000;
 const credentialsLogin = async (payload: Partial<IUser>) => {
     const { email, password } = payload;
-    const isUserExist = await UserDB.findOne({ email })
-    if (!isUserExist) {
+    const user = await UserDB.findOne({ email }).select("+password")
+    if (!user) {
         throw new AppError(StatusCodes.BAD_REQUEST, "OOPS user does not exist")
     }
-    console.log(isUserExist)
-    if (isUserExist.isVerified === false) {
+    if (user.isVerified === false) {
         throw new AppError(StatusCodes.CONFLICT, 'OOPS youre not verified yet')
     }
-    const isPasswordMatched = await bcrypt.compare(password as string as string, isUserExist.password)
+    const isPasswordMatched = await bcrypt.compare(password as string as string, user.password)
+    if (user.lockUntil && user.lockUntil > new Date()) {
+        throw new AppError(
+            StatusCodes.FORBIDDEN,
+            "Account locked. Try again later."
+        );
+    }
     if (!isPasswordMatched) {
+        user.loginAttempt = +1
+        if (user.loginAttempt > MAX_ATTEMPTS) {
+            user.lockUntil = new Date(Date.now() + LOCK_TIME)
+            user.loginAttempt = 0
+        }
+        await user.save()
         throw new AppError(StatusCodes.BAD_REQUEST, "Incorrect password")
     }
+
     const tokenPayload = {
-        _id:isUserExist._id,
-        role:isUserExist.role
+        _id: user._id,
+        role: user.role
     }
     const tokens = createUserTokens(tokenPayload)
-    const { password: pass, ...rest } = isUserExist.toObject()
+    const { password: pass, ...rest } = user.toObject()
     return {
         accessToken: tokens.accessToken,
         refreshToken: tokens.refreshToken,

@@ -66,7 +66,15 @@ const UserSchema = new Schema<IUser>(
         otpExpires: {
             type: Date, default: undefined
         },
-        auths: [authProviderSchema]
+        auths: [authProviderSchema],
+        loginAttempt:{
+            type:Number,
+            default:0
+        },
+        lockUntil:{
+            type:Date,
+            default:null
+        }
     }, {
     timestamps: true,
     versionKey: false,

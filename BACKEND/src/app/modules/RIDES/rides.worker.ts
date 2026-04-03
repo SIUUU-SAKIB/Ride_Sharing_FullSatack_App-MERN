@@ -27,5 +27,5 @@ export const startRideExpirationWorker = () => {
     } catch (error) {
       console.error("Expiration worker error:", error);
     }
-  }, 10 * 1000); 
+  }, 10 * 1000);
 };

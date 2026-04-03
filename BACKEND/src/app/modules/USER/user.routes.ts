@@ -7,8 +7,6 @@ import { IUserRole } from "./user.interface";
 import { upload } from "../../middleware/multer";
 import { UserController } from "./user.controller";
 import { authLimiter } from "../../middleware/authLimiter";
-
-
 const router = Router()
 
 router.post('/create',
@@ -17,7 +15,7 @@ router.post('/create',
     validateZodSchema(UserZodSchema.createUser),
     UserController.createUser)
 
-    
+
 router.get('/all-user', authentication(IUserRole.ADMIN, IUserRole.SUPER_ADMIN), UserController.getAllUser)
 
 router.get(`/get-user-by-role/:role`, authentication(IUserRole.ADMIN, IUserRole.SUPER_ADMIN), UserController.getUserByRole)

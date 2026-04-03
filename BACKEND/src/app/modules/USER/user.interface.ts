@@ -36,5 +36,7 @@ export interface IUser {
     updatedAt?: Date,
     auths?: IAuthProvider,
     accessToken?: string,
-    refreshToken?: string
+    refreshToken?: string,
+    loginAttempt?:number,
+    lockUntil?:Date
 }

@@ -8,9 +8,7 @@ export const seedSuperAdmin = async () => {
     try {
         const email = enviromentVariables.SUPER_ADMIN_EMAIL
         const password = enviromentVariables.SUPER_ADMIN_PASSWORD
-
         const isSuperAdminExist = await UserDB.findOne({ email })
-
         if (isSuperAdminExist) {
             return
         }
