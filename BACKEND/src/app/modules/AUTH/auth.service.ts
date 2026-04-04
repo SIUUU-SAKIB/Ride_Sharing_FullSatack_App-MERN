@@ -43,16 +43,12 @@ const credentialsLogin = async (payload: Partial<IUser>) => {
       user.lockUntil = new Date(Date.now() + LOCK_TIME);
       user.loginAttempt = 0;
     }
-
     await user.save();
-
     throw new AppError(StatusCodes.BAD_REQUEST, "Incorrect password");
   }
-
   user.loginAttempt = 0;
   user.lockUntil = null;
   await user.save();
-
   const tokenPayload = {
     _id: user._id,
     role: user.role,

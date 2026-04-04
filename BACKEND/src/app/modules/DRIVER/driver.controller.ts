@@ -4,10 +4,16 @@ import AppError from "../../utils/createError";
 import { StatusCodes } from "http-status-codes";
 import { DriverServices } from "./driver.service";
 import sendResponse from "../../utils/sendResponse";
+import { uploadToCloudinary } from "../../utils/cloudinary/uploadToCloudinary";
 
 const driverApplication = catchAsync(async (req: Request, res: Response) => {
-    const  userId  = req.user?._id
-    console.log(userId)
+    const  userId  = req.user?._id;
+    const files = req.files as {
+        [fieldName:string] : Express.Multer.File[]
+    }
+ let licenseImage, nidImage, vehichleImage;
+
+
     const payload = req.body
     if (!userId) {
         throw new AppError(StatusCodes.BAD_REQUEST, "userId is required")
