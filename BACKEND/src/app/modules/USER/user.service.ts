@@ -7,22 +7,17 @@ import bcrypt from "bcryptjs"
 import { UserDB } from "./user.model"
 import { sendVerifyEmail } from "../../utils/sendEmail"
 import cloudinary from "../../utils/cloudinary/cloudinary"
-import { Response } from "express"
+
 const createUser = async (payload: IUser) => {
     const { password, ...rest } = payload;
-
     const isUserExist = await UserDB.findOne({ email: payload.email });
-
     const token = crypto.randomBytes(32).toString("hex");
-
-    const link = `${enviromentVariables.PORT}/api/v1/auth/verify-email?token=${token}`;
-
-    //  existing verified
+    const link = `http://localhost:${enviromentVariables.PORT}/api/v1/auth/verify-email?token=${token}`;
+console.log(link)
     if (isUserExist && isUserExist.isVerified) {
         throw new AppError(StatusCodes.BAD_REQUEST, "User already exists");
     }
 
-    //  resend verification
     if (isUserExist && !isUserExist.isVerified) {
         if (
             isUserExist.verificationTokenExpires &&
@@ -33,7 +28,6 @@ const createUser = async (payload: IUser) => {
                 "Please wait before requesting another verification email"
             );
         }
-
         isUserExist.verificationToken = token;
         isUserExist.verificationTokenExpires = new Date(Date.now() + 5 * 60 * 1000);
 
@@ -52,13 +46,10 @@ const createUser = async (payload: IUser) => {
             Number(enviromentVariables.BCRYPT_SALT_ROUND)
         );
     }
-
-
     const authProvider: IAuthProvider = {
         provider: "credentials",
         providerId: payload.email,
     };
-
     const user = await UserDB.create({
         ...rest,
         profilePhoto: payload.profilePhoto,
@@ -68,9 +59,7 @@ const createUser = async (payload: IUser) => {
         verificationToken: token,
         verificationTokenExpires: new Date(Date.now() + 5 * 60 * 1000),
     });
-
     await sendVerifyEmail(user.email, "Verify Email", link);
-
     return user;
 };
 const updateUser = async (payload: Partial<IUser>) => {

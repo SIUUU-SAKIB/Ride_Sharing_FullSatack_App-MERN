@@ -10,44 +10,64 @@ import { JwtPayload } from "jsonwebtoken";
 import { sendOtp } from "../../utils/sendEmail";
 const MAX_ATTEMPTS = 5;
 const LOCK_TIME = 15 * 60 * 1000;
+
 const credentialsLogin = async (payload: Partial<IUser>) => {
-    const { email, password } = payload;
-    const user = await UserDB.findOne({ email }).select("+password")
-    if (!user) {
-        throw new AppError(StatusCodes.BAD_REQUEST, "OOPS user does not exist")
-    }
-    if (user.isVerified === false) {
-        throw new AppError(StatusCodes.CONFLICT, 'OOPS youre not verified yet')
-    }
-    const isPasswordMatched = await bcrypt.compare(password as string as string, user.password)
-    if (user.lockUntil && user.lockUntil > new Date()) {
-        throw new AppError(
-            StatusCodes.FORBIDDEN,
-            "Account locked. Try again later."
-        );
-    }
-    if (!isPasswordMatched) {
-        user.loginAttempt = +1
-        if (user.loginAttempt > MAX_ATTEMPTS) {
-            user.lockUntil = new Date(Date.now() + LOCK_TIME)
-            user.loginAttempt = 0
-        }
-        await user.save()
-        throw new AppError(StatusCodes.BAD_REQUEST, "Incorrect password")
+  const { email, password } = payload;
+
+  const user = await UserDB.findOne({ email }).select("+password");
+
+  if (!user) {
+    throw new AppError(StatusCodes.BAD_REQUEST, "User does not exist");
+  }
+
+  if (user.lockUntil && user.lockUntil > new Date()) {
+    throw new AppError(
+      StatusCodes.FORBIDDEN,
+      "Account locked. Try again later."
+    );
+  }
+
+  if (!user.isVerified) {
+    throw new AppError(StatusCodes.CONFLICT, "You're not verified yet");
+  }
+
+  const isPasswordMatched = await bcrypt.compare(
+    password as string,
+    user.password
+  );
+
+  if (!isPasswordMatched) {
+    user.loginAttempt = (user.loginAttempt ?? 0) + 1;
+
+    if (user.loginAttempt >= MAX_ATTEMPTS) {
+      user.lockUntil = new Date(Date.now() + LOCK_TIME);
+      user.loginAttempt = 0;
     }
 
-    const tokenPayload = {
-        _id: user._id,
-        role: user.role
-    }
-    const tokens = createUserTokens(tokenPayload)
-    const { password: pass, ...rest } = user.toObject()
-    return {
-        accessToken: tokens.accessToken,
-        refreshToken: tokens.refreshToken,
-        user: rest
-    }
-}
+    await user.save();
+
+    throw new AppError(StatusCodes.BAD_REQUEST, "Incorrect password");
+  }
+
+  user.loginAttempt = 0;
+  user.lockUntil = null;
+  await user.save();
+
+  const tokenPayload = {
+    _id: user._id,
+    role: user.role,
+  };
+
+  const tokens = createUserTokens(tokenPayload);
+
+  const { password: pass, ...rest } = user.toObject();
+
+  return {
+    accessToken: tokens.accessToken,
+    refreshToken: tokens.refreshToken,
+    user: rest,
+  };
+};
 
 const changePassword = async (id: string, oldPass: string, newPass: string) => {
     const user = await UserDB.findById(id).select("+password")

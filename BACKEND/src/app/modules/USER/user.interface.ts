@@ -38,5 +38,5 @@ export interface IUser {
     accessToken?: string,
     refreshToken?: string,
     loginAttempt?:number,
-    lockUntil?:Date
+    lockUntil?:Date | null
 }

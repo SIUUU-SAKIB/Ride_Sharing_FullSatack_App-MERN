@@ -110,9 +110,6 @@ const getSingleUser = catchAsync(async (req: Request, res: Response) => {
 
 })
 
-
-
-
 const updateUserByAdmin = catchAsync(async (req: Request, res: Response) => {
     const { id } = req.params;
     const payload = req.body;
