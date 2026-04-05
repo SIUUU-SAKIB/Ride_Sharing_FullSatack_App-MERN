@@ -12,10 +12,24 @@ const DriverApplicationSchema = new Schema<IDriverApplication>({
     type: String,
     required: true
   },
-  licenseImage: {
-    type: String,
-    required: true
-  },
+ licenseImage: [
+  {
+    url: String,
+    public_id: String,
+  }
+],
+nidImage: [
+  {
+    url: String,
+    public_id: String,
+  }
+],
+vehicleImage: [
+  {
+    url: String,
+    public_id: String,
+  }
+],
   vehicleNumber: {
     type: String,
     required: true,
@@ -51,7 +65,7 @@ const DriverApplicationSchema = new Schema<IDriverApplication>({
     type: String,
     enum: Object.values(IVehicleOwnsership),
     required: true,
-  }, 
+  },
   status: {
     type: String,
     enum: Object.values(IStatus),
@@ -106,6 +120,7 @@ const DriverProfileSchema = new Schema<IDriverProfile>(
       type: Boolean,
       default: false,
     },
+
   },
   {
     timestamps: true,

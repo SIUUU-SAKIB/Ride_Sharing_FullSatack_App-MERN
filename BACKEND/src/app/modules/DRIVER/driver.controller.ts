@@ -6,25 +6,49 @@ import { DriverServices } from "./driver.service";
 import sendResponse from "../../utils/sendResponse";
 import { uploadToCloudinary } from "../../utils/cloudinary/uploadToCloudinary";
 
+
 const driverApplication = catchAsync(async (req: Request, res: Response) => {
-    const  userId  = req.user?._id;
-    const files = req.files as {
-        [fieldName:string] : Express.Multer.File[]
-    }
- let licenseImage, nidImage, vehichleImage;
+    const userId = req.user?._id;
+    const payload = req.body;
 
-
-    const payload = req.body
     if (!userId) {
-        throw new AppError(StatusCodes.BAD_REQUEST, "userId is required")
+        throw new AppError(StatusCodes.BAD_REQUEST, "userId is required");
     }
-    const application = await DriverServices.driverApplication(userId as string, payload)
+    const files = req.files as {
+        [fieldname: string]: Express.Multer.File[];
+    };
+
+    const licenseFiles = files?.licenseImage || [];
+    const nidFiles = files?.nidImage || [];
+    const vehicleFiles = files?.vehicleImage || [];
+    const uploadFiles = async (fileArray: Express.Multer.File[]) => {
+        const results = [];
+
+        for (const file of fileArray) {
+            const uploaded = await uploadToCloudinary(file);
+            results.push(uploaded);
+        }
+
+        return results;
+    };
+
+    const licenseUploads = await uploadFiles(licenseFiles);
+    const nidUploads = await uploadFiles(nidFiles);
+    const vehicleUploads = await uploadFiles(vehicleFiles);
+
+    const application = await DriverServices.driverApplication(userId as string, {
+        ...payload,
+        licenseImage: licenseUploads,
+        nidImage: nidUploads,
+        vehicleImage: vehicleUploads,
+    });
+
     sendResponse(res, {
         success: true,
         statusCode: StatusCodes.ACCEPTED,
-        message: 'Applicatiomn for driver submitted successfully, please wait for admin to approve',
-        data: application
-    })
-})
+        message: "Application for driver submitted successfully, please wait for admin to approve",
+        data: application,
+    });
+});
 
 export const DriverController = { driverApplication }

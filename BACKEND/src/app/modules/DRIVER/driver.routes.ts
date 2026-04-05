@@ -7,10 +7,10 @@ import { IUserRole } from "../USER/user.interface";
 import { upload } from "../../middleware/multer";
 
 const router = Router()
-router.post(`/apply`,upload.fields([
-    {name:"licenseImage", maxCount:1},
-    {name:'nidImage', maxCount:1},
-    {name:"vehicleImage", maxCount:1}
-]) ,authentication(...Object.values(IUserRole)), validateZodSchema(driverValidation.driverApplicationZodSchema), DriverController.driverApplication)
+router.post(`/apply`, upload.fields([
+    { name: "licenseImage", maxCount: 2 },
+    { name: "nidImage", maxCount: 2 },
+    { name: "vehicleImage", maxCount: 3 },
+]), authentication(...Object.values(IUserRole)), validateZodSchema(driverValidation.driverApplicationZodSchema), DriverController.driverApplication)
 
 export const DriverRoutes = router
