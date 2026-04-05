@@ -28,10 +28,8 @@ const driverApplication = catchAsync(async (req: Request, res: Response) => {
             const uploaded = await uploadToCloudinary(file);
             results.push(uploaded);
         }
-
         return results;
     };
-
     const licenseUploads = await uploadFiles(licenseFiles);
     const nidUploads = await uploadFiles(nidFiles);
     const vehicleUploads = await uploadFiles(vehicleFiles);
