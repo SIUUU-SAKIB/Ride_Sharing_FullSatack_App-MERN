@@ -13,7 +13,6 @@ const createUser = async (payload: IUser) => {
     const isUserExist = await UserDB.findOne({ email: payload.email });
     const token = crypto.randomBytes(32).toString("hex");
     const link = `http://localhost:${enviromentVariables.PORT}/api/v1/auth/verify-email?token=${token}`;
-console.log(link)
     if (isUserExist && isUserExist.isVerified) {
         throw new AppError(StatusCodes.BAD_REQUEST, "User already exists");
     }
@@ -30,11 +29,8 @@ console.log(link)
         }
         isUserExist.verificationToken = token;
         isUserExist.verificationTokenExpires = new Date(Date.now() + 5 * 60 * 1000);
-
         await isUserExist.save();
-
         await sendVerifyEmail(isUserExist.email, "Verify Email", link);
-
         return isUserExist;
     }
 

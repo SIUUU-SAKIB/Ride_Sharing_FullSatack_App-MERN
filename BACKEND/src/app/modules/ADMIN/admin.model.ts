@@ -13,12 +13,12 @@ const AdminSchema = new Schema<IAdmin>(
             required: true,
             trim: true,
             unique: true,
-            lowercase:true
+            lowercase: true
         },
         password: {
             type: String,
             required: true,
-            select:false
+            select: false
         },
         role: {
             type: String,
@@ -28,6 +28,13 @@ const AdminSchema = new Schema<IAdmin>(
         isActive: {
             type: Boolean,
             default: true
+        },
+        verificationToken: {
+            type: String,
+            default: undefined
+        }, verificationTokenExpires: {
+            type: Date,
+            default: undefined
         },
         isDeleted: {
             type: Boolean,

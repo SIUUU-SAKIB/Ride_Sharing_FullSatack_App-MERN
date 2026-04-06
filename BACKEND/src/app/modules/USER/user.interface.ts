@@ -22,8 +22,8 @@ export interface IUser {
     email: string,
     phone?: string,
     password: string,
-    otp?:string,
-    otpExpires?:Date,
+    otp?: string,
+    otpExpires?: Date,
     profilePhoto?: string,
     profilePhotoId?: string,
     verificationToken?: string,
@@ -37,6 +37,6 @@ export interface IUser {
     auths?: IAuthProvider,
     accessToken?: string,
     refreshToken?: string,
-    loginAttempt?:number,
-    lockUntil?:Date | null
+    loginAttempt?: number,
+    lockUntil?: Date | null
 }

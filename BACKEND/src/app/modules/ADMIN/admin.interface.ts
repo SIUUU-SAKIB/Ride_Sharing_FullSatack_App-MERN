@@ -14,6 +14,8 @@ export interface IAdmin {
   isDeleted: boolean;
   lastLogin?: Date;
   permissions?: string[];
+  verificationToken?:string,
+  verificationTokenExpires?:string,
   createdAt?: Date;
   updatedAt?: Date;
 }
