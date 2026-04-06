@@ -50,7 +50,7 @@ const UserSchema = new Schema<IUser>(
         profilePhoto: {
             type: String
         },
-        
+
         profilePhotoId: {
             type: String,
         },
@@ -67,13 +67,13 @@ const UserSchema = new Schema<IUser>(
             type: Date, default: undefined
         },
         auths: [authProviderSchema],
-        loginAttempt:{
-            type:Number,
-            default:0
+        loginAttempt: {
+            type: Number,
+            default: 0
         },
-        lockUntil:{
-            type:Date,
-            default:null
+        lockUntil: {
+            type: Date,
+            default: null
         }
     }, {
     timestamps: true,
@@ -81,11 +81,11 @@ const UserSchema = new Schema<IUser>(
 
 
 }).index(
-  { verificationTokenExpires: 1 },
-  {
-    expireAfterSeconds: 0,
-    partialFilterExpression: { isVerified: false },
-  }
+    { verificationTokenExpires: 1 },
+    {
+        expireAfterSeconds: 0,
+        partialFilterExpression: { isVerified: false },
+    }
 );
 
 export const UserDB = model('User', UserSchema)

@@ -1,21 +1,19 @@
-import { IUserRole } from "../USER/user.interface";
+export enum IAdminRole {
+  ADMIN = "ADMIN",
+  MODERATOR = "MODERATOR"
+}
+
 
 export interface IAdmin {
   _id?: string;
-
   name: string;
   email: string;
   password: string;
-
-  role: IUserRole;
-
+  role: IAdminRole;
   isActive: boolean;
   isDeleted: boolean;
-
   lastLogin?: Date;
-
   permissions?: string[];
-
   createdAt?: Date;
   updatedAt?: Date;
 }
