@@ -5,17 +5,43 @@ import { AdminDB } from "./admin.model";
 import { enviromentVariables } from "../../config/env";
 import { bcryptHashing } from "../../utils/bcrypt";
 import crypto from "crypto"
-const createAdmin = async (payload: Partial<IAdmin>) => {
-    const {email, ...rest} = payload
-    const admin = await AdminDB.findOne({ email: email })
-    const token = crypto.randomBytes(32).toString(`hex`)
-    if (admin) {
-       throw new AppError(StatusCodes.NOT_FOUND, "Admin already exist")
-    }
-    const link = `http://localhost:${enviromentVariables.PORT}/auth/v1/verifyAdminEmail`
-    const hashedPassword = bcryptHashing.hashPassword(payload.password as string)
-    
+import bcrypt from "bcryptjs";
+import { sendVerifyEmail } from "../../utils/sendEmail";
 
-    const result = await AdminDB.create(payload)
-    return result
-}
+
+const createAdmin = async (payload: Partial<IAdmin>) => {
+  const { password, ...rest } = payload;
+
+  if (!password) {
+    throw new AppError(StatusCodes.BAD_REQUEST, "Password is required");
+  }
+
+  const existingAdmin = await AdminDB.findOne({ email: payload.email });
+
+  if (existingAdmin) {
+    throw new AppError(StatusCodes.CONFLICT, "Admin already exists");
+  }
+
+  const token = crypto.randomBytes(32).toString("hex");
+  const hashedToken = crypto.createHash("sha256").update(token).digest("hex");
+
+  const hashedPassword = await bcrypt.hash(password, 10);
+
+  const link = `http://localhost:${enviromentVariables.PORT}/api/v1/auth/verify-admin-email?token=${token}`;
+
+  const newAdminData = {
+    ...rest,
+    password: hashedPassword,
+    isVerified: false,
+    verificationToken: hashedToken,
+    verificationTokenExpires: new Date(Date.now() + 60 * 60 * 1000),
+  };
+
+  const result = await AdminDB.create(newAdminData);
+
+  await sendVerifyEmail(result.email, "Verify Admin Email", link);
+
+  return result;
+};
+
+export const AdminService = {createAdmin}

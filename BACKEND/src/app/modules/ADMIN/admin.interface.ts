@@ -10,12 +10,13 @@ export interface IAdmin {
   email: string;
   password: string;
   role: IAdminRole;
-  isActive: boolean;
-  isDeleted: boolean;
+  isActive?: boolean;
+  isVerified?:boolean,
+  isDeleted?: boolean;
   lastLogin?: Date;
   permissions?: string[];
-  verificationToken?:string,
-  verificationTokenExpires?:string,
+  verificationToken?: string,
+  verificationTokenExpires?: Date,
   createdAt?: Date;
   updatedAt?: Date;
 }

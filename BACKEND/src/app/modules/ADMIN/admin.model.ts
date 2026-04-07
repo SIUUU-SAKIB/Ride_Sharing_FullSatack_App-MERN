@@ -1,5 +1,6 @@
 import { model, Schema } from "mongoose";
 import { IAdmin, IAdminRole } from "./admin.interface";
+import { boolean } from "zod";
 
 const AdminSchema = new Schema<IAdmin>(
     {
@@ -25,16 +26,21 @@ const AdminSchema = new Schema<IAdmin>(
             enum: Object.values(IAdminRole),
             default: IAdminRole.ADMIN
         },
+        isVerified:{
+        type:boolean,
+        default:false
+        },
         isActive: {
             type: Boolean,
             default: true
         },
         verificationToken: {
             type: String,
-            default: undefined
-        }, verificationTokenExpires: {
+            default:undefined
+        },
+        verificationTokenExpires: {
             type: Date,
-            default: undefined
+            default:undefined
         },
         isDeleted: {
             type: Boolean,
@@ -44,7 +50,8 @@ const AdminSchema = new Schema<IAdmin>(
             type: Date
         },
         permissions: {
-            type: [String]
+            type: [String],
+            default: []
         }
     }, {
     versionKey: false,
