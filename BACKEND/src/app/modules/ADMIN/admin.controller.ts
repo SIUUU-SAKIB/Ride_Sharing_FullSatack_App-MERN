@@ -36,7 +36,7 @@ const verifyEmail = catchAsync(async (req: Request, res: Response) => {
   user.verificationToken = undefined
   user.verificationTokenExpires = undefined
   await user.save()
-  res.redirect(`${enviromentVariables.FRONTEND_URL}/auth/login`)
+  res.redirect(`https://www.pexels.com/`)
 })
 
 

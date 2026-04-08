@@ -26,9 +26,9 @@ const AdminSchema = new Schema<IAdmin>(
             enum: Object.values(IAdminRole),
             default: IAdminRole.ADMIN
         },
-        isVerified:{
-        type:boolean,
-        default:false
+        isVerified: {
+            type: boolean,
+            default: false
         },
         isActive: {
             type: Boolean,
@@ -36,11 +36,11 @@ const AdminSchema = new Schema<IAdmin>(
         },
         verificationToken: {
             type: String,
-            default:undefined
+            default: undefined
         },
         verificationTokenExpires: {
             type: Date,
-            default:undefined
+            default: undefined
         },
         isDeleted: {
             type: Boolean,
@@ -52,6 +52,13 @@ const AdminSchema = new Schema<IAdmin>(
         permissions: {
             type: [String],
             default: []
+        }, loginAttempt: {
+            type: Number,
+            default: 0
+        },
+        lockUntil: {
+            type: Date,
+            default: null
         }
     }, {
     versionKey: false,

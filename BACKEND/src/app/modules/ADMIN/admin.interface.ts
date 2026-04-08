@@ -19,4 +19,6 @@ export interface IAdmin {
   verificationTokenExpires?: Date,
   createdAt?: Date;
   updatedAt?: Date;
+    loginAttempt?: number,
+    lockUntil?: Date | null
 }
