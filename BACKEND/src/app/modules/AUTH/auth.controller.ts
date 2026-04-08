@@ -9,6 +9,7 @@ import AppError from "../../utils/createError";
 import { UserDB } from "../USER/user.model";
 import { enviromentVariables } from "../../config/env";
 import bcrypt from "bcryptjs"
+import { AdminDB } from "../ADMIN/admin.model";
 
 
 const credentialsLogin = catchAsync(async (req: Request, res: Response) => {
@@ -113,12 +114,15 @@ const verifyEmail = catchAsync(async (req: Request, res: Response) => {
   const user = await UserDB.findOne({
     verificationToken: token,
     verificationTokenExpires: { $gt: Date.now() },
+  }) || await AdminDB.findOne({
+    verificationToken: token,
+    verificationTokenExpires: { $gt: Date.now() },
   });
   if (!user) {
     return res.redirect(`${enviromentVariables.FRONTEND_URL}/token-expired`)
   }
-  user.isVerified = true,
-    user.verificationToken = undefined
+  user.isVerified = true
+  user.verificationToken = undefined
   user.verificationTokenExpires = undefined
   await user.save()
   res.redirect(`${enviromentVariables.FRONTEND_URL}/auth/login`)

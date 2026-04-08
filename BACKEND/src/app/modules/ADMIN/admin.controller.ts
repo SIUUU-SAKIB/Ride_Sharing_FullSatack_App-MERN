@@ -5,6 +5,8 @@ import AppError from "../../utils/createError"
 import { StatusCodes } from "http-status-codes"
 import { AdminService } from "./admin.service"
 import sendResponse from "../../utils/sendResponse"
+import { AdminDB } from "./admin.model"
+import { enviromentVariables } from "../../config/env"
 
 const createAdmin = catchAsync(async (req: Request, res: Response) => {
     const payload: Partial<IAdmin> = req.body
@@ -21,5 +23,22 @@ const createAdmin = catchAsync(async (req: Request, res: Response) => {
 })
 
 
-export const AdminController = { createAdmin }
+const verifyEmail = catchAsync(async (req: Request, res: Response) => {
+  const { token } = req.query;
+  const user = await AdminDB.findOne({
+    verificationToken: token,
+    verificationTokenExpires: { $gt: Date.now() },
+  });
+  if (!user) {
+    return res.redirect(`${enviromentVariables.FRONTEND_URL}/token-expired`)
+  }
+  user.isVerified = true
+  user.verificationToken = undefined
+  user.verificationTokenExpires = undefined
+  await user.save()
+  res.redirect(`${enviromentVariables.FRONTEND_URL}/auth/login`)
+})
+
+
+export const AdminController = { createAdmin, verifyEmail }
 

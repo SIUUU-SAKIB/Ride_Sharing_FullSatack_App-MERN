@@ -12,10 +12,9 @@ const createUser = async (payload: IUser) => {
     const { password, ...rest } = payload;
     const isUserExist = await UserDB.findOne({ email: payload.email });
     const token = crypto.randomBytes(32).toString("hex");
-    const hashedToken = crypto.createHash("sha256").update(token).digest("hex");
-
-    const link = `http://localhost:${enviromentVariables.PORT}/api/v1/auth/verify-email?token=${hashedToken}`;
     
+    const link = `http://localhost:${enviromentVariables.PORT}/api/v1/auth/verify-email?token=${token}`;
+
     if (isUserExist && isUserExist.isVerified) {
         throw new AppError(StatusCodes.BAD_REQUEST, "User already exists");
     }
