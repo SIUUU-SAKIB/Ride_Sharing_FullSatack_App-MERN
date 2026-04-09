@@ -5,6 +5,7 @@ import { verifyToken } from "../utils/jwt";
 import { enviromentVariables } from "../config/env";
 import { UserDB } from "../modules/USER/user.model";
 import { JwtPayload } from "jsonwebtoken";
+import { AdminDB } from "../modules/ADMIN/admin.model";
 
 
 
@@ -16,7 +17,7 @@ export const authentication = (...authRoles: string[]) => async (req: Request, r
             throw new AppError(403, "No Token Recieved")
         }
         const verifiedToken = verifyToken(accessToken, enviromentVariables.JWT_SECRET) as JwtPayload
-        const isUserExist = await UserDB.findById(verifiedToken._id)
+        const isUserExist = await UserDB.findById(verifiedToken._id) || await AdminDB.findById(verifiedToken._id)
         if (!isUserExist) {
             throw new AppError(StatusCodes.BAD_REQUEST, "User does not exist")
         }

@@ -128,7 +128,8 @@ const verifyEmail = catchAsync(async (req: Request, res: Response) => {
   res.redirect(`${enviromentVariables.FRONTEND_URL}/auth/login`)
 })
 const getMe = catchAsync(async (req: Request, res: Response) => {
-  const userId = req.user?._id
+  const userId = req.user?._id 
+  console.log(req.user)
   const user = await UserDB.findById(userId).select({
     password: 0,
     auths: 0,
@@ -140,7 +141,7 @@ const getMe = catchAsync(async (req: Request, res: Response) => {
     verificationTokenExpires: 0,
     resetToken: 0,
     resetTokenExpires: 0
-  })
+  }) || await AdminDB.findById(userId)
   if (!user) {
     throw new AppError(StatusCodes.NOT_FOUND, "User not found")
   }

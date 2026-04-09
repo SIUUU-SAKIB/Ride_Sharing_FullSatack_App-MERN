@@ -4,12 +4,13 @@ import { authentication } from "../../middleware/authentication";
 import { IUserRole } from "../USER/user.interface";
 import passport from "passport";
 import { enviromentVariables } from "../../config/env";
+import { IAdminRole } from "../ADMIN/admin.interface";
 
 const router = Router()
 
 // User login (ALL USER)
 router.post('/login', AuthController.credentialsLogin)
-router.get(`/me`,authentication(...Object.values(IUserRole)), AuthController.getMe)
+router.get(`/me`,authentication(...Object.values(IUserRole || IAdminRole)), AuthController.getMe)
 router.post('/logout', AuthController.logout)
 router.post('/refresh-token', AuthController.refreshToken)
 router.get(`/forget-password`, AuthController.forgetPassword)

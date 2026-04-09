@@ -20,18 +20,15 @@ const credentialsLogin = async (payload: Partial<IUser>) => {
   if (!user) {
     throw new AppError(StatusCodes.BAD_REQUEST, "User does not exist");
   }
-
   if (user.lockUntil && user.lockUntil > new Date()) {
     throw new AppError(
       StatusCodes.FORBIDDEN,
       "Account locked. Try again later."
     );
   }
-
   if (!user.isVerified) {
     throw new AppError(StatusCodes.CONFLICT, "You're not verified yet");
   }
-
   const isPasswordMatched = await bcrypt.compare(
     password as string,
     user.password

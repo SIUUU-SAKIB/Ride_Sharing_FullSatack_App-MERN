@@ -1,6 +1,7 @@
 export enum IAdminRole {
   ADMIN = "ADMIN",
-  MODERATOR = "MODERATOR"
+  MODERATOR = "MODERATOR",
+  SUPER_ADMIN = "SUPER_ADMIN"
 }
 
 
@@ -13,6 +14,7 @@ export interface IAdmin {
   isActive?: boolean;
   isVerified?:boolean,
   isDeleted?: boolean;
+  isBlocked?:boolean,
   lastLogin?: Date;
   permissions?: string[];
   verificationToken?: string,

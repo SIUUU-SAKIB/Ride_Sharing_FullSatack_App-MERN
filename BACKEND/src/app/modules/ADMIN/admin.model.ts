@@ -46,6 +46,10 @@ const AdminSchema = new Schema<IAdmin>(
             type: Boolean,
             default: false
         },
+        isBlocked: {
+            type: Boolean,
+            default: false
+        },
         lastLogin: {
             type: Date
         },

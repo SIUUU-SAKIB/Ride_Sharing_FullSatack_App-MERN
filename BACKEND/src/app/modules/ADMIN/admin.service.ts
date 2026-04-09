@@ -27,7 +27,7 @@ const createAdmin = async (payload: Partial<IAdmin>) => {
 
   const hashedPassword = await bcrypt.hash(password, 10);
 
- const link = `http://localhost:${enviromentVariables.PORT}/api/v1/admin/verify-email?token=${token}`;;
+  const link = `http://localhost:${enviromentVariables.PORT}/api/v1/admin/verify-email?token=${token}`;;
 
   const newAdminData = {
     ...rest,
@@ -44,8 +44,27 @@ const createAdmin = async (payload: Partial<IAdmin>) => {
   return result;
 };
 
-
-const verifyEmail =async (token:string) => {
-
+const deleteAdmin = async (_id: string) => {
+  const admin = await AdminDB.findById(_id)
+  if (!admin) {
+    throw new AppError(StatusCodes.NOT_FOUND, "Admin not found")
+  }
+  if (admin.role === `SUPER_ADMIN`) {
+    throw new AppError(StatusCodes.FORBIDDEN, "You can't delete a super admin")
+  }
+  admin.isDeleted = true
+  await admin.save()
+  return await AdminDB.findByIdAndDelete(_id)
 }
-export const AdminService = {createAdmin}
+
+const blockAdmin = async (_id: string) => {
+  const admin = await AdminDB.findById(_id)
+  if (!admin) {
+    throw new AppError(StatusCodes.NOT_FOUND, "Admin not found")
+  }
+  admin.isBlocked = true
+  await admin.save()
+  return admin
+}
+
+export const AdminService = { createAdmin, deleteAdmin, blockAdmin }
