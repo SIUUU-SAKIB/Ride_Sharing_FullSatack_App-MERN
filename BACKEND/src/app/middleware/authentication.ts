@@ -8,33 +8,65 @@ import { JwtPayload } from "jsonwebtoken";
 import { AdminDB } from "../modules/ADMIN/admin.model";
 
 
+export const authentication =
+    (...authRoles: string[]) =>
+        async (req: Request, res: Response, next: NextFunction) => {
+            try {
+                const token =
+                    req.cookies?.accessToken ||
+                    req.headers.authorization?.split(" ")[1];
 
-export const authentication = (...authRoles: string[]) => async (req: Request, res: Response, next: NextFunction) => {
+                if (!token) {
+                    throw new AppError(403, "No token received");
+                }
 
-    try {
-        const accessToken = req.cookies?.accessToken || req.headers?.authorization;
-        if (!accessToken) {
-            throw new AppError(403, "No Token Recieved")
-        }
-        const verifiedToken = verifyToken(accessToken, enviromentVariables.JWT_SECRET) as JwtPayload
-        const isUserExist = await UserDB.findById(verifiedToken._id) || await AdminDB.findById(verifiedToken._id)
-        if (!isUserExist) {
-            throw new AppError(StatusCodes.BAD_REQUEST, "User does not exist")
-        }
-        if (!isUserExist.isVerified) {
-            throw new AppError(StatusCodes.BAD_REQUEST, "User is not verified")
-        }
-        if(isUserExist.isBlocked){
-             throw new AppError(StatusCodes.BAD_REQUEST, "User is blocked")
-        }
-        if (!authRoles.includes(verifiedToken.role)) {
-            throw new AppError(403, "You are not permitted to view this route!!!")
-        }
-        req.user = verifiedToken
-        next()
+                const verifiedToken = verifyToken(
+                    token,
+                    enviromentVariables.JWT_SECRET
+                ) as JwtPayload;
 
-    } catch (error) {
-        console.log("jwt error", error);
-        next(error)
-    }
-}
+                let user = await UserDB.findById(verifiedToken._id);
+                let admin = null;
+
+                if (!user) {
+                    admin = await AdminDB.findById(verifiedToken._id);
+                }
+
+                if (!user && !admin) {
+                    throw new AppError(400, "User does not exist");
+                }
+
+                if (user) {
+                    if (!user.isVerified)
+                        throw new AppError(400, "User not verified");
+                    if (user.isBlocked)
+                        throw new AppError(400, "User is blocked");
+                    if (!user.isActive)
+                        throw new AppError(400, "User not active");
+                    if ((user as any).$isDeleted || (user as any).isDeleted)
+                        throw new AppError(400, "User deleted");
+                }
+                if (admin) {
+                    if (!admin.isVerified)
+                        throw new AppError(400, "Admin not verified");
+                    if (admin.isBlocked)
+                        throw new AppError(400, "Admin is blocked");
+                    if (!admin.isActive)
+                        throw new AppError(400, "Admin not active");
+                    if (admin.isDeleted)
+                        throw new AppError(400, "Admin deleted");
+                }
+                if (!authRoles.includes(verifiedToken.role)) {
+                    throw new AppError(403, "Forbidden");
+                }
+                req.user = {
+                    _id: verifiedToken._id,
+                    role: verifiedToken.role,
+                    type: user ? "user" : "admin"
+                };
+                next();
+            } catch (error) {
+                console.log("jwt error", error);
+                next(error);
+            }
+        };

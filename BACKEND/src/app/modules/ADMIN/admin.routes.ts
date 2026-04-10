@@ -14,5 +14,6 @@ router.post(`/create`, authentication(IAdminRole.SUPER_ADMIN),validateZodSchema(
 router.post(`/block/:_id`, authentication(IAdminRole.SUPER_ADMIN), AdminController.blockAdmin);
 router.post(`/delete/:_id`, authentication(IAdminRole.SUPER_ADMIN), AdminController.deleteAdmin)
 router.get(`/verify-email`, AdminController.verifyEmail)
+router.post(`/logout`, AuthController.logout)
 
 export const AdminRoutes = router
