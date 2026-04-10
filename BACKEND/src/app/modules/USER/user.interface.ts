@@ -1,8 +1,6 @@
 import { JwtPayload } from "jsonwebtoken";
 
 export enum IUserRole {
-    SUPER_ADMIN = "SUPER_ADMIN",
-    ADMIN = "ADMIN",
     RIDER = "RIDER",
     DRIVER = "DRIVER"
 }
@@ -32,6 +30,7 @@ export interface IUser {
     baseLocation?: string,
     isActive?: boolean,
     isVerified: boolean,
+    isBlocked?:boolean,
     createdAt?: Date,
     updatedAt?: Date,
     auths?: IAuthProvider,

@@ -24,7 +24,9 @@ export const authentication = (...authRoles: string[]) => async (req: Request, r
         if (!isUserExist.isVerified) {
             throw new AppError(StatusCodes.BAD_REQUEST, "User is not verified")
         }
-
+        if(isUserExist.isBlocked){
+             throw new AppError(StatusCodes.BAD_REQUEST, "User is blocked")
+        }
         if (!authRoles.includes(verifiedToken.role)) {
             throw new AppError(403, "You are not permitted to view this route!!!")
         }

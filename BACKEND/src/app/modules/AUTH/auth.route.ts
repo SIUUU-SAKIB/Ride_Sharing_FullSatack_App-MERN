@@ -10,7 +10,7 @@ const router = Router()
 
 // User login (ALL USER)
 router.post('/login', AuthController.credentialsLogin)
-router.get(`/me`,authentication(...Object.values(IUserRole || IAdminRole)), AuthController.getMe)
+router.get(`/me`, authentication(...Object.values(IUserRole), ...Object.values(IAdminRole)), AuthController.getMe)
 router.post('/logout', AuthController.logout)
 router.post('/refresh-token', AuthController.refreshToken)
 router.get(`/forget-password`, AuthController.forgetPassword)

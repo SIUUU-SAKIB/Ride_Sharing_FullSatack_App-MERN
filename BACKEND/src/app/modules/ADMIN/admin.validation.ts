@@ -8,7 +8,7 @@ const zodSchema = z.object({
     role: z.enum(Object.values(IAdminRole)),
     phone: z.string()
         .regex(/^\+?[0-9]{10,15}$/, "Invalid phone number")
-        .optional()
+        .optional().or(z.literal(''))
 }).strict()
 
 const updateZodSchema = z.object({
@@ -23,4 +23,4 @@ const updateZodSchema = z.object({
     isActive: z.boolean().optional()
 }).strict()
 
-export var AdminValidation = { zodSchema, updateZodSchema }
+export const AdminValidation = { zodSchema, updateZodSchema }

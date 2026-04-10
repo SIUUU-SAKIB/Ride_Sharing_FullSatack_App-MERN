@@ -54,7 +54,7 @@ const deleteAdmin = async (_id: string) => {
   }
   admin.isDeleted = true
   await admin.save()
-  return await AdminDB.findByIdAndDelete(_id)
+  return admin
 }
 
 const blockAdmin = async (_id: string) => {
