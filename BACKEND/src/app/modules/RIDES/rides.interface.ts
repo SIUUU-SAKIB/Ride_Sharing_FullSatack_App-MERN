@@ -53,28 +53,23 @@ export enum paymentMethod {
 }
 
 export interface IRide {
+    riderId:Types.ObjectId;
+    driverId: Types.ObjectId;
+    pickupLocation:IRideLocation;
+    dropOffLocation:IRideLocation;
+     distanceKM?:number;
+     extimatedFare:number;
+     finalFare?:number;
 
-    riderId: Types.ObjectId,
-    driverId: Types.ObjectId,
-    pickupLocation: IRideLocation,
-    dropoffLocation: IRideLocation,
+     stauts:RideStatus;
 
-    distanceKM?: number,
-    estimatedFare?: number,
-    finalFare?: number,
+     paymentStatus:PaymentStatus;
+     paymentMethod:paymentMethod;
 
-    status: RideStatus,
-
-    paymentStatus: PaymentStatus,
-    paymentMethod: paymentMethod,
-
-    requestedAt: Date,
-    acceptedAt?: Date,
-    startedAt?: Date,
-    completedAt?: Date,
-    cancelledAt?: Date,
-
-    cancelledBy?: IUserRole
+     requestedAt:Date;
+     acceptedAt?:Date;
+     startedAt?:Date;
+     
 }
 export interface IRideRequest {
     riderId: Types.ObjectId,
