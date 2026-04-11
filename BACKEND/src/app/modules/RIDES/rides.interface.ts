@@ -1,5 +1,6 @@
 import { Types } from "mongoose";
 import { IUser, IUserRole } from "../USER/user.interface";
+import { IAdminRole } from "../ADMIN/admin.interface";
 
 export enum RideStatus {
     REQUESTED = "requested",
@@ -39,13 +40,6 @@ export interface IRideLocation {
     lng: number,
     address: string
 }
-export enum RideRequestStatus {
-    PENDING = "PENDING",
-    MATCHED = "MATCHED",
-    CANCELLED = "CANCELLED",
-    EXPIRED = "EXPIRED"
-}
-
 export enum paymentMethod {
     CASH = "CASH",
     BKASH = "BKASH",
@@ -53,32 +47,25 @@ export enum paymentMethod {
 }
 
 export interface IRide {
-    riderId:Types.ObjectId;
+    riderId: Types.ObjectId;
     driverId: Types.ObjectId;
-    pickupLocation:IRideLocation;
-    dropOffLocation:IRideLocation;
-     distanceKM?:number;
-     extimatedFare:number;
-     finalFare?:number;
+    pickupLocation: IRideLocation;
+    dropOffLocation: IRideLocation;
+    distanceKM?: number;
+    estimatedFare?: number;
+    finalFare?: number;
 
-     stauts:RideStatus;
+    status: RideStatus;
 
-     paymentStatus:PaymentStatus;
-     paymentMethod:paymentMethod;
+    paymentStatus: PaymentStatus;
+    paymentMethod: paymentMethod;
 
-     requestedAt:Date;
-     acceptedAt?:Date;
-     startedAt?:Date;
-     
-}
-export interface IRideRequest {
-    riderId: Types.ObjectId,
-    pickupLocation: IRideLocation,
-    dropOffLocation: IRideLocation,
-
-    status: RideRequestStatus,
-    expiresAt: Date,
+    requestedAt: Date;
+    acceptedAt?: Date;
+    startedAt?: Date;
+    completedAt?:Date,
     cancelledAt?:Date,
-    createdAt: Date,
-    updatedAt: Date
+
+    cancelledBy?:IAdminRole | IUserRole
+
 }

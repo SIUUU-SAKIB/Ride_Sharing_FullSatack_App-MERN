@@ -1,6 +1,7 @@
 import { model, Schema, Types } from "mongoose";
-import { IRide, IRideLocation, IRideRequest, PaymentStatus, RideRequestStatus, RideStatus } from "./rides.interface";
+import { IRide, IRideLocation, PaymentStatus, RideStatus } from "./rides.interface";
 import { IUserRole } from "../USER/user.interface";
+import { IAdminRole } from "../ADMIN/admin.interface";
 
 
 export const RideLocationSchema = new Schema<IRideLocation>({
@@ -21,40 +22,6 @@ export const RideLocationSchema = new Schema<IRideLocation>({
     _id: false,
     versionKey: false
 })
-export const RideRequestSchema = new Schema<IRideRequest>(
-    {
-        riderId: {
-            type: Schema.Types.ObjectId,
-            ref: "User",
-            required: true,
-        },
-
-        pickupLocation: {
-            type: RideLocationSchema,
-            required: true
-        },
-        dropOffLocation: {
-            type: RideLocationSchema,
-            required: true
-        },
-        status: {
-            type: String,
-            enum: Object.values(RideRequestStatus),
-            default: RideRequestStatus.PENDING
-        },
-        expiresAt: {
-            type: Date,
-            required: true,
-        }
-
-    },
-    {
-        timestamps: true,
-        versionKey: false
-    }
-)
-RideRequestSchema.index({expiresAt:1})
-
 
 const RideSchema = new Schema<IRide>({
     riderId: {
@@ -74,7 +41,7 @@ const RideSchema = new Schema<IRide>({
         type: RideLocationSchema,
         required: true
     },
-    dropoffLocation: {
+    dropOffLocation: {
         type: RideLocationSchema,
         required: true
     },
@@ -112,7 +79,7 @@ const RideSchema = new Schema<IRide>({
 
     cancelledBy: {
       type: String,
-      enum: Object.values(IUserRole),
+      enum: Object.values(IUserRole || IAdminRole),
     }
 
 }, {
