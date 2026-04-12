@@ -86,4 +86,4 @@ const RideSchema = new Schema<IRide>({
     versionKey: false, timestamps: true
 })
 
-export const RidesRQDB = model<IRideRequest>('RidesRQ', RideRequestSchema) 
+export const RidesRQDB = model<IRide>('RidesRQ', RideSchema) 

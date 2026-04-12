@@ -1,7 +1,6 @@
 import { Types } from "mongoose";
 import { IRideLocation} from "../RIDES/rides.interface";
 
-
 export enum RideRequestStatus {
     PENDING = "PENDING",
     MATCHED = "MATCHED",
@@ -10,12 +9,12 @@ export enum RideRequestStatus {
 }
 export interface IRideRequest {
     riderId: Types.ObjectId,
+    driverId?:Types.ObjectId,
     pickUpLocation: IRideLocation,
     dropOffLocation: IRideLocation,
-
     status: RideRequestStatus,
     expiresAt: Date,
     cancelledAt?: Date,
-    createdAt: Date,
-    updatedAt: Date
+    createdAt?: Date,
+    updatedAt?: Date
 }

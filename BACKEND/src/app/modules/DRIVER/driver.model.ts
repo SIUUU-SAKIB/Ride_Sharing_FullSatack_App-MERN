@@ -12,24 +12,24 @@ const DriverApplicationSchema = new Schema<IDriverApplication>({
     type: String,
     required: true
   },
- licenseImage: [
-  {
-    url: String,
-    public_id: String,
-  }
-],
-nidImage: [
-  {
-    url: String,
-    public_id: String,
-  }
-],
-vehicleImage: [
-  {
-    url: String,
-    public_id: String,
-  }
-],
+  licenseImage: [
+    {
+      url: String,
+      public_id: String,
+    }
+  ],
+  nidImage: [
+    {
+      url: String,
+      public_id: String,
+    }
+  ],
+  vehicleImage: [
+    {
+      url: String,
+      public_id: String,
+    }
+  ],
   vehicleNumber: {
     type: String,
     required: true,
@@ -65,6 +65,16 @@ vehicleImage: [
     type: String,
     enum: Object.values(IVehicleOwnsership),
     required: true,
+  },
+  rejectionReason: {
+    type: String
+  },
+  reviewdAt: {
+    type: Date
+  },
+  reviewdBy: {
+    type: Schema.Types.ObjectId,
+    ref: "Admin"
   },
   status: {
     type: String,
@@ -120,6 +130,10 @@ const DriverProfileSchema = new Schema<IDriverProfile>(
       type: Boolean,
       default: false,
     },
+    isAvailable:{
+      type:Boolean,
+      default:false
+    }
 
   },
   {
@@ -133,5 +147,5 @@ export const DriverProfileDB = model<IDriverProfile>(
   DriverProfileSchema
 );
 export const DriverApplicationDB = model<IDriverApplication>(
-  "DriverApplicationo", DriverApplicationSchema
+  "DriverApplication", DriverApplicationSchema
 )

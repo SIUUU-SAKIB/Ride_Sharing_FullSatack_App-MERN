@@ -33,18 +33,22 @@ export interface IDriverApplication {
     vehicleOwnership: IVehicleOwnsership;
     licenseImage?: string;
     nidImage?: string;
+    reviewdBy?:string,
+    reviewdAt?:Date,
+    rejectionReason?:string,
     vehicleImage?: string;
     status: IStatus;
 }
 
 export interface IDriverProfile {
-    userId: ObjectId,
+    userId?: ObjectId,
     vehicleNumber: string,
     vehicleType: IVehicleType,
     licenseNumber: string,
-    isActive: boolean,
-    isBlocked: boolean,
-    bloodType: string,
+    isActive?: boolean,
+    isBlocked?: boolean,
+    bloodType?: string,
+    isAvailable?:boolean,
     address: string,
-    status: IStatus
+    status?: IStatus
 }

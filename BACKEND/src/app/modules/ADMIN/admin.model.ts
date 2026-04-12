@@ -70,4 +70,4 @@ const AdminSchema = new Schema<IAdmin>(
 }
 )
 
-export const AdminDB = model('admin', AdminSchema)
+export const AdminDB = model('Admin', AdminSchema)
