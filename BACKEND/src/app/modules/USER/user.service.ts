@@ -86,42 +86,12 @@ const updateUser = async (payload: Partial<IUser>) => {
         updatedUser
     }
 }
-const getAllUser = async (page: number, limit: number, skip: number) => {
-    const allUser = await UserDB.find().skip(skip).limit(limit)
-    const totalUser = await UserDB.countDocuments()
-    return {
-        allUser, totalUser
-    }
-}
-
-const getUserByRole = async (role: string, page: number, limit: number, skip: number) => {
-
-    const user = await UserDB.find({ role: role.toUpperCase() }).skip(skip).limit(limit)
-    const total = user.length
-    return {
-        user, total
-    }
-}
 
 const getSingleUser = async (id: string) => {
     const user = await UserDB.findById(id)
     return user
 }
 
-
-
-const updateUserByAdmin = async (id: string, payload: Partial<IUser>) => {
-    const isUserExist = await UserDB.findById(id)
-    if (!isUserExist) {
-        throw new AppError(StatusCodes.NOT_FOUND, "User not found")
-    }
-
-    const user = await UserDB.findByIdAndUpdate(id, payload, {
-        new: true, runValidators: true
-    })
-
-    return user
-}
 
 const deleteUser = async (id: string, userId: string) => {
     const isUserExist = await UserDB.findById(id)
@@ -135,4 +105,4 @@ const deleteUser = async (id: string, userId: string) => {
     return await UserDB.findByIdAndDelete(id)
 }
 
-export const UserService = { createUser, getAllUser, getUserByRole, getSingleUser, updateUser, updateUserByAdmin, deleteUser }
+export const UserService = { createUser, updateUser }

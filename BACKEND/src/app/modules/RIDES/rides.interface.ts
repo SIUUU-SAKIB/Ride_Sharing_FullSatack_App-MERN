@@ -3,20 +3,20 @@ import { IUser, IUserRole } from "../USER/user.interface";
 import { IAdminRole } from "../ADMIN/admin.interface";
 
 export enum RideStatus {
-    REQUESTED = "requested",
-    ACCEPTED = "accepted",
-    ONGOING = "ongoing",
-    COMPLETED = "completed",
-    CANCELLED = "cancelled",
+    REQUESTED = "REQUESTED",
+    ACCEPTED = "ACCEPTED",
+    ONGOING = "ONGOING",
+    COMPLETED = "COMPLETED",
+    CANCELLED = "CANCELLED",
 }
 
 export enum PaymentStatus {
-    PENDING = "pending",
-    PAID = "paid",
-    FAILED = "failed",
+    PENDING = "PENDING",
+    PAID = "PAID",
+    FAILED = "FAILED",
 }
 
-export interface IRider extends IUser {
+export interface IRider extends IUser{
     _id?: string,
     role: IUserRole.RIDER,
     defaultPickupLocation?: {
@@ -67,5 +67,4 @@ export interface IRide {
     cancelledAt?:Date,
 
     cancelledBy?:IAdminRole | IUserRole
-
 }

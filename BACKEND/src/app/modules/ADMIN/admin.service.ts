@@ -7,6 +7,8 @@ import crypto from "crypto"
 import bcrypt from "bcryptjs";
 import { sendVerifyEmail } from "../../utils/sendEmail";
 import catchAsync from "../../utils/catchAsync";
+import { UserDB } from "../USER/user.model";
+import { IUser } from "../USER/user.interface";
 
 
 const createAdmin = async (payload: Partial<IAdmin>) => {
@@ -67,4 +69,55 @@ const blockAdmin = async (_id: string) => {
   return admin
 }
 
-export const AdminService = { createAdmin, deleteAdmin, blockAdmin }
+
+const getAllUser = async (page: number, limit: number, skip: number) => {
+  const allUser = await UserDB.find().skip(skip).limit(limit)
+  const totalUser = await UserDB.countDocuments()
+  return {
+    allUser, totalUser
+  }
+}
+
+const updateUserByAdmin = async (id: string, payload: Partial<IUser>) => {
+  const isUserExist = await UserDB.findById(id)
+  if (!isUserExist) {
+    throw new AppError(StatusCodes.NOT_FOUND, "User not found")
+  }
+
+  const user = await UserDB.findByIdAndUpdate(id, payload, {
+    new: true, runValidators: true
+  })
+
+  return user
+}
+
+const getUserByRole = async (role: string, page: number, limit: number, skip: number) => {
+
+  const user = await UserDB.find({ role: role.toUpperCase() }).skip(skip).limit(limit)
+  const total = user.length
+  return {
+    user, total
+  }
+}
+
+
+const getSingleUser = async (id: string) => {
+  const user = await UserDB.findById(id)
+  return user
+}
+
+
+const deleteUser = async (id: string, userId: string) => {
+  const isUserExist = await UserDB.findById(id)
+  if (!isUserExist) {
+    throw new AppError(StatusCodes.NOT_FOUND, "User not found")
+  }
+  const authenticateAccount = userId === isUserExist._id.toString()
+  if (!authenticateAccount) {
+    throw new AppError(StatusCodes.FORBIDDEN, "You are not allowed to delete this account")
+  }
+  return await UserDB.findByIdAndDelete(id)
+}
+
+
+export const AdminService = { createAdmin, deleteAdmin, blockAdmin, getAllUser, getUserByRole, updateUserByAdmin, getSingleUser, deleteUser }

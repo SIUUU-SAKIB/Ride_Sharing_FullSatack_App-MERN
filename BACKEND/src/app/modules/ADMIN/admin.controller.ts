@@ -7,7 +7,6 @@ import { AdminService } from "./admin.service"
 import sendResponse from "../../utils/sendResponse"
 import { AdminDB } from "./admin.model"
 import { enviromentVariables } from "../../config/env"
-import id from "zod/v4/locales/id.js"
 
 const createAdmin = catchAsync(async (req: Request, res: Response) => {
     const payload: Partial<IAdmin> = req.body
@@ -23,11 +22,11 @@ const createAdmin = catchAsync(async (req: Request, res: Response) => {
     })
 })
 const deleteAdmin = catchAsync(async (req: Request, res: Response) => {
-    const { _id } = req.params
-    if (!_id) {
+    const { admin_id } = req.params
+    if (!admin_id) {
         throw new AppError(StatusCodes.BAD_REQUEST, "Admin id is required")
     }
-    const result = await AdminService.deleteAdmin(_id as string)
+    const result = await AdminService.deleteAdmin(admin_id as string)
     sendResponse(res, {
         success: true,
         statusCode: StatusCodes.OK,
@@ -36,11 +35,11 @@ const deleteAdmin = catchAsync(async (req: Request, res: Response) => {
     })
 })
 const blockAdmin = catchAsync(async (req: Request, res: Response) => {
-    const { _id } = req.params
-    if (!_id) {
+    const { admin_id } = req.params
+    if (!admin_id) {
         throw new AppError(StatusCodes.BAD_REQUEST, "Admin id is required")
     }
-    const result = await AdminService.blockAdmin(_id as string)
+    const result = await AdminService.blockAdmin(admin_id as string)
     sendResponse(res, {
         success: true,
         statusCode: StatusCodes.OK,
@@ -64,6 +63,94 @@ const verifyEmail = catchAsync(async (req: Request, res: Response) => {
     res.redirect(`https://www.pexels.com/`)
 })
 
+const getAllUser = catchAsync(async (req: Request, res: Response) => {
 
-export const AdminController = { createAdmin, verifyEmail, deleteAdmin, blockAdmin }
+    const { page = "1", limit = "10" } = req.query
+    const pageNumber = Number(page)
+    const limitNumber = Number(limit)
+    const skip = (pageNumber - 1) * limitNumber
+
+    const result = await AdminService.getAllUser(pageNumber, limitNumber, skip)
+    sendResponse(res, {
+        success: true,
+        statusCode: StatusCodes.OK,
+        message: "All user retrived successfully 😍",
+        meta: { total: result.totalUser, page: pageNumber, limit: limitNumber, totalPage: Math.ceil(result.totalUser / limitNumber) },
+        data: result.allUser,
+
+    })
+})
+
+const updateUserByAdmin = catchAsync(async (req: Request, res: Response) => {
+    const { id } = req.params;
+    const payload = req.body;
+    const result = await AdminService.updateUserByAdmin(id as string, payload)
+    sendResponse(res, {
+        success: true,
+        statusCode: StatusCodes.OK,
+        message: `User updated by ${req.user?.role} successfully`,
+        data: result,
+    })
+
+})
+
+const getUserByRole = catchAsync(async (req: Request, res: Response) => {
+    const { role } = req.params
+    const { page = '1', limit = '10' } = req.query
+    if (!role) {
+        throw new AppError(StatusCodes.BAD_REQUEST, "Role is required")
+    }
+    const pageNumber = Number(page)
+    const limitNumber = Number(limit)
+    const skip = (pageNumber - 1) * limitNumber
+    const result = await AdminService.getUserByRole(role as string, pageNumber, limitNumber, skip)
+    sendResponse(res, {
+        success: true,
+        statusCode: StatusCodes.OK,
+        message: `All ${role} retrived successfully 😍`,
+        meta: {
+            total: result.total, page: pageNumber,
+            limit: limitNumber,
+            totalPage: Math.ceil(result.total / limitNumber)
+        },
+        data: result.user
+
+    })
+})
+
+
+const deleteUser = catchAsync(async (req: Request, res: Response) => {
+    if (!req.user?._id) {
+        throw new AppError(StatusCodes.UNAUTHORIZED, "Unauthrized request")
+    }
+    const id = req.params.id
+    const result = await AdminService.deleteUser(id as string, req.user?._id)
+
+
+    sendResponse(res, {
+        success: true,
+        statusCode: StatusCodes.OK,
+        message: `Account deleted successfully`,
+        data: null,
+    })
+
+})
+
+const getSingleUser = catchAsync(async (req: Request, res: Response) => {
+    const { id } = req.params
+    if (!id) {
+        throw new AppError(StatusCodes.BAD_REQUEST, "No id received !")
+    }
+    const result = await AdminService.getSingleUser(id as string)
+    sendResponse(res, {
+        success: true,
+        statusCode: StatusCodes.OK,
+        message: `User with ID ${result?._id} retrived successfully.`,
+        data: result
+    })
+
+})
+export const AdminController = {
+    createAdmin, verifyEmail, deleteAdmin, blockAdmin, updateUserByAdmin, getAllUser, getUserByRole, getSingleUser, deleteUser
+}
 

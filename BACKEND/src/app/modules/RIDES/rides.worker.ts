@@ -1,4 +1,5 @@
-import { RideRequestStatus } from "./rides.interface";
+
+import { RideRequestStatus } from "../RIDE REQUEST/rideRq.interface";
 import { RidesRQDB } from "./rides.model";
 
 

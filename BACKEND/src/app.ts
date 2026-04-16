@@ -2,18 +2,15 @@ import express, { Request, Response, urlencoded } from "express"
 import cookieParser from "cookie-parser";
 import cors from "cors"
 import { StatusCodes } from "http-status-codes"
-
-import AppError from "./app/utils/createError"
 import { globalErrorHandler } from "./app/middleware/globalErrorHandler"
 import { notFoundHandler } from "./app/middleware/notFound"
-import { UserRoutes } from "./app/modules/USER/user.routes"
 import { AuthRoutes } from "./app/modules/AUTH/auth.route"
-import session from "express-session"
 import passport from "passport";
 import "./app/config/passport"
 import { RideRoutes } from "./app/modules/RIDES/rides.route";
 import { DriverRoutes } from "./app/modules/DRIVER/driver.routes";
 import { AdminRoutes } from "./app/modules/ADMIN/admin.routes";
+import { UserRoutes } from "./app/modules/USER/user.routes";
 
 const app = express()
 
