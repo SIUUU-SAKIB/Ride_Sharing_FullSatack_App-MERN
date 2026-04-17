@@ -87,22 +87,5 @@ const updateUser = async (payload: Partial<IUser>) => {
     }
 }
 
-const getSingleUser = async (id: string) => {
-    const user = await UserDB.findById(id)
-    return user
-}
-
-
-const deleteUser = async (id: string, userId: string) => {
-    const isUserExist = await UserDB.findById(id)
-    if (!isUserExist) {
-        throw new AppError(StatusCodes.NOT_FOUND, "User not found")
-    }
-    const authenticateAccount = userId === isUserExist._id.toString()
-    if (!authenticateAccount) {
-        throw new AppError(StatusCodes.FORBIDDEN, "You are not allowed to delete this account")
-    }
-    return await UserDB.findByIdAndDelete(id)
-}
 
 export const UserService = { createUser, updateUser }

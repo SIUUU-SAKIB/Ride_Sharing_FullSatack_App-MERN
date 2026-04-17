@@ -119,5 +119,21 @@ const deleteUser = async (id: string, userId: string) => {
   return await UserDB.findByIdAndDelete(id)
 }
 
-
-export const AdminService = { createAdmin, deleteAdmin, blockAdmin, getAllUser, getUserByRole, updateUserByAdmin, getSingleUser, deleteUser }
+const getAllAdmin = async (page: number, limit: number, skip: number) => {
+  const allAdmin = await AdminDB.find().skip(skip).limit(limit)
+  const totalAdmin = await AdminDB.countDocuments()
+  return {
+    allAdmin, totalAdmin
+  }
+}
+export const AdminService = {
+  createAdmin,
+  deleteAdmin,
+  blockAdmin,
+  getAllUser,
+  getUserByRole,
+  updateUserByAdmin,
+  getSingleUser,
+  deleteUser,
+  getAllAdmin
+}

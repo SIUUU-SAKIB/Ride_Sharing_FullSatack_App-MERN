@@ -1,11 +1,11 @@
 import { NextFunction, Request, Response } from "express";
-import { StatusCodes } from "http-status-codes";
 import AppError from "../utils/createError";
 import { verifyToken } from "../utils/jwt";
 import { enviromentVariables } from "../config/env";
 import { UserDB } from "../modules/USER/user.model";
 import { JwtPayload } from "jsonwebtoken";
 import { AdminDB } from "../modules/ADMIN/admin.model";
+import { StatusCodes } from "http-status-codes";
 
 
 export const authentication =
@@ -19,11 +19,11 @@ export const authentication =
                 if (!token) {
                     throw new AppError(403, "No token received");
                 }
-
                 const verifiedToken = verifyToken(
                     token,
                     enviromentVariables.JWT_SECRET
                 ) as JwtPayload;
+
 
                 let user = await UserDB.findById(verifiedToken._id);
                 let admin = null;
@@ -31,7 +31,6 @@ export const authentication =
                 if (!user) {
                     admin = await AdminDB.findById(verifiedToken._id);
                 }
-
                 if (!user && !admin) {
                     throw new AppError(400, "User does not exist");
                 }
@@ -43,8 +42,9 @@ export const authentication =
                         throw new AppError(400, "User is blocked");
                     if (!user.isActive)
                         throw new AppError(400, "User not active");
-                    if ((user as any).$isDeleted || (user as any).isDeleted)
-                        throw new AppError(400, "User deleted");
+                    if (user.isDeleted) {
+                        throw new AppError(400, "User deleted")
+                    }
                 }
                 if (admin) {
                     if (!admin.isVerified)
@@ -57,8 +57,9 @@ export const authentication =
                         throw new AppError(400, "Admin deleted");
                 }
                 if (!authRoles.includes(verifiedToken.role)) {
-                    throw new AppError(403, "Forbidden");
+                    throw new AppError(StatusCodes.BAD_REQUEST, "You are not permitted to view this route")
                 }
+
                 req.user = {
                     _id: verifiedToken._id,
                     role: verifiedToken.role,

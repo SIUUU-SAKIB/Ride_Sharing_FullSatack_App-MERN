@@ -4,8 +4,8 @@ import { IUserRole } from "./user.interface";
 const createUser = z.object({
     role: z.enum(Object.values(IUserRole.RIDER)).optional(),
     name: z.string().min(2, "Name must be at lest 2 character long."),
-    email: z.string({ message: "Email required" }).email(),
-    phone: z.string({ message: "Phone number required" }).min(10),
+    email: z.string({ message: "Email required" }).email("Invalid email address"),
+    phone: z.string({ message: "Phone number required" }).min(10).optional(),
     password: z.string({ message: "Password required" }).min(6)
 })
 

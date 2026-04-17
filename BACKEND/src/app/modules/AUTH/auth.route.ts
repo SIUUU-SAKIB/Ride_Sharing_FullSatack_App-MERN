@@ -5,11 +5,12 @@ import { IUserRole } from "../USER/user.interface";
 import passport from "passport";
 import { enviromentVariables } from "../../config/env";
 import { IAdminRole } from "../ADMIN/admin.interface";
+import { authLimit } from "../../middleware/authLimiter";
 
 const router = Router()
 
 // User login (ALL USER)
-router.post('/login', AuthController.credentialsLogin)
+router.post('/login', authLimit.loginLimiter, AuthController.credentialsLogin)
 router.get(`/me`, authentication(...Object.values(IUserRole), ...Object.values(IAdminRole)), AuthController.getMe)
 router.post('/logout', AuthController.logout)
 router.post('/refresh-token', AuthController.refreshToken)

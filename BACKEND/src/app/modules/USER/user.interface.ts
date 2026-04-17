@@ -31,6 +31,7 @@ export interface IUser {
     isActive?: boolean,
     isVerified: boolean,
     isBlocked?:boolean,
+    isDeleted?:boolean,
     createdAt?: Date,
     updatedAt?: Date,
     auths?: IAuthProvider,

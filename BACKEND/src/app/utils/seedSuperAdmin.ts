@@ -1,14 +1,15 @@
 import { StatusCodes } from "http-status-codes"
 import { enviromentVariables } from "../config/env"
 import { UserDB } from "../modules/USER/user.model"
-import AppError from "./createError"
 import bcrypt from "bcryptjs";
-import { IAuthProvider, IUser, IUserRole } from "../modules/USER/user.interface";
+import { IAuthProvider} from "../modules/USER/user.interface";
+import { IAdmin, IAdminRole } from "../modules/ADMIN/admin.interface";
+import { AdminDB } from "../modules/ADMIN/admin.model";
 export const seedSuperAdmin = async () => {
     try {
         const email = enviromentVariables.SUPER_ADMIN_EMAIL
         const password = enviromentVariables.SUPER_ADMIN_PASSWORD
-        const isSuperAdminExist = await UserDB.findOne({ email })
+        const isSuperAdminExist = await AdminDB.findOne({ email })
         if (isSuperAdminExist) {
             return
         }
@@ -18,15 +19,14 @@ export const seedSuperAdmin = async () => {
             provider: "credentials",
             providerId: email
         }
-        const payload: IUser = {
+        const payload: IAdmin = {
             name: "Super Admin",
-            role: IUserRole.SUPER_ADMIN,
+            role: IAdminRole.SUPER_ADMIN,
             email: email,
             password: hashedPassword,
-            isVerified: true,
-            auths: authProvider
+            isVerified: true
         }
-        const super_admin = await UserDB.create(payload)
+        const super_admin = await AdminDB.create(payload)
         console.log('Super_admin created successfully 😍')
         return super_admin
     } catch (err) {

@@ -69,8 +69,8 @@ const getAllUser = catchAsync(async (req: Request, res: Response) => {
     const pageNumber = Number(page)
     const limitNumber = Number(limit)
     const skip = (pageNumber - 1) * limitNumber
-
     const result = await AdminService.getAllUser(pageNumber, limitNumber, skip)
+    console.log(result)
     sendResponse(res, {
         success: true,
         statusCode: StatusCodes.OK,
@@ -80,7 +80,22 @@ const getAllUser = catchAsync(async (req: Request, res: Response) => {
 
     })
 })
+const getAllAdmin = catchAsync(async (req: Request, res: Response) => {
+    const { page = "1", limit = "10" } = req.query
+    const pageNumber = Number(page)
+    const limitNumber = Number(limit)
+    const skip = (pageNumber - 1) * limitNumber
+    const result = await AdminService.getAllAdmin(pageNumber, limitNumber, skip)
 
+    sendResponse(res, {
+        success: true,
+        statusCode: StatusCodes.OK,
+        message: "All admins fetched successfully",
+        meta: { total: result.totalAdmin, page: pageNumber, limit: limitNumber, totalPage: Math.ceil(result.totalAdmin / limitNumber) },
+        data: result
+    })
+
+})
 const updateUserByAdmin = catchAsync(async (req: Request, res: Response) => {
     const { id } = req.params;
     const payload = req.body;
@@ -151,6 +166,15 @@ const getSingleUser = catchAsync(async (req: Request, res: Response) => {
 
 })
 export const AdminController = {
-    createAdmin, verifyEmail, deleteAdmin, blockAdmin, updateUserByAdmin, getAllUser, getUserByRole, getSingleUser, deleteUser
+    createAdmin,
+    verifyEmail,
+    deleteAdmin,
+    blockAdmin,
+    updateUserByAdmin,
+    getAllUser,
+    getUserByRole,
+    getSingleUser,
+    deleteUser,
+    getAllAdmin
 }
 

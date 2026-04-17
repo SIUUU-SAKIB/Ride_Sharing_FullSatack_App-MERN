@@ -23,7 +23,10 @@ const UserSchema = new Schema<IUser>(
         },
         phone: {
             type: String,
-            unique: true
+            unique: true,
+            required:false,
+            sparse:true,
+            trim:true
         },
         email: {
             type: String,
@@ -42,9 +45,13 @@ const UserSchema = new Schema<IUser>(
             type: Boolean,
             default: false,
         },
-        isBlocked:{
-           type:Boolean,
-           default:false
+        isDeleted: {
+            type: Boolean,
+            default: false
+        },
+        isBlocked: {
+            type: Boolean,
+            default: false
         },
         role: {
             type: String,
@@ -84,7 +91,8 @@ const UserSchema = new Schema<IUser>(
     versionKey: false,
 
 
-}).index(
+})
+.index(
     { verificationTokenExpires: 1 },
     {
         expireAfterSeconds: 0,
