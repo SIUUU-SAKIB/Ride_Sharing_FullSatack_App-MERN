@@ -21,7 +21,7 @@ export enum IStatus {
 }
 
 export interface IDriverApplication {
-    userId: ObjectId,
+    userId?: ObjectId,
     licenseNumber: string;
     vehicleNumber: string;
     vehicleType: IVehicleType;

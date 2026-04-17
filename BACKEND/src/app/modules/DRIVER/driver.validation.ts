@@ -7,9 +7,6 @@ const driverApplicationZodSchema = z.object({
       .string({ message: "License number is required" })
       .min(5, "License number too short"),
 
-    licenseImage: z
-      .string({ message: "License image is required" }),
-
     vehicleNumber: z
       .string({ message: "Vehicle number is required" })
       .min(3, "Vehicle number too short"),
