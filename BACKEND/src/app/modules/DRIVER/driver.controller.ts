@@ -49,4 +49,17 @@ const driverApplication = catchAsync(async (req: Request, res: Response) => {
     });
 });
 
-export const DriverController = { driverApplication }
+const checkApplication = catchAsync(async (req: Request, res: Response) => {
+    const userId = req.user?._id
+    const result = await DriverServices.checkApplication(userId as string)
+
+    sendResponse(res, {
+        success: true,
+        statusCode: StatusCodes.ACCEPTED,
+        message: `Successfully fetched your status which is ${result}`,
+        data: result
+    })
+
+})
+
+export const DriverController = { driverApplication, checkApplication }

@@ -13,4 +13,6 @@ router.post(`/apply`, upload.fields([
     { name: "vehicleImage", maxCount: 3 },
 ]), authentication(...Object.values(IUserRole)), validateZodSchema(driverValidation.driverApplicationZodSchema), DriverController.driverApplication)
 
+
+router.get(`/check-application`, authentication(IUserRole.RIDER), DriverController.checkApplication)
 export const DriverRoutes = router

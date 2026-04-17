@@ -1,5 +1,5 @@
 import { model, Schema } from "mongoose";
-import { IDriverApplication, IDriverProfile, IGender, IStatus, IVehicleOwnsership, IVehicleType } from "./driver.interface";
+import { IDriverApplication, IDriverProfile, IDriverStatus, IGender, IVehicleOwnsership, IVehicleType } from "./driver.interface";
 
 const DriverApplicationSchema = new Schema<IDriverApplication>({
   userId: {
@@ -78,8 +78,8 @@ const DriverApplicationSchema = new Schema<IDriverApplication>({
   },
   status: {
     type: String,
-    enum: Object.values(IStatus),
-    default: IStatus.PENDING,
+    enum: Object.values(IDriverStatus),
+    default: IDriverStatus.PENDING,
   }
 },
   {

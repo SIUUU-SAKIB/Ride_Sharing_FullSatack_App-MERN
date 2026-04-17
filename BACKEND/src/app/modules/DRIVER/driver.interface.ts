@@ -1,4 +1,4 @@
-import { ObjectId } from "mongoose";
+import { ObjectId, Types } from "mongoose";
 
 export enum IVehicleType {
     TWO_WHEELER = "TWO_WHEELER",
@@ -14,14 +14,14 @@ export enum IVehicleOwnsership {
     OWNED = "OWNED",
     RENT = "RENT"
 }
-export enum IStatus {
+export enum IDriverStatus {
     PENDING = "PENDING",
     APPROVED = "APPROVED",
     REJECTED = "REJECTED"
 }
 
 export interface IDriverApplication {
-    userId?: ObjectId,
+    userId?: Types.ObjectId,
     licenseNumber: string;
     vehicleNumber: string;
     vehicleType: IVehicleType;
@@ -37,7 +37,7 @@ export interface IDriverApplication {
     reviewdAt?:Date,
     rejectionReason?:string,
     vehicleImage?: string;
-    status: IStatus;
+    status: IDriverStatus;
 }
 
 export interface IDriverProfile {
@@ -50,5 +50,5 @@ export interface IDriverProfile {
     bloodType?: string,
     isAvailable?:boolean,
     address: string,
-    status?: IStatus
+    status?: IDriverStatus
 }
