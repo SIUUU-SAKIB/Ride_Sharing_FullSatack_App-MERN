@@ -9,6 +9,9 @@ import { sendVerifyEmail } from "../../utils/sendEmail";
 import catchAsync from "../../utils/catchAsync";
 import { UserDB } from "../USER/user.model";
 import { IUser } from "../USER/user.interface";
+import { DriverApplicationDB, DriverProfileDB } from "../DRIVER/driver.model";
+import { IDriverStatus } from "../DRIVER/driver.interface";
+import { Types } from "mongoose";
 
 
 const createAdmin = async (payload: Partial<IAdmin>) => {
@@ -106,7 +109,6 @@ const getSingleUser = async (id: string) => {
   return user
 }
 
-
 const deleteUser = async (id: string, userId: string) => {
   const isUserExist = await UserDB.findById(id)
   if (!isUserExist) {
@@ -126,6 +128,47 @@ const getAllAdmin = async (page: number, limit: number, skip: number) => {
     allAdmin, totalAdmin
   }
 }
+
+const approveApplication = async (_id: string) => {
+  const application = await DriverApplicationDB.findById(_id);
+
+  if (!application) {
+    throw new AppError(StatusCodes.NOT_FOUND, "Application not found");
+  }
+
+  if (application.status !== IDriverStatus.PENDING) {
+    throw new AppError(400, "Application already processed");
+  }
+
+  const existingDriver = await DriverProfileDB.findOne({
+    userId: application.userId,
+  });
+
+  if (existingDriver) {
+    throw new AppError(400, "Driver already exists");
+  }
+
+  application.status = IDriverStatus.APPROVED;
+  await application.save();
+
+  const profile = {
+    userId: application.userId,
+    driverId: crypto.randomBytes(32).toString("hex") + Date.now(),
+    vehicleNumber: application.vehicleNumber,
+    licenseNumber: application.licenseNumber,
+    phoneNumber: application.phoneNumber,
+    isActive: true,
+    isBlocked: false,
+    bloodType: application.bloodType,
+    isAvailable: false,
+    address: application.address,
+  };
+
+  const driverProfile = await DriverProfileDB.create(profile);
+
+  return driverProfile;
+};
+
 export const AdminService = {
   createAdmin,
   deleteAdmin,
@@ -135,5 +178,6 @@ export const AdminService = {
   updateUserByAdmin,
   getSingleUser,
   deleteUser,
-  getAllAdmin
+  getAllAdmin,
+  approveApplication
 }

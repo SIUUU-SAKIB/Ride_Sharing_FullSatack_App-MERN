@@ -165,6 +165,21 @@ const getSingleUser = catchAsync(async (req: Request, res: Response) => {
     })
 
 })
+
+const approveApplication = catchAsync(async(req:Request, res:Response) => {
+    const {applicationId} = req.params;
+    if(!applicationId) {
+        throw new AppError(StatusCodes.BAD_REQUEST, "Application ID required")
+    }
+    
+    const result = await AdminService.approveApplication(applicationId as string)
+    sendResponse(res, {
+        success:true,
+        statusCode:StatusCodes.ACCEPTED,
+        message:"Application approved",
+        data:result
+    })
+})
 export const AdminController = {
     createAdmin,
     verifyEmail,
@@ -175,6 +190,7 @@ export const AdminController = {
     getUserByRole,
     getSingleUser,
     deleteUser,
-    getAllAdmin
+    getAllAdmin,
+    approveApplication
 }
 

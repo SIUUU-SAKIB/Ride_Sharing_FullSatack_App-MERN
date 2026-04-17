@@ -21,7 +21,9 @@ router.get(`/get-users-by-role`,
 router.patch(`/update-user-by-admin/:id`,
     authentication(IAdminRole.ADMIN, IAdminRole.SUPER_ADMIN),
     AdminController.updateUserByAdmin)
-
+router.post(`/approve/:applicationId`, 
+        authentication(IAdminRole.ADMIN, IAdminRole.SUPER_ADMIN),
+    AdminController.approveApplication)
 router.get(`/get-single-user/:id`,
     authentication(IAdminRole.ADMIN, IAdminRole.SUPER_ADMIN),
     AdminController.getSingleUser)

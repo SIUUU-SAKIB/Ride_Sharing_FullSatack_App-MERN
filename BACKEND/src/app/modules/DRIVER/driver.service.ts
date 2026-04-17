@@ -81,4 +81,4 @@ const checkApplication = async (userId: string) => {
         };
     }
 };
-export const DriverServices = { driverApplication, checkApplication }
+export const DriverServices = { driverApplication, checkApplication}

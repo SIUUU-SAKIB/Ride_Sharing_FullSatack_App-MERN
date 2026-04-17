@@ -55,11 +55,13 @@ const checkApplication = catchAsync(async (req: Request, res: Response) => {
 
     sendResponse(res, {
         success: true,
-        statusCode: StatusCodes.ACCEPTED,
+        statusCode: StatusCodes.OK,
         message: `Successfully fetched your status which is ${result}`,
         data: result
     })
 
 })
+
+
 
 export const DriverController = { driverApplication, checkApplication }

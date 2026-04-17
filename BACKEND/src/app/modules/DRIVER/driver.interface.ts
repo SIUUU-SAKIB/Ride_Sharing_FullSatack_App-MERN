@@ -1,4 +1,4 @@
-import { ObjectId, Types } from "mongoose";
+import { ObjectId, Schema, Types } from "mongoose";
 
 export enum IVehicleType {
     TWO_WHEELER = "TWO_WHEELER",
@@ -21,7 +21,7 @@ export enum IDriverStatus {
 }
 
 export interface IDriverApplication {
-    userId?: Types.ObjectId,
+    userId?:Types.ObjectId,
     licenseNumber: string;
     vehicleNumber: string;
     vehicleType: IVehicleType;
@@ -41,8 +41,10 @@ export interface IDriverApplication {
 }
 
 export interface IDriverProfile {
-    userId?: ObjectId,
+    userId?: Types.ObjectId,
+    driverId?:string,
     vehicleNumber: string,
+    phone:string,
     vehicleType: IVehicleType,
     licenseNumber: string,
     isActive?: boolean,
