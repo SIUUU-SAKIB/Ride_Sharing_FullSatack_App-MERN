@@ -33,7 +33,7 @@ export interface IDriverApplication {
     vehicleOwnership: IVehicleOwnsership;
     licenseImage?: string;
     nidImage?: string;
-    reviewdBy?:string,
+    reviewdBy?:Types.ObjectId,
     reviewdAt?:Date,
     rejectionReason?:string,
     vehicleImage?: string;

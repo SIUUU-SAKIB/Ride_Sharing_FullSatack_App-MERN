@@ -10,7 +10,7 @@ import catchAsync from "../../utils/catchAsync";
 import { UserDB } from "../USER/user.model";
 import { IUser, IUserRole } from "../USER/user.interface";
 import { DriverApplicationDB, DriverProfileDB } from "../DRIVER/driver.model";
-import { IDriverStatus } from "../DRIVER/driver.interface";
+import { IDriverApplication, IDriverStatus } from "../DRIVER/driver.interface";
 import { Types } from "mongoose";
 
 
@@ -177,6 +177,39 @@ const approveApplication = async (_id: string) => {
   return driverProfile;
 };
 
+const rejectApplication = async (_id: string, adminId: string, reason: string) => {
+  const application = await DriverApplicationDB.findById(_id);
+  const admin = await AdminDB.findById(adminId).populate("name email")
+  if (!admin) {
+    throw new AppError(StatusCodes.NOT_FOUND, "Admin not found")
+  }
+  if (!application) {
+    throw new AppError(StatusCodes.NOT_FOUND, "Application not found");
+  }
+  const user = await UserDB.findById(application?.userId)
+  if (!user) {
+    throw new AppError(StatusCodes.NOT_FOUND, "User does not exist")
+  }
+
+  if (application.status !== IDriverStatus.PENDING) {
+    throw new AppError(400, "Application already processed");
+  }
+
+
+
+  application.status = IDriverStatus.REJECTED;
+
+  application.reviewdBy = new Types.ObjectId(adminId);
+  application.reviewdAt = new Date();
+
+  application.rejectionReason = reason || "No reason provided";
+
+  await application.save();
+
+  return application;
+
+
+}
 export const AdminService = {
   createAdmin,
   deleteAdmin,
@@ -187,5 +220,7 @@ export const AdminService = {
   getSingleUser,
   deleteUser,
   getAllAdmin,
-  approveApplication
+  approveApplication,
+  rejectApplication
+
 }

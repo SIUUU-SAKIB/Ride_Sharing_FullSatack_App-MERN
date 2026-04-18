@@ -165,19 +165,39 @@ const getSingleUser = catchAsync(async (req: Request, res: Response) => {
 
 })
 
-const approveApplication = catchAsync(async(req:Request, res:Response) => {
-    const {applicationId} = req.params;
-    if(!applicationId) {
+const approveApplication = catchAsync(async (req: Request, res: Response) => {
+    const { applicationId } = req.params;
+    if (!applicationId) {
         throw new AppError(StatusCodes.BAD_REQUEST, "Application ID required")
     }
-    
+
     const result = await AdminService.approveApplication(applicationId as string)
     sendResponse(res, {
-        success:true,
-        statusCode:StatusCodes.ACCEPTED,
-        message:"Application approved",
-        data:result
+        success: true,
+        statusCode: StatusCodes.ACCEPTED,
+        message: "Application approved",
+        data: result
     })
+})
+
+const rejectApplication = catchAsync(async (req: Request, res: Response) => {
+    const { applicationId } = req.params
+    const adminId = req.user?._id
+    const {reason} = req.body
+if(!applicationId) {
+    throw new AppError(StatusCodes.NOT_FOUND, "Application ID required")
+}
+if(!adminId) {
+    throw new AppError(StatusCodes.NOT_FOUND, "Admin ID required")
+}
+const result  = await AdminService.rejectApplication(applicationId as string, adminId, reason)
+
+sendResponse(res, {
+    success:true,
+    statusCode:StatusCodes.OK,
+    message:"Your aplication was Rejected",
+    data:result
+})
 })
 export const AdminController = {
     createAdmin,
@@ -190,6 +210,7 @@ export const AdminController = {
     getSingleUser,
     deleteUser,
     getAllAdmin,
-    approveApplication
+    approveApplication,
+    rejectApplication
 }
 

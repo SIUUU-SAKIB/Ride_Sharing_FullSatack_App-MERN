@@ -27,7 +27,7 @@ router.post(`/approve/:applicationId`,
 router.get(`/get-single-user/:id`,
     authentication(IAdminRole.ADMIN, IAdminRole.SUPER_ADMIN),
     AdminController.getSingleUser)
-
+router.patch(`/reject-application/:applicationId`, authentication(IAdminRole.ADMIN, IAdminRole.SUPER_ADMIN), AdminController.rejectApplication)
 // ---------------------------------------------------------------------
 // ** ONLY SUPER_ADMIN CAN CREATE, BLOCK AND DELETE ADMIN 
 
