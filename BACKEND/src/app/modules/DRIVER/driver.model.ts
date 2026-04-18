@@ -1,4 +1,4 @@
-import { model, Schema } from "mongoose";
+import { model, Schema, Types } from "mongoose";
 import { IDriverApplication, IDriverProfile, IDriverStatus, IGender, IVehicleOwnsership, IVehicleType } from "./driver.interface";
 
 const DriverApplicationSchema = new Schema<IDriverApplication>({
@@ -91,12 +91,16 @@ const DriverApplicationSchema = new Schema<IDriverApplication>({
 const DriverProfileSchema = new Schema<IDriverProfile>(
   {
     userId: {
-      type: Schema.Types.ObjectId,
+      type: Types.ObjectId,
       ref: "User",
       required: true,
       unique: true,
     },
-
+    driverId: {
+      type: String,
+      required: true,
+      trim: true
+    },
     licenseNumber: {
       type: String,
       required: true,
@@ -130,9 +134,9 @@ const DriverProfileSchema = new Schema<IDriverProfile>(
       type: Boolean,
       default: false,
     },
-    isAvailable:{
-      type:Boolean,
-      default:false
+    isAvailable: {
+      type: Boolean,
+      default: false
     }
 
   },

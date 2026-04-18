@@ -70,7 +70,6 @@ const getAllUser = catchAsync(async (req: Request, res: Response) => {
     const limitNumber = Number(limit)
     const skip = (pageNumber - 1) * limitNumber
     const result = await AdminService.getAllUser(pageNumber, limitNumber, skip)
-    console.log(result)
     sendResponse(res, {
         success: true,
         statusCode: StatusCodes.OK,

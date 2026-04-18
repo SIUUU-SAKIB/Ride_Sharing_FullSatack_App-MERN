@@ -16,13 +16,14 @@ const driverApplication = async (_id: string, payload: IDriverApplication) => {
 
     if (!user.isVerified) {
         throw new AppError(StatusCodes.BAD_REQUEST, "You are not verified yet");
+        
     }
 
     if (user.role === IUserRole.DRIVER) {
         throw new AppError(StatusCodes.BAD_REQUEST, "You are already a driver");
     }
 
-    const application = await DriverApplicationDB.findOne(userId);
+    const application = await DriverApplicationDB.findOne({userId});
 
     if (application && application.status === IDriverStatus.PENDING) {
         throw new AppError(StatusCodes.BAD_REQUEST, "Application already pending");

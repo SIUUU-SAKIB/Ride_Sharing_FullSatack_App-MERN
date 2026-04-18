@@ -17,10 +17,11 @@ const driverApplication = catchAsync(async (req: Request, res: Response) => {
     const files = req.files as {
         [fieldname: string]: Express.Multer.File[];
     };
-
-    const licenseFiles = files?.licenseImage || [];
-    const nidFiles = files?.nidImage || [];
-    const vehicleFiles = files?.vehicleImage || [];
+    console.log(files)
+    console.log(req.files)
+    const licenseImage = files?.licenseImage || [];
+    const nidImage = files?.nidImage || [];
+    const vehicleImage = files?.vehicleImage || [];
     const uploadFiles = async (fileArray: Express.Multer.File[]) => {
         const results = [];
 
@@ -30,9 +31,9 @@ const driverApplication = catchAsync(async (req: Request, res: Response) => {
         }
         return results;
     };
-    const licenseUploads = await uploadFiles(licenseFiles);
-    const nidUploads = await uploadFiles(nidFiles);
-    const vehicleUploads = await uploadFiles(vehicleFiles);
+    const licenseUploads = await uploadFiles(licenseImage);
+    const nidUploads = await uploadFiles(nidImage);
+    const vehicleUploads = await uploadFiles(vehicleImage);
 
     const application = await DriverServices.driverApplication(userId as string, {
         ...payload,

@@ -8,9 +8,9 @@ import { upload } from "../../middleware/multer";
 
 const router = Router()
 router.post(`/apply`, upload.fields([
-    { name: "licenseImage", maxCount: 2 },
-    { name: "nidImage", maxCount: 2 },
-    { name: "vehicleImage", maxCount: 3 },
+    { name: "licenseImage", maxCount: 5 },
+    { name: "nidImage", maxCount: 5 },
+    { name: "vehicleImage", maxCount: 5 }
 ]), authentication(...Object.values(IUserRole)), validateZodSchema(driverValidation.driverApplicationZodSchema), DriverController.driverApplication)
 
 

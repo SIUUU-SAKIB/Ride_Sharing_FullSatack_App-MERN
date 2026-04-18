@@ -8,7 +8,7 @@ import bcrypt from "bcryptjs";
 import { sendVerifyEmail } from "../../utils/sendEmail";
 import catchAsync from "../../utils/catchAsync";
 import { UserDB } from "../USER/user.model";
-import { IUser } from "../USER/user.interface";
+import { IUser, IUserRole } from "../USER/user.interface";
 import { DriverApplicationDB, DriverProfileDB } from "../DRIVER/driver.model";
 import { IDriverStatus } from "../DRIVER/driver.interface";
 import { Types } from "mongoose";
@@ -131,7 +131,10 @@ const getAllAdmin = async (page: number, limit: number, skip: number) => {
 
 const approveApplication = async (_id: string) => {
   const application = await DriverApplicationDB.findById(_id);
-
+  const user = await UserDB.findById(application?.userId)
+  if (!user) {
+    throw new AppError(StatusCodes.NOT_FOUND, "User does not exist")
+  }
   if (!application) {
     throw new AppError(StatusCodes.NOT_FOUND, "Application not found");
   }
@@ -149,13 +152,18 @@ const approveApplication = async (_id: string) => {
   }
 
   application.status = IDriverStatus.APPROVED;
+  user.role = IUserRole.DRIVER;
   await application.save();
 
   const profile = {
     userId: application.userId,
-    driverId: crypto.randomBytes(32).toString("hex") + Date.now(),
+    driverId: "DRV" + Date.now(),
+    licenseImage: application.licenseImage,
+    vehicleImage: application.vehicleImage,
+    nidImage: application.nidImage,
     vehicleNumber: application.vehicleNumber,
     licenseNumber: application.licenseNumber,
+    vehicleType: application.vehicleType,
     phoneNumber: application.phoneNumber,
     isActive: true,
     isBlocked: false,
