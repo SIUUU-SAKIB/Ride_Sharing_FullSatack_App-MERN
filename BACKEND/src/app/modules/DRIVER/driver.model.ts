@@ -85,6 +85,10 @@ const DriverApplicationSchema = new Schema<IDriverApplication>({
     type: String,
     enum: Object.values(IDriverStatus),
     default: IDriverStatus.PENDING,
+  },
+  isBlocked:{
+    type:Boolean,
+    default:false
   }
 },
   {

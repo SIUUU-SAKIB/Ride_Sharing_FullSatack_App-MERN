@@ -40,6 +40,7 @@ export interface IDriverApplication {
     rejectionReason?:string,
     vehicleImage?: string;
     status: IDriverStatus;
+    isBlocked:boolean
 }
 
 export interface IDriverProfile {

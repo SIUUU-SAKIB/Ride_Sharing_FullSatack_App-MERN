@@ -16,7 +16,6 @@ const driverApplication = async (_id: string, payload: Partial<IDriverApplicatio
 
     if (!user.isVerified) {
         throw new AppError(StatusCodes.BAD_REQUEST, "You are not verified yet");
-
     }
 
     if (user.role === IUserRole.DRIVER) {
@@ -88,7 +87,9 @@ const reapply = async (payload: Partial<IDriverApplication>, userId: string) => 
     if (!application) {
         throw new AppError(StatusCodes.NOT_FOUND, 'No application found')
     }
-
+    if (application?.isBlocked) {
+        throw new AppError(StatusCodes.BAD_REQUEST, "An admin has blocked you from applying again")
+    }
     if (application?.status !== IDriverStatus.REJECTED) {
         throw new AppError(StatusCodes.BAD_REQUEST, "You can only reapply after rejection")
     }
@@ -105,7 +106,7 @@ const reapply = async (payload: Partial<IDriverApplication>, userId: string) => 
     if (payload.address) application.address = payload.address;
     if (payload.bloodType) application.bloodType = payload.bloodType;
 
-    
+
     await application.save()
     return application
 }
