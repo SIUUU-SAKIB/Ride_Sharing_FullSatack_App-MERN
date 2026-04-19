@@ -200,6 +200,7 @@ const rejectApplication = async (_id: string, adminId: string, reason: string) =
   await application.save();
   return application;
 }
+
 export const AdminService = {
   createAdmin,
   deleteAdmin,

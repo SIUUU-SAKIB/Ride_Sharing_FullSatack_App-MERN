@@ -1,5 +1,4 @@
 import { Router } from "express";
-import { IUserRole } from "../USER/user.interface";
 import { AdminController } from "./admin.controller";
 import { authentication } from "../../middleware/authentication";
 import { AuthController } from "../AUTH/auth.controller";
@@ -16,36 +15,40 @@ router.get(`/get-all-users`,
     ),
     AdminController.getAllUser);
 
-    // *GET USER BY ROLE
+// *GET USER BY ROLE
 
 router.get(`/get-users-by-role`,
     authentication(IAdminRole.ADMIN, IAdminRole.SUPER_ADMIN),
     AdminController.getUserByRole)
 
-    // *UPDATE USER 
+// *UPDATE USER 
 
 router.patch(`/update-user-by-admin/:id`,
     authentication(IAdminRole.ADMIN, IAdminRole.SUPER_ADMIN),
     AdminController.updateUserByAdmin)
 
-    // *APPROVE DRIVER APPLICATION
+// *APPROVE DRIVER APPLICATION
 
 router.patch(`/approve/:applicationId`,
     authentication(IAdminRole.ADMIN, IAdminRole.SUPER_ADMIN),
     AdminController.approveApplication)
 
-    // *GET SINGLE USER
+// *GET SINGLE USER
 
 router.get(`/get-single-user/:id`,
     authentication(IAdminRole.ADMIN, IAdminRole.SUPER_ADMIN),
     AdminController.getSingleUser)
 
-    // *REJECT APPLICATION
+// *REJECT APPLICATION
 
 router.patch(`/reject-application/:applicationId`,
     authentication(IAdminRole.ADMIN, IAdminRole.SUPER_ADMIN),
     validateZodSchema(AdminValidation.rejectApplication),
     AdminController.rejectApplication)
+
+router.get(`/all-applications`,
+     authentication(IAdminRole.ADMIN, IAdminRole.SUPER_ADMIN),
+      AdminController.allApplications)
 // ---------------------------------------------------------------------
 // ** ONLY SUPER_ADMIN CAN CREATE, BLOCK AND DELETE ADMIN 
 

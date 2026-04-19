@@ -7,6 +7,7 @@ import { AdminService } from "./admin.service"
 import sendResponse from "../../utils/sendResponse"
 import { AdminDB } from "./admin.model"
 import { enviromentVariables } from "../../config/env"
+import { DriverApplicationDB } from "../DRIVER/driver.model"
 
 const createAdmin = catchAsync(async (req: Request, res: Response) => {
     const payload: Partial<IAdmin> = req.body
@@ -183,21 +184,31 @@ const approveApplication = catchAsync(async (req: Request, res: Response) => {
 const rejectApplication = catchAsync(async (req: Request, res: Response) => {
     const { applicationId } = req.params
     const adminId = req.user?._id
-    const {reason} = req.body
-if(!applicationId) {
-    throw new AppError(StatusCodes.NOT_FOUND, "Application ID required")
-}
-if(!adminId) {
-    throw new AppError(StatusCodes.NOT_FOUND, "Admin ID required")
-}
-const result  = await AdminService.rejectApplication(applicationId as string, adminId, reason)
+    const { reason } = req.body
+    if (!applicationId) {
+        throw new AppError(StatusCodes.NOT_FOUND, "Application ID required")
+    }
+    if (!adminId) {
+        throw new AppError(StatusCodes.NOT_FOUND, "Admin ID required")
+    }
+    const result = await AdminService.rejectApplication(applicationId as string, adminId, reason)
 
-sendResponse(res, {
-    success:true,
-    statusCode:StatusCodes.OK,
-    message:"Your aplication was Rejected",
-    data:result
+    sendResponse(res, {
+        success: true,
+        statusCode: StatusCodes.OK,
+        message: "Your aplication was Rejected",
+        data: result
+    })
 })
+
+const allApplications = catchAsync(async (req: Request, res: Response) => {
+    const result = await DriverApplicationDB.find()
+    sendResponse(res, {
+        success: true,
+        statusCode: StatusCodes.OK,
+        message: "Fetched all applications",
+        data: result
+    })
 })
 export const AdminController = {
     createAdmin,
@@ -211,6 +222,7 @@ export const AdminController = {
     deleteUser,
     getAllAdmin,
     approveApplication,
-    rejectApplication
+    rejectApplication,
+    allApplications
 }
 
