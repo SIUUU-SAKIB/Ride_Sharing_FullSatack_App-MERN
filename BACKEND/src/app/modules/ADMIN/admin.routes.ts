@@ -9,25 +9,43 @@ import { AdminValidation } from "./admin.validation";
 
 const router = Router()
 
+// *GET ALL USERS
 
 router.get(`/get-all-users`,
     authentication(IAdminRole.ADMIN, IAdminRole.SUPER_ADMIN
     ),
     AdminController.getAllUser);
+
+    // *GET USER BY ROLE
+
 router.get(`/get-users-by-role`,
     authentication(IAdminRole.ADMIN, IAdminRole.SUPER_ADMIN),
     AdminController.getUserByRole)
 
+    // *UPDATE USER 
+
 router.patch(`/update-user-by-admin/:id`,
     authentication(IAdminRole.ADMIN, IAdminRole.SUPER_ADMIN),
     AdminController.updateUserByAdmin)
-router.post(`/approve/:applicationId`, 
-        authentication(IAdminRole.ADMIN, IAdminRole.SUPER_ADMIN),
+
+    // *APPROVE DRIVER APPLICATION
+
+router.patch(`/approve/:applicationId`,
+    authentication(IAdminRole.ADMIN, IAdminRole.SUPER_ADMIN),
     AdminController.approveApplication)
+
+    // *GET SINGLE USER
+
 router.get(`/get-single-user/:id`,
     authentication(IAdminRole.ADMIN, IAdminRole.SUPER_ADMIN),
     AdminController.getSingleUser)
-router.patch(`/reject-application/:applicationId`, authentication(IAdminRole.ADMIN, IAdminRole.SUPER_ADMIN), AdminController.rejectApplication)
+
+    // *REJECT APPLICATION
+
+router.patch(`/reject-application/:applicationId`,
+    authentication(IAdminRole.ADMIN, IAdminRole.SUPER_ADMIN),
+    validateZodSchema(AdminValidation.rejectApplication),
+    AdminController.rejectApplication)
 // ---------------------------------------------------------------------
 // ** ONLY SUPER_ADMIN CAN CREATE, BLOCK AND DELETE ADMIN 
 

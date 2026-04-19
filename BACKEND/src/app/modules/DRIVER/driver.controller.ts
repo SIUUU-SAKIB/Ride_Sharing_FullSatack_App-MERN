@@ -63,6 +63,21 @@ const checkApplication = catchAsync(async (req: Request, res: Response) => {
 
 })
 
+const reapply = catchAsync(async(req:Request, res:Response) => {
+    const payload = req.body;
+    const userId = req.user?._id;
+    if(!userId){
+        throw new AppError(StatusCodes.BAD_REQUEST, "User ID required")
+    }
 
+    const result = await DriverServices.reapply(payload, userId)
+    sendResponse(res, {
+        success:true,
+        statusCode:200,
+        message:"Application applied again successful",
+        data:result
 
-export const DriverController = { driverApplication, checkApplication }
+    })
+
+})
+export const DriverController = { driverApplication, checkApplication, reapply }

@@ -103,7 +103,6 @@ const getUserByRole = async (role: string, page: number, limit: number, skip: nu
   }
 }
 
-
 const getSingleUser = async (id: string) => {
   const user = await UserDB.findById(id)
   return user
@@ -135,20 +134,17 @@ const approveApplication = async (_id: string) => {
   if (!user) {
     throw new AppError(StatusCodes.NOT_FOUND, "User does not exist")
   }
+  if (user.role === IUserRole.DRIVER) {
+    throw new AppError(StatusCodes.BAD_REQUEST, "User is already an driver")
+  }
   if (!application) {
     throw new AppError(StatusCodes.NOT_FOUND, "Application not found");
   }
 
   if (application.status !== IDriverStatus.PENDING) {
-    throw new AppError(400, "Application already processed");
-  }
-
-  const existingDriver = await DriverProfileDB.findOne({
-    userId: application.userId,
-  });
-
-  if (existingDriver) {
-    throw new AppError(400, "Driver already exists");
+    return {
+      message: "Application already processed"
+    }
   }
 
   application.status = IDriverStatus.APPROVED;
@@ -195,8 +191,6 @@ const rejectApplication = async (_id: string, adminId: string, reason: string) =
     throw new AppError(400, "Application already processed");
   }
 
-
-
   application.status = IDriverStatus.REJECTED;
   application.reviewerEmail = admin.email
   application.reviewerName = admin.name
@@ -218,5 +212,4 @@ export const AdminService = {
   getAllAdmin,
   approveApplication,
   rejectApplication
-
 }

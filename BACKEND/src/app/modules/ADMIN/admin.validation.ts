@@ -23,4 +23,8 @@ const updateZodSchema = z.object({
     isActive: z.boolean().optional()
 }).strict()
 
-export const AdminValidation = { zodSchema, updateZodSchema }
+
+const rejectApplication = z.object({
+    reason:z.string().optional()
+})
+export const AdminValidation = { zodSchema, updateZodSchema, rejectApplication}

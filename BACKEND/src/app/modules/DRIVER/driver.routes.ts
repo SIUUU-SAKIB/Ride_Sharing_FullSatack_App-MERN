@@ -11,8 +11,14 @@ router.post(`/apply`, upload.fields([
     { name: "licenseImage", maxCount: 5 },
     { name: "nidImage", maxCount: 5 },
     { name: "vehicleImage", maxCount: 5 }
-]), authentication(...Object.values(IUserRole)), validateZodSchema(driverValidation.driverApplicationZodSchema), DriverController.driverApplication)
+]), authentication(IUserRole.RIDER), validateZodSchema(driverValidation.driverApplicationZodSchema), DriverController.driverApplication)
 
 
+// REAPPLY
+router.patch(`/reapply`, upload.fields([
+    { name: "licenseImage", maxCount: 5 },
+    { name: "nidImage", maxCount: 5 },
+    { name: "vehicleImage", maxCount: 5 }
+]), authentication(IUserRole.RIDER), validateZodSchema(driverValidation.driverApplicationZodSchema), DriverController.reapply)
 router.get(`/check-application`, authentication(IUserRole.RIDER), DriverController.checkApplication)
 export const DriverRoutes = router

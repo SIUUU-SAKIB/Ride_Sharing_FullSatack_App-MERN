@@ -79,7 +79,7 @@ const DriverApplicationSchema = new Schema<IDriverApplication>({
     type: String
   },
    reviewerEmail: {
-    type: String
+    type: String 
   },
   status: {
     type: String,
