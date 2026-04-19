@@ -75,6 +75,11 @@ const DriverApplicationSchema = new Schema<IDriverApplication>({
   reviewdBy: {
     type: Schema.Types.ObjectId,
     ref: "Admin"
+  }, reviewerName: {
+    type: String
+  },
+   reviewerEmail: {
+    type: String
   },
   status: {
     type: String,

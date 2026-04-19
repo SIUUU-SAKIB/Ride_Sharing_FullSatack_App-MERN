@@ -198,17 +198,13 @@ const rejectApplication = async (_id: string, adminId: string, reason: string) =
 
 
   application.status = IDriverStatus.REJECTED;
-
-  application.reviewdBy = new Types.ObjectId(adminId);
+  application.reviewerEmail = admin.email
+  application.reviewerName = admin.name
   application.reviewdAt = new Date();
-
   application.rejectionReason = reason || "No reason provided";
 
   await application.save();
-
   return application;
-
-
 }
 export const AdminService = {
   createAdmin,

@@ -34,6 +34,8 @@ export interface IDriverApplication {
     licenseImage?: string;
     nidImage?: string;
     reviewdBy?:Types.ObjectId,
+    reviewerName?:string,
+    reviewerEmail:string,
     reviewdAt?:Date,
     rejectionReason?:string,
     vehicleImage?: string;
