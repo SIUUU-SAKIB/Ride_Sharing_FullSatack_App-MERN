@@ -149,6 +149,7 @@ const approveApplication = async (_id: string) => {
 
   application.status = IDriverStatus.APPROVED;
   user.role = IUserRole.DRIVER;
+  await user.save()
   await application.save();
 
   const profile = {

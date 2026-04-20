@@ -202,7 +202,7 @@ const rejectApplication = catchAsync(async (req: Request, res: Response) => {
 })
 
 const allApplications = catchAsync(async (req: Request, res: Response) => {
-    const result = await DriverApplicationDB.find()
+    const result = await DriverApplicationDB.find().select("_id userId licenseNumber vehicleNumber vehicleType phoneNumber address status")
     sendResponse(res, {
         success: true,
         statusCode: StatusCodes.OK,
