@@ -57,7 +57,7 @@ const checkApplication = catchAsync(async (req: Request, res: Response) => {
     sendResponse(res, {
         success: true,
         statusCode: StatusCodes.OK,
-        message: `Successfully fetched your status which is ${result}`,
+        message: `Successfully fetched your status`,
         data: result
     })
 

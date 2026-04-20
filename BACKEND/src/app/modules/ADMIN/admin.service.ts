@@ -5,7 +5,7 @@ import { AdminDB } from "./admin.model";
 import { enviromentVariables } from "../../config/env";
 import crypto from "crypto"
 import bcrypt from "bcryptjs";
-import { sendVerifyEmail } from "../../utils/sendEmail";
+import { congratsToApproval, rejectEmali, sendVerifyEmail } from "../../utils/sendEmail";
 import catchAsync from "../../utils/catchAsync";
 import { UserDB } from "../USER/user.model";
 import { IUser, IUserRole } from "../USER/user.interface";
@@ -170,7 +170,7 @@ const approveApplication = async (_id: string) => {
   };
 
   const driverProfile = await DriverProfileDB.create(profile);
-
+  await congratsToApproval(user.email, `${enviromentVariables.FRONTEND_URL}/dashboard`)
   return driverProfile;
 };
 
@@ -199,6 +199,7 @@ const rejectApplication = async (_id: string, adminId: string, reason: string) =
   application.rejectionReason = reason || "No reason provided";
 
   await application.save();
+  await rejectEmali(user.email, reason, `${enviromentVariables.FRONTEND_URL}/form/reapply`)
   return application;
 }
 

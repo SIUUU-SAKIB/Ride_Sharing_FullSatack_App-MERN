@@ -115,20 +115,17 @@ export const sendOtp = async (to: string, subject: string, otp?: string) => {
         <div style="background: #f4f6f8; padding: 40px 0; font-family: 'Segoe UI', Arial, sans-serif;">
   <div style="max-width: 500px; margin: auto; background: #ffffff; border-radius: 12px; padding: 30px; box-shadow: 0 10px 25px rgba(0,0,0,0.08); text-align: center;">
     
-    <!-- Logo / Title -->
     <h2 style="margin-bottom: 10px; color: #333;">🔐 Verify Your Identity</h2>
     <p style="color: #777; font-size: 14px; margin-bottom: 25px;">
       Use the OTP below to complete your action
     </p>
 
-    <!-- OTP BOX -->
     <div style="background: #f1f5ff; border: 2px dashed #4f46e5; padding: 20px; border-radius: 10px; margin-bottom: 25px;">
       <span style="font-size: 36px; font-weight: bold; color: #4f46e5; letter-spacing: 8px;">
         ${otp}
       </span>
     </div>
 
-    <!-- Expiry -->
     <p style="color: #555; font-size: 14px;">
       ⏳ This code will expire in <strong>10 minutes</strong>
     </p>
@@ -153,5 +150,121 @@ export const sendOtp = async (to: string, subject: string, otp?: string) => {
     to,
     subject,
     html: emailHtml
+  })
+}
+export const congratsToApproval = async (to: string, link?: string) => {
+  const approvalEmailHtml = `
+
+<div style="background: #f4f6f8; padding: 40px 0; font-family: 'Segoe UI', Arial, sans-serif;">
+  <div style="max-width: 500px; margin: auto; background: #ffffff; border-radius: 12px; padding: 30px; box-shadow: 0 10px 25px rgba(0,0,0,0.08); text-align: center;">
+
+<!-- Header -->
+<h2 style="margin-bottom: 10px; color: #333;">🎉 You're Approved!</h2>
+
+<p style="color: #777; font-size: 14px; margin-bottom: 25px;">
+  Congratulations! Your driver application has been successfully approved.
+</p>
+
+<!-- Highlight Box -->
+<div style="background: #f1fff5; border: 2px dashed #4CAF50; padding: 20px; border-radius: 10px; margin-bottom: 25px;">
+  <span style="font-size: 20px; font-weight: bold; color: #4CAF50;">
+    You are now an official driver 🚗
+  </span>
+</div>
+
+<!-- CTA Button -->
+<div style="margin: 30px 0;">
+  <a href="${link}/dashboard"
+     style="background: #4CAF50; color: #ffffff; padding: 14px 28px; text-decoration: none; border-radius: 8px; font-weight: bold; display: inline-block;">
+    Go to Dashboard
+  </a>
+</div>
+
+<!-- Info -->
+<p style="color: #555; font-size: 14px;">
+  You can now start accepting ride requests and earning right away.
+</p>
+
+<hr style="margin: 25px 0; border: none; border-top: 1px solid #eee;" />
+
+<p style="font-size: 13px; color: #999;">
+  If you have any questions, feel free to contact support.
+</p>
+
+<p style="font-size: 12px; color: #bbb; margin-top: 20px;">
+  © 2026 Ride Sharing App
+</p>
+  </div>
+</div>
+`;
+
+  await transporter.sendMail({
+    from: enviromentVariables.EMAIL_SENDER.SMTP_FROM,
+    to: to,
+    subject: "Congratulation on application approval 😍",
+    html: approvalEmailHtml
+  })
+}
+
+export const rejectEmali = async (to: string, reason: string, link: string) => {
+  const rejectionEmailHtml = `
+
+<div style="background: #f4f6f8; padding: 40px 0; font-family: 'Segoe UI', Arial, sans-serif;">
+  <div style="max-width: 500px; margin: auto; background: #ffffff; border-radius: 12px; padding: 30px; box-shadow: 0 10px 25px rgba(0,0,0,0.08); text-align: center;">
+<!-- Header -->
+<h2 style="margin-bottom: 10px; color: #d32f2f;">Application Update</h2>
+<p style="color: #777; font-size: 14px; margin-bottom: 25px;">
+  We’ve reviewed your driver application.
+</p>
+
+<!-- Rejection Box -->
+<div style="background: #fff5f5; border: 2px dashed #d32f2f; padding: 20px; border-radius: 10px; margin-bottom: 25px;">
+  <span style="font-size: 16px; font-weight: bold; color: #d32f2f;">
+    ❌ Unfortunately, your application was not approved
+  </span>
+</div>
+
+<!-- Reason -->
+<p style="color: #555; font-size: 14px; margin-bottom: 10px;">
+  <strong>Reason:</strong>
+</p>
+<p style="color: #333; font-size: 14px; margin-bottom: 25px;">
+  ${reason || "No specific reason provided. Please ensure all documents are valid and clear."}
+</p>
+
+<!-- CTA Button -->
+<div style="margin: 30px 0;">
+  <a href=${link}
+     style="background: #d32f2f; color: #ffffff; padding: 14px 28px; text-decoration: none; border-radius: 8px; font-weight: bold; display: inline-block;">
+    Fix & Reapply
+  </a>
+</div>
+
+<!-- Help Text -->
+<p style="color: #555; font-size: 14px;">
+  You can review your information, make necessary corrections, and submit your application again.
+</p>
+
+<!-- Divider -->
+<hr style="margin: 25px 0; border: none; border-top: 1px solid #eee;" />
+
+<!-- Footer -->
+<p style="font-size: 13px; color: #999;">
+  Need help? Contact our support team anytime.
+</p>
+
+<p style="font-size: 12px; color: #bbb; margin-top: 20px;">
+  © 2026 Ride Sharing App
+</p>
+
+
+  </div>
+</div>
+`;
+  await transporter.sendMail({
+    from: enviromentVariables.EMAIL_SENDER.SMTP_FROM,
+    to,
+    subject: "Your application was rejected",
+    html: rejectionEmailHtml
   })
 }

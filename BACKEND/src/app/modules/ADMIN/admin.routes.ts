@@ -15,6 +15,11 @@ router.get(`/get-all-users`,
     ),
     AdminController.getAllUser);
 
+    // *SEE ALL APPLICATIONS
+
+router.get(`/all-applications`,
+     authentication(IAdminRole.ADMIN, IAdminRole.SUPER_ADMIN),
+      AdminController.allApplications)
 // *GET USER BY ROLE
 
 router.get(`/get-users-by-role`,
@@ -27,7 +32,7 @@ router.patch(`/update-user-by-admin/:id`,
     authentication(IAdminRole.ADMIN, IAdminRole.SUPER_ADMIN),
     AdminController.updateUserByAdmin)
 
-// *APPROVE DRIVER APPLICATION
+// * APPROVE DRIVER APPLICATION
 
 router.patch(`/approve/:applicationId`,
     authentication(IAdminRole.ADMIN, IAdminRole.SUPER_ADMIN),
@@ -46,9 +51,7 @@ router.patch(`/reject-application/:applicationId`,
     validateZodSchema(AdminValidation.rejectApplication),
     AdminController.rejectApplication)
 
-router.get(`/all-applications`,
-     authentication(IAdminRole.ADMIN, IAdminRole.SUPER_ADMIN),
-      AdminController.allApplications)
+
 // ---------------------------------------------------------------------
 // ** ONLY SUPER_ADMIN CAN CREATE, BLOCK AND DELETE ADMIN 
 
