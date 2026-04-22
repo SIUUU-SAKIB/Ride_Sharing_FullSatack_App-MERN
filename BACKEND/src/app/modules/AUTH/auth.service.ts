@@ -1,15 +1,15 @@
 import { StatusCodes } from "http-status-codes"
 import AppError from "../../utils/createError"
 import bcrypt from "bcryptjs";
-import { createUserTokens } from "../../utils/tokens";
+import { createUserTokens } from "../../utils/jwt/tokens";
 import { UserDB } from "../USER/user.model";
 import { IUser } from "../USER/user.interface";
 import { enviromentVariables } from "../../config/env";
-import { verifyToken } from "../../utils/jwt";
 import { JwtPayload } from "jsonwebtoken";
 import { sendOtp } from "../../utils/sendEmail";
 import { AdminDB } from "../ADMIN/admin.model";
 import { IAdmin } from "../ADMIN/admin.interface";
+import { verifyToken } from "../../utils/jwt/jwt";
 const MAX_ATTEMPTS = 5;
 const LOCK_TIME = 15 * 60 * 1000;
 

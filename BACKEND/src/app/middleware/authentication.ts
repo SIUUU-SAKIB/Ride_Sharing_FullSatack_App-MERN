@@ -1,11 +1,11 @@
 import { NextFunction, Request, Response } from "express";
 import AppError from "../utils/createError";
-import { verifyToken } from "../utils/jwt";
 import { enviromentVariables } from "../config/env";
 import { UserDB } from "../modules/USER/user.model";
 import { JwtPayload } from "jsonwebtoken";
 import { AdminDB } from "../modules/ADMIN/admin.model";
 import { StatusCodes } from "http-status-codes";
+import { verifyToken } from "../utils/jwt/jwt";
 
 
 export const authentication =

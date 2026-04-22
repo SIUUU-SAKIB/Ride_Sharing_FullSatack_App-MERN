@@ -28,28 +28,31 @@ const RideRequestSchema = new Schema<IRideRequest>({
         required: true
     },
     status: {
-        type:String,
+        type: String,
         enum: Object.values(RideRequestStatus),
         default: RideRequestStatus.PENDING
     },
     payment: {
-        type:String,
+        type: String,
         enum: Object.values(PaymentMethod),
         default: PaymentMethod.CASH
     },
     vehicleRequest: {
-        type:String,
+        type: String,
         enum: Object.values(IVehicleType),
         required: true
     },
     estimatedPassengers: {
         type: Number,
         required: true,
-        default:1
+        default: 1
+    },
+    distanceKM: {
+        type: Number
     },
     estimatedFare: {
         type: Number,
-        required:true
+        required: true
     },
     specificInstruction: {
         type: String
@@ -70,4 +73,4 @@ const RideRequestSchema = new Schema<IRideRequest>({
     timestamps: true
 })
 
-export const RideRequestDB =  model("RideRequest", RideRequestSchema)
+export const RideRequestDB = model("RideRequest", RideRequestSchema)

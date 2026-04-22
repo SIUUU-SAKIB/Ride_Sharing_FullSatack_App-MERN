@@ -21,6 +21,7 @@ export enum PaymentMethod {
 export enum RideRequestStatus {
     PENDING = "PENDING",
     MATCHED = "MATCHED",
+    ONGOING = "OGOING",
     CANCELLED = "CANCELLED",
     EXPIRED = "EXPIRED"
 }
@@ -34,6 +35,7 @@ export interface IRideRequest {
     vehicleRequest: IVehicleType,
     estimatedPassengers?: number,
     estimatedFare?: number,
+    distanceKM?:number,
     specificInstruction?: string,
     expiresAt: Date,
     cancelledAt?: Date,

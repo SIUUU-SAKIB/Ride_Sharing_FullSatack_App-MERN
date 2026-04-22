@@ -3,7 +3,7 @@ import catchAsync from "../../utils/catchAsync";
 import sendResponse from "../../utils/sendResponse";
 import { StatusCodes } from "http-status-codes";
 import { setAuthCookie } from "../../utils/setCookies";
-import { createUserTokens } from "../../utils/tokens";
+import { createUserTokens } from "../../utils/jwt/tokens";
 import { AuthService } from "./auth.service";
 import AppError from "../../utils/createError";
 import { UserDB } from "../USER/user.model";
