@@ -2,16 +2,19 @@ import { RideRequestStatus } from "./rideRq.interface";
 import { RideRequestDB } from "./rideRq.model";
 
 const expiresRideRequests = async () => {
-    const now = Date.now();
+    const now = new Date();
 
     const result = await RideRequestDB.updateMany({
-        statusc: RideRequestStatus.PENDING,
+        status: RideRequestStatus.PENDING,
         expiresAt: { $lte: now }
     }, {
         $set: {
             status: RideRequestStatus.EXPIRED
         }
     })
+    if (result.modifiedCount > 0) {
+  console.log(`Expired ${result.modifiedCount} ride requests`);
+}
 }
 
 export const rideExpirationWorker = () => {
