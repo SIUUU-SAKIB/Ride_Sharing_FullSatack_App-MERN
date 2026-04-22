@@ -4,6 +4,7 @@ import { Server } from "http"
 import app from "./app"
 import { seedSuperAdmin } from "./app/utils/seedSuperAdmin"
 import { startRideExpirationWorker } from "./app/modules/RIDES/rides.worker"
+import { rideExpirationWorker } from "./app/modules/RIDE REQUEST/rideRqWorker"
 let server: Server
 
 const startServer = async () => {
@@ -13,8 +14,8 @@ const startServer = async () => {
         server = app.listen(enviromentVariables.PORT, () => {
             console.log(`Server is Listening to port http://localhost:${enviromentVariables.PORT}/api/v1 🚀✅😍`)
         })
-        seedSuperAdmin()
-        startRideExpirationWorker()
+        await seedSuperAdmin()
+        await rideExpirationWorker()
     } catch (error) {
         console.log(error)
     }

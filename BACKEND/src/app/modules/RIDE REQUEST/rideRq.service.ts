@@ -44,8 +44,10 @@ const RideRequest = async (riderId: string, payload: Partial<IRideRequest>) => {
 
 
     const rideExpires = new Date(Date.now() + 5 * 60 * 1000) //5 min
-    const calculateDistance = calculateDistanceKM(lat1, lng1, lat2, lng2)
-    const estimatedFare = calculateFare(calculateDistance)
+    const rawDistance = calculateDistanceKM(lat1, lng1, lat2, lng2);
+    const distanceKM = Number(rawDistance.toFixed(2));
+
+    const estimatedFare = Number(calculateFare(distanceKM).toFixed(2)) ;
 
     const mainPayload = {
         riderId: riderId,
@@ -55,11 +57,11 @@ const RideRequest = async (riderId: string, payload: Partial<IRideRequest>) => {
         payment: PaymentMethod.CASH,
         vehicleRequest: IVehicleType.FOUR_WHEELER,
         estimatedPassengers: payload.estimatedPassengers,
-        distanceKM: calculateDistance,
-        estimatedFare: Math.trunc(estimatedFare),
+        distanceKM: distanceKM,
+        estimatedFare: estimatedFare ,
         expiresAt: rideExpires
     }
-    await RideRequestDB.create(mainPayload)
-    return mainPayload
+    const rideRq = await RideRequestDB.create(mainPayload)
+    return rideRq
 }
 export const RideRequestService = { RideRequest }

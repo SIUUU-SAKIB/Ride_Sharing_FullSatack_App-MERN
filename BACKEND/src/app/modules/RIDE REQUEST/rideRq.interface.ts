@@ -26,6 +26,7 @@ export enum RideRequestStatus {
     EXPIRED = "EXPIRED"
 }
 export interface IRideRequest {
+    _id?:Types.ObjectId,
     riderId: Types.ObjectId,
     driverId?:Types.ObjectId,
     pickupLocation: IRideLocation,
