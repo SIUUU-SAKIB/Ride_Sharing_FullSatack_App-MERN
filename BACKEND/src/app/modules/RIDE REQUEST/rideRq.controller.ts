@@ -8,8 +8,8 @@ import sendResponse from "../../utils/sendResponse";
 const rideRequest = catchAsync(async (req: Request, res: Response) => {
     const riderId = req.user?._id;
     const payload = req.body;
-    if (!riderId || payload) {
-        throw new AppError(StatusCodes.BAD_REQUEST, `${!riderId && "Rider ID is required" || !payload && "Payload is required"}`)
+    if (!riderId) {
+        throw new AppError(StatusCodes.BAD_REQUEST, "Rider ID is required.")
     }
     const result = await RideRequestService.RideRequest(riderId, payload)
     sendResponse(res, {
@@ -20,4 +20,4 @@ const rideRequest = catchAsync(async (req: Request, res: Response) => {
     })
 })
 
-export const RideRequestController= {rideRequest }
+export const RideRequestController = { rideRequest }

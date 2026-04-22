@@ -1,9 +1,10 @@
 import { StatusCodes } from "http-status-codes";
 import AppError from "../../utils/createError";
 import { UserDB } from "../USER/user.model";
-import { IRideLocation, IRideRequest, PaymentMethod, RideRequestStatus } from "./rideRq.interface";
+import { IRideRequest, PaymentMethod, RideRequestStatus } from "./rideRq.interface";
 import { RideRequestDB } from "./rideRq.model";
 import { IVehicleType } from "../DRIVER/driver.interface";
+import { calculateDistanceKM } from "../../utils/ride/calculateDistance";
 
 const BASE_FARE = 50
 const PER_KM_RATE = 15
@@ -50,12 +51,12 @@ const RideRequest = async (riderId: string, payload: Partial<IRideRequest>) => {
         riderId: riderId,
         pickupLocation: payload.pickupLocation,
         dropoffLocation: payload.dropoffLocation,
-        satus: RideRequestStatus.PENDING,
+        status: RideRequestStatus.PENDING,
         payment: PaymentMethod.CASH,
         vehicleRequest: IVehicleType.FOUR_WHEELER,
         estimatedPassengers: payload.estimatedPassengers,
         distanceKM: calculateDistance,
-        estimatedFare: estimatedFare,
+        estimatedFare: Math.trunc(estimatedFare),
         expiresAt: rideExpires
     }
     await RideRequestDB.create(mainPayload)
