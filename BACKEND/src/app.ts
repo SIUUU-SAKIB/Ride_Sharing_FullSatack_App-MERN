@@ -7,7 +7,6 @@ import { notFoundHandler } from "./app/middleware/notFound"
 import { AuthRoutes } from "./app/modules/AUTH/auth.route"
 import passport from "passport";
 import "./app/config/passport"
-import { RideRoutes } from "./app/modules/RIDES/rides.route";
 import { DriverRoutes } from "./app/modules/DRIVER/driver.routes";
 import { AdminRoutes } from "./app/modules/ADMIN/admin.routes";
 import { UserRoutes } from "./app/modules/USER/user.routes";
@@ -28,7 +27,7 @@ app.use(`/api/v1/auth`, AuthRoutes)
 app.use(`/api/v1/driver`, DriverRoutes)
 app.use('/api/v1/admin', AdminRoutes)
 app.use('/api/v1/ride-request', RideRequestRouter)
-app.use('/api/v1/rides', RideRoutes)
+
 
 // DEFAULT ROUTE--------------------
 app.get('/api/v1', (req: Request, res: Response) => {

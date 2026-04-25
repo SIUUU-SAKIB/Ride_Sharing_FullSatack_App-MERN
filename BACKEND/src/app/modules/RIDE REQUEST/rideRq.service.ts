@@ -5,6 +5,8 @@ import { IRideRequest, PaymentMethod, RideRequestStatus } from "./rideRq.interfa
 import { RideRequestDB } from "./rideRq.model";
 import { IVehicleType } from "../DRIVER/driver.interface";
 import { calculateDistanceKM } from "../../utils/ride/calculateDistance";
+import { DriverProfileDB } from "../DRIVER/driver.model";
+import { STATES } from "mongoose";
 
 const BASE_FARE = 50
 const PER_KM_RATE = 15
@@ -43,11 +45,11 @@ const RideRequest = async (riderId: string, payload: Partial<IRideRequest>) => {
     const { lat: lat2, lng: lng2 } = payload.dropoffLocation
 
 
-    const rideExpires = new Date(Date.now() + 5 * 60 * 1000) //5 min
+    const rideExpires = new Date(Date.now() + 5 * 60 * 1000)
     const rawDistance = calculateDistanceKM(lat1, lng1, lat2, lng2);
     const distanceKM = Number(rawDistance.toFixed(2));
 
-    const estimatedFare = Number(calculateFare(distanceKM).toFixed(2)) ;
+    const estimatedFare = Number(calculateFare(distanceKM).toFixed(2));
 
     const mainPayload = {
         riderId: riderId,
@@ -58,10 +60,38 @@ const RideRequest = async (riderId: string, payload: Partial<IRideRequest>) => {
         vehicleRequest: IVehicleType.FOUR_WHEELER,
         estimatedPassengers: payload.estimatedPassengers,
         distanceKM: distanceKM,
-        estimatedFare: estimatedFare ,
+        estimatedFare: estimatedFare,
         expiresAt: rideExpires
     }
     const rideRq = await RideRequestDB.create(mainPayload)
     return rideRq
+}
+
+const acceptRideRequest = async (driverId: string, rideId: string) => {
+    const driver = await DriverProfileDB.findById(driverId)
+    if (!driver) {
+        throw new AppError(404, "Driver not found");
+    }
+    if (!driver.status) {
+        throw new AppError(StatusCodes.BAD_REQUEST, "Driver is not available")
+    }
+    const now = new Date()
+    const rideRq = await RideRequestDB.findOneAndUpdate(
+        {
+            _id: rideId,
+            status: RideRequestStatus.PENDING,
+            expiresAt: { $gt: now }
+        },
+        {
+            $set: {
+                driverId,
+                status: RideRequestStatus.MATCHED,
+                fulfilledAt: now
+            }
+        },
+        { new: true }
+    );
+
+
 }
 export const RideRequestService = { RideRequest }

@@ -106,7 +106,7 @@ const DriverProfileSchema = new Schema<IDriverProfile>(
       unique: true,
     },
     driverId: {
-      type: String,
+      type: Types.ObjectId,
       required: true,
       trim: true
     },

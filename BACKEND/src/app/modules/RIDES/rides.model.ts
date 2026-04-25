@@ -1,7 +1,8 @@
 import { model, Schema, Types } from "mongoose";
-import { IRide, IRideLocation, PaymentStatus, RideStatus } from "./rides.interface";
+import { IRide, PaymentStatus} from "./rides.interface";
 import { IUserRole } from "../USER/user.interface";
 import { IAdminRole } from "../ADMIN/admin.interface";
+import { IRideLocation, RideRequestStatus } from "../RIDE REQUEST/rideRq.interface";
 
 
 export const RideLocationSchema = new Schema<IRideLocation>({
@@ -32,7 +33,7 @@ const RideSchema = new Schema<IRide>({
     },
     driverId: {
         type: Types.ObjectId,
-        ref: "User",
+        ref: "DriverProfile",
         required: true,
         index: true
     },
@@ -41,7 +42,7 @@ const RideSchema = new Schema<IRide>({
         type: RideLocationSchema,
         required: true
     },
-    dropOffLocation: {
+    dropoffLocation: {
         type: RideLocationSchema,
         required: true
     },
@@ -59,14 +60,12 @@ const RideSchema = new Schema<IRide>({
     },
     status:{
         type:String,
-        enum:Object.values(RideStatus),
-        default:RideStatus.REQUESTED,
+        enum:Object.values(RideRequestStatus),
         required:true
     },
     paymentStatus:{
         type:String,
-        enum:Object.values(PaymentStatus),
-        required:true
+        enum:Object.values(PaymentStatus)
     },
     requestedAt:{
         type:Date,
@@ -82,8 +81,8 @@ const RideSchema = new Schema<IRide>({
       enum: Object.values(IUserRole || IAdminRole),
     }
 
-}, {
+}, { 
     versionKey: false, timestamps: true
 })
 
-export const RidesRQDB = model<IRide>('RidesRQ', RideSchema) 
+export const RidesDB = model<IRide>('Rides', RideSchema) 
