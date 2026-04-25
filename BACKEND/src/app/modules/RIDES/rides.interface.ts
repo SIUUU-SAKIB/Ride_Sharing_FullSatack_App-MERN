@@ -1,7 +1,16 @@
 import { Types } from "mongoose";
 import { IUser, IUserRole } from "../USER/user.interface";
 import { IAdminRole } from "../ADMIN/admin.interface";
-import { IRideLocation, PaymentMethod, RideRequestStatus } from "../RIDE REQUEST/rideRq.interface";
+import { IRideLocation, PaymentMethod } from "../RIDE REQUEST/rideRq.interface";
+
+export enum RideStatus {
+    REQUESTED = "REQUESTED",
+    ACCEPTED = "ACCEPTED",
+    ONGOING = "ONGOING",
+    COMPLETED = "COMPLETED",
+    CANCELLED = "CANCELLED",
+}
+
 export enum PaymentStatus {
     PENDING = "PENDING",
     PAID = "PAID",
@@ -38,7 +47,7 @@ export interface IRide {
     estimatedFare?: number;
     finalFare?: number;
 
-    status: RideRequestStatus;
+    status: RideStatus;
 
     paymentStatus: PaymentStatus;
     paymentMethod: PaymentMethod;

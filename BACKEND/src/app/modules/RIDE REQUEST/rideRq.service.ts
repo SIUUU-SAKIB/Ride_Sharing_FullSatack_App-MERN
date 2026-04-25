@@ -7,6 +7,8 @@ import { IVehicleType } from "../DRIVER/driver.interface";
 import { calculateDistanceKM } from "../../utils/ride/calculateDistance";
 import { DriverProfileDB } from "../DRIVER/driver.model";
 import { STATES } from "mongoose";
+import { RidesDB } from "../RIDES/rides.model";
+import { RideStatus } from "../RIDES/rides.interface";
 
 const BASE_FARE = 50
 const PER_KM_RATE = 15
@@ -91,7 +93,20 @@ const acceptRideRequest = async (driverId: string, rideId: string) => {
         },
         { new: true }
     );
+    driver.isAvailable = false
+    await driver.save()
 
+    return await RidesDB.create({
+        riderId: rideRq?.riderId,
+        driverId: driver._id,
+        pickupLocation: rideRq?.pickupLocation,
+        dropoffLocation: rideRq?.dropoffLocation,
+        status: RideStatus.ACCEPTED,
+        requestedAt: rideRq?.createdAt,
+        acceptedAt: now,
+        estimatedFare: rideRq?.estimatedFare
+
+    })
 
 }
-export const RideRequestService = { RideRequest }
+export const RideRequestService = { RideRequest, acceptRideRequest }

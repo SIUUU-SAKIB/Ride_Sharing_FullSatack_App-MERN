@@ -1,5 +1,5 @@
 import { model, Schema, Types } from "mongoose";
-import { IRide, PaymentStatus} from "./rides.interface";
+import { IRide, PaymentStatus, RideStatus} from "./rides.interface";
 import { IUserRole } from "../USER/user.interface";
 import { IAdminRole } from "../ADMIN/admin.interface";
 import { IRideLocation, RideRequestStatus } from "../RIDE REQUEST/rideRq.interface";
@@ -60,7 +60,7 @@ const RideSchema = new Schema<IRide>({
     },
     status:{
         type:String,
-        enum:Object.values(RideRequestStatus),
+        enum:Object.values(RideStatus),
         required:true
     },
     paymentStatus:{
