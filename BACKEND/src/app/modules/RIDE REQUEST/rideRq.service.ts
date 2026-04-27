@@ -71,6 +71,7 @@ const RideRequest = async (riderId: string, payload: Partial<IRideRequest>) => {
 
 const acceptRideRequest = async (driverId: string, rideId: string) => {
     const driver = await DriverProfileDB.findById(driverId)
+    console.log("driver is fou    ")
     if (!driver) {
         throw new AppError(404, "Driver not found");
     }

@@ -4,8 +4,8 @@ import rateLimit from "express-rate-limit";
 
 
 const registerLimiter = rateLimit({
-  windowMs: 5 * 60 * 1000,
-  max: 15,
+  windowMs: 15 * 60 * 1000,
+  max: 50,
 
   handler: (req:Request, res:Response) => {
     console.log("RATE LIMIT HIT 🚫");
@@ -17,8 +17,8 @@ const registerLimiter = rateLimit({
   },
 });
 const loginLimiter = rateLimit({
-  windowMs: 5 * 60 * 1000,
-  max: 5,
+  windowMs: 20 * 60 * 1000,
+  max: 50,
 
   handler: (req:Request, res:Response) => {
     console.log("RATE LIMIT HIT 🚫");

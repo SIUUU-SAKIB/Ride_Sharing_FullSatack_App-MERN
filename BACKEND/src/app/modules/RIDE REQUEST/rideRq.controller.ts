@@ -23,17 +23,18 @@ const rideRequest = catchAsync(async (req: Request, res: Response) => {
 
 const acceptRideRequest = catchAsync(async (req: Request, res: Response) => {
     const driverId = req.user?._id;
-    const rideId = req.params.id
+    const rideId = req.params.rideID
     if (!driverId)
         throw new AppError(StatusCodes.NOT_FOUND, "Driver ID required")
 
     const result = RideRequestService.acceptRideRequest(driverId, rideId as string)
     var message = "Ride request accepted successfully"
     sendResponse(res, {
-        success:true,
-        statusCode:200,
-        message:message,
-        data:result
+        success: true,
+        statusCode: 200,
+        message: message,
+        data: result
     })
+
 })
-export const RideRequestController = { rideRequest }
+export const RideRequestController = { rideRequest, acceptRideRequest }
