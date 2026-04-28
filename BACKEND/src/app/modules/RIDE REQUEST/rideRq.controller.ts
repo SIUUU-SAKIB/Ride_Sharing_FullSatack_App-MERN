@@ -22,12 +22,13 @@ const rideRequest = catchAsync(async (req: Request, res: Response) => {
 
 
 const acceptRideRequest = catchAsync(async (req: Request, res: Response) => {
-    const driverId = req.user?._id;
-    const rideId = req.params.rideID
-    if (!driverId)
+    const driverID = req.user?._id;
+    const rideID = req.params.rideID
+    console.log(driverID)
+    if (!driverID)
         throw new AppError(StatusCodes.NOT_FOUND, "Driver ID required")
 
-    const result = RideRequestService.acceptRideRequest(driverId, rideId as string)
+    const result = RideRequestService.acceptRideRequest(driverID, rideID as string)
     var message = "Ride request accepted successfully"
     sendResponse(res, {
         success: true,

@@ -46,6 +46,8 @@ export interface IDriverApplication {
 export interface IDriverProfile {
     userId?: Types.ObjectId,
     driverId?:string,
+    name?:string,
+    email?:string,
     vehicleNumber: string,
     phone:string,
     vehicleType: IVehicleType,

@@ -155,6 +155,8 @@ const approveApplication = async (_id: string) => {
   const profile = {
     userId: application.userId,
     driverId: "DRV" + Date.now(),
+    name:user.name,
+    email:user.email,
     licenseImage: application.licenseImage,
     vehicleImage: application.vehicleImage,
     nidImage: application.nidImage,

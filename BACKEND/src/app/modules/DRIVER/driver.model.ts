@@ -78,17 +78,17 @@ const DriverApplicationSchema = new Schema<IDriverApplication>({
   }, reviewerName: {
     type: String
   },
-   reviewerEmail: {
-    type: String 
+  reviewerEmail: {
+    type: String
   },
   status: {
     type: String,
     enum: Object.values(IDriverStatus),
     default: IDriverStatus.PENDING,
   },
-  isBlocked:{
-    type:Boolean,
-    default:false
+  isBlocked: {
+    type: Boolean,
+    default: false
   }
 },
   {
@@ -105,8 +105,15 @@ const DriverProfileSchema = new Schema<IDriverProfile>(
       required: true,
       unique: true,
     },
+    name: {
+      type: String,
+      trim: true
+    },
+    email: {
+      type: String
+    },
     driverId: {
-      type: Types.ObjectId,
+      type: String,
       required: true,
       trim: true
     },

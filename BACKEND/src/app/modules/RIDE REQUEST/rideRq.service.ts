@@ -47,7 +47,7 @@ const RideRequest = async (riderId: string, payload: Partial<IRideRequest>) => {
     const { lat: lat2, lng: lng2 } = payload.dropoffLocation
 
 
-    const rideExpires = new Date(Date.now() + 5 * 60 * 1000)
+    const rideExpires = new Date(Date.now() + 20 * 60 * 1000)
     const rawDistance = calculateDistanceKM(lat1, lng1, lat2, lng2);
     const distanceKM = Number(rawDistance.toFixed(2));
 
@@ -69,45 +69,52 @@ const RideRequest = async (riderId: string, payload: Partial<IRideRequest>) => {
     return rideRq
 }
 
-const acceptRideRequest = async (driverId: string, rideId: string) => {
-    const driver = await DriverProfileDB.findById(driverId)
-    console.log("driver is fou    ")
-    if (!driver) {
-        throw new AppError(404, "Driver not found");
-    }
-    if (!driver.status) {
-        throw new AppError(StatusCodes.BAD_REQUEST, "Driver is not available")
-    }
-    const now = new Date()
-    const rideRq = await RideRequestDB.findOneAndUpdate(
-        {
-            _id: rideId,
-            status: RideRequestStatus.PENDING,
-            expiresAt: { $gt: now }
-        },
-        {
-            $set: {
-                driverId,
-                status: RideRequestStatus.MATCHED,
-                fulfilledAt: now
-            }
-        },
-        { new: true }
-    );
-    driver.isAvailable = false
-    await driver.save()
+const acceptRideRequest = async (_id: string, rideId: string) => {
 
-    return await RidesDB.create({
-        riderId: rideRq?.riderId,
-        driverId: driver._id,
-        pickupLocation: rideRq?.pickupLocation,
-        dropoffLocation: rideRq?.dropoffLocation,
-        status: RideStatus.ACCEPTED,
-        requestedAt: rideRq?.createdAt,
-        acceptedAt: now,
-        estimatedFare: rideRq?.estimatedFare
+  const driver = await DriverProfileDB.findOne({ userId: _id});
+console.log(driver)
+  if (!driver) {
+    throw new AppError(404, "Driver not found");
+  }
 
-    })
+  if (!driver.isAvailable) {
+    throw new AppError(400, "Driver is not available");
+  }
 
-}
+  const now = new Date();
+
+  const rideRq = await RideRequestDB.findOneAndUpdate(
+    {
+      _id: rideId,
+      status: RideRequestStatus.PENDING,
+      expiresAt: { $gt: now }
+    },
+    {
+      $set: {
+        driverId: driver.driverId,
+        status: RideRequestStatus.MATCHED,
+        fulfilledAt: now
+      }
+    },
+    { new: true }
+  );
+
+  if (!rideRq) {
+    throw new AppError(400, "Ride already taken or expired");
+  }
+
+  driver.isAvailable = false;
+  await driver.save();
+
+  return await RidesDB.create({
+    riderId: rideRq.riderId,
+    driverId: driver.driverId, // ✅ FIXED
+    pickupLocation: rideRq.pickupLocation,
+    dropoffLocation: rideRq.dropoffLocation,
+    status: RideStatus.ACCEPTED,
+    requestedAt: rideRq.createdAt,
+    acceptedAt: now,
+    estimatedFare: rideRq.estimatedFare
+  });
+};
 export const RideRequestService = { RideRequest, acceptRideRequest }
