@@ -9,7 +9,6 @@ const router = Router()
 
 router.patch(`/status/:id`,
     authentication(IUserRole.DRIVER),
-    validateZodSchema(RidesValidation.rideStatus),
     RidesController.updateRideStatus
 )
 export const RidesRouter = router

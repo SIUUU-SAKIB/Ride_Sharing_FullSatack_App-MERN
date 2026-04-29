@@ -15,15 +15,14 @@ const updateRideStatus = async (
     }
 
     const driver = await DriverProfileDB.findOne({ userId: driverID });
-    const drv = driver?.driverId || 123
+
     if (!driver) {
         throw new AppError(404, "Driver not found");
     }
-console.log(driver.driverId, ride.driverId)
-    if (ride.driverId.toString() !== drv.toString()) {
+
+    if (ride.driverId.toString() !== driver?.userId?.toString()) {
         throw new AppError(403, "You are not assigned to this ride");
     }
-
 
     if (ride.status === RideStatus.COMPLETED) {
         throw new AppError(400, "Ride already completed");
@@ -40,10 +39,11 @@ console.log(driver.driverId, ride.driverId)
     if (status === RideStatus.COMPLETED && ride.status !== RideStatus.ONGOING) {
         throw new AppError(400, "Ride must be ongoing first");
     }
-    status.toUpperCase()
+    const sta = status.toUpperCase()
+    console.log(sta)
     const updatedRide = await RidesDB.findByIdAndUpdate(
         rideID,
-        { $set: { status } },
+        { $set: { status: sta } },
         { new: true }
     );
 
