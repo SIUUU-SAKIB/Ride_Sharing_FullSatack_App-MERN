@@ -15,12 +15,12 @@ const updateRideStatus = async (
     }
 
     const driver = await DriverProfileDB.findOne({ userId: driverID });
-
+    const drv = driver?.driverId || 123
     if (!driver) {
         throw new AppError(404, "Driver not found");
     }
-
-    if (ride.driverId.toString() !== driver._id.toString()) {
+console.log(driver.driverId, ride.driverId)
+    if (ride.driverId.toString() !== drv.toString()) {
         throw new AppError(403, "You are not assigned to this ride");
     }
 
