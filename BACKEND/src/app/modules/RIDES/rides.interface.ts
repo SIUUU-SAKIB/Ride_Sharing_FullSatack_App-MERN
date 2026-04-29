@@ -14,10 +14,10 @@ export enum RideStatus {
 export enum PaymentStatus {
     PENDING = "PENDING",
     PAID = "PAID",
-    FAILED = "FAILED",
+    FAILED = "FAILED"
 }
 
-export interface IRider extends IUser{
+export interface IRider extends IUser {
     _id?: string,
     role: IUserRole.RIDER,
     defaultPickupLocation?: {
@@ -37,7 +37,6 @@ export interface IDriver extends IUser {
     rating?: number
 }
 
-
 export interface IRide {
     riderId: Types.ObjectId;
     driverId: Types.ObjectId;
@@ -55,8 +54,8 @@ export interface IRide {
     requestedAt: Date;
     acceptedAt?: Date;
     startedAt?: Date;
-    completedAt?:Date,
-    cancelledAt?:Date,
+    completedAt?: Date,
+    cancelledAt?: Date,
 
-    cancelledBy?:IAdminRole | IUserRole
+    cancelledBy?: IAdminRole | IUserRole
 }

@@ -11,6 +11,7 @@ import { DriverRoutes } from "./app/modules/DRIVER/driver.routes";
 import { AdminRoutes } from "./app/modules/ADMIN/admin.routes";
 import { UserRoutes } from "./app/modules/USER/user.routes";
 import { RideRequestRouter } from "./app/modules/RIDE REQUEST/rideRq.routes";
+import { RidesRouter } from "./app/modules/RIDES/rides.route";
 
 const app = express()
 
@@ -27,6 +28,7 @@ app.use(`/api/v1/auth`, AuthRoutes)
 app.use(`/api/v1/driver`, DriverRoutes)
 app.use('/api/v1/admin', AdminRoutes)
 app.use('/api/v1/ride-request', RideRequestRouter)
+app.use(`/api/v1/rides`, RidesRouter)
 
 
 // DEFAULT ROUTE--------------------

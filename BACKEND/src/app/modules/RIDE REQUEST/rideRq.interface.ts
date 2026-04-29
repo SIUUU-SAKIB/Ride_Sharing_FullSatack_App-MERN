@@ -28,7 +28,7 @@ export enum RideRequestStatus {
 export interface IRideRequest {
     _id?:Types.ObjectId,
     riderId: Types.ObjectId,
-    driverId?:string,
+    driverId?:Types.ObjectId,
     pickupLocation: IRideLocation,
     dropoffLocation: IRideLocation,
     status: RideRequestStatus,

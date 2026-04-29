@@ -15,7 +15,8 @@ const RideRequestSchema = new Schema<IRideRequest>({
         ref: "User",
         required: true
     }, driverId: {
-        type: String
+         type: Schema.Types.ObjectId,
+        ref: "DriverProfile"
     },
     pickupLocation: {
         type: locationSchema,

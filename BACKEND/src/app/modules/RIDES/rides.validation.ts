@@ -1,4 +1,5 @@
 import z from "zod";
+import { RideStatus } from "./rides.interface";
 
 export const rideLocationZodSchema = z.object({
     lat: z.number({ message: "Latitude is required" }).min(-90).max(90),
@@ -19,3 +20,9 @@ export const rideRequestZodSchema = z.object({
     status: rideRequestStatusEnum,
     expiresAt: z.date()
 })
+const rideStatus = z.object({
+    status: z.enum(Object.values(RideStatus))
+})
+export const RidesValidation = {
+    rideStatus
+} 
