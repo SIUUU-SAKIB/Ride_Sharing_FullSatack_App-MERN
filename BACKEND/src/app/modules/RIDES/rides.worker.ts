@@ -1,12 +1,13 @@
 
 import { RideRequestStatus } from "../RIDE REQUEST/rideRq.interface";
-import { RidesRQDB } from "./rides.model";
+import { RideRequestDB } from "../RIDE REQUEST/rideRq.model";
+
 
 
 const expireRideRequests = async () => {
   const now = new Date();
 
-  const result = await RidesRQDB.updateMany(
+  const result = await RideRequestDB.updateMany(
     {
       status: RideRequestStatus.PENDING,
       expiresAt: { $lte: now },
