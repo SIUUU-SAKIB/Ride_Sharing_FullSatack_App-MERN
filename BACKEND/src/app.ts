@@ -32,12 +32,13 @@ app.use(`/api/v1/rides`, RidesRouter)
 
 
 // DEFAULT ROUTE--------------------
-app.get('/api/v1', (req: Request, res: Response) => {
-    res.status(StatusCodes.OK).json({
-        status: 'HEALTHY 🫡',
-        message: "Ride Sharing Backend working perfectly.✅😍🚀",
-    })
-})
+app.get("/", (req, res) => {
+  res.send("Ride Sharing API is running 🚀");
+});
+
+app.get("/api/v1", (req, res) => {
+  res.send("API v1 is live ✅");
+});
 
 // ERROR HANDLERS----------------------
 app.use(notFoundHandler)
