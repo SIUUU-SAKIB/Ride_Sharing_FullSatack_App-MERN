@@ -39,11 +39,11 @@ const updateRideStatus = async (
     if (status === RideStatus.COMPLETED && ride.status !== RideStatus.ONGOING) {
         throw new AppError(400, "Ride must be ongoing first");
     }
-    const sta = status.toUpperCase()
-    console.log(sta)
+
+    console.log(status)
     const updatedRide = await RidesDB.findByIdAndUpdate(
         rideID,
-        { $set: { status: sta } },
+        { $set: { status } },
         { new: true }
     );
 
