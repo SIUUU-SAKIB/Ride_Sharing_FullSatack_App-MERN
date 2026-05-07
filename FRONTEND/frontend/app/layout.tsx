@@ -1,29 +1,29 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono, Roboto } from "next/font/google";
+import {Roboto } from "next/font/google";
 import "./globals.css";
 import Nav from "./_components/Nav";
 
 const roboto = Roboto({
-  weight:["300","400", "500", "700", "800", "900"],
-  subsets: ["latin"],
-  display:"swap"
+  subsets:["latin"],
+  variable:"--font-roboto"
 })
 
 export const metadata: Metadata = {
+  title: "Ridex Ride Sharing Site",
+  description:"This is the only fast and effiecient way of sharing ride.",
   icons: {
-    icon: '/car.png',
+    icon: "/car.png",
   },
 };
-
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={roboto.className}>
+    <html lang="en" className={roboto.variable}>
       <body>
-        <div>
+          <div>
           <Nav />
           {children}
         </div>
