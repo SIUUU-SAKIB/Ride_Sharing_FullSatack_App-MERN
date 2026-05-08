@@ -4,7 +4,7 @@ import { CarTaxiFront } from "lucide-react"
 
 const Services = () => {
     return (
-        <div className="fixed bottom-16 bg-white flex flex-col gap-4 items-center py-6 px-4 z-10 rounded-lg mx-auto">
+        <div className="fixed bottom-16 bg-white flex flex-col gap-4 items-center py-6 px-4 z-10 rounded-lg mx-auto justify-center">
             <p className="text-2xl font-semibold text-black">Select Service</p>
 
             <div className="p-2 border border-(--primary) rounded-lg bg-(--primary)/10 flex gap-2">

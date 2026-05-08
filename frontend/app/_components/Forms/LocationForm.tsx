@@ -5,7 +5,6 @@ import { useState } from "react"
 const LocationForm = () => {
     const [from, setFrom] = useState('')
     const [to, setTo] = useState('')
-    console.log(from, to)
   return (
     <form className="flex flex-col gap-2">
         <div  className="flex gap-4 items-center bg-gray-100 rounded-md py-4">
