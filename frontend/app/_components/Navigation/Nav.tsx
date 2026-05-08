@@ -5,7 +5,7 @@ import {Bell} from "lucide-react"
 const Nav = () => {
     const session = false
     return (
-        <div className='min-w-screen-2xl bg-white h-14 px-4 md:px-12 py-2 md:py-8 flex items-center justify-between shadow-md'>
+        <div className='min-w-screen-2xl bg-white h-14 px-4 md:px-12 py-2 md:py-8 flex items-center justify-between shadow-md z-10'>
             {/* logo container */}
             <div className='flex gap-2 py-2 items-center justify-center text-black '>
                 {/* session === false */}
