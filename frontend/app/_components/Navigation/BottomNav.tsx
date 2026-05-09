@@ -1,19 +1,21 @@
 "use client"
-import { HousePlus, Link, SquareActivity, Wallet } from 'lucide-react'
-
+import { HousePlus, SquareActivity, Wallet } from 'lucide-react'
+import Link from 'next/link'
 const BottomNav = () => {
     return (
         <div className='fixed bottom-0 w-full bg-white mx-auto'>
-            <ul className='flex items-center justify-between bg-white shadow-sm py-8 text-gray-400 px-12 max-w-7xl mx-auto z-10'>
-                <Link className='text-xl cursor-pointer flex flex-col gap-2'>
+            <ul className='flex items-center justify-between bg-white shadow-sm py-4 text-gray-400 px-12 max-w-7xl mx-auto z-10'>
+                <Link href={`/`} className='text-xl cursor-pointer flex flex-col gap-1 items-center'>
                     <HousePlus />
-                    {/* <p className='text-black text-xl'>Home</p> */}
+                    <p className='text-gray-700  text-sm'>Home</p>
                 </Link>
-                <Link className='text-xl cursor-pointer flex flex-col gap-2'><SquareActivity />
-                    <p className='text-red-600 text-xl'>Home</p>
+                <Link href={`#`} className='text-xl cursor-pointer flex flex-col gap-1 items-center'>
+                    <SquareActivity />
+                    <p className='text-gray-700 text-sm'>Services</p>
                 </Link>
-                <Link className='text-xl cursor-pointer flex flex-col gap-2'><Wallet />
-                    <p className='text-red-600 text-xl'>Home</p>
+                <Link href={`#`} className='text-xl cursor-pointer flex flex-col gap-1 items-center'>
+                    <Wallet />
+                    <p className='text-gray-700  text-sm'>Activity</p>
                 </Link>
             </ul>
         </div>

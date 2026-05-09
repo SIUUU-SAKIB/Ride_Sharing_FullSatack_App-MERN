@@ -5,7 +5,7 @@ import {Bell} from "lucide-react"
 const Nav = () => {
     const session = false
     return (
-        <div className='min-w-screen-2xl bg-white h-14 px-4 md:px-12 py-2 md:py-8 flex items-center justify-between shadow-md z-10'>
+        <div className='min-w-screen-2xl bg-white h-14 px-4 md:px-12 py-8 md:py-8 flex items-center justify-between shadow-md z-10'>
             {/* logo container */}
             <div className='flex gap-2 py-2 items-center justify-center text-black '>
                 {/* session === false */}
@@ -24,7 +24,7 @@ const Nav = () => {
             {/* navigation links */ }
     {
         !session ? (<div className='flex gap-4 py-2 items-center justify-center'>
-            <Link href={'/login'} className='text-black text-sm md:text-md lg:text-lg hover:text-(--primary) hover:font-medium transition duration-300 px-2 py-1 rounded-full border border-(--primary)'>
+            <Link href={'/login'} className='text-black text-sm md:text-md lg:text-lg hover:text-(--primary) hover:font-medium transition duration-300 px-4 py-1 lg:py-2 rounded-full border border-(--primary)'>
                 Login
             </Link>
             <Link
