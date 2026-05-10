@@ -1,59 +1,84 @@
 'use client'
-import { Lock, Mail, Smartphone, User } from 'lucide-react'
+import { CarFront, Lock, Mail, Smartphone, User } from 'lucide-react'
+import Link from 'next/link'
 import React from 'react'
 
 
+
 const RegisterForm = () => {
+  const [clicked, setClicked] = React.useState<boolean>(false)
+  const [isDriver, setIsDriver] = React.useState<boolean>(false)
+  const [name, setName] = React.useState<string>('')
+  const [email, setEmail] = React.useState<string>('')
+  const [phone, setPhone] = React.useState<string>('')
+  const [password, setPassword] = React.useState<string>('')
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault()
+    console.log(name, email, password, phone, isDriver)
+  }
   return (
-    <div className='mx-auto bg-white mt-4 rounded-2xl max-w-[500px]'>
-      <form className='flex max-w-150 flex-col gap-6 items-start justify-center px-4  py-6'>
+    <div className='mx-auto  xs:w-[450px] sm:w-125 md:w-150 lg:w-175 bg-white mt-4 rounded-2xl'>
+      <form onSubmit={handleSubmit} className='flex w-full flex-col gap-6 items-start justify-center px-4  py-6'>
         {/* name */}
         <div className='flex flex-col w-full gap-2 space-x-4'>
           <label className='text-sm text-(--neutral)'>Full Name</label>
-          <div className='flex gap-2 space-x-6 items-center px-2 py-2 bg-(--neutral)/10 rounded-lg'>
+          <div className='flex gap-2 space-x-6 items-center px-2 py-4 bg-(--neutral)/10 rounded-lg '>
             <User className='text-(--neutral)' />
-            <input type='text' className='outline-none border-none text-(--neutral)' placeholder='John Doe' />
+            <input autoComplete='name' onChange={(e) => setName(e.target.value)} 
+            value={name}  type='text' className='outline-none border-none text-(--neutral) focus:text-(--primary) text:md md:text-lg' placeholder='John Doe' required={true} />
           </div>
         </div>
 
 
         {/* email */}
-        <div className='flex flex-col gap-2 space-x-4'>
+        <div className='flex w-full flex-col gap-2 space-x-4'>
           <label className='text-sm text-(--neutral)'>Email address</label>
-          <div className='flex gap-2 space-x-6 items-center px-2 py-2 bg-(--neutral)/10 rounded-lg'>
+          <div className='flex gap-2 space-x-6 items-center px-2 py-4 bg-(--neutral)/10 rounded-lg'>
             <Mail className='text-(--neutral)' />
-            <input type='email' className='outline-none border-none text-(--neutral)' placeholder='John123@gmail.com' />
+            <input autoComplete='email' onChange={(e) => setEmail(e.target.value)}  value={email} type='email' className='outline-none border-none text-(--neutral) focus:text-(--primary) text:md md:text-lg' placeholder='John123@gmail.com' required={true} />
           </div>
         </div>
 
         {/* Phone number*/}
-        <div className='flex flex-col gap-2 space-x-4'>
+        <div className='flex w-full flex-col gap-2 space-x-4'>
           <label className='text-sm text-(--neutral)'>Phone Number</label>
-          <div className='flex space-x-6 items-center px-2 py-2 bg-(--neutral)/10 rounded-lg'>
+          <div className='flex gap-2 space-x-6 items-center px-2 py-4 bg-(--neutral)/10 rounded-lg'>
             <Smartphone className='text-(--neutral)' />
-            <input type='text' className='outline-none border-none text-(--neutral)' placeholder='John Doe' />
+            <input onChange={(e) => setPhone(e.target.value)}  value={phone} type='text' className='outline-none border-none text-(--neutral) focus:text-(--primary) text:md md:text-lg' placeholder='+880 1796111111' required={true} />
           </div>
         </div>
 
         {/*password*/}
         <div className='flex flex-col w-full gap-2 space-x-4'>
           <label className='text-sm text-(--neutral)'>Password</label>
-          <div className='flex gap-2 space-x-6 items-center px-2 py-2 bg-(--neutral)/10 rounded-lg'>
+          <div className='flex gap-2 space-x-6 items-center px-2 py-4 bg-(--neutral)/10 rounded-lg'>
             <Lock className='text-(--neutral)' />
-            <input type='text' className='outline-none border-none text-(--neutral)' placeholder='*******' />
+            <input onChange={(e) => setPassword(e.target.value)} value={password} type='password' className='outline-none border-none text-(--neutral) focus:text-(--primary) text:md md:text-lg' placeholder='*******' required={true} />
           </div>
         </div>
-        <div className='flex gap-1 w-full bg-(--neutral)/10 p-1 rounded-xl'>
-          <div className='w-1/2 bg-white p-1 rounded-md flex gap-1 items-center'>
-            <User className='text-(--primary) text-sm' />
-            <p className='text-sm text-(--neutral)'>Rider</p>
-          </div>
+        {/* i want join */}
+        <div className='flex flex-col w-full gap-1 bg-(--neutral)/10 p-2 rounded-lg  '>
+          <label className='text-sm text-(--neutral) pb-1'>I want to join as a</label>
+          <div className='w-full flex gap-2 items-center justify-between'>
+            <div onClick={() => {
+              setClicked(false)
+              setIsDriver(false)
+            }} className={`w-1/2 ${!clicked ? "bg-white" : "bg-transparent"} p-2 lg:p-4 rounded-lg flex items-center gap-1 cursor-pointer transition duration-150 justify-center`}>
+              <User size={20} className={`text-(--primary) text-xs ${!clicked ? "text-(--primary)" : "text-gray-700"}`} />
+              <p className={`text-sm md:text-lg  ${!clicked ? "text-(--primary)" : "text-gray-700"}`}>Rider</p>
+            </div>
 
-          <div className='w-1/2 bg-white rounded-xl flex items-center gap-1'>
-            <User className='text-(--primary) text-sm' />
-            <p className='text-sm text-(--neutral)'>Rider</p>
+            <div onClick={() => {
+              setClicked(true)
+              setIsDriver(true)
+            }} className={`w-1/2 ${clicked ? "bg-white" : "bg-transparent"} p-2 lg:p-4 rounded-lg flex items-center gap-1 cursor-pointer transition duration-150 justify-center`}>
+              <CarFront size={20} className={`text-(--primary) text-xs ${clicked ? "text-(--primary)" : "text-gray-700"}`} />
+              <p className={`text-sm md:text-lg ${clicked ? "text-(--primary)" : "text-gray-700"}`}>Driver</p>
+            </div>
           </div>
         </div>
+        <button type='submit' className='w-full bg-(--primary) rounded-xl py-2 md:py-4 text-white text-shadow-xs text-lg md:text-xl font-bold my-4 cursor-pointer hover:bg-(--primary)/90'>Create Account</button>
+        <p className='text-(--neutral) text-center w-full'>Already have an account? <Link href={`/login`} className='text-(--primary) font-semibold hover:underline cursor-pointer'>Login</Link></p>
       </form>
     </div>
   )
