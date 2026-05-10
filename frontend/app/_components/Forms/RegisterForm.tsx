@@ -1,5 +1,5 @@
 'use client'
-import { CarFront, Lock, Mail, Smartphone, User } from 'lucide-react'
+import { CarFront, Eye, EyeOff, Lock, Mail, Smartphone, User } from 'lucide-react'
 import Link from 'next/link'
 import React from 'react'
 
@@ -12,9 +12,13 @@ const RegisterForm = () => {
   const [email, setEmail] = React.useState<string>('')
   const [phone, setPhone] = React.useState<string>('')
   const [password, setPassword] = React.useState<string>('')
+  const [seePassword, setSeePassword] = React.useState<boolean>(false)
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
-    console.log(name, email, password, phone, isDriver)
+    setName('')
+    setEmail('')
+    setPassword('')
+    setPhone('')
   }
   return (
     <div className='mx-auto  xs:w-[450px] sm:w-125 md:w-150 lg:w-175 bg-white mt-4 rounded-2xl'>
@@ -22,10 +26,10 @@ const RegisterForm = () => {
         {/* name */}
         <div className='flex flex-col w-full gap-2 space-x-4'>
           <label className='text-sm text-(--neutral)'>Full Name</label>
-          <div className='flex gap-2 space-x-6 items-center px-2 py-4 bg-(--neutral)/10 rounded-lg '>
+          <div className='flex gap-6  items-center px-2 py-4 bg-(--neutral)/10 rounded-lg '>
             <User className='text-(--neutral)' />
-            <input autoComplete='name' onChange={(e) => setName(e.target.value)} 
-            value={name}  type='text' className='outline-none border-none text-(--neutral) focus:text-(--primary) text:md md:text-lg' placeholder='John Doe' required={true} />
+            <input autoComplete='name' onChange={(e) => setName(e.target.value)}
+              value={name} type='text' className='outline-none border-none text-(--neutral) focus:text-(--primary) text:md md:text-lg flex-1' placeholder='John Doe' required={true} />
           </div>
         </div>
 
@@ -33,27 +37,38 @@ const RegisterForm = () => {
         {/* email */}
         <div className='flex w-full flex-col gap-2 space-x-4'>
           <label className='text-sm text-(--neutral)'>Email address</label>
-          <div className='flex gap-2 space-x-6 items-center px-2 py-4 bg-(--neutral)/10 rounded-lg'>
+          <div className='flex gap-6 items-center px-2 py-4 bg-(--neutral)/10 rounded-lg'>
             <Mail className='text-(--neutral)' />
-            <input autoComplete='email' onChange={(e) => setEmail(e.target.value)}  value={email} type='email' className='outline-none border-none text-(--neutral) focus:text-(--primary) text:md md:text-lg' placeholder='John123@gmail.com' required={true} />
+            <input autoComplete='email' onChange={(e) => setEmail(e.target.value)} value={email} type='email' className='outline-none border-none text-(--neutral) focus:text-(--primary) text:md md:text-lg flex-1' placeholder='John123@gmail.com' required={true} />
           </div>
         </div>
 
         {/* Phone number*/}
         <div className='flex w-full flex-col gap-2 space-x-4'>
           <label className='text-sm text-(--neutral)'>Phone Number</label>
-          <div className='flex gap-2 space-x-6 items-center px-2 py-4 bg-(--neutral)/10 rounded-lg'>
+          <div className='flex gap-6 items-center px-2 py-4 bg-(--neutral)/10 rounded-lg'>
             <Smartphone className='text-(--neutral)' />
-            <input onChange={(e) => setPhone(e.target.value)}  value={phone} type='text' className='outline-none border-none text-(--neutral) focus:text-(--primary) text:md md:text-lg' placeholder='+880 1796111111' required={true} />
+            <input onChange={(e) => setPhone(e.target.value)} value={phone} type='text' className='outline-none border-none text-(--neutral) focus:text-(--primary) text:md md:text-lg flex-1' placeholder='+880 1796111111' required={true} />
           </div>
         </div>
 
         {/*password*/}
-        <div className='flex flex-col w-full gap-2 space-x-4'>
+        <div className='flex flex-col w-full gap-2'>
           <label className='text-sm text-(--neutral)'>Password</label>
-          <div className='flex gap-2 space-x-6 items-center px-2 py-4 bg-(--neutral)/10 rounded-lg'>
-            <Lock className='text-(--neutral)' />
-            <input onChange={(e) => setPassword(e.target.value)} value={password} type='password' className='outline-none border-none text-(--neutral) focus:text-(--primary) text:md md:text-lg' placeholder='*******' required={true} />
+          <div className='flex gap-6 items-center px-2 py-4 bg-(--neutral)/10 rounded-lg'>
+
+            <Lock className='text-(--neutral) ml-2 shrink-0 mr-3' />
+            <input
+              onChange={(e) => setPassword(e.target.value)}
+              value={password}
+              type={seePassword ? "text" : "password"}
+              className='flex-1 h-full outline-none border-none bg-transparent text-(--neutral) focus:text-(--primary) text-base md:text-lg'
+              placeholder='*******'
+              required
+            />
+
+            <Eye onClick={() => setSeePassword(true)} className={`text-(--neutral) ${seePassword ? "hidden" : "block"} ml-2 cursor-pointer shrink-0`} />
+            <EyeOff onClick={() => setSeePassword(false)} className={`text-(--neutral) ${!seePassword ? "hidden" : "block"} ml-2 cursor-pointer shrink-0`} />
           </div>
         </div>
         {/* i want join */}
