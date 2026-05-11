@@ -1,9 +1,11 @@
+import { useQuery } from "@tanstack/react-query"
 import LocationForm from "./_components/Forms/LocationForm"
 import BottomNav from "./_components/Navigation/BottomNav"
 import Nav from "./_components/Navigation/Nav"
 import Services from "./_components/Services"
 
 const HomePage = () => {
+
   return (
     <div className="bg-[url('/main-bg.png')] min-h-screen object-contain relative flex flex-col">
       <div className="absolute inset-0 bg-gray-100/60"></div>

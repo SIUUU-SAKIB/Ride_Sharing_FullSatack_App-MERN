@@ -1,16 +1,17 @@
 import type { Metadata } from "next";
-import {Roboto } from "next/font/google";
+import { Roboto } from "next/font/google";
 import "./globals.css";
+import Providers from "./providers";
 
 
 const roboto = Roboto({
-  subsets:["latin"],
-  variable:"--font-roboto"
+  subsets: ["latin"],
+  variable: "--font-roboto"
 })
 
 export const metadata: Metadata = {
   title: "Ridex Ride Sharing Site",
-  description:"This is the only fast and effiecient way of sharing ride.",
+  description: "This is the only fast and effiecient way of sharing ride.",
   icons: {
     icon: "/car.png",
   },
@@ -23,7 +24,9 @@ export default function RootLayout({
   return (
     <html lang="en" className={roboto.variable}>
       <body>
+        <Providers>
           {children}
+        </Providers>
       </body>
     </html>
   );

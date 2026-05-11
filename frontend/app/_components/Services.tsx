@@ -1,17 +1,17 @@
 'use client'
 
+import { useQuery } from "@tanstack/react-query"
 import { CarTaxiFront, Lock } from "lucide-react"
 import Link from 'next/link'
 import React from "react"
 import { useState } from "react"
 const Services = () => {
     const [clicked, setClicked] = React.useState(false)
-
     return (
         <div className="fixed bottom-30 bg-white max-screen-xl md:min-w-screen-xl mx-auto flex flex-col gap-4 items-center py-4 px-4 z-10 rounded-lg justify-center">
             <p className="text-2xl font-semibold text-black">Select Service</p>
 
-                    <div onClick={()=>setClicked(false)} className={`p-2 rounded-xl flex gap-2 ${!clicked && "border-(--primary) bg-(--primary)/10 border"} cursor-pointer`}>
+            <div onClick={() => setClicked(false)} className={`p-2 rounded-xl flex gap-2 ${!clicked && "border-(--primary) bg-(--primary)/10 border"} cursor-pointer`}>
                 <div className="flex gap-x-4 items-center justify-center w-full">
                     <CarTaxiFront size={50} className="text-(--primary) font-semibold  bg-white p-2 rounded-sm" />
                     <div className="flex flex-col items-start ">
@@ -21,7 +21,7 @@ const Services = () => {
                 </div>
             </div>
 
-            <div onClick={()=>setClicked(true)} className={`p-2 rounded-xl flex gap-2 ${clicked && "border-(--primary) bg-(--primary)/10 border"} cursor-pointer` }>
+            <div onClick={() => setClicked(true)} className={`p-2 rounded-xl flex gap-2 ${clicked && "border-(--primary) bg-(--primary)/10 border"} cursor-pointer`}>
 
                 <div className="flex gap-x-4 items-center justify-center">
                     <CarTaxiFront size={50} className="text-(--primary) font-semibold  bg-white p-2 rounded-sm" />

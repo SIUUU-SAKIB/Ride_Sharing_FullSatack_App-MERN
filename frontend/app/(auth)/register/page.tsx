@@ -1,8 +1,8 @@
 import RegisterForm from '@/app/_components/Forms/RegisterForm'
 import Link from 'next/link'
-import React from 'react'
 
 const Register = () => {
+
   return (
         <div className='min-h-screen py-12 w-full bg-zinc-900/10 flex flex-col items-center'>
       <div className='flex flex-col gap-2 items-center text-center'>

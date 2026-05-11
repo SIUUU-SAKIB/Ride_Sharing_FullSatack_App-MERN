@@ -1,5 +1,6 @@
 'use client'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { useQuery } from '@tanstack/react-query'
 import { CarFront, Eye, EyeOff, Lock, Mail, Smartphone, User } from 'lucide-react'
 import Link from 'next/link'
 import React from 'react'
@@ -17,6 +18,20 @@ type FormFields = z.infer<typeof schema>
 
 
 const RegisterForm = () => {
+
+    const { data, isLoading, isError, error } = useQuery({
+    queryKey: ['root'],
+    queryFn: async () => {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}`)
+      if (!response.ok) {
+        throw new Error('Failed to fetch')
+      }
+      return response.json()
+    },
+  })
+  console.log(data, error)
+
+
   const [clicked, setClicked] = React.useState<boolean>(false)
   const { register, handleSubmit, setError, formState: { errors, isSubmitting } } = useForm<FormFields>({
     resolver: zodResolver(schema)
