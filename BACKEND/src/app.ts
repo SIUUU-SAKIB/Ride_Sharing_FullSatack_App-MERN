@@ -12,6 +12,7 @@ import { AdminRoutes } from "./app/modules/ADMIN/admin.routes";
 import { UserRoutes } from "./app/modules/USER/user.routes";
 import { RideRequestRouter } from "./app/modules/RIDE REQUEST/rideRq.routes";
 import { RidesRouter } from "./app/modules/RIDES/rides.route";
+import { success } from "zod";
 
 const app = express()
 
@@ -36,11 +37,17 @@ app.use(`/api/v1/rides`, RidesRouter)
 
 // DEFAULT ROUTE--------------------
 app.get("/", (req, res) => {
-  res.send("Ride Sharing API is running 🚀");
+  res.json({
+    success:true,
+    message:"RIDE_SHARING_BACKEND WORKING SUCCESSFULLY 😊🚀😍🔥✅✅✅, not default"
+  })
 });
 
 app.get("/api/v1", (req, res) => {
-  res.send("API v1 is live ✅");
+ res.json({
+  success:true,
+  message:"RIDE_SHARING_BACKEND WORKING SUCCESSFULLY 😊🚀😍🔥✅✅✅"
+ })
 });
 
 // ERROR HANDLERS----------------------

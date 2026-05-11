@@ -29,7 +29,7 @@ const RegisterForm = () => {
       return response.json()
     },
   })
-  console.log(data, error)
+  console.log(isLoading, data)
 
 
   const [clicked, setClicked] = React.useState<boolean>(false)
