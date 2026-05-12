@@ -125,7 +125,7 @@ const verifyEmail = catchAsync(async (req: Request, res: Response) => {
   user.verificationToken = undefined
   user.verificationTokenExpires = undefined
   await user.save()
-  res.redirect(`${enviromentVariables.FRONTEND_URL}/auth/login`)
+  res.redirect(`${enviromentVariables.FRONTEND_URL}/login`)
 })
 const getMe = catchAsync(async (req: Request, res: Response) => {
   const userId = req.user?._id 

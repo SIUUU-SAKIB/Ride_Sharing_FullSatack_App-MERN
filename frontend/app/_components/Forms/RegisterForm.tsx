@@ -1,5 +1,5 @@
 'use client'
-import { registerUser } from '@/app/_services/auth'
+import { RegisterPayload, registerUser } from '@/app/_services/auth'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useQuery, useMutation } from '@tanstack/react-query'
 import { CarFront, Eye, EyeOff, Lock, Mail, Smartphone, User, UserRoundPen } from 'lucide-react'
@@ -7,6 +7,8 @@ import Link from 'next/link'
 import React from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { z } from 'zod'
+import FullScreenLoader from '../ui/FullScreenLoader'
+import ButtonLoader from '../ui/ButtonLoader'
 
 
 const schema = z.object({
@@ -18,10 +20,12 @@ const schema = z.object({
     .min(11, { message: "Invalid phone number" }),
   profilePhoto: z
     .any()
-    .refine(
-      (files) => !files || files.length === 0 || files[0]?.size < 1000000,
-      "Max file size is 5MB"
-    )
+    .optional()
+    .refine((files) => {
+      if (!files?.length) return true
+
+      return files[0].size <= 1000000
+    }, "Max image size is 1MB")
 })
 
 type FormFields = z.infer<typeof schema>
@@ -63,6 +67,7 @@ const RegisterForm = () => {
       })
     }
   }
+
   return (
     <div className='mx-auto  xs:w-[450px] sm:w-125 md:w-150 lg:w-175 bg-white mt-4 rounded-2xl'>
       <form onSubmit={handleSubmit(onSubmit)} className='flex w-full flex-col gap-6 items-start justify-center px-4  py-6'>
@@ -71,7 +76,7 @@ const RegisterForm = () => {
           <label className='text-sm text-(--neutral)'>Full Name</label>
           <div className='flex gap-6  items-center px-2 py-4 bg-(--neutral)/10 rounded-lg '>
             <User className='text-(--neutral)' />
-            <input autoComplete='name' type='text' className='outline-none border-none text-(--neutral) focus:text-(--primary) text:md md:text-lg flex-1' placeholder='John Doe'
+            <input required autoComplete='name' type='text' className='outline-none border-none text-(--neutral) focus:text-(--primary) text:md md:text-lg flex-1' placeholder='John Doe'
               {...register('name')} />
 
           </div>
@@ -86,7 +91,8 @@ const RegisterForm = () => {
           <label className='text-sm text-(--neutral)'>Email address</label>
           <div className='flex gap-6 items-center px-2 py-4 bg-(--neutral)/10 rounded-lg'>
             <Mail className='text-(--neutral)' />
-            <input autoComplete='email' type='text' className='outline-none border-none text-(--neutral) focus:text-(--primary) text:md md:text-lg flex-1' placeholder='John123@gmail.com'
+            <input autoComplete='email' required type='text' className='outline-none border-none text-(--neutral) focus:text-(--primary) text:md md:text-lg flex-1' placeholder='John123@gmail.com'
+
               {...register('email')} />
 
           </div>
@@ -140,8 +146,8 @@ const RegisterForm = () => {
           </div>
         </div>
 
-        <button type='submit' className='w-full bg-(--primary) rounded-xl py-2 md:py-4 text-white text-shadow-xs text-lg md:text-xl font-bold my-4 cursor-pointer hover:bg-(--primary)/90'>
-          {mutation.isPending ? "Createing Account..." : "Create Account"}
+        <button disabled={mutation.isPending} type='submit' className='w-full bg-(--primary) rounded-xl py-2 md:py-4 text-white text-shadow-xs text-lg md:text-xl font-bold my-4 cursor-pointer hover:bg-(--primary)/90'>
+          {mutation.isPending ? <ButtonLoader /> : "Create Account"}
         </button>
         <p className='text-(--neutral) text-center w-full'>Already have an account? <Link href={`/login`} className='text-(--primary) font-semibold hover:underline cursor-pointer'>Login</Link></p>
         {errors.root && <div className='text-red-500'>{errors.root.message}</div>}
@@ -149,5 +155,6 @@ const RegisterForm = () => {
     </div>
   )
 }
+
 
 export default RegisterForm

@@ -1,5 +1,5 @@
 export interface RegisterPayload {
-    name: string, email: string, password: string, phone: string, profilePhoto: FileList
+    name: string, email: string, password: string, phone: string, profilePhoto?: FileList
 }
 
 export const registerUser = async (data: RegisterPayload) => {
@@ -10,12 +10,13 @@ export const registerUser = async (data: RegisterPayload) => {
     formData.append('phone', data.phone)
 
     if (data.profilePhoto?.[0]) {
-        formData.append('profilePhoto', data.profilePhoto[0])
+        formData.append('file', data.profilePhoto[0])
 
     }
     const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/user/create`, {
         method: 'POST',
         body: formData,
+        credentials:"include"
         
     })
     if (!response.ok) {
