@@ -1,7 +1,7 @@
 import RegisterForm from '@/app/_components/Forms/RegisterForm'
 import Link from 'next/link'
 
-const Register = () => {
+const RegisterPage = () => {
 
   return (
         <div className='min-h-screen py-12 w-full bg-zinc-900/10 flex flex-col items-center'>
@@ -14,4 +14,4 @@ const Register = () => {
   )
 }
 
-export default Register
+export default RegisterPage

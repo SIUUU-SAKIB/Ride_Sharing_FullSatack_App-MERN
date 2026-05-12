@@ -1,6 +1,7 @@
 'use client'
+import { registerUser } from '@/app/_services/auth'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { useQuery } from '@tanstack/react-query'
+import { useQuery, useMutation } from '@tanstack/react-query'
 import { CarFront, Eye, EyeOff, Lock, Mail, Smartphone, User, UserRoundPen } from 'lucide-react'
 import Link from 'next/link'
 import React from 'react'
@@ -43,16 +44,22 @@ const RegisterForm = () => {
 
 
   //  FORM HANDLERS
+  const mutation = useMutation({
+    mutationFn: registerUser
+  })
   const { register, handleSubmit, setError, formState: { errors, isSubmitting } } = useForm<FormFields>({
     resolver: zodResolver(schema)
   })
   const onSubmit: SubmitHandler<FormFields> = async (data) => {
     try {
-      // await new Promise((resolve) => setTimeout(resolve, 5000))
-      console.log(data)
+      const result = await mutation.mutateAsync(data)
+      console.log(result)
     } catch (error) {
       setError("root", {
-        message: "Something wrong at" + error
+        message:
+          error instanceof Error
+            ? error.message
+            : "Something went wrong"
       })
     }
   }
@@ -127,22 +134,14 @@ const RegisterForm = () => {
             <input
               type="file"
               accept="image/*"
-              className=" flex-1
-    h-full
-    outline-none
-    border-none
-    bg-transparent
-    text-(--neutral)
-    text-base
-    md:text-lg
-  "
+              className=" flex-1 h-full outline-none border-none bg-transparent text-(--neutral) text-base md:text-lg"
               {...register("profilePhoto")}
             />
           </div>
         </div>
 
         <button type='submit' className='w-full bg-(--primary) rounded-xl py-2 md:py-4 text-white text-shadow-xs text-lg md:text-xl font-bold my-4 cursor-pointer hover:bg-(--primary)/90'>
-          {isSubmitting ? 'submitting' : "Create account"}
+          {mutation.isPending ? "Createing Account..." : "Create Account"}
         </button>
         <p className='text-(--neutral) text-center w-full'>Already have an account? <Link href={`/login`} className='text-(--primary) font-semibold hover:underline cursor-pointer'>Login</Link></p>
         {errors.root && <div className='text-red-500'>{errors.root.message}</div>}
