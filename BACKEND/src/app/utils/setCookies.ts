@@ -4,20 +4,46 @@ export interface AuthTokens {
     accessToken?: string,
     refreshToken?: string
 }
-export const setAuthCookie = (res: Response, tokenInfo: AuthTokens) => {
-    if (tokenInfo.accessToken) {
-        res.cookie("accessToken", tokenInfo.accessToken, {
-            httpOnly: true,
-            secure: enviromentVariables.NODE_ENVIROMENT === 'production',
-            sameSite: 'none'
-        })
-    }
+export const setAuthCookie = (
+  res: Response,
+  tokenInfo: AuthTokens
+) => {
 
-    if (tokenInfo.refreshToken) {
-        res.cookie("refreshToken", tokenInfo.refreshToken, {
-            httpOnly: true,
-            secure: enviromentVariables.NODE_ENVIROMENT === 'production',
-            sameSite: 'none'
-        })
-    }
+  const isProduction =
+    enviromentVariables.NODE_ENVIROMENT ===
+    'production'
+
+  if (tokenInfo.accessToken) {
+
+    res.cookie(
+      "accessToken",
+      tokenInfo.accessToken,
+      {
+        httpOnly: true,
+
+        secure: isProduction,
+
+        sameSite: isProduction
+          ? 'none'
+          : 'lax'
+      }
+    )
+  }
+
+  if (tokenInfo.refreshToken) {
+
+    res.cookie(
+      "refreshToken",
+      tokenInfo.refreshToken,
+      {
+        httpOnly: true,
+
+        secure: isProduction,
+
+        sameSite: isProduction
+          ? 'none'
+          : 'lax'
+      }
+    )
+  }
 }

@@ -99,7 +99,6 @@ const VerifyEmailModal = ({
           address before logging in.
         </p>
 
-        {/* actions */}
        <button
   onClick={() => {
     window.open(

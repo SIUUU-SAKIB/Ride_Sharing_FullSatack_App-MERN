@@ -1,8 +1,15 @@
 export interface RegisterPayload {
-    name: string, email: string, password: string, phone: string, profilePhoto?: FileList
+    name: string,
+    email: string,
+    password: string,
+    phone: string,
+    profilePhoto?: FileList
 }
-
-export const registerUser = async (data: RegisterPayload) => {
+export interface LoginPayload {
+    email: string,
+    password: string
+}
+ const registerUser = async (data: RegisterPayload) => {
     const formData = new FormData()
     formData.append('name', data.name)
     formData.append('email', data.email)
@@ -16,8 +23,8 @@ export const registerUser = async (data: RegisterPayload) => {
     const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/user/create`, {
         method: 'POST',
         body: formData,
-        credentials:"include"
-        
+        credentials: "include"
+
     })
     if (!response.ok) {
         const errorData = await response.json()
@@ -25,3 +32,24 @@ export const registerUser = async (data: RegisterPayload) => {
     }
     return response.json()
 }
+
+ const loginUser = async (data: LoginPayload) => {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/login`, {
+        method: 'POST',
+        headers: {
+            'Content-type': 'application/json'
+        },
+        credentials: "include",
+        body:JSON.stringify(data)
+    })
+    let responseData
+    try {
+        responseData = await response.json()
+    } catch (error) {
+        throw new Error(responseData.message || 'Login failed')
+    }
+
+    return responseData
+}
+
+export const Authentication = {registerUser, loginUser}
