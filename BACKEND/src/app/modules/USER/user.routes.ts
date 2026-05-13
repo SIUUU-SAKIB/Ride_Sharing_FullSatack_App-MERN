@@ -8,10 +8,10 @@ const router = Router()
 
 router.post('/create',
     authLimit.registerLimiter,
-    upload.single('file'),
+    upload.single('profileImage'),
     validateZodSchema(UserZodSchema.createUser),
     UserController.createUser)
 
-router.patch('/update-profile/:id', upload.single("file"), validateZodSchema(UserZodSchema.udpateUser), UserController.updateUser)
+router.patch('/update-profile/:id', upload.single("profileImage"), validateZodSchema(UserZodSchema.udpateUser), UserController.updateUser)
 
 export const UserRoutes = router
