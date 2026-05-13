@@ -2,7 +2,7 @@ import { useQuery } from "@tanstack/react-query"
 import LocationForm from "./_components/Forms/LocationForm"
 import BottomNav from "./_components/Navigation/BottomNav"
 import Nav from "./_components/Navigation/Nav"
-import Services from "./_components/Services"
+import Services from "./_components/home/Services"
 
 const HomePage = () => {
 

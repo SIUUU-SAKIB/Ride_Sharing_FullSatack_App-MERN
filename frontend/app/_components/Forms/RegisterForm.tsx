@@ -1,23 +1,23 @@
 'use client'
-import { RegisterPayload, registerUser } from '@/app/_services/auth'
+import { registerUser } from '@/app/_services/auth'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useQuery, useMutation } from '@tanstack/react-query'
-import { CarFront, Eye, EyeOff, Lock, Mail, Smartphone, User, UserRoundPen } from 'lucide-react'
+import { Eye, EyeOff, Lock, Mail, Smartphone, User, UserRoundPen } from 'lucide-react'
 import Link from 'next/link'
 import React from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { z } from 'zod'
-import FullScreenLoader from '../ui/FullScreenLoader'
 import ButtonLoader from '../ui/ButtonLoader'
+import VerifyEmailModal from '../ui/VerifyEmailModal'
 
 
 const schema = z.object({
-  name: z.string({ message: "Name is required" }).min(2),
-  email: z.string().email({ message: "Email is required" }).min(6),
+  name: z.string({ message: "Name is required" }).min(2, {message:"Name must contain more than 2 letter"}),
+  email: z.string().email({ message: "Email is required" }).min(6).includes(`@`, {message:"Email must include '@'"}),
   password: z.string({ message: "Password is required" }).min(7, { message: "Password must include 7 characters" }),
   phone: z
     .string()
-    .min(11, { message: "Invalid phone number" }),
+    .min(4, { message: "Invalid phone number" }),
   profilePhoto: z
     .any()
     .optional()
@@ -33,6 +33,8 @@ type FormFields = z.infer<typeof schema>
 
 const RegisterForm = () => {
   const [seePassword, setSeePassword] = React.useState<boolean>(false)
+  const [openModal, setOpenModal] = React.useState<boolean>(false)
+  const [submittedEmail, setSubmittedEmail] = React.useState<string>('')
   // API HANDLERS
 
   const { data, isLoading, isError, error } = useQuery({
@@ -51,12 +53,15 @@ const RegisterForm = () => {
   const mutation = useMutation({
     mutationFn: registerUser
   })
-  const { register, handleSubmit, setError, formState: { errors, isSubmitting } } = useForm<FormFields>({
+  const { register, watch, reset, handleSubmit, setError, formState: { errors, isSubmitting } } = useForm<FormFields>({
     resolver: zodResolver(schema)
   })
   const onSubmit: SubmitHandler<FormFields> = async (data) => {
     try {
       const result = await mutation.mutateAsync(data)
+      setSubmittedEmail(data.email)
+      reset()
+      setOpenModal(true)
       console.log(result)
     } catch (error) {
       setError("root", {
@@ -69,6 +74,7 @@ const RegisterForm = () => {
   }
 
   return (
+    <>
     <div className='mx-auto  xs:w-[450px] sm:w-125 md:w-150 lg:w-175 bg-white mt-4 rounded-2xl'>
       <form onSubmit={handleSubmit(onSubmit)} className='flex w-full flex-col gap-6 items-start justify-center px-4  py-6'>
         {/* name */}
@@ -89,7 +95,7 @@ const RegisterForm = () => {
         {/* email */}
         <div className='flex w-full flex-col gap-2 space-x-4'>
           <label className='text-sm text-(--neutral)'>Email address</label>
-          <div className='flex gap-6 items-center px-2 py-4 bg-(--neutral)/10 rounded-lg'>
+          <div className='flex gap-6 items-center px-2 py-4 bg-(--neutral)/10 rounded-lg focus:text-(--primary)'>
             <Mail className='text-(--neutral)' />
             <input autoComplete='email' required type='text' className='outline-none border-none text-(--neutral) focus:text-(--primary) text:md md:text-lg flex-1' placeholder='John123@gmail.com'
 
@@ -153,6 +159,13 @@ const RegisterForm = () => {
         {errors.root && <div className='text-red-500'>{errors.root.message}</div>}
       </form>
     </div>
+    <VerifyEmailModal
+        open={openModal}
+        email={submittedEmail}
+        onClose={() => setOpenModal(false)}
+     
+     />
+     </>
   )
 }
 

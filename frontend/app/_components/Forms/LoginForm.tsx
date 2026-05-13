@@ -25,6 +25,7 @@ const LoginForm = () => {
             })
         }
     }
+    
     return (
         <div className='mx-auto  xs:w-[450px] sm:w-125 md:w-150 lg:w-175 bg-white mt-4 rounded-2xl'>
             <form onSubmit={handleSubmit(loginSubmit)} className='flex w-full flex-col gap-6 items-start justify-center px-4  py-6'>
