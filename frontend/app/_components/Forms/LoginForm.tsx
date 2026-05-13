@@ -7,6 +7,7 @@ import { FormSubmitHandler, SubmitHandler, useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useMutation } from '@tanstack/react-query'
 import { Authentication, LoginPayload } from '@/app/_services/auth'
+import { useRouter } from 'next/navigation'
 const loginSchema = z.object({
     email: z.string({ message: "Email is required" }).email().includes("@"),
     password: z.string({ message: "Password is required" }).min(7, { message: "Password must include 7 characters" }),
@@ -15,17 +16,18 @@ type FormFields = z.infer<typeof loginSchema>
 
 const LoginForm = () => {
     const [seePassword, setSeePassword] = React.useState<boolean>(false)
+    const router = useRouter()
     const { register, handleSubmit, setError, formState: { errors, isSubmitting, isLoading } } = useForm({
         resolver: zodResolver(loginSchema)
     })
+
     const mutation = useMutation({
         mutationFn: Authentication.loginUser
     })
     const loginSubmit: SubmitHandler<FormFields> = async (data: LoginPayload) => {
         try {
-            const result = await mutation.mutateAsync(data)
-            console.log(result)
-            console.log(data)
+            await mutation.mutateAsync(data)
+            router.push(`/`)
         } catch (error) {
             setError('root', {
                 message: `Something went wrong at ${error}`
