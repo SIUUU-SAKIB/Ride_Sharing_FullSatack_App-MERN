@@ -35,19 +35,6 @@ const RegisterForm = () => {
   const [seePassword, setSeePassword] = React.useState<boolean>(false)
   const [openModal, setOpenModal] = React.useState<boolean>(false)
   const [submittedEmail, setSubmittedEmail] = React.useState<string>('')
-  // API HANDLERS
-
-  const { data, isLoading, isError, error } = useQuery({
-    queryKey: ['root'],
-    queryFn: async () => {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}`)
-      if (!response.ok) {
-        throw new Error('Failed to fetch')
-      }
-      return response.json()
-    },
-  })
-
 
   //  FORM HANDLERS
   const mutation = useMutation({

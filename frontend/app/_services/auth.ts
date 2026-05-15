@@ -42,14 +42,18 @@ const loginUser = async (data: LoginPayload) => {
         credentials: "include",
         body: JSON.stringify(data)
     })
-    let responseData
-    try {
-        responseData = await response.json()
-    } catch (error) {
-        throw new Error(responseData.message || 'Login failed')
+    if (!response.ok) {
+
+        const errorData =
+            await response.json()
+
+        throw new Error(
+            errorData.message ||
+            "Login failed"
+        )
     }
 
-    return responseData
+    return response
 }
 const getCurrentUser = async () => {
     const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/me`, {

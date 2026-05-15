@@ -32,7 +32,7 @@ const Services = () => {
                 </div>
             </div>
 
-            <Link href={`/register`} className="text-lg bg-(--primary) px-16 py-4 rounded-2xl shadow-md text-white font-bold text-shadow-xs flex gap-2 cursor-pointer  mt-4">
+            <Link href={`/login`} className="text-lg bg-(--primary) px-16 py-4 rounded-2xl shadow-md text-white font-bold text-shadow-xs flex gap-2 cursor-pointer  mt-4">
                 <Lock strokeWidth={3} />
                 Log in to Reqeust Ride </Link>
         </div>

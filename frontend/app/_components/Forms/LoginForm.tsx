@@ -8,6 +8,8 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { useMutation } from '@tanstack/react-query'
 import { Authentication, LoginPayload } from '@/app/_services/auth'
 import { useRouter } from 'next/navigation'
+import ButtonLoader from '../ui/ButtonLoader'
+import { toast } from 'sonner'
 const loginSchema = z.object({
     email: z.string({ message: "Email is required" }).email().includes("@"),
     password: z.string({ message: "Password is required" }).min(7, { message: "Password must include 7 characters" }),
@@ -24,16 +26,32 @@ const LoginForm = () => {
     const mutation = useMutation({
         mutationFn: Authentication.loginUser
     })
-    const loginSubmit: SubmitHandler<FormFields> = async (data: LoginPayload) => {
-        try {
-            await mutation.mutateAsync(data)
-            router.push(`/`)
-        } catch (error) {
-            setError('root', {
-                message: `Something went wrong at ${error}`
-            })
+    const loginSubmit: SubmitHandler<FormFields> =
+        async (data) => {
+
+            try {
+
+                const response =
+                    await mutation.mutateAsync(data)
+                setTimeout(() => {
+                    toast.success(`Login Successfull 😊`)
+                }, 1000);
+                console.log(response)
+
+                router.push('/')
+
+            } catch (error) {
+              console.log(error)
+                setError('root', {
+                    message:
+                        error instanceof Error
+                            ? error.message
+                            : typeof error === "string"
+                                ? error
+                                : "Something went wrong"
+                })
+            }
         }
-    }
 
     return (
         <div className='mx-auto  xs:w-[450px] sm:w-125 md:w-150 lg:w-175 bg-white mt-4 rounded-2xl'>
@@ -73,13 +91,20 @@ const LoginForm = () => {
                     {errors.password && <p className='text-red-500 font-semibold'>{errors.password.message}</p>}
                 </div>
 
-                <button type='submit' className='w-full bg-(--primary) rounded-xl py-2 md:py-4 text-white text-shadow-xs text-lg md:text-xl font-bold my-4 cursor-pointer hover:bg-(--primary)/90'>
-                    Login
+                <button
+                    disabled={mutation.isPending}
+                    type='submit'
+                    className='w-full bg-(--primary) rounded-xl py-2 md:py-4 text-white text-shadow-xs text-lg md:text-xl font-bold my-4 cursor-pointer hover:bg-(--primary)/90 flex items-center justify-center'
+                >
+                    {
+                        mutation.isPending
+                            ? <ButtonLoader />
+                            : "Login"
+                    }
                 </button>
                 {errors.root && <p className='font-semibold text-lg text-red-500'>{errors.root.message}</p>}
                 <p className='text-(--neutral) text-center w-full'>Don't have an account? <Link href={`/register`} className='text-(--primary) font-semibold hover:underline cursor-pointer'>Register</Link></p>
             </form>
-            {errors.root && <p>{errors.root.message}</p>}
         </div>
     )
 }

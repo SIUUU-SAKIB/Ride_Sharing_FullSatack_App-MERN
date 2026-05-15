@@ -2,11 +2,13 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import { Bell } from "lucide-react"
+
 import { useCurrentUser } from '@/app/hooks/useCurrentUser'
 
 const Nav = () => {
     const { data, isLoading, isError } = useCurrentUser()
-    
+    const profileImage = data?.data?.profilePhoto
+    console.log(profileImage)
     const session = data ? true : false
     return (
         <div className='min-w-screen-2xl bg-white h-14 px-4 md:px-12 py-8 md:py-8 flex items-center justify-between shadow-md z-10'>
@@ -15,11 +17,11 @@ const Nav = () => {
                 {/* session === false */}
                 <Link href='/'>
                     <Image
-                        src={session ? "/ronaldo.jpg" : "/car.png"}
+                        src={session && profileImage ? profileImage : "/user.png"}
                         alt='RideShare Logo'
                         width={500}
                         height={500}
-                        className={`${session ? "w-10 h-10 rounded-full object-cover" : "w-7 h-7"} md:w-10 md:h-10 lg:w-12 lg:h-12 object-contain`}
+                        className={`${session ? "w-8 h-8 rounded-full object-cover" : "w-7 h-7"} md:w-10 md:h-10 lg:w-12 lg:h-12 object-cover`}
                     /></Link>
                 {/* session ===true */}
                 <Link href={'/'} className={`text-xl text-black} font-bold md:text-2xl md:font-extrabold lg:text-4xl ${session ? "hidden" : "block"} mt-2`}>RideX</Link>
