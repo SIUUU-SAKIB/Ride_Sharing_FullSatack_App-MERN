@@ -9,7 +9,7 @@ export interface LoginPayload {
     email: string,
     password: string
 }
- const registerUser = async (data: RegisterPayload) => {
+const registerUser = async (data: RegisterPayload) => {
     const formData = new FormData()
     formData.append('name', data.name)
     formData.append('email', data.email)
@@ -33,14 +33,14 @@ export interface LoginPayload {
     return response.json()
 }
 
- const loginUser = async (data: LoginPayload) => {
+const loginUser = async (data: LoginPayload) => {
     const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/login`, {
         method: 'POST',
         headers: {
             'Content-type': 'application/json'
         },
         credentials: "include",
-        body:JSON.stringify(data)
+        body: JSON.stringify(data)
     })
     let responseData
     try {
@@ -51,5 +51,14 @@ export interface LoginPayload {
 
     return responseData
 }
+const getCurrentUser = async () => {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/me`, {
+        credentials: "include"
+    })
+    if (!response.ok) {
+        throw new Error("Unauthorized")
+    }
 
-export const Authentication = {registerUser, loginUser}
+    return response.json()
+}
+export const Authentication = { registerUser, loginUser, getCurrentUser }
