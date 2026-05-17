@@ -14,7 +14,7 @@ router.post('/login', authLimit.loginLimiter, AuthController.credentialsLogin)
 router.get(`/me`, authentication(...Object.values(IUserRole), ...Object.values(IAdminRole)), AuthController.getMe)
 router.post('/logout', AuthController.logout)
 router.post('/refresh-token', AuthController.refreshToken)
-router.get(`/forget-password`, AuthController.forgetPassword)
+router.post(`/forget-password`, AuthController.forgetPassword)
 router.patch(`/change-password`, AuthController.changePassword)
 router.post(`/reset-password`, AuthController.resetPassword)
 

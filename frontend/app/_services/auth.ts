@@ -9,6 +9,10 @@ export interface LoginPayload {
     email: string,
     password: string
 }
+export interface OTPPayload {
+    otp: number,
+    newPassword: string
+}
 const registerUser = async (data: RegisterPayload) => {
     const formData = new FormData()
     formData.append('name', data.name)
@@ -77,10 +81,37 @@ const logoutUser = async () => {
 
     return data
 }
+const forgetPassword =  async (
+    email: string
+) => {
+
+    const response = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/auth/forget-password`,
+        {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ email })
+        }
+    )
+
+    const data = await response.json()
+
+    if (!response.ok) {
+        throw new Error(
+            data.message ||
+            "Failed to send OTP"
+        )
+    }
+
+    return data
+}
 export const Authentication =
 {
     registerUser,
     loginUser,
     getCurrentUser,
-    logoutUser
+    logoutUser,
+    forgetPassword
 }

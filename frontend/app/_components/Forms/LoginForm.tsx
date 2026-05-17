@@ -10,6 +10,7 @@ import { Authentication, LoginPayload } from '@/app/_services/auth'
 import { useRouter } from 'next/navigation'
 import ButtonLoader from '../ui/ButtonLoader'
 import { toast } from 'sonner'
+import { useForgetPassword } from '@/app/_hooks/useForgetPassword'
 
 
 const loginSchema = z.object({
@@ -24,7 +25,7 @@ type FormFields = z.infer<typeof loginSchema>
 const LoginForm = () => {
     const [seePassword, setSeePassword] = React.useState<boolean>(false)
     const router = useRouter()
-    const { register, handleSubmit, setError, formState: { errors, isSubmitting, isLoading } } = useForm({
+    const { register, watch, handleSubmit, setError, formState: { errors, isSubmitting, isLoading } } = useForm({
         resolver: zodResolver(loginSchema)
     })
 
@@ -42,11 +43,9 @@ const LoginForm = () => {
                     toast.success(`Login Successfull 😊`)
                 }, 1000);
                 console.log(response)
-
                 router.push('/')
-
             } catch (error) {
-              console.log(error)
+                console.log(error)
                 setError('root', {
                     message:
                         error instanceof Error
@@ -57,7 +56,21 @@ const LoginForm = () => {
                 })
             }
         }
-
+    const forgetPasswordMutation = useForgetPassword()
+    const handleForgetPassword = async () => {
+        const email = watch('email')
+        if (!email) {
+            setError('email', {
+                message: "Please enter your email"
+            })
+            return
+        }
+        try {
+            const response = await forgetPasswordMutation.mutateAsync(email)
+        } catch (error) {
+            console.log(error)
+        }
+    }
     return (
         <div className='mx-auto  xs:w-[450px] sm:w-125 md:w-150 lg:w-175 bg-white mt-4 rounded-2xl'>
             <form onSubmit={handleSubmit(loginSubmit)} className='flex w-full flex-col gap-6 items-start justify-center px-4  py-6'>
@@ -76,7 +89,7 @@ const LoginForm = () => {
 
                 {/*password*/}
                 <div className='flex flex-col w-full gap-2'>
-                    <div className='flex w-full items-center justify-between'><label className='text-sm text-(--neutral) cursor-text'>Password</label><Link href={'/user/reset-password'} className='text-md font-semibold text-(--primary)  cursor-pointer'>Forgot Password?</Link></div>
+                    <div className='flex w-full items-center justify-between'><label className='text-sm text-(--neutral) cursor-text'>Password</label><button type='button' onClick={() => handleForgetPassword} className='text-md font-semibold text-(--primary)  cursor-pointer'>Forgot Password?</button></div>
                     <div className='flex gap-6 items-center px-2 py-4 bg-(--neutral)/10 rounded-lg'>
 
                         <Lock className='text-(--neutral) ml-2 shrink-0 mr-3' />
