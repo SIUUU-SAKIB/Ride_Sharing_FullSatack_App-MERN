@@ -10,11 +10,16 @@ import { Authentication, LoginPayload } from '@/app/_services/auth'
 import { useRouter } from 'next/navigation'
 import ButtonLoader from '../ui/ButtonLoader'
 import { toast } from 'sonner'
+
+
 const loginSchema = z.object({
     email: z.string({ message: "Email is required" }).email().includes("@"),
     password: z.string({ message: "Password is required" }).min(7, { message: "Password must include 7 characters" }),
 })
+
+
 type FormFields = z.infer<typeof loginSchema>
+
 
 const LoginForm = () => {
     const [seePassword, setSeePassword] = React.useState<boolean>(false)
@@ -71,7 +76,7 @@ const LoginForm = () => {
 
                 {/*password*/}
                 <div className='flex flex-col w-full gap-2'>
-                    <div className='flex w-full items-center justify-between'><label className='text-sm text-(--neutral) cursor-text'>Password</label><label className='text-md font-semibold text-(--primary)  cursor-pointer'>Forgot Password?</label></div>
+                    <div className='flex w-full items-center justify-between'><label className='text-sm text-(--neutral) cursor-text'>Password</label><Link href={'/user/reset-password'} className='text-md font-semibold text-(--primary)  cursor-pointer'>Forgot Password?</Link></div>
                     <div className='flex gap-6 items-center px-2 py-4 bg-(--neutral)/10 rounded-lg'>
 
                         <Lock className='text-(--neutral) ml-2 shrink-0 mr-3' />

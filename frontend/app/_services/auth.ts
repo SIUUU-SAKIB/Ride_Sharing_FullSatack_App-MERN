@@ -65,4 +65,22 @@ const getCurrentUser = async () => {
 
     return response.json()
 }
-export const Authentication = { registerUser, loginUser, getCurrentUser }
+const logoutUser = async () => {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/logout`, {
+        method: "POST",
+        credentials: "include"
+    })
+    const data = await response.json()
+    if (!response) {
+        throw new Error(data.message || 'Logout Failed')
+    }
+
+    return data
+}
+export const Authentication =
+{
+    registerUser,
+    loginUser,
+    getCurrentUser,
+    logoutUser
+}
