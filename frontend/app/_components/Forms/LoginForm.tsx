@@ -58,7 +58,9 @@ const LoginForm = () => {
         }
     const forgetPasswordMutation = useForgetPassword()
     const handleForgetPassword = async () => {
+
         const email = watch('email')
+        console.log(email)
         if (!email) {
             setError('email', {
                 message: "Please enter your email"
@@ -67,8 +69,11 @@ const LoginForm = () => {
         }
         try {
             const response = await forgetPasswordMutation.mutateAsync(email)
+            toast.success("Password reset link sent to your email")
+            router.push(`/user/verify-top?email=${email}`)
         } catch (error) {
             console.log(error)
+            toast.error("Failed to send password reset link")
         }
     }
     return (
