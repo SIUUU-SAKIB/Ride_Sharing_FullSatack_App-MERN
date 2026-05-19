@@ -56,26 +56,6 @@ const LoginForm = () => {
                 })
             }
         }
-    const forgetPasswordMutation = useForgetPassword()
-    const handleForgetPassword = async () => {
-
-        const email = watch('email')
-        console.log(email)
-        if (!email) {
-            setError('email', {
-                message: "Please enter your email"
-            })
-            return
-        }
-        try {
-            const response = await forgetPasswordMutation.mutateAsync(email)
-            toast.success("Password reset link sent to your email")
-            router.push(`/user/verify-top?email=${email}`)
-        } catch (error) {
-            console.log(error)
-            toast.error("Failed to send password reset link")
-        }
-    }
     return (
         <div className='mx-auto  xs:w-[450px] sm:w-125 md:w-150 lg:w-175 bg-white mt-4 rounded-2xl'>
             <form onSubmit={handleSubmit(loginSubmit)} className='flex w-full flex-col gap-6 items-start justify-center px-4  py-6'>
@@ -94,7 +74,7 @@ const LoginForm = () => {
 
                 {/*password*/}
                 <div className='flex flex-col w-full gap-2'>
-                    <div className='flex w-full items-center justify-between'><label className='text-sm text-(--neutral) cursor-text'>Password</label><button type='button' onClick={() => handleForgetPassword} className='text-md font-semibold text-(--primary)  cursor-pointer'>Forgot Password?</button></div>
+                    <div className='flex w-full items-center justify-between'><label className='text-sm text-(--neutral) cursor-text'>Password</label><Link href={'user/forgot_password'} type='button' className='text-md font-semibold text-(--primary)  cursor-pointer'>Forgot Password?</Link></div>
                     <div className='flex gap-6 items-center px-2 py-4 bg-(--neutral)/10 rounded-lg'>
 
                         <Lock className='text-(--neutral) ml-2 shrink-0 mr-3' />
