@@ -1,6 +1,5 @@
+"use client"
 import { zodResolver } from '@hookform/resolvers/zod'
-import { register } from 'module'
-import React from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { CiUnlock } from 'react-icons/ci'
 import { FaLaptopCode } from 'react-icons/fa'
@@ -13,7 +12,7 @@ const Inputs = z.object({
 type FormFields = z.infer<typeof Inputs>
 
 const ChangePasswordForm = () => {
-    const { register, handleSubmit, formState: { errors } } = useForm({
+    const { register, handleSubmit, formState: { errors } } = useForm<FormFields>({
         resolver: zodResolver(Inputs)
     })
 

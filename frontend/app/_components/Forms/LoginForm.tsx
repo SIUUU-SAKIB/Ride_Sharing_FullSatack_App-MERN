@@ -34,15 +34,11 @@ const LoginForm = () => {
     })
     const loginSubmit: SubmitHandler<FormFields> =
         async (data) => {
-
             try {
-
-                const response =
                     await mutation.mutateAsync(data)
                 setTimeout(() => {
                     toast.success(`Login Successfull 😊`)
                 }, 1000);
-                console.log(response)
                 router.push('/')
             } catch (error) {
                 console.log(error)
