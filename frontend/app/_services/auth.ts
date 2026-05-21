@@ -1,18 +1,5 @@
-export interface RegisterPayload {
-    name: string,
-    email: string,
-    password: string,
-    phone: string,
-    profilePhoto?: FileList
-}
-export interface LoginPayload {
-    email: string,
-    password: string
-}
-export interface OTPPayload {
-    otp: number,
-    newPassword: string
-}
+import { LoginPayload, OTPPayload, RegisterPayload } from "../interfaces/auth.interface"
+
 const registerUser = async (data: RegisterPayload) => {
     const formData = new FormData()
     formData.append('name', data.name)
@@ -81,7 +68,7 @@ const logoutUser = async () => {
 
     return data
 }
-const forgetPassword =  async (
+const forgetPassword = async (
     email: string
 ) => {
 
@@ -104,11 +91,28 @@ const forgetPassword =  async (
     }
     return data
 }
+
+const verifyOtp = async (payload: OTPPayload) => {
+    const response = await fetch(`${process.env.NEXT_VITE_API_URL}/auth/reset-password`, {
+        method: "PATCH",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({payload})
+    })
+    const data = await response.json();
+    if (!response.ok) {
+        throw new Error(data.message || 'Failed to change password')
+    }
+    console.log(data)
+    return data
+}
 export const Authentication =
 {
     registerUser,
     loginUser,
     getCurrentUser,
     logoutUser,
-    forgetPassword
+    forgetPassword,
+    verifyOtp
 }

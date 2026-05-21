@@ -6,7 +6,7 @@ import { z } from "zod"
 import { FormSubmitHandler, SubmitHandler, useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useMutation } from '@tanstack/react-query'
-import { Authentication, LoginPayload } from '@/app/_services/auth'
+import { Authentication } from '@/app/_services/auth'
 import { useRouter } from 'next/navigation'
 import ButtonLoader from '../ui/ButtonLoader'
 import { toast } from 'sonner'
