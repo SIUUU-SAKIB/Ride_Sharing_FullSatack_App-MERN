@@ -97,7 +97,7 @@ const refreshToken = async (refreshToken: string) => {
 const forgetPassword = async (email: string) => {
   const isUserExist = await UserDB.findOne({ email })
   if (!isUserExist) {
-    throw new AppError(StatusCodes.NOT_FOUND, "If account exists, OTP sent")
+    throw new AppError(StatusCodes.NOT_FOUND, "Account does not exist")
   }
   const otp = Math.floor(100000 + Math.random() * 900000).toString()
   isUserExist.otp = otp

@@ -93,13 +93,14 @@ const forgetPassword = async (
 }
 
 const verifyOtp = async (payload: OTPPayload) => {
-    const response = await fetch(`${process.env.NEXT_VITE_API_URL}/auth/reset-password`, {
-        method: "PATCH",
+    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/reset-password`, {
+        method: "POST",
         headers: {
             "Content-Type": "application/json"
         },
-        body: JSON.stringify({payload})
+        body: JSON.stringify(payload)
     })
+    console.log({payload})
     const data = await response.json();
     if (!response.ok) {
         throw new Error(data.message || 'Failed to change password')

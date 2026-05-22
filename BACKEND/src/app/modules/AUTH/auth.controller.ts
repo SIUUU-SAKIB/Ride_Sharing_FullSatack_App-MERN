@@ -94,7 +94,7 @@ const resetPassword = catchAsync(async (req: Request, res: Response) => {
     otpExpires: { $gt: Date.now() }
   })
   if (!user) {
-    return res.send("Invalid or expired otp ❌")
+   throw new AppError( StatusCodes.BAD_REQUEST, `OTP is wrong or has been expired.`)
   }
   const hashedPassword = await bcrypt.hash(newPassword, 10)
   user.password = hashedPassword
