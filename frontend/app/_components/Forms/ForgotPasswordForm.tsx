@@ -17,7 +17,7 @@ const emailSchema = z.object({
 })
 type FormFields = z.infer<typeof emailSchema>
 
-
+console.log(`THIS IS BRAVE BROWSER`)
 const ForgotPasswordForm = () => {
     const router = useRouter()
     const { register, handleSubmit, setError, formState: { errors, isSubmitting } } = useForm<FormFields>({

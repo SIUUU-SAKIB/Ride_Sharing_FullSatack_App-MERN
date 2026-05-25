@@ -100,12 +100,10 @@ const verifyOtp = async (payload: OTPPayload) => {
         },
         body: JSON.stringify(payload)
     })
-    console.log({payload})
     const data = await response.json();
     if (!response.ok) {
         throw new Error(data.message || 'Failed to change password')
     }
-    console.log(data)
     return data
 }
 export const Authentication =
