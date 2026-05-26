@@ -12,6 +12,9 @@ const Inputs = z.object({
     otp: z.string({ message: "OTP is required" }).min(6, { message: "OTP must require 6 digits" }),
     changePassword: z.string({ message: "Password is required" }).min(8, { message: "Password requires at least 8 character" }),
     confirmPassword: z.string({ message: "Confirm Password is required" }).min(8, { message: "Confirmed Password requires at least 8 character" })
+}).refine((data) => data.changePassword === data.confirmPassword, {
+    message: "Passwords do not match",
+    path: ["confirmPassword"]
 })
 type FormFields = z.infer<typeof Inputs>
 
@@ -29,7 +32,7 @@ const ChangePasswordForm = () => {
         try {
             const payload = {
                 otp: data.otp,
-                newPassword: data.confirmPassword
+                newPassword: data.changePassword
             }
             const response = await mutaion.mutateAsync(payload)
             console.log(response)

@@ -30,7 +30,7 @@ const BottomNav = () => {
                 {/* session === true */}
                 {
                     session && <>
-                        <li>  <Link href={`/profile`} className='text-xl cursor-pointer flex flex-col gap-1 items-center'>
+                        <li>  <Link href={`/user/profile`} className='text-xl cursor-pointer flex flex-col gap-1 items-center'>
                             <User />
                             <p className='text-gray-700  text-sm'>Profile</p>
                         </Link></li>
