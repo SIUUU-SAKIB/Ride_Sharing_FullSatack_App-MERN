@@ -8,15 +8,15 @@ const UserProfile = () => {
   const { data: user } = useCurrentUser()
   const personalInto = [
     {
-      title: "Full Name", name: user?.data.name ? user?.data.name : "John Doe", icon:User
+      title: "Full Name", name: user?.data.name ? user?.data.name : "John Doe", icon: User
     },
     {
-      title: "Email", name: user?.data.email ? user?.data.email : "johndoe123@gmail.com", icon:Mail
+      title: "Email", name: user?.data.email ? user?.data.email : "johndoe123@gmail.com", icon: Mail
     },
     {
-      title: "Phone Number", name: user?.data.phoneNumber ? user.data.phoneNumber : '0179642425455325', icon:Mail
+      title: "Phone Number", name: user?.data.phoneNumber ? user.data.phoneNumber : '0179642425455325', icon: Mail
     }, {
-      title: "Base Location", name: user?.data.location ? user?.data.locatoin : "Masimpur, Sylhet", icon:Mail
+      title: "Base Location", name: user?.data.location ? user?.data.locatoin : "Masimpur, Sylhet", icon: Mail
     }
   ]
   return (
@@ -46,21 +46,21 @@ const UserProfile = () => {
       {/*personal information  */}
       <div className="pt-4 flex items-start justify-center gap-2 flex-col">
         <p className="font-bold text-2xl pb-2">Personal Information</p>
-      {
-        personalInto.map(e =>   <div key={e.name} className="p-6 bg-white rounded-md flex gap-4 justify-between w-full items-center">
+        {
+          personalInto.map(e => <div key={e.name} className="p-6 bg-white rounded-md flex gap-4 justify-between w-full items-center">
 
-          <div className="flex gap-8 items-center ">
-            <div className="p-4 bg-(--neutral)/10 rounded-full">
-              {e.icon && <e.icon className="text-(--primary) text-xl" />}
+            <div className="flex gap-8 items-center ">
+              <div className="p-4 bg-(--neutral)/10 rounded-full">
+                {e.icon && <e.icon className="text-(--primary) text-xl" />}
+              </div>
+              <div className="flex flex-col gap-1 items-start">
+                <p className="text-md text-(--neutral) font-medium">{e.title}</p>
+                <h1 className="text-xl font-bold">{e.name}</h1>
+              </div>
             </div>
-            <div className="flex flex-col gap-1 items-start">
-              <p className="text-md text-(--neutral) font-medium">{e.title}</p>
-              <h1 className="text-xl font-bold">{e.name}</h1>
-            </div>
-          </div>
-          <Pen className="text-xl text-(--primary)" />
-        </div>)
-      }
+            <Pen className="text-xl text-(--primary)" />
+          </div>)
+        }
       </div>
     </div>
   )
