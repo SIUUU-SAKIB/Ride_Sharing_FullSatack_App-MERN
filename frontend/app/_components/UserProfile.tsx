@@ -5,22 +5,25 @@ import { useCurrentUser } from "../_hooks/useCurrentUser"
 
 
 const UserProfile = () => {
-  const { data: user } = useCurrentUser()
+  const { data } = useCurrentUser()
+  const user = data?.data
+
   const personalInto = [
     {
-      title: "Full Name", name: user?.data.name ? user?.data.name : "John Doe", icon: User
+      title: "Full Name", name: user?.name ? user?.name : "John Doe", icon: User
     },
     {
-      title: "Email", name: user?.data.email ? user?.data.email : "johndoe123@gmail.com", icon: Mail
+      title: "Email", name: user?.email ? user?.email : "johndoe123@gmail.com", icon: Mail
     },
     {
-      title: "Phone Number", name: user?.data.phoneNumber ? user.data.phoneNumber : '0179642425455325', icon: Mail
+      title: "Phone Number", name: user?.phoneNumber ? user?.phoneNumber : '0179642425455325', icon: Mail
     }, {
-      title: "Base Location", name: user?.data.location ? user?.data.locatoin : "Masimpur, Sylhet", icon: Mail
+      title: "Base Location", name: user?.location ? user?.location : "Masimpur, Sylhet", icon: Mail
     }
   ]
+
   return (
-    <div className="max-w-5xl min-h-screen flex flex-col pt-8 mx-auto">
+    <div className="max-w-5xl flex flex-col pt-8 mx-auto pb-20 px-4">
       {/* top profile */}
       <div className="flex flex-col justify-center items-center w-full">
         <Image
@@ -44,7 +47,7 @@ const UserProfile = () => {
         </div>
       </div>
       {/*personal information  */}
-      <div className="pt-4 flex items-start justify-center gap-2 flex-col">
+      <div className="pt-4 flex items-start justify-center gap-2 flex-col ">
         <p className="font-bold text-2xl pb-2">Personal Information</p>
         {
           personalInto.map(e => <div key={e.name} className="p-6 bg-white rounded-md flex gap-4 justify-between w-full items-center">
@@ -62,6 +65,25 @@ const UserProfile = () => {
           </div>)
         }
       </div>
+      {/* account status */}
+            <div className="pt-4 flex items-start justify-center gap-2 flex-col w-full rounded-md" >
+               <p className="font-bold text-2xl pb-2 ">Account information</p>
+              <div className="shadow-sm w-full bg-white rounded-md">
+                <div className="p-6 flex gap-4 justify-between items-center">
+              <p className="text-md text-(--neutral)">status</p>
+              <div className="flex gap-1 items-center justify-center">
+                <div className="w-4 h-4 rounded-full bg-green-900"></div>
+                <p className="text-md font-semibold text-(--primary)">Active</p>
+              </div>
+            
+              </div>
+
+              <div className="p-6 flex gap-4 justify-between  items-center">
+              <p className="text-sm text-(--neutral)">Join Date</p>
+              <p className="text-(--neutral)">Oct 24, 2023</p>
+              </div>
+              </div>
+            </div>
     </div>
   )
 }
