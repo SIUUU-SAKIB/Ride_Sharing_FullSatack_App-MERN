@@ -1,4 +1,4 @@
-import { LoginPayload, OTPPayload, RegisterPayload } from "../interfaces/auth.interface"
+import { LoginPayload, OTPPayload, RegisterPayload } from "../_interfaces/auth.interface"
 
 const registerUser = async (data: RegisterPayload) => {
     const formData = new FormData()

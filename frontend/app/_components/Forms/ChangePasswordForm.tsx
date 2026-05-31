@@ -1,112 +1,172 @@
 "use client"
-import { Authentication } from '@/app/_services/auth'
-import { zodResolver } from '@hookform/resolvers/zod'
-import { useMutation } from '@tanstack/react-query'
-import { useRouter } from 'next/navigation'
-import { SubmitHandler, useForm } from 'react-hook-form'
-import { CiUnlock } from 'react-icons/ci'
-import { FaLaptopCode } from 'react-icons/fa'
-import { toast } from 'sonner'
-import { z } from "zod"
-const Inputs = z.object({
-    otp: z.string({ message: "OTP is required" }).min(6, { message: "OTP must require 6 digits" }),
-    changePassword: z.string({ message: "Password is required" }).min(8, { message: "Password requires at least 8 character" }),
-    confirmPassword: z.string({ message: "Confirm Password is required" }).min(8, { message: "Confirmed Password requires at least 8 character" })
-}).refine((data) => data.changePassword === data.confirmPassword, {
-    message: "Passwords do not match",
-    path: ["confirmPassword"]
-})
-type FormFields = z.infer<typeof Inputs>
+import { useState } from "react"
+import { ArrowLeft, Lock, Eye, EyeOff, ShieldCheck } from "lucide-react"
+import { useRouter } from "next/navigation"
+import { useForm } from "react-hook-form"
+
+const getStrength = (password: string) => {
+  if (!password) return { label: "", level: 0 }
+  if (password.length < 6) return { label: "Weak", level: 1 }
+  if (password.length < 10 || !/[A-Z]/.test(password) || !/[0-9]/.test(password))
+    return { label: "Fair", level: 2 }
+  if (!/[^A-Za-z0-9]/.test(password)) return { label: "Good", level: 3 }
+  return { label: "Strong", level: 4 }
+}
+
+const strengthColors = ["", "bg-red-400", "bg-yellow-400", "bg-blue-400", "bg-green-500"]
+
+const PasswordInput = ({
+  label,
+  placeholder,
+  value,
+  onChange,
+  showForgot,
+}: {
+  label: string
+  placeholder: string
+  value: string
+  onChange: (v: string) => void
+  showForgot?: boolean
+}) => {
+  const [visible, setVisible] = useState(false)
+  return (
+    <div className="flex flex-col gap-1.5">
+      <label className="text-sm sm:text-base font-medium text-gray-700">{label}</label>
+      <div className="flex items-center gap-3 bg-[#EEF0F5] rounded-xl px-4 py-3.5">
+        <Lock className="w-5 h-5 text-gray-500 shrink-0" />
+        <input
+          type={visible ? "text" : "password"}
+          placeholder={placeholder}
+          value={value}
+          onChange={(e) => onChange(e.target.value)}
+          className="flex-1 bg-transparent text-gray-700 placeholder:text-gray-400 text-sm sm:text-base outline-none"
+        />
+        <button type="button" onClick={() => setVisible((v) => !v)} className="shrink-0">
+          {visible ? (
+            <EyeOff className="w-5 h-5 text-gray-500" />
+          ) : (
+            <Eye className="w-5 h-5 text-gray-500" />
+          )}
+        </button>
+      </div>
+      {showForgot && (
+        <div className="flex justify-end">
+          <button className="text-sm font-semibold text-[#1A9E5F]">Forgot Password?</button>
+        </div>
+      )}
+    </div>
+  )
+}
 
 const ChangePasswordForm = () => {
-    const router = useRouter()
-    const { register, handleSubmit, setError, formState: { errors } } = useForm<FormFields>({
-        resolver: zodResolver(Inputs)
-    })
-    const mutaion = useMutation({
-        mutationFn: Authentication.verifyOtp
-    })
+  const router = useRouter()
+  const [current, setCurrent] = useState("")
+  const [newPass, setNewPass] = useState("")
+  const [confirm, setConfirm] = useState("")
+  const strength = getStrength(newPass)
 
+  const {register} = useForm()
+  const handleSubmit = () => {
+    
+  }
 
-    const onSubmit: SubmitHandler<FormFields> = async (data) => {
-        try {
-            const payload = {
-                otp: data.otp,
-                newPassword: data.changePassword
-            }
-            const response = await mutaion.mutateAsync(payload)
-            console.log(response)
-            toast.success(`Successfully changed the password.`)
-            router.push(`/login`)
-            console.log(payload)
-        } catch (error) {
-            console.log(error)
-            setError('root', {
-                message:
-                    error instanceof Error
-                        ? error.message
-                        : typeof error === "string"
-                            ? error
-                            : "Something went wrong"
-            })
-        }
-    }
-    return (
-        <form onSubmit={handleSubmit(onSubmit)} className='mx-auto w-110 sm:w-125 md:w-150 lg:w-175 bg-white mt-4 rounded-2xl '>
-            <div className='flex w-full flex-col gap-6'>
-                <div className='flex w-full flex-col gap-2 space-x-4 '>
-                    <label className='text-sm text-(--neutral)'>OTP Code</label>
-                    <div className='flex gap-6 items-center px-2 py-4 bg-(--neutral)/10 rounded-lg'>
-                        <FaLaptopCode className='text-(--neutral) text-xl' />
-                        <input {...register('otp')} type='text' className='outline-none border-none text-(--neutral) focus:text-(--primary) text:md md:text-lg flex-1' placeholder='Enter 6-digit code'
+  return (
+    <div className="min-h-screen bg-[#F2F4F8] flex flex-col pt-12">
+      <div className="max-w-lg mx-auto w-full =flex flex-col px-5 pt-6 pb-10 shadow-sm bg-zinc-100/50">
 
-                        />
+        {/* Header */}
+        <div className="flex items-center gap-3 mb-8">
+          <button
+            onClick={() => router.back()}
+            className="w-9 h-9 flex items-center justify-center rounded-full hover:bg-gray-200 transition-colors"
+          >
+            <ArrowLeft className="w-5 h-5 text-gray-700" />
+          </button>
+          <h1 className="text-2xl font-bold text-[#1A9E5F]">Change Password</h1>
+        </div>
 
-                    </div>
-                    {
-                        errors.otp && <p className='text-red-500 font-semibold'>{errors.otp.message}</p>
-                    }
+        {/* Subtitle */}
+        <p className="text-gray-500 text-sm sm:text-base mb-8 leading-relaxed">
+          Update your password to keep your account secure.
+        </p>
 
-                </div>
+        {/* Fields */}
+        <div className="flex flex-col gap-5">
+          <PasswordInput
 
-                <div className='flex w-full flex-col gap-2 space-x-4'>
-                    <label className='text-sm text-(--neutral)'>Change Password</label>
-                    <div className='flex gap-6 items-center px-2 py-4 bg-(--neutral)/10 rounded-lg'>
-                        <CiUnlock className='text-(--neutral) text-xl' />
-                        <input {...register('changePassword')} type='text' className='outline-none border-none text-(--neutral) focus:text-(--primary) text:md md:text-lg flex-1' placeholder='Min. 8 Character'
+            label="Current Password"
+            placeholder="••••••••"
+            value={current}
+            onChange={setCurrent}
+            showForgot
+          />
 
-                        />
-
-                    </div>
-                    {
-                        errors.changePassword && <p className='text-red-500 font-semibold'>{errors.changePassword.message}</p>
-                    }
-
-                </div>
-                <div className='flex w-full flex-col gap-2 space-x-4'>
-                    <label className='text-sm text-(--neutral)'>Confirm new password</label>
-                    <div className='flex gap-6 items-center px-2 py-4 bg-(--neutral)/10 rounded-lg'>
-                        <CiUnlock className='text-(--neutral) text-xl' />
-                        <input {...register('confirmPassword')} type='text' className='outline-none border-none text-(--neutral) focus:text-(--primary) text:md md:text-lg flex-1' placeholder='Repeat new password'
-
-                        />
-
-                    </div>
-                    {
-                        errors.confirmPassword && <p className='text-red-500 font-semibold'>{errors.confirmPassword.message}</p>
-                    }
-
-                </div>
+          <div className="flex flex-col gap-2">
+            <PasswordInput
+              label="New Password"
+              placeholder="Min. 8 characters"
+              value={newPass}
+              onChange={setNewPass}
+            />
+            {/* Strength bar */}
+            <div className="h-1 w-full bg-gray-200 rounded-full overflow-hidden">
+              <div
+                className={`h-full rounded-full transition-all duration-300 ${strengthColors[strength.level]}`}
+                style={{ width: `${(strength.level / 4) * 100}%` }}
+              />
             </div>
-            <button
-                type='submit'
-                className='w-full bg-(--primary) rounded-xl py-4 md:py-4 text-white text-shadow-xs text-lg md:text-xl font-bold my-4 cursor-pointer hover:bg-(--primary)/90 flex items-center justify-center mt-8'
-            >
-                Update Password
-            </button>
-            {errors.root && <p className='text-red-500 font-semibold'>{errors.root.message}</p>}
-        </form>
-    )
+            {newPass.length > 0 && (
+              <p className="text-sm text-gray-500">
+                Password strength:{" "}
+                <span
+                  className={`font-semibold ${
+                    strength.level === 1
+                      ? "text-red-400"
+                      : strength.level === 2
+                      ? "text-yellow-500"
+                      : strength.level === 3
+                      ? "text-blue-500"
+                      : "text-green-500"
+                  }`}
+                >
+                  {strength.label}
+                </span>
+              </p>
+            )}
+            {!newPass && (
+              <p className="text-sm text-gray-400">Password strength: Weak</p>
+            )}
+          </div>
+
+          <PasswordInput
+            label="Confirm New Password"
+            placeholder="Confirm new password"
+            value={confirm}
+            onChange={setConfirm}
+          />
+          {confirm && newPass !== confirm && (
+            <p className="text-sm text-red-500 -mt-3">Passwords do not match.</p>
+          )}
+        </div>
+
+        {/* Update Button */}
+        <button
+          onClick={handleSubmit}
+          disabled={!current || !newPass || newPass !== confirm}
+          className="mt-8 w-full py-4 rounded-2xl bg-(--primary) cursor-pointer text-white font-bold text-base sm:text-lg disabled:opacity-50 disabled:cursor-not-allowed active:scale-[0.98] transition-transform"
+        >
+          Update Password
+        </button>
+
+        {/* Shield illustration */}
+        <div className="flex justify-center mt-10">
+          <div className="w-24 h-24 rounded-full bg-[#E6F5EE] flex items-center justify-center">
+            <ShieldCheck className="w-10 h-10 text-[#1A9E5F]/50" />
+          </div>
+        </div>
+      </div>
+    </div>
+  )
 }
 
 export default ChangePasswordForm

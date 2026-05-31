@@ -1,4 +1,5 @@
-import ChangePasswordForm from '@/app/_components/Forms/ChangePasswordForm'
+import ChangePasswordViaOTPForm from '@/app/_components/Forms/ChangePasswordViaOTP'
+import ChangePasswordForm from '@/app/_components/Forms/ChangePasswordViaOTP'
 import React from 'react'
 import { MdOutlineLockReset } from 'react-icons/md'
 
@@ -13,7 +14,7 @@ const ResetPassword = () => {
         <p className='max-w-100 text-center text-(--neutral) mt-2'>Enter OTP send to your email and your new password to secure your account, OTP wil expire in 10 minute.</p>
         </div>
       </div>
-      <ChangePasswordForm/>
+      <ChangePasswordViaOTPForm/>
     </div>
   )
 }

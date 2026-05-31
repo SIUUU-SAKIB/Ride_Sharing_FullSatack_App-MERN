@@ -17,7 +17,7 @@ const Nav = () => {
             <div className='flex gap-2 py-2 items-center justify-center text-black '>
                 <div className='flex gap-2 items-center'>
                     {
-                    session ? (<Link href='/'>
+                    session ? (<Link href='user/profile'>
                         <Image
                             src={profileImage ? profileImage : "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTMRBqTeY-dTImnv-0qS4j32of8dVtWelSEMw&s"}
                             alt='User profile image'
