@@ -53,7 +53,7 @@ const LoginForm = () => {
             }
         }
     return (
-        <div className='mx-auto  xs:w-[450px] sm:w-125 md:w-150 lg:w-175 bg-white mt-4 rounded-2xl'>
+        <div className='w-full sm:w-125 md:w-150 lg:w-175 bg-white mt-4 rounded-2xl '>
             <form onSubmit={handleSubmit(loginSubmit)} className='flex w-full flex-col gap-6 items-start justify-center px-4  py-6'>
 
                 {/* email */}
@@ -70,10 +70,12 @@ const LoginForm = () => {
 
                 {/*password*/}
                 <div className='flex flex-col w-full gap-2'>
-                    <div className='flex w-full items-center justify-between'><label className='text-sm text-(--neutral) cursor-text'>Password</label><Link href={'user/forgot_password'} type='button' className='text-md font-semibold text-(--primary)  cursor-pointer'>Forgot Password?</Link></div>
+                    <div className='flex w-full items-center justify-between'><label className='text-sm text-(--neutral) cursor-text'>Password</label><Link href={'user/forgot_password'} type='button' className='text-md font-semibold text-(--primary)  cursor-pointer'>Forgot Password?</Link>
+                    </div>
                     <div className='flex gap-6 items-center px-2 py-4 bg-(--neutral)/10 rounded-lg'>
 
-                        <Lock className='text-(--neutral) ml-2 shrink-0 mr-3' />
+                       <div className='flex flex-1 gap-2 items-center justify-center'>
+                         <Lock className='text-(--neutral) ml-2 shrink-0 mr-3' />
                         <input
                             {...register('password')}
                             type={seePassword ? "text" : "password"}
@@ -82,6 +84,7 @@ const LoginForm = () => {
                             required={true}
 
                         />
+                       </div>
 
 
                         <Eye onClick={() => setSeePassword(true)} className={`text-(--neutral) ${seePassword ? "hidden" : "block"} ml-2 cursor-pointer shrink-0`} />
