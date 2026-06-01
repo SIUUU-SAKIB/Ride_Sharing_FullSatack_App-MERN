@@ -1,6 +1,6 @@
 "use client"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { Eye, EyeClosed, EyeClosedIcon, EyeOff, Lock, MoveLeft } from "lucide-react"
+import { Eye, EyeOff, Lock, MoveLeft } from "lucide-react"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
 import React from "react"
@@ -17,7 +17,7 @@ const Inputs = z
     (data) =>
       data.newPassword === data.confirmPassword,
     {
-      path: ["confirmNewPassword"],
+      path: ["confirmPassword"],
       message: "Passwords do not match",
     }
   )
@@ -98,7 +98,7 @@ console.log(`dfsaasfsaf`)
                 {...register('confirmPassword')}
               />
             </div>
-            <Eye onClick={() => setConfirmPassEye(true)} className={`cursor-pointer text-(--neutral) ${currentPassEye ? "hidden" : "block"}`} />
+            <Eye onClick={() => setConfirmPassEye(true)} className={`cursor-pointer text-(--neutral) ${confirmPassEye ? "hidden" : "block"}`} />
             <EyeOff onClick={() => setConfirmPassEye(false)}  className={`cursor-pointer text-(--neutral) ${confirmPassEye ? "block" : "hidden"}`} />
           </div>
           {errors.confirmPassword && <p className="text-md text-red-500 font-semibold">{errors.confirmPassword.message}</p>}
