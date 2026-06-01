@@ -2,8 +2,9 @@
 import { useState } from "react"
 import { ArrowLeft, Lock, Eye, EyeOff, ShieldCheck } from "lucide-react"
 import { useRouter } from "next/navigation"
-import { useForm } from "react-hook-form"
-
+import { SubmitHandler, useForm } from "react-hook-form"
+import { z } from "zod"
+import { zodResolver } from "@hookform/resolvers/zod"
 const getStrength = (password: string) => {
   if (!password) return { label: "", level: 0 }
   if (password.length < 6) return { label: "Weak", level: 1 }
@@ -12,7 +13,6 @@ const getStrength = (password: string) => {
   if (!/[^A-Za-z0-9]/.test(password)) return { label: "Good", level: 3 }
   return { label: "Strong", level: 4 }
 }
-
 const strengthColors = ["", "bg-red-400", "bg-yellow-400", "bg-blue-400", "bg-green-500"]
 
 const PasswordInput = ({
@@ -57,6 +57,13 @@ const PasswordInput = ({
     </div>
   )
 }
+const Inputs = z.object({
+  currentPassword: z.string({ message: "Current Password required" }).min(8, { message: "At least 8 characters requiered" }),
+  newPassword: z.string({ message: "New Password required" }).min(8, { message: "At least 8 characters requiered" }),
+  confirmNewPassword: z.string({ message: "Current Password required" }).min(8, { message: "At least 8 characters requiered" })
+}
+)
+type FormFields = z.infer<typeof Inputs>
 
 const ChangePasswordForm = () => {
   const router = useRouter()
@@ -65,9 +72,11 @@ const ChangePasswordForm = () => {
   const [confirm, setConfirm] = useState("")
   const strength = getStrength(newPass)
 
-  const {register} = useForm()
-  const handleSubmit = () => {
-    
+  const { register, handleSubmit, setError, formState: { errors } } = useForm<FormFields>({
+    resolver: zodResolver(Inputs)
+  })
+  const onSubmit: SubmitHandler<FormFields> =async (data) => {
+    console.log(data)
   }
 
   return (
@@ -91,73 +100,76 @@ const ChangePasswordForm = () => {
         </p>
 
         {/* Fields */}
-        <div className="flex flex-col gap-5">
-          <PasswordInput
-
-            label="Current Password"
-            placeholder="••••••••"
-            value={current}
-            onChange={setCurrent}
-            showForgot
-          />
-
-          <div className="flex flex-col gap-2">
+       
+          <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-5">
             <PasswordInput
-              label="New Password"
-              placeholder="Min. 8 characters"
-              value={newPass}
-              onChange={setNewPass}
+              {...register('currentPassword')}
+              label="Current Password"
+              placeholder="••••••••"
+              value={current}
+              onChange={setCurrent}
+              showForgot
             />
-            {/* Strength bar */}
-            <div className="h-1 w-full bg-gray-200 rounded-full overflow-hidden">
-              <div
-                className={`h-full rounded-full transition-all duration-300 ${strengthColors[strength.level]}`}
-                style={{ width: `${(strength.level / 4) * 100}%` }}
+
+            <div className="flex flex-col gap-2">
+              <PasswordInput
+                {...register('newPassword')}
+                label="New Password"
+                placeholder="Min. 8 characters"
+                value={newPass}
+                onChange={setNewPass}
               />
-            </div>
-            {newPass.length > 0 && (
-              <p className="text-sm text-gray-500">
-                Password strength:{" "}
-                <span
-                  className={`font-semibold ${
-                    strength.level === 1
+              {/* Strength bar */}
+              <div className="h-1 w-full bg-gray-200 rounded-full overflow-hidden">
+                <div
+                  className={`h-full rounded-full transition-all duration-300 ${strengthColors[strength.level]}`}
+                  style={{ width: `${(strength.level / 4) * 100}%` }}
+                />
+              </div>
+              {newPass.length > 0 && (
+                <p className="text-sm text-gray-500">
+                  Password strength:{" "}
+                  <span
+                    className={`font-semibold ${strength.level === 1
                       ? "text-red-400"
                       : strength.level === 2
-                      ? "text-yellow-500"
-                      : strength.level === 3
-                      ? "text-blue-500"
-                      : "text-green-500"
-                  }`}
-                >
-                  {strength.label}
-                </span>
-              </p>
-            )}
-            {!newPass && (
-              <p className="text-sm text-gray-400">Password strength: Weak</p>
-            )}
-          </div>
+                        ? "text-yellow-500"
+                        : strength.level === 3
+                          ? "text-blue-500"
+                          : "text-green-500"
+                      }`}
+                  >
+                    {strength.label}
+                  </span>
+                </p>
+              )}
+              {!newPass && (
+                <p className="text-sm text-gray-400">Password strength: Weak</p>
+              )}
+            </div>
 
-          <PasswordInput
-            label="Confirm New Password"
-            placeholder="Confirm new password"
-            value={confirm}
-            onChange={setConfirm}
-          />
-          {confirm && newPass !== confirm && (
-            <p className="text-sm text-red-500 -mt-3">Passwords do not match.</p>
-          )}
-        </div>
+            <PasswordInput
+              {...register('confirmNewPassword')}
+              label="Confirm New Password"
+              placeholder="Confirm new password"
+              value={confirm}
+              onChange={setConfirm}
+            />
+            {confirm && newPass !== confirm && (
+              <p className="text-sm text-red-500 -mt-3">Passwords do not match.</p>
+            )}
+     
+    
 
         {/* Update Button */}
         <button
-          onClick={handleSubmit}
-          disabled={!current || !newPass || newPass !== confirm}
+        type="submit"
+          // disabled={!current || !newPass || newPass !== confirm}
           className="mt-8 w-full py-4 rounded-2xl bg-(--primary) cursor-pointer text-white font-bold text-base sm:text-lg disabled:opacity-50 disabled:cursor-not-allowed active:scale-[0.98] transition-transform"
         >
           Update Password
         </button>
-
+     </form>
         {/* Shield illustration */}
         <div className="flex justify-center mt-10">
           <div className="w-24 h-24 rounded-full bg-[#E6F5EE] flex items-center justify-center">
