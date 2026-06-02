@@ -37,9 +37,7 @@ export const setAuthCookie = (
       tokenInfo.refreshToken,
       {
         httpOnly: true,
-
         secure: isProduction,
-
         sameSite: isProduction
           ? 'none'
           : 'lax'

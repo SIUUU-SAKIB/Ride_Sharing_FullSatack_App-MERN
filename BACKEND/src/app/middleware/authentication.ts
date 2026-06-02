@@ -17,7 +17,7 @@ export const authentication =
                     req.headers.authorization?.split(" ")[1];
 
                 if (!token) {
-                    throw new AppError(403, "No token received");
+                    throw new AppError(401, "No token received");
                 }
                 const verifiedToken = verifyToken(
                     token,
@@ -32,7 +32,7 @@ export const authentication =
                     admin = await AdminDB.findById(verifiedToken._id);
                 }
                 if (!user && !admin) {
-                    throw new AppError(400, "User does not exist");
+                    throw new AppError(StatusCodes.NOT_FOUND, "User does not exist");
                 }
 
                 if (user) {

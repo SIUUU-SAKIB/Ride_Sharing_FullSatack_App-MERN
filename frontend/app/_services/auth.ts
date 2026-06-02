@@ -1,4 +1,5 @@
 import { ChangePasswordPayload, LoginPayload, OTPPayload, RegisterPayload } from "../_interfaces/auth.interface"
+import { apiFetch } from "../lib/apiFetch"
 
 const registerUser = async (data: RegisterPayload) => {
     const formData = new FormData()
@@ -47,7 +48,7 @@ const loginUser = async (data: LoginPayload) => {
     return response
 }
 const getCurrentUser = async () => {
-    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/me`, {
+    const response = await apiFetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/me`, {
         credentials: "include"
     })
     if (!response.ok) {
@@ -91,7 +92,6 @@ const forgetPassword = async (
     }
     return data
 }
-
 const verifyOtp = async (payload: OTPPayload) => {
     const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/reset-password`, {
         method: "POST",
@@ -107,12 +107,12 @@ const verifyOtp = async (payload: OTPPayload) => {
     return data
 }
 const changePassword = async (payload: ChangePasswordPayload) => {
-    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/change-password`, {
+    const response = await apiFetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/change-password`, {
         method: 'PATCH',
         headers: {
             "Content-Type": "application/json"
         },
-        credentials:"include",
+        credentials: "include",
         body: JSON.stringify(payload)
     })
     console.log(payload)
@@ -122,6 +122,23 @@ const changePassword = async (payload: ChangePasswordPayload) => {
     }
     return data
 }
+
+const refreshToken = async () => {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/refresh-token`, {
+        method: 'POST',
+        credentials: "include"
+    })
+
+    if (!response.ok) {
+        throw new Error("Session expired")
+    }
+
+    return response.json()
+}
+
+
+
+
 export const Authentication =
 {
     registerUser,
@@ -130,5 +147,6 @@ export const Authentication =
     logoutUser,
     forgetPassword,
     verifyOtp,
-    changePassword
+    changePassword,
+    refreshToken
 }

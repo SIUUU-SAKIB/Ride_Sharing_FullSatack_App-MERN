@@ -151,7 +151,7 @@ const getMe = catchAsync(async (req: Request, res: Response) => {
     resetTokenExpires: 0
   }) || await AdminDB.findById(userId)
   if (!user) {
-    throw new AppError(StatusCodes.NOT_FOUND, "User not found")
+    throw new AppError(StatusCodes.UNAUTHORIZED, "User not found")
   }
   sendResponse(res, {
     success: true,
