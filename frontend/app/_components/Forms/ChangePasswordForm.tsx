@@ -41,7 +41,7 @@ console.log(`dfsaasfsaf`)
 
   return (
     <div className="min-w-screen bg-zinc-100/80 min-h-screen">
-      <div className="pl-2 md:pl-4 lg:px-8 flex gap-4 items-center shadow-xs py-4">
+      <div className="pl-2 md:pl-4 lg:px-8 flex gap-4 items-center  py-4">
         <Link href={'/user/profile'}>
           <MoveLeft className="text-xl" />
         </Link>

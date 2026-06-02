@@ -6,7 +6,6 @@ const Profile = () => {
   return (
     <div className='bg-zinc-200/40 min-h-screen'>
       <Nav/>
-
       <UserProfile />
       <BottomNav />
     </div>
