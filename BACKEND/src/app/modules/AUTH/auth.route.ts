@@ -15,7 +15,7 @@ router.get(`/me`, authentication(...Object.values(IUserRole), ...Object.values(I
 router.post('/logout', AuthController.logout)
 router.post('/refresh-token', AuthController.refreshToken)
 router.post(`/forget-password`, AuthController.forgetPassword)
-router.patch(`/change-password`, AuthController.changePassword)
+router.patch(`/change-password`,authentication(...Object.values(IUserRole), ...Object.values(IAdminRole)), AuthController.changePassword)
 router.post(`/reset-password`, AuthController.resetPassword)
 
 router.get(`/verify-email`, AuthController.verifyEmail)

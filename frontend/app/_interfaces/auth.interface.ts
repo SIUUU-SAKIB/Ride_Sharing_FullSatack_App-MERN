@@ -14,3 +14,7 @@ export interface OTPPayload {
     newPassword: string
 }
 
+export interface ChangePasswordPayload {
+    oldPass:string,
+    newPass:string
+}

@@ -80,12 +80,20 @@ const forgetPassword = catchAsync(async (req: Request, res: Response) => {
   });
 })
 const changePassword = catchAsync(async (req: Request, res: Response) => {
-  const { token } = req.query;
-  const { password } = req.body
-  if (!token || !password) {
-    throw new AppError(StatusCodes.NOT_FOUND, `Please provide token and password`)
+  const { oldPass, newPass } = req.body
+  const userId = req.user?._id
+  if (!oldPass && !newPass) {
+    throw new AppError(StatusCodes.NOT_FOUND, `Please provide password`)
   }
-  res.redirect(`http://localhost:${enviromentVariables.PORT}/auth/reset-password`)
+  console.log(oldPass, newPass, userId)
+  const result = await AuthService.changePassword(userId, oldPass, newPass)
+  console.log(result)
+  sendResponse(res, {
+    success: true,
+    statusCode: StatusCodes.OK,
+    message: "Password changed successfully",
+    data: null,
+  });
 })
 const resetPassword = catchAsync(async (req: Request, res: Response) => {
   const { otp, newPassword } = req.body
@@ -94,7 +102,7 @@ const resetPassword = catchAsync(async (req: Request, res: Response) => {
     otpExpires: { $gt: Date.now() }
   })
   if (!user) {
-   throw new AppError( StatusCodes.BAD_REQUEST, `OTP is wrong or has been expired.`)
+    throw new AppError(StatusCodes.BAD_REQUEST, `OTP is wrong or has been expired.`)
   }
   const hashedPassword = await bcrypt.hash(newPassword, 10)
   user.password = hashedPassword
@@ -128,7 +136,7 @@ const verifyEmail = catchAsync(async (req: Request, res: Response) => {
   res.redirect(`${enviromentVariables.FRONTEND_URL}/login`)
 })
 const getMe = catchAsync(async (req: Request, res: Response) => {
-  const userId = req.user?._id 
+  const userId = req.user?._id
   console.log(req.user)
   const user = await UserDB.findById(userId).select({
     password: 0,

@@ -6,7 +6,11 @@ import { useRouter } from "next/navigation"
 import React from "react"
 import { SubmitHandler, useForm } from "react-hook-form"
 import { z } from "zod"
-import {PasswordField} from "../ui/PasswordField"
+import { PasswordField } from "../ui/PasswordField"
+import { toast } from "sonner"
+import { useMutation } from "@tanstack/react-query"
+import { Authentication } from "@/app/_services/auth"
+import useChangePassword from "@/app/_hooks/useChangePassword"
 
 const Inputs = z
   .object({
@@ -23,10 +27,8 @@ const Inputs = z
     }
   )
 type FormFields = z.infer<typeof Inputs>
+
 const ChangePasswordForm = () => {
-  const [currentPassEye, setCurrrentPassEye] = React.useState<boolean>(false)
-  const [newPassEye, setNewPassEye] = React.useState<boolean>(false)
-  const [confirmPassEye, setConfirmPassEye] = React.useState<boolean>(false)
   const router = useRouter()
   const { register,
     handleSubmit,
@@ -34,14 +36,19 @@ const ChangePasswordForm = () => {
     formState: { errors } } = useForm<FormFields>({
       resolver: zodResolver(Inputs)
     })
+  const mutation = useMutation({ mutationFn: Authentication.changePassword })
 
   const onSubmit: SubmitHandler<FormFields> = async (data) => {
     try {
-     const payload = {
-      oldPassword:data.currentPassword,
-      newPassword:data.newPassword
-     }
-     console.log(payload)
+      const payload = {
+        oldPass: data.currentPassword,
+        newPass: data.newPassword
+      }
+      const response = await mutation.mutateAsync(payload)
+      console.log(payload)
+      console.log(response)
+      toast.success('Successfully changed the password')
+      router.push(`/login`)
     } catch (error) {
       setError('root', {
         message:
@@ -66,25 +73,25 @@ const ChangePasswordForm = () => {
 
         {/* current password */}
         <PasswordField
-        label="Current Password"
-        placeholder="*******"
-        register={register('currentPassword')}
-        error={errors.currentPassword}
-        showForgotPassword
+          label="Current Password"
+          placeholder="*******"
+          register={register('currentPassword')}
+          error={errors.currentPassword}
+          showForgotPassword
         />
         {/* new password */}
-            <PasswordField
-        label="New Password"
-        placeholder="Min. 8 characters"
-        register={register('newPassword')}
-        error={errors.newPassword}
+        <PasswordField
+          label="New Password"
+          placeholder="Min. 8 characters"
+          register={register('newPassword')}
+          error={errors.newPassword}
         />
         {/* confirm new password */}
-            <PasswordField
-        label="Confirm new Password"
-        placeholder="Confirm new password"
-        register={register('confirmPassword')}
-        error={errors.confirmPassword}
+        <PasswordField
+          label="Confirm new Password"
+          placeholder="Confirm new password"
+          register={register('confirmPassword')}
+          error={errors.confirmPassword}
         />
         <button type="submit" className="text-white cursor-pointer bg-(--primary)/90 hover:bg-(--primary) transtion duration-75 rounded-lg px-12 py-4 font-semibold  text-xl text-center w-full my-8">Change Password</button>
         {errors.root && <p className="font-semibold text-xl text-red-500">{errors.root.message}</p>}

@@ -1,4 +1,4 @@
-import { LoginPayload, OTPPayload, RegisterPayload } from "../_interfaces/auth.interface"
+import { ChangePasswordPayload, LoginPayload, OTPPayload, RegisterPayload } from "../_interfaces/auth.interface"
 
 const registerUser = async (data: RegisterPayload) => {
     const formData = new FormData()
@@ -106,6 +106,22 @@ const verifyOtp = async (payload: OTPPayload) => {
     }
     return data
 }
+const changePassword = async (payload: ChangePasswordPayload) => {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/change-password`, {
+        method: 'PATCH',
+        headers: {
+            "Content-Type": "application/json"
+        },
+        credentials:"include",
+        body: JSON.stringify(payload)
+    })
+    console.log(payload)
+    const data = await response.json();
+    if (!response.ok) {
+        throw new Error(data.message || 'Failed to change password')
+    }
+    return data
+}
 export const Authentication =
 {
     registerUser,
@@ -113,5 +129,6 @@ export const Authentication =
     getCurrentUser,
     logoutUser,
     forgetPassword,
-    verifyOtp
+    verifyOtp,
+    changePassword
 }
