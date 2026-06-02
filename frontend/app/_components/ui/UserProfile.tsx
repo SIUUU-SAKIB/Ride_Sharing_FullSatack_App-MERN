@@ -1,14 +1,14 @@
 "use client"
 import { Pen, Star, User, Mail, LockKeyholeOpen, LogOut, Phone, MapPin } from "lucide-react"
 import Image from "next/image"
-import { useCurrentUser } from "../_hooks/useCurrentUser"
-import { useLogout } from "../_hooks/useLogout"
+import { useCurrentUser } from "../../_hooks/useCurrentUser"
+import { useLogout } from "../../_hooks/useLogout"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
 
 const UserProfile = () => {
   const router = useRouter()
-  const { data } = useCurrentUser()
+  const { data, isLoading, isError } = useCurrentUser()
   const user = data?.data
   const logoutMutation = useLogout()
   const personalInto = [
