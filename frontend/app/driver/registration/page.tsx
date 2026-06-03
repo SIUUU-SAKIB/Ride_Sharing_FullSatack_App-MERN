@@ -1,9 +1,11 @@
+
 import DriverRegistrationForm from '@/app/_components/Forms/driverRegistrationForm'
 import BottomNav from '@/app/_components/Navigation/BottomNav'
 import Nav from '@/app/_components/Navigation/Nav'
-import React from 'react'
+import { useCurrentUser } from '@/app/_hooks/useCurrentUser'
 
 const DriverRegistration = () => {
+
   return (
     <div className='max-w-7xl mx-auto'>
       <Nav />
@@ -19,6 +21,7 @@ const DriverRegistration = () => {
 
     </div>
   )
+
 }
 
 export default DriverRegistration

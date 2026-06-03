@@ -1,15 +1,75 @@
+'use client'
+import { useCurrentUser } from '@/app/_hooks/useCurrentUser'
+import { DriverApplicationFormData, driverApplicationSchema } from '@/app/lib/validations/driver-application.schema'
+import { zodResolver } from '@hookform/resolvers/zod'
 import { User } from 'lucide-react'
-import React from 'react'
+import { useRouter } from 'next/navigation'
+import { SubmitHandler, useForm } from 'react-hook-form'
+
 
 const DriverRegistrationForm = () => {
-  return (
-    <form className='max-w-5xl mx-auto gap-4 items-start px-4 bg-white rounded-lg'>
-        <div className='flex items-center gap-2'>
-            <User className='text-lg text-(--primary)'/>
-        <p className='text-lg md:text-xl xl:text-2xl text-black/90'>Driver Information</p>
+    const router = useRouter()
+    const {data:session} = useCurrentUser()
+    const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm({
+        resolver: zodResolver(driverApplicationSchema)
+    })
+    const onSubmit: SubmitHandler<DriverApplicationFormData> = async (data) => {
+        console.log(`hello`)
+    }
+    if(!session) {
+router.push(`/login`)
+    }
+    return (
+        <div className='max-w-5xl mx-auto gap-4 items-start px-4 bg-white rounded-lg py-4'>
+            <div className='flex items-center gap-2'>
+                <User className='text-lg text-(--primary)' />
+                <p className='text-lg md:text-xl xl:text-2xl text-black/90'>Driver Information</p>
+            </div>
+            <form onSubmit={handleSubmit(onSubmit)} className='flex flex-col gap-4 px-2 py-4'>
+                {/* LICENSE NUMBER*/}
+                <div className='flex flex-col gap-2'>
+                    <label className='text-sm md:text-lg text-black/70'>Driving License Number</label>
+                    <input
+                    {...register('licenseNumber')}
+                        placeholder='BL-XXXX-XXXX'
+                        type='text'
+                        className='text-(--neutral) text-md p-4 bg-zinc-100/80 border-none outline-none'
+                    />
+                </div>
+                {/* LICENSE IMAGE */}
+                  <div className='flex flex-col gap-2'>
+                    <label className='text-md md:text-lg text-(--neutral)'>Driving License Image</label>
+                    <input
+                    {...register('licenseImage')}
+                        placeholder='BL-XXXX-XXXX'
+                        type="file"
+                        className='text-(--neutral) text-md p-4 bg-zinc-100/80 border-none outline-none cursor-pointer' 
+                    />
+                </div>
+                     {/* VEHICLE NUMBER*/}
+                <div className='flex flex-col gap-2'>
+                    <label className='text-md md:text-lg text-(--neutral)'>Vehicle Number</label>
+                    <input
+                    {...register('vehicleNumber')}
+                        placeholder='Metro-GA-11-2222'
+                        type='text'
+                        className='text-(--neutral) text-md p-4 bg-zinc-100/80 border-none outline-none'
+                    />
+                </div>
+                   {/* LICENSE IMAGE */}
+                  <div className='flex flex-col gap-2'>
+                    <label className='text-md md:text-lg text-(--neutral)'>Vehicle Image</label>
+                    <input
+                    {...register('vehicleImage')}
+                        placeholder='BL-XXXX-XXXX'
+                        type="file"
+                        className='text-(--neutral) text-md p-4 bg-zinc-100/80 border-none outline-none cursor-pointer' 
+                    />
+                </div>
+
+            </form>
         </div>
-    </form>
-  )
+    )
 }
 
 export default DriverRegistrationForm
