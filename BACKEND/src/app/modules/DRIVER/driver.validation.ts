@@ -3,38 +3,39 @@ import { IVehicleType, IGender, IVehicleOwnsership } from "./driver.interface";
 
 const driverApplicationZodSchema = z.object({
 
-    licenseNumber: z
-      .string({ message: "License number is required" })
-      .min(5, "License number too short"),
+  licenseNumber: z
+    .string({ message: "License number is required" })
+    .min(5, "License number too short"),
 
-    vehicleNumber: z
-      .string({ message: "Vehicle number is required" })
-      .min(3, "Vehicle number too short"),
+  vehicleNumber: z
+    .string({ message: "Vehicle number is required" })
+    .min(3, "Vehicle number too short"),
+  vehicleImage: z.file({ message: "Vehicle image required" }),
+  licenseImage: z.file({ message: "license image required" }),
+  vehicleType: z.enum(Object.values(IVehicleType)),
 
-    vehicleType: z.enum(Object.values(IVehicleType)),
+  nidNumber: z
+    .string({ message: "NID number is required" })
+    .min(6, "NID number too short"),
 
-    nidNumber: z
-      .string({ message: "NID number is required" })
-      .min(6, "NID number too short"),
+  phoneNumber: z
+    .string({ message: "Phone number is required" })
+    .regex(/^01[3-9]\d{8}$/, "Invalid Bangladeshi phone number"),
 
-    phoneNumber: z
-      .string({ message: "Phone number is required" })
-      .regex(/^01[3-9]\d{8}$/, "Invalid Bangladeshi phone number"),
+  bloodType: z
+    .string({ message: "Blood type is required" })
+    .regex(/^(A|B|AB|O)[+-]$/, "Invalid blood type"),
 
-    bloodType: z
-      .string({ message: "Blood type is required" })
-      .regex(/^(A|B|AB|O)[+-]$/, "Invalid blood type"),
+  address: z
+    .string({ message: "Address is required" })
+    .min(5, "Address too short"),
 
-    address: z
-      .string({ message: "Address is required" })
-      .min(5, "Address too short"),
+  gender: z.enum(Object.values(IGender)),
 
-    gender: z.enum(Object.values(IGender)),
-
-    vehicleOwnership: z.enum(
-      Object.values(IVehicleOwnsership) 
-    ),
+  vehicleOwnership: z.enum(
+    Object.values(IVehicleOwnsership)
+  ),
 
 });
 
-export const driverValidation = {driverApplicationZodSchema}
+export const driverValidation = { driverApplicationZodSchema }

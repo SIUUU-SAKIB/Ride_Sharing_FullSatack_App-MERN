@@ -33,7 +33,7 @@ const Nav = () => {
                                 className={`object-contain w-7 h-7  md:w-9 md:h-10 lg:w-12 lg:h-12`}
                             /></Link>)
                 }
-                <p className='text-black text-sm md:text:md lg:text:lg font-semibold'>{data?.data?.name.split(" ").at(-1)}</p>
+                {/* <p className='text-black text-sm md:text:md lg:text:lg font-semibold'>{data?.data?.name.split(" ").at(-1)}</p> */}
                 </div>
                 <Link href={'/'} className={`text-xl text-black} font-bold md:text-2xl md:font-extrabold lg:text-4xl ${session ? "hidden" : "block"} mt-2`}>RideX</Link>
             </div>

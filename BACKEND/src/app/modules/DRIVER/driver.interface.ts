@@ -31,14 +31,14 @@ export interface IDriverApplication {
     address: string;
     gender: IGender;
     vehicleOwnership: IVehicleOwnsership;
-    licenseImage?: string;
+    licenseImage: string;
     nidImage?: string;
     reviewdBy?:Types.ObjectId,
     reviewerName?:string,
     reviewerEmail:string,
     reviewdAt?:Date,
     rejectionReason?:string,
-    vehicleImage?: string;
+    vehicleImage: string;
     status: IDriverStatus;
     isBlocked:boolean
 }

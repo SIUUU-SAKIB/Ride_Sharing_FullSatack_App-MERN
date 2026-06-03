@@ -1,5 +1,5 @@
 "use client"
-import { Pen, Star, User, Mail, LockKeyholeOpen, LogOut, Phone, MapPin } from "lucide-react"
+import { Pen, Star, User, Mail, LockKeyholeOpen, LogOut, Phone, MapPin, CarTaxiFront } from "lucide-react"
 import Image from "next/image"
 import { useCurrentUser } from "../../_hooks/useCurrentUser"
 import { useLogout } from "../../_hooks/useLogout"
@@ -21,7 +21,7 @@ const UserProfile = () => {
     {
       title: "Phone Number", name: user?.phoneNumber ? user?.phoneNumber : '0179642425455325', icon: Phone
     }, {
-      title: "Base Location", name: user?.location ? user?.location : "Not given", icon: MapPin
+      title: "Base Location", name: user?.baseLocation ? user?.baseLocation : "Not given", icon: MapPin
     }
   ]
   // if (!data) {
@@ -42,11 +42,11 @@ const UserProfile = () => {
           <h3 className="font-bold text-xl md:text-2xl text-center">Aminul islam sakib</h3>
           <p className="text-(--neutral) font-medium text-sm md:text-md break-all text-center">sakib123@gmail.com</p>
           <div className="flex items-center justify-center gap-4 pt-2">
-            <div className="flex gap-1 items-center justify-center bg-(--primary)/40 rounded-full py-2 px-4">
-              <Star className="text-xs fill-green-500 text-transparent " />
-              <p className="text-sm font-semibold text-black/70">Premium Rider</p>
+            <Link href={`/driver/driver_registration`} className="flex gap-2 items-center justify-center rounded-full py-2 px-4 bg-purple-400 ">
+              <CarTaxiFront className="text-xs text-white text-shadow-xs" />
+              <p className="text-sm font-semibold text-white text-shadow-xs">Become a Driver?</p>
 
-            </div>
+            </Link>
             <p className="text-sm py-2 bg-(--neutral)/30 font-semibold text-black/60 rounded-full text-center px-4">Verified Account</p>
           </div>
         </div>
