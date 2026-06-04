@@ -5,6 +5,8 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { User } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 import { SubmitHandler, useForm } from 'react-hook-form'
+import RadioGroup from '../ui/RadioGroup'
+import { IVehicleOwnsership, IVehicleType } from '@/app/_interfaces/driver.interface'
 
 
 const DriverRegistrationForm = () => {
@@ -13,12 +15,16 @@ const DriverRegistrationForm = () => {
     const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm({
         resolver: zodResolver(driverApplicationSchema)
     })
+    const ownerShipOptions = [
+        "OWN",
+        "RENT"
+    ]
     const onSubmit: SubmitHandler<DriverApplicationFormData> = async (data) => {
         console.log(`hello`)
     }
-    if (!session) {
-        router.push(`/login`)
-    }
+    // if (!session) {
+    //     router.push(`/login`)
+    // }
     return (
         <div className='max-w-5xl mx-auto gap-4 items-start px-4 bg-white rounded-lg py-4'>
             <div className='flex items-center gap-2'>
@@ -28,7 +34,7 @@ const DriverRegistrationForm = () => {
             <form onSubmit={handleSubmit(onSubmit)} className='flex flex-col gap-4 px-2 py-4'>
                 {/* LICENSE NUMBER*/}
                 <div className='flex flex-col gap-2'>
-                    <label className='text-md md:text-lg text-(--neutral)'>Driving License Number</label>
+                    <label className='text-md md:text-lg black font-medium'>Driving License Number</label>
                     <input
                         {...register('licenseNumber')}
                         placeholder='BL-XXXX-XXXX'
@@ -38,7 +44,7 @@ const DriverRegistrationForm = () => {
                 </div>
                 {/* LICENSE IMAGE */}
                 <div className='flex flex-col gap-2'>
-                    <label className='text-md md:text-lg text-(--neutral)'>Driving License Image</label>
+                    <label className='text-md md:text-lg black font-medium'>Driving License Image</label>
                     <input
                         {...register('licenseImage')}
                         placeholder='BL-XXXX-XXXX'
@@ -48,7 +54,7 @@ const DriverRegistrationForm = () => {
                 </div>
                 {/* VEHICLE NUMBER*/}
                 <div className='flex flex-col gap-2'>
-                    <label className='text-md md:text-lg text-(--neutral)'>Vehicle Number</label>
+                    <label className='text-md md:text-lg black font-medium'>Vehicle Number</label>
                     <input
                         {...register('vehicleNumber')}
                         placeholder='Metro-GA-11-2222'
@@ -58,7 +64,7 @@ const DriverRegistrationForm = () => {
                 </div>
                 {/* LICENSE IMAGE */}
                 <div className='flex flex-col gap-2'>
-                    <label className='text-md md:text-lg text-(--neutral)'>Vehicle Image</label>
+                    <label className='text-md md:text-lg black font-medium'>Vehicle Image</label>
                     <input
                         {...register('vehicleImage')}
                         placeholder='BL-XXXX-XXXX'
@@ -66,61 +72,21 @@ const DriverRegistrationForm = () => {
                         className='text-(--neutral) text-md p-4 bg-zinc-100/80 border-none outline-none cursor-pointer'
                     />
                 </div>
+                {/* VEHICLE TYPE */}
+                <RadioGroup
+                label='Vehicle Type'
+                options={Object.values(IVehicleType)}
+                register={register("vehicleType")}
+                error={errors.vehicleType}
+                
+                />
                 {/* VEHICLE OWNERSHIP */}
-                <div className="flex flex-col gap-2">
-                    <label className="font-medium">
-                        Vehicle Ownership *
-                    </label>
-
-                    <div className="flex gap-3">
-
-                        <label className="cursor-pointer">
-                            <input
-                                type="radio"
-                                value="OWN"
-                                {...register("vehicleOwnership")}
-                                className="hidden peer"
-                            />
-
-                            <span className="px-6 py-3 rounded-lg bg-zinc-100 peer-checked:bg-green-500 peer-checked:text-white transition">
-                                Own
-                            </span>
-                        </label>
-
-                        <label className="cursor-pointer">
-                            <input
-                                type="radio"
-                                value="FAMILY"
-                                {...register("vehicleOwnership")}
-                                className="hidden peer"
-                            />
-
-                            <span className="px-6 py-3 rounded-lg bg-zinc-100 peer-checked:bg-green-500 peer-checked:text-white transition">
-                                Family
-                            </span>
-                        </label>
-
-                        <label className="cursor-pointer">
-                            <input
-                                type="radio"
-                                value="RENTAL"
-                                {...register("vehicleOwnership")}
-                                className="hidden peer"
-                            />
-
-                            <span className="px-6 py-3 rounded-lg bg-zinc-100 peer-checked:bg-green-500 peer-checked:text-white transition">
-                                Rental
-                            </span>
-                        </label>
-
-                    </div>
-
-                    {errors.vehicleOwnership && (
-                        <p className="text-red-500 text-sm">
-                            {errors.vehicleOwnership.message}
-                        </p>
-                    )}
-                </div>
+                <RadioGroup
+                    label='Vehicle Ownershop'
+                    options={Object.values(IVehicleOwnsership)}
+                    register={register("vehicleOwnership")}
+                    error={errors.vehicleOwnership}
+                />
 
             </form>
         </div>
