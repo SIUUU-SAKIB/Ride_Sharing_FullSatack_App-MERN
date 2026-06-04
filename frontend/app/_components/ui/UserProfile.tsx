@@ -42,7 +42,7 @@ const UserProfile = () => {
           <h3 className="font-bold text-xl md:text-2xl text-center">Aminul islam sakib</h3>
           <p className="text-(--neutral) font-medium text-sm md:text-md break-all text-center">sakib123@gmail.com</p>
           <div className="flex items-center justify-center gap-4 pt-2">
-            <Link href={`/driver/driver_registration`} className="flex gap-2 items-center justify-center rounded-full py-2 px-4 bg-purple-400 ">
+            <Link href={`/driver/registration`} className="flex gap-2 items-center justify-center rounded-full py-2 px-4 bg-(--primary) ">
               <CarTaxiFront className="text-xs text-white text-shadow-xs" />
               <p className="text-sm font-semibold text-white text-shadow-xs">Become a Driver?</p>
 

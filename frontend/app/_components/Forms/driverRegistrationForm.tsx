@@ -9,15 +9,15 @@ import { SubmitHandler, useForm } from 'react-hook-form'
 
 const DriverRegistrationForm = () => {
     const router = useRouter()
-    const {data:session} = useCurrentUser()
+    const { data: session } = useCurrentUser()
     const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm({
         resolver: zodResolver(driverApplicationSchema)
     })
     const onSubmit: SubmitHandler<DriverApplicationFormData> = async (data) => {
         console.log(`hello`)
     }
-    if(!session) {
-router.push(`/login`)
+    if (!session) {
+        router.push(`/login`)
     }
     return (
         <div className='max-w-5xl mx-auto gap-4 items-start px-4 bg-white rounded-lg py-4'>
@@ -28,43 +28,98 @@ router.push(`/login`)
             <form onSubmit={handleSubmit(onSubmit)} className='flex flex-col gap-4 px-2 py-4'>
                 {/* LICENSE NUMBER*/}
                 <div className='flex flex-col gap-2'>
-                    <label className='text-sm md:text-lg text-black/70'>Driving License Number</label>
+                    <label className='text-md md:text-lg text-(--neutral)'>Driving License Number</label>
                     <input
-                    {...register('licenseNumber')}
+                        {...register('licenseNumber')}
                         placeholder='BL-XXXX-XXXX'
                         type='text'
                         className='text-(--neutral) text-md p-4 bg-zinc-100/80 border-none outline-none'
                     />
                 </div>
                 {/* LICENSE IMAGE */}
-                  <div className='flex flex-col gap-2'>
+                <div className='flex flex-col gap-2'>
                     <label className='text-md md:text-lg text-(--neutral)'>Driving License Image</label>
                     <input
-                    {...register('licenseImage')}
+                        {...register('licenseImage')}
                         placeholder='BL-XXXX-XXXX'
                         type="file"
-                        className='text-(--neutral) text-md p-4 bg-zinc-100/80 border-none outline-none cursor-pointer' 
+                        className='text-(--neutral) text-md p-4 bg-zinc-100/80 border-none outline-none cursor-pointer'
                     />
                 </div>
-                     {/* VEHICLE NUMBER*/}
+                {/* VEHICLE NUMBER*/}
                 <div className='flex flex-col gap-2'>
                     <label className='text-md md:text-lg text-(--neutral)'>Vehicle Number</label>
                     <input
-                    {...register('vehicleNumber')}
+                        {...register('vehicleNumber')}
                         placeholder='Metro-GA-11-2222'
                         type='text'
                         className='text-(--neutral) text-md p-4 bg-zinc-100/80 border-none outline-none'
                     />
                 </div>
-                   {/* LICENSE IMAGE */}
-                  <div className='flex flex-col gap-2'>
+                {/* LICENSE IMAGE */}
+                <div className='flex flex-col gap-2'>
                     <label className='text-md md:text-lg text-(--neutral)'>Vehicle Image</label>
                     <input
-                    {...register('vehicleImage')}
+                        {...register('vehicleImage')}
                         placeholder='BL-XXXX-XXXX'
                         type="file"
-                        className='text-(--neutral) text-md p-4 bg-zinc-100/80 border-none outline-none cursor-pointer' 
+                        className='text-(--neutral) text-md p-4 bg-zinc-100/80 border-none outline-none cursor-pointer'
                     />
+                </div>
+                {/* VEHICLE OWNERSHIP */}
+                <div className="flex flex-col gap-2">
+                    <label className="font-medium">
+                        Vehicle Ownership *
+                    </label>
+
+                    <div className="flex gap-3">
+
+                        <label className="cursor-pointer">
+                            <input
+                                type="radio"
+                                value="OWN"
+                                {...register("vehicleOwnership")}
+                                className="hidden peer"
+                            />
+
+                            <span className="px-6 py-3 rounded-lg bg-zinc-100 peer-checked:bg-green-500 peer-checked:text-white transition">
+                                Own
+                            </span>
+                        </label>
+
+                        <label className="cursor-pointer">
+                            <input
+                                type="radio"
+                                value="FAMILY"
+                                {...register("vehicleOwnership")}
+                                className="hidden peer"
+                            />
+
+                            <span className="px-6 py-3 rounded-lg bg-zinc-100 peer-checked:bg-green-500 peer-checked:text-white transition">
+                                Family
+                            </span>
+                        </label>
+
+                        <label className="cursor-pointer">
+                            <input
+                                type="radio"
+                                value="RENTAL"
+                                {...register("vehicleOwnership")}
+                                className="hidden peer"
+                            />
+
+                            <span className="px-6 py-3 rounded-lg bg-zinc-100 peer-checked:bg-green-500 peer-checked:text-white transition">
+                                Rental
+                            </span>
+                        </label>
+
+                    </div>
+
+                    {errors.vehicleOwnership && (
+                        <p className="text-red-500 text-sm">
+                            {errors.vehicleOwnership.message}
+                        </p>
+                    )}
                 </div>
 
             </form>
