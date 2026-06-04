@@ -15,9 +15,9 @@ const RadioGroup = ({
     error
 }: RadioGroupProps) => {
     return (
-        <div className="">
-            <label>{label}</label>
-           <div className="flex items-center gap-2 justify-center px-4"> {options.map((option) => (
+        <div className="flex flex-col gap-2">
+            <label className="text-md md:text-lg font-medium">{label}</label>
+           <div className="flex items-center gap-4"> {options.map((option) => (
                 <label key={option} className="cursor-pointer">
                     <input
                         type="radio"
