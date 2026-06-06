@@ -10,7 +10,6 @@ import { uploadToCloudinary } from "../../utils/cloudinary/uploadToCloudinary";
 const driverApplication = catchAsync(async (req: Request, res: Response) => {
     const userId = req.user?._id;
     const payload = req.body;
-console.log(payload)
     if (!userId) {
         throw new AppError(StatusCodes.BAD_REQUEST, "userId is required");
     }

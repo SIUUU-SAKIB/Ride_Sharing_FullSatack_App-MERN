@@ -14,13 +14,14 @@ const driverApplication = async (payload: DriverApplicationPayload) => {
     formData.append("address", payload.address)
     formData.append("gender", payload.gender)
     formData.append("vehicleOwnership", payload.vehicleOwnership)
+    console.log(formData)
     const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/driver/apply`, {
         method: 'POST',
         body: formData,
         credentials: "include"
     })
 
-
+console.log(response)
     const data = await response.json()
 
     if (!response.ok) {
