@@ -10,8 +10,13 @@ const driverApplicationZodSchema = z.object({
   vehicleNumber: z
     .string({ message: "Vehicle number is required" })
     .min(3, "Vehicle number too short"),
-  vehicleImage: z.file({ message: "Vehicle image required" }),
-  licenseImage: z.file({ message: "license image required" }),
+vehicleImage: z.any().refine(Boolean, {
+  message: "Vehicle image required",
+}),
+
+licenseImage: z.any().refine(Boolean, {
+  message: "License image required",
+}),
   vehicleType: z.enum(Object.values(IVehicleType)),
 
   nidNumber: z

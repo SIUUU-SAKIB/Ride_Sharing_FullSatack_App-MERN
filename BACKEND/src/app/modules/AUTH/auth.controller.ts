@@ -85,9 +85,7 @@ const changePassword = catchAsync(async (req: Request, res: Response) => {
   if (!oldPass && !newPass) {
     throw new AppError(StatusCodes.NOT_FOUND, `Please provide password`)
   }
-  console.log(oldPass, newPass, userId)
   const result = await AuthService.changePassword(userId, oldPass, newPass)
-  console.log(result)
   sendResponse(res, {
     success: true,
     statusCode: StatusCodes.OK,

@@ -1,19 +1,33 @@
 export enum IVehicleType {
-    TWO_WHEELER = "TWO_WHEELER",
-    THREE_WHEELER = "THREE_WHEELER",
-    FOUR_WHEELER = "FOUR_WHEELER"
+    TWO_WHEELER = "Two Wheeler",
+    THREE_WHEELER = "Three Wheeler",
+    FOUR_WHEELER = "Four Wheeler"
 }
 export enum IGender {
-    MALE = "MALE",
-    FEMALE = "FEMALE",
-    TRANSGENDER = "TRANSGENDER"
+    MALE = "Male",
+    FEMALE = "Female",
+    TRANSGENDER = "Transgender"
 }
 export enum IVehicleOwnsership {
-    OWNED = "OWNED",
-    RENT = "RENT"
+    OWNED = "Owned",
+    RENT = "Rent"
 }
 export enum IDriverStatus {
-    PENDING = "PENDING",
-    APPROVED = "APPROVED",
-    REJECTED = "REJECTED"
+    PENDING = "Pending",
+    APPROVED = "Approved",
+    REJECTED = "Rejected"
+}
+
+export interface DriverApplicationPayload {
+  licenseNumber: string
+  vehicleNumber: string
+  vehicleType: string
+  nidNumber: string
+  phoneNumber: string
+  bloodType: string
+  address: string
+  gender: string
+  vehicleOwnership: string
+  licenseImage: File
+  vehicleImage: File
 }

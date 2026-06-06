@@ -1,17 +1,28 @@
-import { z } from "zod"
+import { any, z } from "zod"
 import { IVehicleType, IGender, IVehicleOwnsership } from "@/app/_interfaces/driver.interface"
 
-const MAX_FILE_SIZE = 2 * 1024 * 1024 // 2MB in bytes
+const MAX_FILE_SIZE = 2 * 1024 * 1024 
 const ACCEPTED_IMAGE_TYPES = ["image/jpeg", "image/jpg", "image/png", "image/webp"]
 
 const imageSchema = (fieldName: string) =>
-    z
-        .instanceof(File, { message: `${fieldName} is required` })
-        .refine((file) => file.size <= MAX_FILE_SIZE, `${fieldName} must be less than 2MB`)
+  z
+    .any()
+    .transform((files) => files?.[0])
+    .pipe(
+      z
+        .instanceof(File, {
+          message: `${fieldName} is required`,
+        })
         .refine(
-            (file) => ACCEPTED_IMAGE_TYPES.includes(file.type),
-            `${fieldName} must be JPEG, PNG, or WebP`
+          (file) => file.size <= MAX_FILE_SIZE,
+          `${fieldName} must be less than 2MB`
         )
+        .refine(
+          (file) =>
+            ACCEPTED_IMAGE_TYPES.includes(file.type),
+          `${fieldName} must be JPEG, PNG, or WebP`
+        )
+    )
 
 export const driverApplicationSchema = z.object({
     licenseNumber: z
@@ -50,13 +61,17 @@ export const driverApplicationSchema = z.object({
         .min(1, "Address is required")
         .min(5, "Address too short"),
 
-    gender: z.enum(Object.values(IGender) as [string, ...string[]], {
+    gender: z.enum(Object.values(IGender), {
         message: "Please select a gender",
     }),
 
-    vehicleOwnership: z.enum(Object.values(IVehicleOwnsership) as [string, ...string[]], {
+    vehicleOwnership: z.enum(Object.values(IVehicleOwnsership), {
         message: "Please select vehicle ownership",
     }),
+    termsAccepted: z.boolean().refine(value => value === true,{
+        message:"You must accept the Terms of Service"
+    }
+    )
 })
 
 export type DriverApplicationFormData = z.infer<typeof driverApplicationSchema>

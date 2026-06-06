@@ -1,23 +1,23 @@
 import { ObjectId, Schema, Types } from "mongoose";
 
 export enum IVehicleType {
-    TWO_WHEELER = "TWO_WHEELER",
-    THREE_WHEELER = "THREE_WHEELER",
-    FOUR_WHEELER = "FOUR_WHEELER"
+    TWO_WHEELER = "Two Wheeler",
+    THREE_WHEELER = "Three Wheeler",
+    FOUR_WHEELER = "Four Wheeler"
 }
 export enum IGender {
-    MALE = "MALE",
-    FEMALE = "FEMALE",
-    TRANSGENDER = "TRANSGENDER"
+    MALE = "Male",
+    FEMALE = "Female",
+    TRANSGENDER = "Transgender"
 }
 export enum IVehicleOwnsership {
-    OWNED = "OWNED",
-    RENT = "RENT"
+    OWNED = "Owned",
+    RENT = "Rent"
 }
 export enum IDriverStatus {
-    PENDING = "PENDING",
-    APPROVED = "APPROVED",
-    REJECTED = "REJECTED"
+    PENDING = "Pending",
+    APPROVED = "Approved",
+    REJECTED = "Rejected"
 }
 
 export interface IDriverApplication {
@@ -32,10 +32,9 @@ export interface IDriverApplication {
     gender: IGender;
     vehicleOwnership: IVehicleOwnsership;
     licenseImage: string;
-    nidImage?: string;
     reviewdBy?:Types.ObjectId,
     reviewerName?:string,
-    reviewerEmail:string,
+    reviewerEmail?:string,
     reviewdAt?:Date,
     rejectionReason?:string,
     vehicleImage: string;

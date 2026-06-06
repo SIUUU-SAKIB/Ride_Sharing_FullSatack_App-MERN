@@ -18,12 +18,6 @@ const DriverApplicationSchema = new Schema<IDriverApplication>({
       public_id: String,
     }
   ],
-  nidImage: [
-    {
-      url: String,
-      public_id: String,
-    }
-  ],
   vehicleImage: [
     {
       url: String,

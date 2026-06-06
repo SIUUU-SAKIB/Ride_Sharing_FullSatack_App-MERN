@@ -5,6 +5,7 @@ import { useCurrentUser } from "../../_hooks/useCurrentUser"
 import { useLogout } from "../../_hooks/useLogout"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
+import { MdOutlineVerified } from "react-icons/md"
 
 const UserProfile = () => {
   const router = useRouter()
@@ -27,6 +28,7 @@ const UserProfile = () => {
   // if (!data) {
   //   router.push(`/login`)
   // }
+  console.log(data?.isVerified)
   return (
     <div className="max-w-5xl pt-8 mx-auto pb-28 px-4">
       {/* top profile */}
@@ -47,7 +49,14 @@ const UserProfile = () => {
               <p className="text-sm font-semibold text-white text-shadow-xs">Become a Driver?</p>
 
             </Link>
-            <p className="text-sm py-2 bg-(--neutral)/30 font-semibold text-black/60 rounded-full text-center px-4">Verified Account</p>
+          {data?.data.isVerified ? (  <div className="flex gap-2 items-center justify-center rounded-full py-2 px-4 border-(--primary) border bg-white ">
+              <MdOutlineVerified className="text-(--primary) text-xl" />
+              <p className="text-sm bg-(--)/30 font-semibold text-(--primary) rounded-full text-center">Verified Account</p>
+            </div>):(  <div className="flex gap-2 items-center justify-center rounded-full py-2 px-4 border-zinc-100 bg-zinc-200 ">
+              <MdOutlineVerified className="text-(--neutral) text-xl" />
+              <p className="text-sm bg-(--)/30 font-semibold text-(--neutral) rounded-full text-center">Verified Account</p>
+            </div>)}
+
           </div>
         </div>
       </div>
@@ -79,7 +88,7 @@ const UserProfile = () => {
             <p className="text-lg text-(--neutral)">status</p>
             <div className="flex gap-1 items-center justify-center">
               <div className="w-4 h-4 rounded-full bg-green-900"></div>
-              <p className="text-md font-semibold text-(--primary)">Active</p>
+              <p className={`text-md font-semibold  ${!data?.data.isVerified? "text-(--neutral)" : "text-(--primary)" }`}>{!data?.data.isVerified ? "Not verified" : "Active"}</p>
             </div>
 
           </div>

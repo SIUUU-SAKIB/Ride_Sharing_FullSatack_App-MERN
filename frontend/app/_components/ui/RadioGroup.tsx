@@ -17,7 +17,7 @@ const RadioGroup = ({
     return (
         <div className="flex flex-col gap-2">
             <label className="text-md md:text-lg font-medium">{label}</label>
-           <div className="flex items-center gap-4"> {options.map((option) => (
+           <div className="flex gap-2 "> {options.map((option) => (
                 <label key={option} className="cursor-pointer">
                     <input
                         type="radio"
@@ -26,11 +26,10 @@ const RadioGroup = ({
                         className="hidden peer"
                     />
                     <span
-                        className="block min-w-24
+                        className="block 
                 rounded-lg
                 bg-zinc-100
-                px-6
-                py-3
+                p-2
                 text-center
                 transition
                 peer-checked:bg-(--primary)
