@@ -3,7 +3,7 @@ import { useCurrentUser } from '@/app/_hooks/useCurrentUser'
 import { useLogout } from '@/app/_hooks/useLogout'
 import { HousePlus, SquareActivity, User, Wallet } from 'lucide-react'
 import Link from 'next/link'
-import { MdLogout } from 'react-icons/md'
+import { MdDashboard, MdLogout } from 'react-icons/md'
 const BottomNav = () => {
     const { data: session } = useCurrentUser()
    const logoutMutation = useLogout()
@@ -34,10 +34,16 @@ const BottomNav = () => {
                             <User />
                             <p className='text-gray-700  text-sm'>Profile</p>
                         </Link></li>
+                         <li>  <Link href={`/user/profile`} className='text-xl cursor-pointer flex flex-col gap-1 items-center'>
+                          <MdDashboard/>
+                            <p className='text-gray-700  text-sm'>Dashboard</p>
+                        </Link></li>
                         <li onClick={() => logoutMutation.mutate()} className='text-xl cursor-pointer flex flex-col gap-1 items-center' >
                             <MdLogout className='transform rotate-180' />
                             <p className='text-gray-700  text-sm'>Logout</p>
+                            
                         </li>
+                        
                     </>
                 }
             </ul>

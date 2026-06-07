@@ -48,7 +48,7 @@ const DriverRegistrationForm = () => {
     //     router.push(`/login`)
     // }
     return (
-        <div className='max-w-5xl mx-auto gap-4 items-start px-4 bg-white rounded-lg py-12'>
+        <div className='max-w-5xl mx-auto gap-4 items-start px-4 bg-white rounded-lg py-12 '>
             <div className='flex items-center gap-2'>
                 <User className='text-lg text-(--primary)' />
                 <p className='text-xl md:text-2xl xl:text-2xl text-black/90 font-bold py-4'>Driver Information</p>

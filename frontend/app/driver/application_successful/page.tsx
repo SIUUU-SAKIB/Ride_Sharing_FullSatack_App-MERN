@@ -2,11 +2,18 @@ import Driver_application_successful from "@/app/_components/pages/Driver_applic
 
 const ApplicationSuccessful = () => {
   return (
-    <div className="min-h-screen min-w-screen bg-[url('/applicatoin_successful_bg.png.jpg')] bg-cover bg-center relative ">
-      {/* overlay */}
-      <div className="w-full h-full bg-white opacity-90 absolute z-10"></div>
-        <Driver_application_successful/>
-    </div>
+ <div
+  style={{
+    backgroundImage: "url('/Application_Success.jpg')",
+  }}
+  className="min-h-screen bg-cover bg-center relative"
+>
+  <div className="absolute inset-0 bg-white/90"></div>
+
+  <div className="relative z-20">
+    <Driver_application_successful />
+  </div>
+</div>
   )
 }
 
