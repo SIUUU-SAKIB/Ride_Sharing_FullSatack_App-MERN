@@ -2,7 +2,6 @@
 import DriverRegistrationForm from '@/app/_components/Forms/driverRegistrationForm'
 import BottomNav from '@/app/_components/Navigation/BottomNav'
 import Nav from '@/app/_components/Navigation/Nav'
-import { useCurrentUser } from '@/app/_hooks/useCurrentUser'
 
 const DriverRegistration = () => {
 
@@ -16,12 +15,9 @@ const DriverRegistration = () => {
         </div>
         <DriverRegistrationForm />
       </div>
-      
       <BottomNav />
-
     </div>
   )
-
 }
 
 export default DriverRegistration
