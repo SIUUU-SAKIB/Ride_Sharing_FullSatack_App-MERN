@@ -34,7 +34,7 @@ const BottomNav = () => {
                             <User />
                             <p className='text-gray-700  text-sm'>Profile</p>
                         </Link></li>
-                         <li>  <Link href={`/user/profile`} className='text-xl cursor-pointer flex flex-col gap-1 items-center'>
+                         <li>  <Link href={`/dashboard`} className='text-xl cursor-pointer flex flex-col gap-1 items-center'>
                           <MdDashboard/>
                             <p className='text-gray-700  text-sm'>Dashboard</p>
                         </Link></li>

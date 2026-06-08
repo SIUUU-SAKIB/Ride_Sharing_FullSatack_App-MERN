@@ -2,7 +2,7 @@ import React from 'react'
 
 const DriverDashboard = () => {
   return (
-    <div>DriverDashboard</div>
+    <div>lorem1000000</div>
   )
 }
 
