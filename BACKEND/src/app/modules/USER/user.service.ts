@@ -51,6 +51,7 @@ const createUser = async (payload: IUser) => {
         profilePhoto: payload.profilePhoto,
         profilePhotoId: payload.profilePhotoId,
         password: hashedPassword,
+        baseLocation:payload.baseLocation,
         auths: authProvider,
         verificationToken: token,
         verificationTokenExpires: new Date(Date.now() + 5 * 60 * 1000),

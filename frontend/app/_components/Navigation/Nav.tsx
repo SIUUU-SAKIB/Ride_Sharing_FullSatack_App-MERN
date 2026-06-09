@@ -4,13 +4,15 @@ import Link from 'next/link'
 import { Bell } from "lucide-react"
 
 import { useCurrentUser } from '@/app/_hooks/useCurrentUser'
+import LoadingScreen from '../ui/LoadingScreen'
 
 const Nav = () => {
     const { data, isLoading, isError } = useCurrentUser()
-    console.log(data)
     const profileImage = data?.data?.profilePhoto
-    console.log(data)
     const session = data ? true : false
+    if(isLoading) {
+        return<LoadingScreen/>
+    }
     return (
         <div className='min-w-screen-2xl bg-white h-14 px-4 md:px-12 py-8 md:py-8 flex items-center justify-between shadow-xs z-20'>
             {/* logo container */}

@@ -19,7 +19,7 @@ const AdminGuard = ({ children }: AdminGuardProps) => {
     useEffect(() => {
         if (!session) return
 
-        const role = session.data.role
+        const role = session?.data?.role
 
         if (
             role !== "ADMIN" &&

@@ -7,7 +7,7 @@ const registerUser = async (data: RegisterPayload) => {
     formData.append('email', data.email)
     formData.append('password', data.password)
     formData.append('phone', data.phone)
-
+    formData.append('baseLocation',data.baseLocation)
     if (data.profilePhoto?.[0]) {
         formData.append('profileImage', data.profilePhoto[0])
 
@@ -135,9 +135,6 @@ const refreshToken = async () => {
 
     return response.json()
 }
-
-
-
 
 export const Authentication =
 {

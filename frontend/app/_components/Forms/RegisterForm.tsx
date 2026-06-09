@@ -14,7 +14,7 @@ import VerifyEmailModal from '../ui/VerifyEmailModal'
 const schema = z.object({
   name: z.string({ message: "Name is required" }).min(2, { message: "Name must contain more than 2 letter" }),
   email: z.string().email({ message: "Email is required" }).min(6).includes(`@`, { message: "Email must include '@'" }),
-  baseLocation: z.string({ message: "Address is required" }).min(6, { message: "Address must contain at least 6 digits." }),
+  baseLocation: z.string({ message: "Address is required" }),
   password: z.string({ message: "Password is required" }).min(7, { message: "Password must include 7 characters" }),
   phone: z
     .string()
@@ -31,7 +31,6 @@ const schema = z.object({
 
 type FormFields = z.infer<typeof schema>
 
-
 const RegisterForm = () => {
   const [seePassword, setSeePassword] = React.useState<boolean>(false)
   const [openModal, setOpenModal] = React.useState<boolean>(false)
@@ -46,11 +45,11 @@ const RegisterForm = () => {
   })
   const onSubmit: SubmitHandler<FormFields> = async (data) => {
     try {
-      const result = await mutation.mutateAsync(data)
+      await mutation.mutateAsync(data)
       setSubmittedEmail(data.email)
       reset()
       setOpenModal(true)
-      console.log(result)
+
     } catch (error) {
       setError("root", {
         message:
@@ -101,15 +100,13 @@ const RegisterForm = () => {
               <input {...register('phone')} type='text' className='outline-none border-none text-(--neutral) focus:text-(--primary) text:md md:text-lg flex-1' placeholder='+880 1796111111' required={true} />
             </div>
           </div>
- {/* address */}
+          {/* address */}
           <div className='flex w-full flex-col gap-2 space-x-4'>
             <label className='text-sm text-(--neutral)'>Address</label>
             <div className='flex gap-6 items-center px-2 py-4 bg-(--neutral)/10 rounded-lg focus:text-(--primary)'>
               <LocateIcon className='text-(--neutral)' />
               <input required type='text' className='outline-none border-none text-(--neutral) focus:text-(--primary) text:md md:text-lg flex-1' placeholder='23 ST New Orleans'
-
                 {...register('baseLocation')} />
-
             </div>
             {errors.baseLocation && <p className='text-red-500'>{errors.baseLocation.message}</p>}
           </div>

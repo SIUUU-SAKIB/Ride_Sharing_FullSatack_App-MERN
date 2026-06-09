@@ -25,27 +25,23 @@ const UserProfile = () => {
       title: "Base Location", name: user?.baseLocation ? user?.baseLocation : "Not given", icon: MapPin
     }
   ]
-  if (!data) {
-    router.replace(`/login`)
-  }
-console.log(data.data.role)
+
   return (
     <div className="max-w-5xl pt-8 mx-auto pb-28 px-4">
       {/* top profile */}
       <div className="flex flex-col justify-center items-center w-full">
-        <Image
-          alt="Profile image"
+        <Image alt="Profile image"
           width={600}
           height={600}
-          src={'/demo_profile.jpg'}
-          className="rounded-full w-32 h-32 md:w-40 md:h-40 lg:w-50 lg:h-50 object-cover border-4 border-white mb-6"
+          src={user?.profilePhoto || "/demo_profile.jpg"}
+          className="rounded-full w-32 h-32 md:w-40 md:h-40 lg:w-50 lg:h-50 object-cover border-2 border-white mb-6"
         />
         <div className="flex flex-col gap-2 items-center justify-center">
-          <h3 className="font-bold text-xl md:text-2xl text-center">{data?.data?.name}</h3>
-          <p className="text-(--neutral) font-medium text-sm md:text-md break-all text-center">{data?.data?.email}</p>
+          <h3 className="font-bold text-xl md:text-2xl text-center">{user?.name}</h3>
+          <p className="text-(--neutral) font-medium text-sm md:text-md break-all text-center">{user?.email}</p>
           <div className="flex items-center justify-center gap-4 pt-2">
             {
-              data?.data?.role !== `DRIVER` &&(
+              user?.role !== `DRIVER` &&(
                 <Link href={`/driver/registration`} className="flex gap-2 items-center justify-center rounded-full py-2 px-4 bg-(--primary) ">
               <CarTaxiFront className="text-xs text-white text-shadow-xs" />
               <p className="text-sm font-semibold text-white text-shadow-xs">Become a Driver?</p>
@@ -53,7 +49,7 @@ console.log(data.data.role)
             </Link>
               )
             }
-          {data?.data.isVerified ? (  <div className="flex gap-2 items-center justify-center rounded-full py-2 px-4 border-(--primary) border bg-white ">
+          {user?.isVerified ? (  <div className="flex gap-2 items-center justify-center rounded-full py-2 px-4 border-(--primary) border bg-white ">
               <MdOutlineVerified className="text-(--primary) text-xl" />
               <p className="text-sm bg-(--)/30 font-semibold text-(--primary) rounded-full text-center">Verified Account</p>
             </div>):(  <div className="flex gap-2 items-center justify-center rounded-full py-2 px-4 border-zinc-100 bg-zinc-200 ">
