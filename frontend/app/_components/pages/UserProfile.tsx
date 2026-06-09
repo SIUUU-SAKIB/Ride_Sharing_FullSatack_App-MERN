@@ -26,7 +26,7 @@ const UserProfile = () => {
     }
   ]
   if (!data) {
-    router.push(`/login`)
+    router.replace(`/login`)
   }
 console.log(data.data.role)
   return (

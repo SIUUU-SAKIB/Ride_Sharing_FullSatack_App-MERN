@@ -2,7 +2,7 @@
 import { Authentication } from '@/app/_services/auth'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useQuery, useMutation } from '@tanstack/react-query'
-import { Eye, EyeOff, Lock, Mail, Smartphone, User, UserRoundPen } from 'lucide-react'
+import { Eye, EyeOff, LocateIcon, Lock, Mail, Smartphone, User, UserRoundPen } from 'lucide-react'
 import Link from 'next/link'
 import React from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
@@ -14,6 +14,7 @@ import VerifyEmailModal from '../ui/VerifyEmailModal'
 const schema = z.object({
   name: z.string({ message: "Name is required" }).min(2, { message: "Name must contain more than 2 letter" }),
   email: z.string().email({ message: "Email is required" }).min(6).includes(`@`, { message: "Email must include '@'" }),
+  baseLocation: z.string({ message: "Address is required" }).min(6, { message: "Address must contain at least 6 digits." }),
   password: z.string({ message: "Password is required" }).min(7, { message: "Password must include 7 characters" }),
   phone: z
     .string()
@@ -100,7 +101,18 @@ const RegisterForm = () => {
               <input {...register('phone')} type='text' className='outline-none border-none text-(--neutral) focus:text-(--primary) text:md md:text-lg flex-1' placeholder='+880 1796111111' required={true} />
             </div>
           </div>
+ {/* address */}
+          <div className='flex w-full flex-col gap-2 space-x-4'>
+            <label className='text-sm text-(--neutral)'>Address</label>
+            <div className='flex gap-6 items-center px-2 py-4 bg-(--neutral)/10 rounded-lg focus:text-(--primary)'>
+              <LocateIcon className='text-(--neutral)' />
+              <input required type='text' className='outline-none border-none text-(--neutral) focus:text-(--primary) text:md md:text-lg flex-1' placeholder='23 ST New Orleans'
 
+                {...register('baseLocation')} />
+
+            </div>
+            {errors.baseLocation && <p className='text-red-500'>{errors.baseLocation.message}</p>}
+          </div>
           {/*password*/}
           <div className='flex flex-col w-full gap-2'>
             <label className='text-sm text-(--neutral)'>Password</label>
@@ -140,7 +152,7 @@ const RegisterForm = () => {
           </div>
 
           <button disabled={mutation.isPending} type='submit' className='w-full bg-(--primary) rounded-xl py-2 md:py-4 text-white text-shadow-xs text-lg md:text-xl font-bold my-4 cursor-pointer hover:bg-(--primary)/90'>
-            {!mutation.isPending ? 'Create Account': <ButtonLoader/>}
+            {!mutation.isPending ? 'Create Account' : <ButtonLoader />}
           </button>
           <p className='text-(--neutral) text-center w-full'>Already have an account? <Link href={`/login`} className='text-(--primary) font-semibold hover:underline cursor-pointer'>Login</Link></p>
           {errors.root && <div className='text-red-500'>{errors.root.message}</div>}
