@@ -25,10 +25,10 @@ const UserProfile = () => {
       title: "Base Location", name: user?.baseLocation ? user?.baseLocation : "Not given", icon: MapPin
     }
   ]
-  // if (!data) {
-  //   router.push(`/login`)
-  // }
-  console.log(data?.isVerified)
+  if (!data) {
+    router.push(`/login`)
+  }
+console.log(data.data.role)
   return (
     <div className="max-w-5xl pt-8 mx-auto pb-28 px-4">
       {/* top profile */}
@@ -41,14 +41,18 @@ const UserProfile = () => {
           className="rounded-full w-32 h-32 md:w-40 md:h-40 lg:w-50 lg:h-50 object-cover border-4 border-white mb-6"
         />
         <div className="flex flex-col gap-2 items-center justify-center">
-          <h3 className="font-bold text-xl md:text-2xl text-center">Aminul islam sakib</h3>
-          <p className="text-(--neutral) font-medium text-sm md:text-md break-all text-center">sakib123@gmail.com</p>
+          <h3 className="font-bold text-xl md:text-2xl text-center">{data?.data?.name}</h3>
+          <p className="text-(--neutral) font-medium text-sm md:text-md break-all text-center">{data?.data?.email}</p>
           <div className="flex items-center justify-center gap-4 pt-2">
-            <Link href={`/driver/registration`} className="flex gap-2 items-center justify-center rounded-full py-2 px-4 bg-(--primary) ">
+            {
+              data?.data?.role !== `DRIVER` &&(
+                <Link href={`/driver/registration`} className="flex gap-2 items-center justify-center rounded-full py-2 px-4 bg-(--primary) ">
               <CarTaxiFront className="text-xs text-white text-shadow-xs" />
               <p className="text-sm font-semibold text-white text-shadow-xs">Become a Driver?</p>
 
             </Link>
+              )
+            }
           {data?.data.isVerified ? (  <div className="flex gap-2 items-center justify-center rounded-full py-2 px-4 border-(--primary) border bg-white ">
               <MdOutlineVerified className="text-(--primary) text-xl" />
               <p className="text-sm bg-(--)/30 font-semibold text-(--primary) rounded-full text-center">Verified Account</p>
