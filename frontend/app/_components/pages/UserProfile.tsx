@@ -41,7 +41,7 @@ const UserProfile = () => {
           <p className="text-(--neutral) font-medium text-sm md:text-md break-all text-center">{user?.email}</p>
           <div className="flex items-center justify-center gap-4 pt-2">
             {
-              user?.role !== `DRIVER` &&(
+              user?.role !== `DRIVER` || user?.role === "ADMIN" || user?.role === "SUPER_ADMIN" &&(
                 <Link href={`/driver/registration`} className="flex gap-2 items-center justify-center rounded-full py-2 px-4 bg-(--primary) ">
               <CarTaxiFront className="text-xs text-white text-shadow-xs" />
               <p className="text-sm font-semibold text-white text-shadow-xs">Become a Driver?</p>
@@ -49,6 +49,7 @@ const UserProfile = () => {
             </Link>
               )
             }
+            
           {user?.isVerified ? (  <div className="flex gap-2 items-center justify-center rounded-full py-2 px-4 border-(--primary) border bg-white ">
               <MdOutlineVerified className="text-(--primary) text-xl" />
               <p className="text-sm bg-(--)/30 font-semibold text-(--primary) rounded-full text-center">Verified Account</p>
