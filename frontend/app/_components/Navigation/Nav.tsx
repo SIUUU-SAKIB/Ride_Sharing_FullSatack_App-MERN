@@ -8,6 +8,7 @@ import LoadingScreen from '../ui/LoadingScreen'
 
 const Nav = () => {
     const { data, isLoading, isError } = useCurrentUser()
+    
     const profileImage = data?.data?.profilePhoto
     const session = data ? true : false
     if(isLoading) {

@@ -1,4 +1,4 @@
-import Driver_application_successful from "@/app/_components/pages/Driver_application_successful"
+import Driver_application_successful from "@/app/driver/_components/Driver_application_successful"
 
 const ApplicationSuccessful = () => {
   return (

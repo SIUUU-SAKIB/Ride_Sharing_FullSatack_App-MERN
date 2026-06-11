@@ -32,14 +32,15 @@ const style = `
     display: flex;
     align-items: center;
     justify-content: center;
+
     min-height: 100vh;
     background: #1a1a2e;
     font-family: 'DM Sans', sans-serif;
   }
 
   .ridex-card {
-    width: 280px;
-    height: 520px;
+    width: 100vw;
+    height: 100vh;
     background: #f8f9fb;
     border-radius: 28px;
     display: flex;
