@@ -28,7 +28,7 @@ const Overview = () => {
     },
   ]
   return (
-  <div className="grid grid-cols-6 gap-4 pt-4">
+  <div className="grid grid-cols-4 md:grid-cols-6 gap-4 pt-4">
   {overviewItems.map((item) => (
     <div
       key={item.id}
