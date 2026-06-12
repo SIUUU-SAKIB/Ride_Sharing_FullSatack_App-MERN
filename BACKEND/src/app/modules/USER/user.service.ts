@@ -18,22 +18,22 @@ const createUser = async (payload: IUser) => {
     if (isUserExist && isUserExist.isVerified) {
         throw new AppError(StatusCodes.BAD_REQUEST, "User already exists");
     }
-    if (isUserExist && !isUserExist.isVerified) {
-        if (
-            isUserExist.verificationTokenExpires &&
-            isUserExist.verificationTokenExpires > new Date()
-        ) {
-            throw new AppError(
-                StatusCodes.TOO_MANY_REQUESTS,
-                "Please wait before requesting another verification email"
-            );
-        }
-        isUserExist.verificationToken = token;
-        isUserExist.verificationTokenExpires = new Date(Date.now() + 5 * 60 * 1000);
-        await isUserExist.save();
-        await sendVerifyEmail(isUserExist.email, "Verify Email", link);
-        return isUserExist;
-    }
+    // if (isUserExist && !isUserExist.isVerified) {
+    //     if (
+    //         isUserExist.verificationTokenExpires &&
+    //         isUserExist.verificationTokenExpires > new Date()
+    //     ) {
+    //         throw new AppError(
+    //             StatusCodes.TOO_MANY_REQUESTS,
+    //             "Please wait before requesting another verification email"
+    //         );
+    //     }
+    //     isUserExist.verificationToken = token;
+    //     isUserExist.verificationTokenExpires = new Date(Date.now() + 5 * 60 * 1000);
+    //     await isUserExist.save();
+    //     await sendVerifyEmail(isUserExist.email, "Verify Email", link);
+    //     return isUserExist;
+    // }
 
     let hashedPassword
     if (!isUserExist) {
@@ -53,9 +53,14 @@ const createUser = async (payload: IUser) => {
         password: hashedPassword,
         baseLocation:payload.baseLocation,
         auths: authProvider,
-        verificationToken: token,
-        verificationTokenExpires: new Date(Date.now() + 5 * 60 * 1000),
+        // verificationToken: token,
+        // verificationTokenExpires: new Date(Date.now() + 5 * 60 * 1000),
     });
+    if(enviromentVariables.NODE_ENVIROMENT === "development") {
+        user.isVerified = true
+       await user.save()
+       return user
+    }
     await sendVerifyEmail(user.email, "Verify Email", link);
     return user;
 };
