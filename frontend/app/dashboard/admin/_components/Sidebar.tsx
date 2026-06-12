@@ -35,7 +35,6 @@ const Sidebar = () => {
                         src={user?.profilePhoto || "/demo_profile.jpg"}
                         className={`object-cover w-7 h-7  md:w-9 md:h-10 lg:w-12 lg:h-12 rounded-full`}
                     /></Link>
-
                 <div className="flex flex-col ">
                     <p className="text-md font-medium">Ridex Admin</p>
                     <p className="text-(--neutral) font-mono">General Controller</p>
@@ -51,9 +50,7 @@ const Sidebar = () => {
                             <Link
                                 href={item.href}
                                 className={`flex gap-4 items-center px-4 py-3 rounded-lg transition-colors duration-200
-            ${isActive
-                                        ? "bg-(--primary)/10 text-(--primary)"
-                                        : "hover:bg-gray-100 text-(--neutral)"
+            ${isActive ? "bg-(--primary)/10 text-(--primary)" : "hover:bg-gray-100 text-(--neutral)"
                                     }`}
                             >
                                 <item.icon

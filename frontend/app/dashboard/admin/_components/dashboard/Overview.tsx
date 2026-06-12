@@ -18,10 +18,10 @@ const Overview = () => {
       id:3, name: "Total Riders", icon: IoPeopleSharp, total: 12, today: 12
     },
     {
-      id:4, name: "Pending Drivers", icon: FaRegNewspaper, total: 12, today: 12
+      id:4, name: "Active Rides", icon: FaCheck, total: 12, today: 12
     },
     {
-      id:5, name: "Active Rides", icon: PiCarSimpleBold, total: 12, today: 12
+      id:5, name: "Completed (Today)", icon: PiCarSimpleBold, total: 12, today: 12
     },
     {
       id:6, name: "Revenue Today", icon: FaRegMoneyBillAlt, total: 12, today: 12
@@ -39,8 +39,15 @@ const Overview = () => {
           {item.name}
         </p>
 
-        <div className="p-2 bg-red-100 rounded-full">
-          <item.icon />
+        <div className={`p-2 rounded-full 
+          ${item.name === "Pending Drivers" && "bg-red-200/50"}
+          ${item.name === "Approved Drivers" && "bg-green-200/50"}
+          ${item.name === "Total Riders" && "bg-zinc-200/50"}
+          ${item.name === "Active Rides" && "bg-green-200/60"}
+          ${item.name === "Completed (Today)" && "bg-blue-200/50"}
+          ${item.name === "Revenue Today" && "bg-zinc-900/20"}
+          `}>
+          <item.icon className="text-sm"/>
         </div>
       </div>
 
