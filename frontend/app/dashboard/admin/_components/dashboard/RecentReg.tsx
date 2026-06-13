@@ -27,7 +27,7 @@ const RecentReg = () => {
         <div className='h-[.3px] w-full bg-(--neutral)'></div>
         {
             userInfo.map(user => (
-                <div className='flex gap-4 items-center justify-between px-4 pb-4'>
+                <div key={user.id} className='flex gap-4 items-center justify-between px-4 pb-4'>
                     <div className='flex gap-2 items-center'>
                         
                         <Image
@@ -60,4 +60,4 @@ const RecentReg = () => {
   )
 }
 
-export default RecentReg
+export default RecentReg;
