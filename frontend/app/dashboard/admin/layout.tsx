@@ -9,7 +9,7 @@ export default function AdminLayout({
 }) {
   return (
     <AdminGuard>
-      <div className="min-w-screen min-h-screen flex bg-zinc-100">
+      <div className="min-h-screen flex bg-zinc-100 justify-center">
         <Sidebar/>
         {children}
       </div>

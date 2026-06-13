@@ -8,13 +8,13 @@ const RecentReg = () => {
             id:1, image:"/demo_profile.jpg", name:"Emily watson", time:"20 minutes ago", role:"Rider", email:"emily123@gmail.com"
         },
         {
-            id:1, image:"/demo_profile.jpg", name:"Emily watson", time:"20 minutes ago", role:"Rider", email:"emily123@gmail.com"
+            id:2, image:"/demo_profile.jpg", name:"Emily watson", time:"20 minutes ago", role:"Rider", email:"emily123@gmail.com"
         },
         {
-            id:1, image:"/demo_profile.jpg", name:"Emily watson", time:"20 minutes ago", role:"Rider", email:"emily123@gmail.com"
+            id:3, image:"/demo_profile.jpg", name:"Emily watson", time:"20 minutes ago", role:"Rider", email:"emily123@gmail.com"
         },
         {
-            id:1, image:"/demo_profile.jpg", name:"Emily watson", time:"20 minutes ago", role:"Rider", email:"emily123@gmail.com"
+            id:4, image:"/demo_profile.jpg", name:"Emily watson", time:"20 minutes ago", role:"Rider", email:"emily123@gmail.com"
         },
     ]
   return (
@@ -28,14 +28,14 @@ const RecentReg = () => {
         {
             userInfo.map(user => (
                 <div key={user.id} className='flex gap-4 items-center justify-between px-4 pb-4'>
-                    <div className='flex gap-2 items-center'>
+                    <div className='flex gap-4 items-center'>
                         
                         <Image
                         src={user.image}
                         alt='user image'
                         height='500'
                         width={'500'}
-                        className='object-cover h-8 w-8 rounded-full'
+                        className='object-cover h-12 w-12 rounded-full'
                         />
                         <div>
                             <p className='text-lg font-medium'>{user.name}</p>

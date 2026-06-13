@@ -8,6 +8,7 @@ import LoadingScreen from "@/app/_components/ui/LoadingScreen"
 import Overview from "./_components/dashboard/Overview"
 import RecentReg from "./_components/dashboard/RecentReg"
 import PlatformAlerts from "./_components/dashboard/PlatformAlerts"
+import RideActivity from "./_components/dashboard/RideActivity"
 
 const AdminLayout = () => {
   const router = useRouter()
@@ -29,7 +30,7 @@ const AdminLayout = () => {
   if (isLoading) {
     return <LoadingScreen />
   }
-  return <div className='pt-12 px-12 w-full block'>
+  return <div className='pt-12 px-12 mx-auto'>
     {/* TOP CONTENT */}
     <div className='flex items-center justify-between'>
       <div className='flex flex-col'>
@@ -46,7 +47,7 @@ const AdminLayout = () => {
     {/* RECENT REGISTRATIONS AND SUSPITION PART */}
     <div className="grid grid-cols-3 pt-4 items-center gap-4 w-full">
      <RecentReg/>
-     <PlatformAlerts/>
+     <RideActivity/>
     </div>
   </div>
 }
