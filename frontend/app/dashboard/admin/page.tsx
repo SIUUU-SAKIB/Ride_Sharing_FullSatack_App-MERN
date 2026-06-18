@@ -1,5 +1,4 @@
 "use client"
-
 import { useCurrentUser } from "@/app/_hooks/useCurrentUser"
 import { useRouter } from "next/navigation"
 import { useEffect } from "react"
@@ -7,7 +6,6 @@ import { toast } from "sonner"
 import LoadingScreen from "@/app/_components/ui/LoadingScreen"
 import Overview from "./_components/dashboard/Overview"
 import RecentReg from "./_components/dashboard/RecentReg"
-import PlatformAlerts from "./_components/dashboard/PlatformAlerts"
 import RideActivity from "./_components/dashboard/RideActivity"
 
 const AdminLayout = () => {
@@ -45,7 +43,7 @@ const AdminLayout = () => {
     {/* OVERVIEW */}
     <Overview />
     {/* RECENT REGISTRATIONS AND SUSPITION PART */}
-    <div className="grid grid-cols-3 pt-4 items-center gap-4 w-full">
+    <div className="grid grid-cols-3 pt-4 gap-4 w-full">
      <RecentReg/>
      <RideActivity/>
     </div>
