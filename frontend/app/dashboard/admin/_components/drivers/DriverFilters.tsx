@@ -1,12 +1,12 @@
 "use client"
 import { Search } from 'lucide-react'
 import React, { useState } from 'react'
+import SearchResult from './SearchResult'
 
 const DriverFilters = () => {
     const [searchDriver, setSerchDriver] =  React.useState<string>('')
     const [status, setStatus] = React.useState<string>('')
     const [vehicleType, setVehicleType] = React.useState<string>('')
-console.log(searchDriver, status, vehicleType)
     return (
         <div className='py-4'>
             <div className='p-4 flex items-center justify-between bg-white'>
@@ -54,6 +54,7 @@ console.log(searchDriver, status, vehicleType)
                 {/* clear filters */}
                 <button className='px-4 py-2 bg-(--primary)/20 text-(--primary) rounded-lg mt-4 cursor-pointer hover:bg-(--primary)/10 transition duration-200'>Clear filters</button>
             </div>
+            <SearchResult searchDriver={searchDriver} status= {status} vehicleType={vehicleType}/>
         </div>
     )
 }
