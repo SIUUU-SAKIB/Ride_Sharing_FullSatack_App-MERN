@@ -17,19 +17,19 @@ const SearchResult = ({ searchDriver, status, vehicleType }: SearchResultProps) 
     ]
     const contents = [
         {
-            image: "/demo_profile.jpg", name: "Alex Johnson", licenseNo: "DL-27742980", NIDNo: "9162826672", appliedOn: "12 Dec 2025", status: "PENDING", vehicle: "Toyota Prius", phone:"01796414761"
+            image: "/demo_profile.jpg", name: "Alex Johnson", licenseNo: "DL-27742980", NIDNo: "9162826672", appliedOn: "12 Dec 2025", status: "Rejected", vehicle: "Toyota Prius", phone:"01796414761"
         },
         {
-            image: "/demo_profile.jpg", name: "Alex Johnson", licenseNo: "DL-27742980", NIDNo: "9162826671", appliedOn: "12 Dec 2025", status: "PENDING", vehicle: "Toyota Prius", phone:"01796414761"
+            image: "/demo_profile.jpg", name: "Alex Johnson", licenseNo: "DL-27742980", NIDNo: "9162826671", appliedOn: "12 Dec 2025", status: "Approved", vehicle: "Toyota Prius", phone:"01796414761"
         },
         {
-            image: "/demo_profile.jpg", name: "Alex Johnson", licenseNo: "DL-27742980", NIDNo: "9162826622", appliedOn: "12 Dec 2025", status: "PENDING", vehicle: "Toyota Prius", phone:"01796414761"
+            image: "/demo_profile.jpg", name: "Alex Johnson", licenseNo: "DL-27742980", NIDNo: "9162826622", appliedOn: "12 Dec 2025", status: "Rejected", vehicle: "Toyota Prius", phone:"01796414761"
         },
         {
-            image: "/demo_profile.jpg", name: "Alex Johnson", licenseNo: "DL-27742980", NIDNo: "9162826662", appliedOn: "12 Dec 2025", status: "PENDING", vehicle: "Toyota Prius", phone:"01796414761"
+            image: "/demo_profile.jpg", name: "Alex Johnson", licenseNo: "DL-27742980", NIDNo: "9162826662", appliedOn: "12 Dec 2025", status: "Pending", vehicle: "Toyota Prius", phone:"01796414761"
         },
         {
-            image: "/demo_profile.jpg", name: "Alex Johnson", licenseNo: "DL-27742980", NIDNo: "9162826629", appliedOn: "12 Dec 2025", status: "PENDING", vehicle: "Toyota Prius", phone:"01796414761"
+            image: "/demo_profile.jpg", name: "Alex Johnson", licenseNo: "DL-27742980", NIDNo: "9162826629", appliedOn: "12 Dec 2025", status: "Approved", vehicle: "Toyota Prius", phone:"01796414761"
         },
     ]
 
@@ -56,15 +56,15 @@ const SearchResult = ({ searchDriver, status, vehicleType }: SearchResultProps) 
                             </div>
                         </div>
 
-                        <p>{item.vehicle}</p>
+                        <p className='text-zinc-700 ' >{item.vehicle}</p>
 
-                        <p>{item.licenseNo}</p>
+                        <p className='text-zinc-700 '>{item.licenseNo}</p>
 
-                        <p>{item.NIDNo}</p>
+                        <p className='text-zinc-700 '>{item.NIDNo}</p>
 
-                        <p>{item.appliedOn}</p>
+                        <p className='text-zinc-700 '>{item.appliedOn}</p>
 
-                        <p>{item.status}</p>
+                        <p className={`font-medium ${item.status === "Approved" && 'text-green-500' || item.status=== "Rejected" && 'text-red-500'  || item.status=== "Pending" && 'text-yellow-500'}`}>{item.status}</p>
 
                         <button>View</button>
                     </div>
