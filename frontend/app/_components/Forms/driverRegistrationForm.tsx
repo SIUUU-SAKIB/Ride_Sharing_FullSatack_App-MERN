@@ -48,12 +48,12 @@ const DriverRegistrationForm = () => {
     //     router.push(`/login`)
     // }
     return (
-        <div className='max-w-5xl mx-auto gap-4 items-start px-4 bg-white rounded-lg py-12 '>
+        <div className='max-w-5xl mx-auto gap-4 items-start px-4 bg-white rounded-lg py-12'>
             <div className='flex items-center gap-2'>
                 <User className='text-lg text-(--primary)' />
                 <p className='text-xl md:text-2xl xl:text-2xl text-black/90 font-bold py-4'>Driver Information</p>
             </div>
-            <form onSubmit={handleSubmit(onSubmit)} className='flex flex-col gap-4 px-2 py-4'>
+            <form onSubmit={handleSubmit(onSubmit)} className='flex flex-col gap-4  py-4'>
                 {/* LICENSE NUMBER*/}
                 <div className='flex flex-col gap-2'>
                     <label className='text-md md:text-lg black font-medium'>Driving License Number</label>
@@ -76,6 +76,16 @@ const DriverRegistrationForm = () => {
                         className='text-(--neutral) text-md p-4 bg-zinc-100/80 border-none outline-none cursor-pointer'
                     />
                     {errors.licenseImage && <p className='text-red-500 font-semibold'>{String(errors.licenseImage.message)}</p>}
+                </div>
+                 {/* VEHICLE NAME */}
+                <div className='flex flex-col gap-2'>
+                    <label className='text-md md:text-lg black font-medium'>Vehicle Name</label>
+                    <input
+                        {...register('vehicleName')}
+                        placeholder='Enter vehicle full name'
+                        className='text-(--neutral) text-md p-4 bg-zinc-100/80 border-none outline-none'
+                    />
+                    {errors.address && <p className='text-red-500 font-semibold'>{errors.address.message}</p>}
                 </div>
                 {/* VEHICLE NUMBER*/}
                 <div className='flex flex-col gap-2'>
