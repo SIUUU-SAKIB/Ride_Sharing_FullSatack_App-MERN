@@ -1,3 +1,4 @@
+
 "use client"
 import { Pen, Star, User, Mail, LockKeyholeOpen, LogOut, Phone, MapPin, CarTaxiFront } from "lucide-react"
 import Image from "next/image"
@@ -6,10 +7,15 @@ import { useLogout } from "../../_hooks/useLogout"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
 import { MdOutlineVerified } from "react-icons/md"
+import LoadingScreen from "../ui/LoadingScreen"
 
 const UserProfile = () => {
   const router = useRouter()
   const { data, isLoading, isError } = useCurrentUser()
+  console.log(data)
+  if(isLoading) {
+    return <LoadingScreen/>
+  }
   const user = data?.data
   const logoutMutation = useLogout()
   const personalInto = [
@@ -41,7 +47,7 @@ const UserProfile = () => {
           <p className="text-(--neutral) font-medium text-sm md:text-md break-all text-center">{user?.email}</p>
           <div className="flex items-center justify-center gap-4 pt-2">
             {
-              user?.role !== `DRIVER` || user?.role === "ADMIN" || user?.role === "SUPER_ADMIN" &&(
+              user?.role === "RIDER" &&(
                 <Link href={`/driver/registration`} className="flex gap-2 items-center justify-center rounded-full py-2 px-4 bg-(--primary) ">
               <CarTaxiFront className="text-xs text-white text-shadow-xs" />
               <p className="text-sm font-semibold text-white text-shadow-xs">Become a Driver?</p>

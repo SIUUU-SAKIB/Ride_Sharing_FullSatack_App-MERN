@@ -1,28 +1,28 @@
 import { any, z } from "zod"
 import { IVehicleType, IGender, IVehicleOwnsership } from "@/app/_interfaces/driver.interface"
 
-const MAX_FILE_SIZE = 2 * 1024 * 1024 
+const MAX_FILE_SIZE = 2 * 1024 * 1024
 const ACCEPTED_IMAGE_TYPES = ["image/jpeg", "image/jpg", "image/png", "image/webp"]
 
 const imageSchema = (fieldName: string) =>
-  z
-    .any()
-    .transform((files) => files?.[0])
-    .pipe(
-      z
-        .instanceof(File, {
-          message: `${fieldName} is required`,
-        })
-        .refine(
-          (file) => file.size <= MAX_FILE_SIZE,
-          `${fieldName} must be less than 2MB`
+    z
+        .any()
+        .transform((files) => files?.[0])
+        .pipe(
+            z
+                .instanceof(File, {
+                    message: `${fieldName} is required`,
+                })
+                .refine(
+                    (file) => file.size <= MAX_FILE_SIZE,
+                    `${fieldName} must be less than 2MB`
+                )
+                .refine(
+                    (file) =>
+                        ACCEPTED_IMAGE_TYPES.includes(file.type),
+                    `${fieldName} must be JPEG, PNG, or WebP`
+                )
         )
-        .refine(
-          (file) =>
-            ACCEPTED_IMAGE_TYPES.includes(file.type),
-          `${fieldName} must be JPEG, PNG, or WebP`
-        )
-    )
 
 export const driverApplicationSchema = z.object({
     licenseNumber: z
@@ -40,7 +40,7 @@ export const driverApplicationSchema = z.object({
     vehicleType: z.enum(Object.values(IVehicleType) as [string, ...string[]], {
         message: "Please select a vehicle type",
     }),
-
+    vehicleName: z.string({ message: "Vehicle name required" }).min(5, { message: "At least 5 characters required" }),
     nidNumber: z
         .string({ message: "NID number is required" })
         .min(1, "NID number is required")
@@ -68,8 +68,8 @@ export const driverApplicationSchema = z.object({
     vehicleOwnership: z.enum(Object.values(IVehicleOwnsership), {
         message: "Please select vehicle ownership",
     }),
-    termsAccepted: z.boolean().refine(value => value === true,{
-        message:"You must accept the Terms of Service"
+    termsAccepted: z.boolean().refine(value => value === true, {
+        message: "You must accept the Terms of Service"
     }
     )
 })
