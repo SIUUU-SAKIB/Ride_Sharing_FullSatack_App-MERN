@@ -85,7 +85,7 @@ const DriverRegistrationForm = () => {
                         placeholder='Enter vehicle full name'
                         className='text-(--neutral) text-md p-4 bg-zinc-100/80 border-none outline-none'
                     />
-                    {errors.address && <p className='text-red-500 font-semibold'>{errors.address.message}</p>}
+                    {errors.vehicleName && <p className='text-red-500 font-semibold'>{errors.vehicleName.message}</p>}
                 </div>
                 {/* VEHICLE NUMBER*/}
                 <div className='flex flex-col gap-2'>

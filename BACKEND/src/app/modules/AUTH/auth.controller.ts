@@ -135,7 +135,6 @@ const verifyEmail = catchAsync(async (req: Request, res: Response) => {
 })
 const getMe = catchAsync(async (req: Request, res: Response) => {
   const userId = req.user?._id
-  console.log(req.user)
   const user = await UserDB.findById(userId).select({
     password: 0,
     auths: 0,

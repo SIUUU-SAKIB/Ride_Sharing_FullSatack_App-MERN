@@ -16,8 +16,6 @@ const driverApplication = catchAsync(async (req: Request, res: Response) => {
     const files = req.files as {
         [fieldname: string]: Express.Multer.File[];
     };
-    console.log(files)
-    console.log(req.files)
     const licenseImage = files?.licenseImage || [];
     const nidImage = files?.nidImage || [];
     const vehicleImage = files?.vehicleImage || [];

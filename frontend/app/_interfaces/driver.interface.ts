@@ -22,6 +22,7 @@ export interface DriverApplicationPayload {
   licenseNumber: string
   vehicleNumber: string
   vehicleType: string
+  vehicleName:string
   nidNumber: string
   phoneNumber: string
   bloodType: string

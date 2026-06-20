@@ -7,6 +7,7 @@ const driverApplication = async (payload: DriverApplicationPayload) => {
     formData.append("vehicleNumber", payload.vehicleNumber)
     formData.append("licenseImage", payload.licenseImage)
     formData.append("vehicleImage", payload.vehicleImage)
+    formData.append(`vehicleName`, payload.vehicleName)
     formData.append("vehicleType", payload.vehicleType)
     formData.append("nidNumber", payload.nidNumber)
     formData.append("phoneNumber", payload.phoneNumber)

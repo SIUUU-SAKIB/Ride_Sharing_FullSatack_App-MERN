@@ -12,7 +12,6 @@ import LoadingScreen from "../ui/LoadingScreen"
 const UserProfile = () => {
   const router = useRouter()
   const { data, isLoading, isError } = useCurrentUser()
-  console.log(data)
   if(isLoading) {
     return <LoadingScreen/>
   }

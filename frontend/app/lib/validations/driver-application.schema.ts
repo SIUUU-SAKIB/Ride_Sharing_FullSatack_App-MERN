@@ -1,4 +1,4 @@
-import { any, z } from "zod"
+import { z } from "zod"
 import { IVehicleType, IGender, IVehicleOwnsership } from "@/app/_interfaces/driver.interface"
 
 const MAX_FILE_SIZE = 2 * 1024 * 1024
