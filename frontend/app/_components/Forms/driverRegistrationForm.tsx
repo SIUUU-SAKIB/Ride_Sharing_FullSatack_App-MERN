@@ -10,6 +10,7 @@ import Link from 'next/link'
 import { IVehicleOwnsership, IVehicleType } from '@/app/_interfaces/driver.interface'
 import { useMutation } from '@tanstack/react-query'
 import { DriverService } from '@/app/_services/driver'
+import { toast } from 'sonner'
 
 
 const DriverRegistrationForm = () => {
@@ -31,10 +32,10 @@ const DriverRegistrationForm = () => {
                 licenseImage: data.licenseImage,
                 vehicleImage: data.vehicleImage
             }
-            console.log(payload)
             const response = await mutation.mutateAsync(payload)
-            
-            console.log(response)
+            toast.success("Application submitted successfully")
+
+            router.push("/driver/application_successful")
         } catch (error) {
             setError('root', {
                 message:
@@ -77,7 +78,7 @@ const DriverRegistrationForm = () => {
                     />
                     {errors.licenseImage && <p className='text-red-500 font-semibold'>{String(errors.licenseImage.message)}</p>}
                 </div>
-                 {/* VEHICLE NAME */}
+                {/* VEHICLE NAME */}
                 <div className='flex flex-col gap-2'>
                     <label className='text-md md:text-lg black font-medium'>Vehicle Name</label>
                     <input
