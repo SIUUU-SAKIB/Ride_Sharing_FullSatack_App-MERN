@@ -13,7 +13,7 @@ const driverApplicationZodSchema = z.object({
 vehicleImage: z.any().refine(Boolean, {
   message: "Vehicle image required",
 }),
-
+vehicleName:z.string({message:"Vehicle name is required"}),
 licenseImage: z.any().refine(Boolean, {
   message: "License image required",
 }),
