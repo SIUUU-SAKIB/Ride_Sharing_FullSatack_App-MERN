@@ -4,6 +4,7 @@ import { useCurrentUser } from "@/app/_hooks/useCurrentUser"
 import Image from "next/image"
 import Link from "next/link"
 import { MdDashboard, MdOutlinePayment } from 'react-icons/md'
+import { FaUserCircle } from "react-icons/fa";
 import { PiCarSimpleThin } from "react-icons/pi";
 import { CiUser } from "react-icons/ci";
 import { GiPaperClip } from "react-icons/gi"
@@ -19,7 +20,8 @@ const Sidebar = () => {
         { id: 3, name: "Drivers", icon: PiCarSimpleThin, href: "/dashboard/admin/drivers" },
         { id: 4, name: "Riders", icon: CiUser, href: "/dashboard/admin/riders" },
         { id: 5, name: "Payments", icon: MdOutlinePayment, href: "/dashboard/admin/payments" },
-        { id: 6, name: "Settings", icon: IoSettingsOutline, href: "/dashboard/admin/settings" }
+        { id: 6, name: "Settings", icon: IoSettingsOutline, href: "/dashboard/admin/settings" },
+        { id: 7, name: "profile", icon: FaUserCircle, href: "/dashboard/admin/profile" }
     ]
     return (
         <div className='max-w-150 bg-white shadow-md flex flex-col
