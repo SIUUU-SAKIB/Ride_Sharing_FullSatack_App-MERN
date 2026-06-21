@@ -14,7 +14,7 @@ const Driver_application_successful = () => {
         <p className='max-w-150 text-center text-(--neutral) text-base md:text-lg'>
             Your applicatoin is under review.<br/> We will notify you once it has been<br/> approved
         </p>
-        <Link href={`/driver/dashboard`} className='w-2/3  bg-(--primary) rounded-lg shadow-xs py-2 font-semibold text-white  shadow-emerald-400 text-center text-lg '>Go to Dashboard</Link>
+        <Link href={`/dashboard/rider`} className='w-2/3  bg-(--primary) rounded-lg shadow-xs py-2 font-semibold text-white  shadow-emerald-400 text-center text-lg '>Go to Dashboard</Link>
         <div className='flex gap-2 items-center'>
             <FaArrowLeftLong className='text-xl font-extralight'/>
             <Link href={'/'}>Back to Home</Link>

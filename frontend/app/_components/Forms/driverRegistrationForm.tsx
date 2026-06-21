@@ -32,10 +32,12 @@ const DriverRegistrationForm = () => {
                 licenseImage: data.licenseImage,
                 vehicleImage: data.vehicleImage
             }
-            const response = await mutation.mutateAsync(payload)
+            await mutation.mutateAsync(payload)
             toast.success("Application submitted successfully")
 
-            router.push("/driver/application_successful")
+            setTimeout(() => {
+                router.push("/driver/application_successful")
+            }, 1000)
         } catch (error) {
             setError('root', {
                 message:
