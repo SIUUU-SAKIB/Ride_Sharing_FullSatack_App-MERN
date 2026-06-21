@@ -11,12 +11,16 @@ import LoadingScreen from "../ui/LoadingScreen"
 
 const UserProfile = () => {
   const router = useRouter()
+    const logoutMutation = useLogout()
   const { data, isLoading, isError } = useCurrentUser()
+  if(isError) {
+    return null
+  }
   if(isLoading) {
     return <LoadingScreen/>
   }
   const user = data?.data
-  const logoutMutation = useLogout()
+
   const personalInto = [
     {
       title: "Full Name", name: user?.name ? user?.name : "John Doe", icon: User

@@ -9,7 +9,7 @@ export const useLogout = () => {
         mutationFn: Authentication.logoutUser,
         onSuccess: async () => {
             toast.success('Logout Successfull')
-            router.push(`/login`)
+            router.replace(`/login`)
         },
         onError: (error) => {
             toast.error(
