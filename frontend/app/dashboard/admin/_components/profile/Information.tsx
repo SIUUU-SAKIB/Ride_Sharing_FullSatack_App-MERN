@@ -7,15 +7,6 @@ import { FaCar, FaChartBar } from "react-icons/fa";
 import { IoMdPeople } from "react-icons/io";
 import { SlCalender } from "react-icons/sl";
 const Information = () => {
-
-    const cards = [
-        {title:"DRIVERS APPROVED", number:1204, icon:FaCar, bg:"green-100/50", color:"green-600"},
-        {title:"RIDERS MANAGED", number:1200, icon:FaCar, bg:"bg-blue-100/50", color:"text-blue-600"},
-        {title:"RIDES MONITORED", number:1509, icon:FaCar, bg:"bg-purple-100/50", color:"text-purple-600"},
-        {title:"DRIVERS APPROVED", number:1204, icon:FaCar, bg:"bg-orange-100/50", color:"text-orange-600"},
-    ]
-
-
     return (
         <div className='w-full bg-white p-4 flex items-center justify-between min-h-40'>
             <div className='flex items-center gap-4'>
@@ -52,7 +43,7 @@ const Information = () => {
                     </div>
                 </div>
             </div>
-<button className='px-8 py-2 bg-green-900 text-white font-medium text-xl rounded-lg cursor-pointer hover:bg-green-800 transition duration-75'>Edit Profile</button>
+            <button className='px-8 py-2 bg-green-800 text-white font-medium text-xl rounded-lg cursor-pointer hover:bg-green-800 transition duration-75'>Edit Profile</button>
         </div>
     )
 }

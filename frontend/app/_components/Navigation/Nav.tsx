@@ -44,7 +44,7 @@ const Nav = () => {
             {/* navigation links */}
             {
                 !session ? (<div className='flex gap-4 py-1 px-2 items-center justify-center'>
-                    <Link href={'/login'} className='text-black text-sm md:text-md lg:text-lg hover:text-(--primary) hover:font-medium transition duration-300 px-4 py-1 lg:py-2 rounded-full border border-(--primary)'>
+                    <Link href={'/login'} className='text-black text-sm md:text-md lg:text-lg hover:text-(--primary) hover:font-medium transition duration-300 px-4 py-1 rounded-full border border-(--primary)'>
                         Login
                     </Link>
                     <Link

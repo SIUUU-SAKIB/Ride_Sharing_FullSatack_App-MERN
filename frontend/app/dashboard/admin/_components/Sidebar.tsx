@@ -10,7 +10,10 @@ import { CiUser } from "react-icons/ci";
 import { GiPaperClip } from "react-icons/gi"
 import { IoSettingsOutline } from "react-icons/io5";
 import { usePathname } from "next/navigation"
+import { useLogout } from "@/app/_hooks/useLogout"
+import { IoIosLogOut } from "react-icons/io";
 const Sidebar = () => {
+    const logoutMutation = useLogout()
     const { data, isLoading } = useCurrentUser()
     const pathname = usePathname()
     const user = data?.data
@@ -24,6 +27,7 @@ const Sidebar = () => {
         { id: 7, name: "profile", icon: FaUserCircle, href: "/dashboard/admin/profile" }
     ]
     return (
+
         <div className='max-w-150 bg-white shadow-md flex flex-col
          gap-8 items-start py-4 px-8 min-h-screen'>
             <Link href="/" className="text-4xl font-bold text-(--primary)">RideX</Link>
@@ -71,8 +75,17 @@ const Sidebar = () => {
                 })}
             </ul>
 
+            <div className="flex flex-col gap-2 mt-auto">
+                <p className="text-(--neutral)">Support Center</p>
+                <div onClick={() => logoutMutation.mutate()} className='text-xl cursor-pointer flex gap-2 items-center bg-red-300 px-8 py-2 rounded-lg ' >
+                       <IoIosLogOut className=""/>
+                        <p className='text-sm' >Logout</p>
+             
 
+                </div>
+            </div>
         </div>
+
     )
 }
 
