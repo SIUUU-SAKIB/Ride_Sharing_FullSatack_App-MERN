@@ -1,5 +1,4 @@
 "use client"
-
 import { useCurrentUser } from "@/app/_hooks/useCurrentUser"
 import Image from "next/image"
 import Link from "next/link"
@@ -76,11 +75,11 @@ const Sidebar = () => {
             </ul>
 
             <div className="flex flex-col gap-2 mt-auto">
-                <p className="text-(--neutral)">Support Center</p>
-                <div onClick={() => logoutMutation.mutate()} className='text-xl cursor-pointer flex gap-2 items-center bg-red-300 px-8 py-2 rounded-lg ' >
-                       <IoIosLogOut className=""/>
-                        <p className='text-sm' >Logout</p>
-             
+                <Link href={'/'} className="text-(--neutral)">Support Center</Link>
+                <div onClick={() => logoutMutation.mutate()} className='text-xl cursor-pointer flex gap-2 items-center ' >
+                    <IoIosLogOut className=" text-md font-medium text-red-500 " />
+                    <p className='text-sm font-medium text-red-500 ' >Logout</p>
+
 
                 </div>
             </div>
