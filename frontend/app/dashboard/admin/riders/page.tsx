@@ -1,4 +1,5 @@
 import React from 'react'
+import RiderFilters from '../_components/riders/RiderFilters'
 
 const Riders = () => {
   return (
@@ -7,6 +8,8 @@ const Riders = () => {
         <h1 className='text-2xl font-bold'>Rider Applications</h1>
         <p className='text-(--neutral)'>Review and manage rider onboarding requests.</p>
       </div>
+      {/* filters */}
+      <RiderFilters/>
     </div>
   )
 }

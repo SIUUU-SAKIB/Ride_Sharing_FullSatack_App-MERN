@@ -75,7 +75,7 @@ const Sidebar = () => {
             </ul>
 
             <div className="flex flex-col gap-2 mt-auto">
-                <Link href={'/'} className="text-(--neutral)">Support Center</Link>
+                <Link href={'/support_center'} className="text-(--neutral)">Support Center</Link>
                 <div onClick={() => logoutMutation.mutate()} className='text-xl cursor-pointer flex gap-2 items-center ' >
                     <IoIosLogOut className=" text-md font-medium text-red-500 " />
                     <p className='text-sm font-medium text-red-500 ' >Logout</p>
