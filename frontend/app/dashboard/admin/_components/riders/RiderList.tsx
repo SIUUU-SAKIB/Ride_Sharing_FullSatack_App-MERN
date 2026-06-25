@@ -19,6 +19,12 @@ const RiderList = ({ search, status }: IRideList) => {
         { image: "/demo_profile.jpg", name: "Macrus Bennett", phone: "0197923421", email: "demo213@gmail.com", date: "12 aug 2025", status: "PENDING" },
         { image: "/demo_profile.jpg", name: "Macrus Bennett", phone: "0197923421", email: "demo213@gmail.com", date: "12 aug 2025", status: "PENDING" },
     ]
+    const approveButton = () => {
+console.log(`approved`)
+    }
+    const rejectButton = () => {
+        console.log(`rejected`)
+    }
     return (
         <div className=' bg-white p-4 my-8 '>
             <div className='grid grid-cols-12 gap-4 items-center'>
@@ -53,7 +59,11 @@ const RiderList = ({ search, status }: IRideList) => {
                                 </div>
                             </div>
                             <p className='text-(--neutral) grid col-span-2'>{item.date}</p>
-                            <p className={'px-2 py-1 bg-green-100  grid col-span-2'}>{item.status}</p>
+                            <div className={'px-2 py-1 bg-green-100 col-span-1'}>{item.status}</div>
+                            <div className='grid ml-auto col-span-4 place-items-center grid-cols-6'>
+                                <button onClick={approveButton} className='text-white  border border-transparent bg-green-500 shadow-xs rounded-xl px-4 py-1 col-span-2 cursor-pointer'>Approve</button>
+                                <button onClick={rejectButton} className='text-red-500 border-red-600 border px-4 py-1 rounded-xl col-span-2 cursor-pointer'>Reject</button>
+                            </div>
                         </div>
                     ))
                 }
