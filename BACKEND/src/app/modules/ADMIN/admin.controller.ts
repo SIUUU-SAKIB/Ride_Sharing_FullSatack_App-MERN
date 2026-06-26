@@ -66,7 +66,7 @@ const verifyEmail = catchAsync(async (req: Request, res: Response) => {
 
 const getAllUser = catchAsync(async (req: Request, res: Response) => {
 
-    const { page = "1", limit = "10" } = req.query
+    const { page = "1", limit = "5" } = req.query
     const pageNumber = Number(page)
     const limitNumber = Number(limit)
     const skip = (pageNumber - 1) * limitNumber

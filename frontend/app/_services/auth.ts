@@ -54,7 +54,6 @@ const getCurrentUser = async () => {
     if (!response.ok) {
         throw new Error("Unauthorized")
     }
-
     return response.json()
 }
 const logoutUser = async () => {

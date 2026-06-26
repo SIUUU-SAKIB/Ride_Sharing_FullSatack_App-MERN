@@ -1,24 +1,47 @@
+'use client'
+import LoadingScreen from '@/app/_components/ui/LoadingScreen'
+import { AdminHooks } from '@/app/_hooks/dashboard/admin/rider'
+import { ChevronLeft, ChevronRight, MoveLeft } from 'lucide-react'
 import Image from 'next/image'
 import React from 'react'
+import { FaLeftLong, FaRightLong } from "react-icons/fa6";
 type IRideList = {
     search: string,
     status: string
 }
+
+
+const headers = [
+    { title: "RIDER" },
+    { title: "APPLIED ON" },
+    { title: "STATUS" },
+    { title: "ACTION" },
+]
+const content = [
+    { image: null, name: "Macrus Bennett", phone: "0197923421", email: "demo213@gmail.com", date: "12 aug 2025", status: "APPROVED" },
+    { image: "/demo_profile.jpg", name: "Macrus Bennett", phone: "0197923421", email: "demo213@gmail.com", date: "12 aug 2025", status: "PENDING" },
+    { image: "/demo_profile.jpg", name: "Macrus Bennett", phone: "0197923421", email: "demo213@gmail.com", date: "12 aug 2025", status: "PENDING" },
+    { image: "/demo_profile.jpg", name: "Macrus Bennett", phone: "0197923421", email: "demo213@gmail.com", date: "12 aug 2025", status: "APPROVED" },
+    { image: undefined, name: "Angelique lapiedra", phone: "0197923421", email: "demo213@gmail.com", date: "12 aug 2025", status: "PENDING" },
+    { image: "/demo_profile.jpg", name: "Macrus Bennett", phone: "0197923421", email: "demo213@gmail.com", date: "12 aug 2025", status: "REJECTED" },
+]
+
+
 const RiderList = ({ search, status }: IRideList) => {
-    const headers = [
-        { title: "RIDER" },
-        { title: "APPLIED ON" },
-        { title: "STATUS" },
-        { title: "ACTION" },
-    ]
-    const content = [
-        { image: null, name: "Macrus Bennett", phone: "0197923421", email: "demo213@gmail.com", date: "12 aug 2025", status: "APPROVED" },
-        { image: "/demo_profile.jpg", name: "Macrus Bennett", phone: "0197923421", email: "demo213@gmail.com", date: "12 aug 2025", status: "PENDING" },
-        { image: "/demo_profile.jpg", name: "Macrus Bennett", phone: "0197923421", email: "demo213@gmail.com", date: "12 aug 2025", status: "PENDING" },
-        { image: "/demo_profile.jpg", name: "Macrus Bennett", phone: "0197923421", email: "demo213@gmail.com", date: "12 aug 2025", status: "APPROVED" },
-        { image: undefined, name: "Angelique lapiedra", phone: "0197923421", email: "demo213@gmail.com", date: "12 aug 2025", status: "PENDING" },
-        { image: "/demo_profile.jpg", name: "Macrus Bennett", phone: "0197923421", email: "demo213@gmail.com", date: "12 aug 2025", status: "REJECTED" },
-    ]
+    const { data, isLoading, isError } = AdminHooks.getAllUsers(1, 5)
+    console.log(data?.meta?.total)
+    const [page, setPage] = React.useState<number>(1)
+    const [limit, setLimit] = React.useState<number>(5)
+
+
+
+
+    if (isLoading) {
+        return <LoadingScreen />
+    }
+    if (isError) {
+        return <p className='text-red-500 font-bold text-4xl h-full text-center my-auto'>SOMETHING BAD HAPPEND</p>
+    }
     const printName = (name: string) => {
         return name.split(' ').map(e => e[0].toUpperCase()).join("")
     }
@@ -76,7 +99,63 @@ const RiderList = ({ search, status }: IRideList) => {
                     </div>
                 ))
             }
-
+            <div className='w-full px-2 py-4 flex items-center justify-between'>
+                <p className='text-sm'>Showing {limit} of {data.meta.total} entries</p>
+                {/* PAGINATION */}
+                <div className='flex items-center'>
+                    <ChevronLeft onClick={() => {
+                        if (page === 1) return
+                        setPage((prev) => prev - 1)
+                    }} strokeWidth={1} className={`cursor-pointer ${page === 1
+                        ? "opacity-40 pointer-events-none"
+                        : "cursor-pointer"
+                        }`} />
+                    <button
+                        onClick={() => setPage(1)}
+                        className={`p-2 border transition duration-100 cursor-pointer ${page === 1
+                            ? "bg-(--primary) text-white border-(--primary)"
+                            : "hover:bg-gray-100 border-gray-200"
+                            }`}
+                    >
+                        1
+                    </button>
+                    <button
+                        onClick={() => setPage(2)}
+                        className={`p-2 border transition duration-100 cursor-pointer ${page === 2
+                            ? "bg-(--primary) text-white border-(--primary)"
+                            : "hover:bg-gray-100 border-gray-200"
+                            }`}
+                    >
+                        2
+                    </button>
+                    <button
+                        onClick={() => setPage(3)}
+                        className={`p-2 border transition duration-100 cursor-pointer ${page === 3
+                                ? "bg-(--primary) text-white border-(--primary)"
+                                : "hover:bg-gray-100 border-gray-200"
+                            }`}
+                    >
+                        3
+                    </button>
+                    <div className='text-center h-full my-auto text-gray-400 px-2'>...</div>
+                <button
+                        onClick={() => setPage(data?.meta?.totalPage)}
+                        className={`p-2 border transition duration-100 cursor-pointer ${page === 3
+                                ? "bg-(--primary) text-white border-(--primary)"
+                                : "hover:bg-gray-100 border-gray-200"
+                            }`}
+                    >
+                        {data?.meta?.totalPage}
+                    </button>
+                    <ChevronRight onClick={() => {
+                        if (page === data?.meta?.totalPage) return
+                        setPage((prev) => prev + 1)
+                    }} strokeWidth={1} className={`cursor-pointer ${page === data?.meta?.totalPage
+                        ? "opacity-40 pointer-events-none"
+                        : "cursor-pointer"
+                        }`} />
+                </div>
+            </div>
         </div>
     )
 }
