@@ -27,7 +27,7 @@ console.log(`approved`)
     }
     return (
         <div className=' bg-white p-4 my-8 '>
-            <div className='grid grid-cols-12 gap-4 items-center'>
+            <div className='grid grid-cols-12 gap-4 items-center py-4'>
                 {headers.map((item, index) => (
                     <p
                         key={index}
@@ -44,7 +44,7 @@ console.log(`approved`)
             </div>
                 {
                     content.map((item, index) => (
-                        <div key={index} className='gap-4 grid grid-cols-12 items-center py-2'>
+                        <div key={index} className={`gap-4 grid grid-cols-12 items-center py-4 ${index !== content.length - 1 ? "border-b border-zinc-200" :""}`}>
                             <div className='flex gap-2 items-center col-span-5'>
                                 <Image
                                     src={item.image}
