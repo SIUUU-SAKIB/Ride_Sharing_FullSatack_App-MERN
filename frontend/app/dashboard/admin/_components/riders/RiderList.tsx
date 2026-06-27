@@ -10,14 +10,14 @@ type IRideList = {
     status: string
 }
 type IRiderInfo = {
-    image:string,
-    name:string,
-    email:string,
-    status:string,
-    data:string,
-    createdAt:string,
-    isBlocked:boolean,
-    isDeleted:boolean
+    image: string,
+    name: string,
+    email: string,
+    status: string,
+    data: string,
+    createdAt: string,
+    isBlocked: boolean,
+    isDeleted: boolean
 }
 
 const headers = [
@@ -26,29 +26,28 @@ const headers = [
     { title: "STATUS" },
     { title: "ACTION" },
 ]
-const content = [
-    { image: null, name: "Macrus Bennett", phone: "0197923421", email: "demo213@gmail.com", date: "12 aug 2025", status: "APPROVED" },
-    { image: "/demo_profile.jpg", name: "Macrus Bennett", phone: "0197923421", email: "demo213@gmail.com", date: "12 aug 2025", status: "PENDING" },
-    { image: "/demo_profile.jpg", name: "Macrus Bennett", phone: "0197923421", email: "demo213@gmail.com", date: "12 aug 2025", status: "PENDING" },
-    { image: "/demo_profile.jpg", name: "Macrus Bennett", phone: "0197923421", email: "demo213@gmail.com", date: "12 aug 2025", status: "APPROVED" },
-    { image: undefined, name: "Angelique lapiedra", phone: "0197923421", email: "demo213@gmail.com", date: "12 aug 2025", status: "PENDING" },
-    { image: "/demo_profile.jpg", name: "Macrus Bennett", phone: "0197923421", email: "demo213@gmail.com", date: "12 aug 2025", status: "REJECTED" },
-]
+// const content = [
+//     { image: null, name: "Macrus Bennett", phone: "0197923421", email: "demo213@gmail.com", date: "12 aug 2025", status: "APPROVED" },
+//     { image: "/demo_profile.jpg", name: "Macrus Bennett", phone: "0197923421", email: "demo213@gmail.com", date: "12 aug 2025", status: "PENDING" },
+//     { image: "/demo_profile.jpg", name: "Macrus Bennett", phone: "0197923421", email: "demo213@gmail.com", date: "12 aug 2025", status: "PENDING" },
+//     { image: "/demo_profile.jpg", name: "Macrus Bennett", phone: "0197923421", email: "demo213@gmail.com", date: "12 aug 2025", status: "APPROVED" },
+//     { image: undefined, name: "Angelique lapiedra", phone: "0197923421", email: "demo213@gmail.com", date: "12 aug 2025", status: "PENDING" },
+//     { image: "/demo_profile.jpg", name: "Macrus Bennett", phone: "0197923421", email: "demo213@gmail.com", date: "12 aug 2025", status: "REJECTED" },
+// ]
 
 
 const RiderList = ({ search, status }: IRideList) => {
     const [page, setPage] = React.useState<number>(1)
     const [limit, setLimit] = React.useState<number>(5)
     const { data, isLoading, isError } = AdminHooks.getAllUsers(page, limit)
-   
 
 
-
-    if (isLoading) {
-        return <LoadingScreen />
-    }
-    if (isError) {
-        return <p className='text-red-500 font-bold text-4xl h-full text-center my-auto'>SOMETHING BAD HAPPEND</p>
+       const formatDate = (date: string) => {
+        const res = new Date(date).toLocaleDateString('en-GB', {
+            day: "numeric",
+            month: "short",
+            year: "numeric"
+        })
     }
     const printName = (name: string) => {
         return name.split(' ').map(e => e[0].toUpperCase()).join("")
@@ -58,6 +57,14 @@ const RiderList = ({ search, status }: IRideList) => {
     }
     const rejectButton = () => {
         alert(`rejected`)
+    }
+
+    
+    if (isLoading) {
+        return <LoadingScreen />
+    }
+    if (isError) {
+        return <p className='text-red-500 font-bold text-4xl h-full text-center my-auto'>SOMETHING BAD HAPPEND</p>
     }
     return (
         <div className=' bg-white p-4 my-8 '>
@@ -77,8 +84,8 @@ const RiderList = ({ search, status }: IRideList) => {
                 ))}
             </div>
             {
-                data?.data.map((item:IRiderInfo, index:number) => (
-                    <div key={index} className={`gap-4 grid grid-cols-12 items-center py-4 ${index !== content.length - 1 ? "border-b border-zinc-100" : ""}`}>
+                data?.data.map((item: IRiderInfo, index: number) => (
+                    <div key={index} className={`gap-4 grid grid-cols-12 items-center py-4 ${index !== data?.data?.length - 1 ? "border-b border-zinc-100" : ""}`}>
                         <div className='flex gap-2 items-center col-span-5'>
                             {item.image ? (
                                 <Image
@@ -101,14 +108,14 @@ const RiderList = ({ search, status }: IRideList) => {
                         <p className='text-(--neutral) grid col-span-2'>{item.createdAt}</p>
                         <div className={`${item.status === `PENDING` && "bg-yellow-100 text-yellow-800" || item.status === "REJECTED" && "bg-red-100 text-red-800" || item.status === "APPROVED" && "bg-green-100 text-green-800"} grid place-content-center py-1 rounded-full`}><p className='text-xs font-medium'>{item.status}</p></div>
                         <div className='grid ml-auto col-span-4 place-items-center grid-cols-6'>
-                            <button onClick={approveButton} className={`text-white  border border-transparent ${item.isBlocked?"bg-green-500 hover:bg-green-600" : "bg-red-500 hover:bg-red-600"} shadow-xs rounded-xl px-4 py-1 col-span-2 cursor-pointer  transition duration-150 font-medium}`}>{item.isBlocked? "Unblock" : "Block"}</button>
+                            <button onClick={approveButton} className={`text-white  border border-transparent ${item.isBlocked ? "bg-green-500 hover:bg-green-600" : "bg-red-500 hover:bg-red-600"} shadow-xs rounded-xl px-4 py-1 col-span-2 cursor-pointer  transition duration-150 font-medium}`}>{item.isBlocked ? "Unblock" : "Block"}</button>
                             <button onClick={rejectButton} className='text-red-500 border-red-600 border px-4 py-1 rounded-xl col-span-2 cursor-pointer hover:bg-red-500 transition duration-150 hover:text-white font-medium'>Delete</button>
                         </div>
                     </div>
                 ))
             }
             <div className='w-full px-2 py-4 flex items-center justify-between'>
-                <p className='text-sm'>Showing {limit} of {data.meta.total} entries</p>
+                <p className='text-sm'>Showing {data?.data?.length} of {data.meta.total} entries</p>
                 {/* PAGINATION */}
                 <div className='flex items-center'>
                     <ChevronLeft onClick={() => {
@@ -139,18 +146,18 @@ const RiderList = ({ search, status }: IRideList) => {
                     <button
                         onClick={() => setPage(3)}
                         className={`p-2 border transition duration-100 cursor-pointer ${page === 3
-                                ? "bg-(--primary) text-white border-(--primary)"
-                                : "hover:bg-gray-100 border-gray-200"
+                            ? "bg-(--primary) text-white border-(--primary)"
+                            : "hover:bg-gray-100 border-gray-200"
                             }`}
                     >
                         3
                     </button>
                     <div className='text-center h-full my-auto text-gray-400 px-2'>...</div>
-                <button
+                    <button
                         onClick={() => setPage(data?.meta?.totalPage)}
                         className={`p-2 border transition duration-100 cursor-pointer ${page === 3
-                                ? "bg-(--primary) text-white border-(--primary)"
-                                : "hover:bg-gray-100 border-gray-200"
+                            ? "bg-(--primary) text-white border-(--primary)"
+                            : "hover:bg-gray-100 border-gray-200"
                             }`}
                     >
                         {data?.meta?.totalPage}

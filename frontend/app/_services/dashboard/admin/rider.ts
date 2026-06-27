@@ -1,5 +1,5 @@
 const getAllUsers = async(page:number, limit:number) => {
-    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/admin/get-all-users?$page=${page}&limit=${limit}`, {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/admin/get-all-users?page=${page}&limit=${limit}`, {
         credentials:'include'
     })
     const data = await response.json();
