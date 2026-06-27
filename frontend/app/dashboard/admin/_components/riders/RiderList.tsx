@@ -9,7 +9,16 @@ type IRideList = {
     search: string,
     status: string
 }
-
+type IRiderInfo = {
+    image:string,
+    name:string,
+    email:string,
+    status:string,
+    data:string,
+    createdAt:string,
+    isBlocked:boolean,
+    isDeleted:boolean
+}
 
 const headers = [
     { title: "RIDER" },
@@ -28,11 +37,10 @@ const content = [
 
 
 const RiderList = ({ search, status }: IRideList) => {
-    const { data, isLoading, isError } = AdminHooks.getAllUsers(1, 5)
-    console.log(data?.meta?.total)
     const [page, setPage] = React.useState<number>(1)
     const [limit, setLimit] = React.useState<number>(5)
-
+    const { data, isLoading, isError } = AdminHooks.getAllUsers(page, limit)
+   
 
 
 
@@ -69,7 +77,7 @@ const RiderList = ({ search, status }: IRideList) => {
                 ))}
             </div>
             {
-                content.map((item, index) => (
+                data?.data.map((item:IRiderInfo, index:number) => (
                     <div key={index} className={`gap-4 grid grid-cols-12 items-center py-4 ${index !== content.length - 1 ? "border-b border-zinc-100" : ""}`}>
                         <div className='flex gap-2 items-center col-span-5'>
                             {item.image ? (
@@ -90,11 +98,11 @@ const RiderList = ({ search, status }: IRideList) => {
                                 <p className='text-base text-(--neutral)'>{item.email}</p>
                             </div>
                         </div>
-                        <p className='text-(--neutral) grid col-span-2'>{item.date}</p>
+                        <p className='text-(--neutral) grid col-span-2'>{item.createdAt}</p>
                         <div className={`${item.status === `PENDING` && "bg-yellow-100 text-yellow-800" || item.status === "REJECTED" && "bg-red-100 text-red-800" || item.status === "APPROVED" && "bg-green-100 text-green-800"} grid place-content-center py-1 rounded-full`}><p className='text-xs font-medium'>{item.status}</p></div>
                         <div className='grid ml-auto col-span-4 place-items-center grid-cols-6'>
-                            <button onClick={approveButton} className='text-white  border border-transparent bg-green-500 shadow-xs rounded-xl px-4 py-1 col-span-2 cursor-pointer hover:bg-green-600 transition duration-150 font-medium'>Approve</button>
-                            <button onClick={rejectButton} className='text-red-500 border-red-600 border px-4 py-1 rounded-xl col-span-2 cursor-pointer hover:bg-red-500 transition duration-150 hover:text-white font-medium'>Reject</button>
+                            <button onClick={approveButton} className={`text-white  border border-transparent ${item.isBlocked?"bg-green-500 hover:bg-green-600" : "bg-red-500 hover:bg-red-600"} shadow-xs rounded-xl px-4 py-1 col-span-2 cursor-pointer  transition duration-150 font-medium}`}>{item.isBlocked? "Unblock" : "Block"}</button>
+                            <button onClick={rejectButton} className='text-red-500 border-red-600 border px-4 py-1 rounded-xl col-span-2 cursor-pointer hover:bg-red-500 transition duration-150 hover:text-white font-medium'>Delete</button>
                         </div>
                     </div>
                 ))
