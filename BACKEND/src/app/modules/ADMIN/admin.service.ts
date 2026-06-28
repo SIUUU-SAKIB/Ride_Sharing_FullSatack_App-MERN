@@ -80,7 +80,15 @@ const getAllUser = async (page: number, limit: number, skip: number) => {
     allUser, totalUser
   }
 }
-
+const blockUser = async (_id: string) => {
+  const user = await UserDB.findById(_id)
+  if (!user) {
+    throw new AppError(StatusCodes.NOT_FOUND, "Admin not found")
+  }
+  user.isBlocked = true
+  await user.save()
+  return user
+}
 const updateUserByAdmin = async (id: string, payload: Partial<IUser>) => {
   const isUserExist = await UserDB.findById(id)
   if (!isUserExist) {
@@ -159,7 +167,6 @@ const approveApplication = async (_id: string) => {
     email:user.email,
     licenseImage: application.licenseImage,
     vehicleImage: application.vehicleImage,
-    nidImage: application.nidImage,
     vehicleNumber: application.vehicleNumber,
     licenseNumber: application.licenseNumber,
     vehicleType: application.vehicleType,

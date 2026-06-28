@@ -46,8 +46,12 @@ const RiderList = ({ search, status }: IRideList) => {
         const res = new Date(date).toLocaleDateString('en-GB', {
             day: "numeric",
             month: "short",
-            year: "numeric"
+            year: "numeric",
+            hour:'numeric',
+            minute:'numeric',
+            second:'numeric'
         })
+        return res
     }
     const printName = (name: string) => {
         return name.split(' ').map(e => e[0].toUpperCase()).join("")
@@ -105,7 +109,7 @@ const RiderList = ({ search, status }: IRideList) => {
                                 <p className='text-base text-(--neutral)'>{item.email}</p>
                             </div>
                         </div>
-                        <p className='text-(--neutral) grid col-span-2'>{item.createdAt}</p>
+                        <p className='text-(--neutral) grid col-span-2'>{formatDate(item.createdAt)}</p>
                         <div className={`${item.status === `PENDING` && "bg-yellow-100 text-yellow-800" || item.status === "REJECTED" && "bg-red-100 text-red-800" || item.status === "APPROVED" && "bg-green-100 text-green-800"} grid place-content-center py-1 rounded-full`}><p className='text-xs font-medium'>{item.status}</p></div>
                         <div className='grid ml-auto col-span-4 place-items-center grid-cols-6'>
                             <button onClick={approveButton} className={`text-white  border border-transparent ${item.isBlocked ? "bg-green-500 hover:bg-green-600" : "bg-red-500 hover:bg-red-600"} shadow-xs rounded-xl px-4 py-1 col-span-2 cursor-pointer  transition duration-150 font-medium}`}>{item.isBlocked ? "Unblock" : "Block"}</button>
