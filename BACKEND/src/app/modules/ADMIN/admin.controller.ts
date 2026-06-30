@@ -8,6 +8,7 @@ import sendResponse from "../../utils/sendResponse"
 import { AdminDB } from "./admin.model"
 import { enviromentVariables } from "../../config/env"
 import { DriverApplicationDB } from "../DRIVER/driver.model"
+import { UserService } from "../USER/user.service"
 
 const createAdmin = catchAsync(async (req: Request, res: Response) => {
     const payload: Partial<IAdmin> = req.body
@@ -80,6 +81,23 @@ const getAllUser = catchAsync(async (req: Request, res: Response) => {
 
     })
 })
+
+const blockUser = catchAsync(async (req: Request, res: Response) => {
+    const  user_id  = req.params.id
+    if (!user_id) {
+        throw new AppError(StatusCodes.BAD_REQUEST, "User id is required")
+    }
+    const result = await AdminService.blockUser(user_id as string)
+    sendResponse(res, {
+        success: true,
+        statusCode: StatusCodes.OK,
+        message: "User blocked successfully",
+        data: result
+    })
+})
+
+
+
 const getAllAdmin = catchAsync(async (req: Request, res: Response) => {
     const { page = "1", limit = "10" } = req.query
     const pageNumber = Number(page)
@@ -139,7 +157,7 @@ const deleteUser = catchAsync(async (req: Request, res: Response) => {
         throw new AppError(StatusCodes.UNAUTHORIZED, "Unauthrized request")
     }
     const id = req.params.id
-    const result = await AdminService.deleteUser(id as string, req.user?._id)
+    await AdminService.deleteUser(id as string, req.user?._id)
 
 
     sendResponse(res, {
@@ -223,6 +241,7 @@ export const AdminController = {
     getAllAdmin,
     approveApplication,
     rejectApplication,
-    allApplications
+    allApplications,
+    blockUser
 }
 

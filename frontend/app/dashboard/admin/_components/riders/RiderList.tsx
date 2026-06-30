@@ -5,6 +5,7 @@ import { ChevronLeft, ChevronRight, MoveLeft } from 'lucide-react'
 import Image from 'next/image'
 import React from 'react'
 import { FaLeftLong, FaRightLong } from "react-icons/fa6";
+import Swal from "sweetalert2"
 type IRideList = {
     search: string,
     status: string
@@ -17,7 +18,8 @@ type IRiderInfo = {
     data: string,
     createdAt: string,
     isBlocked: boolean,
-    isDeleted: boolean
+    isDeleted: boolean,
+    _id:string
 }
 
 const headers = [
@@ -39,8 +41,8 @@ const headers = [
 const RiderList = ({ search, status }: IRideList) => {
     const [page, setPage] = React.useState<number>(1)
     const [limit, setLimit] = React.useState<number>(5)
-    const { data, isLoading, isError } = AdminHooks.getAllUsers(page, limit)
-
+    const { data, isLoading, isError } = AdminHooks.useGetAllUsers(page, limit)
+    const blockUserMutation =  AdminHooks.useblockUser()
 
        const formatDate = (date: string) => {
         const res = new Date(date).toLocaleDateString('en-GB', {
@@ -56,8 +58,25 @@ const RiderList = ({ search, status }: IRideList) => {
     const printName = (name: string) => {
         return name.split(' ').map(e => e[0].toUpperCase()).join("")
     }
-    const approveButton = () => {
-        alert(`approved`)
+    const blockButton = (_id:string) => {
+       Swal.fire({
+  title: "Are you sure?",
+  text: "You really want to block this user?",
+  icon: "warning",
+  showCancelButton: true,
+  confirmButtonColor: "#3085d6",
+  cancelButtonColor: "#d33",
+  confirmButtonText: "Yes, block the user!"
+}).then((result) => {
+    const res = blockUserMutation.mutate(_id)
+    console.log(res)
+  if (result.isConfirmed) Swal.fire({
+    title: "Deleted!",
+    text: "Your file has been deleted.",
+    icon: "success"
+  });
+}
+);
     }
     const rejectButton = () => {
         alert(`rejected`)
@@ -112,7 +131,7 @@ const RiderList = ({ search, status }: IRideList) => {
                         <p className='text-(--neutral) grid col-span-2'>{formatDate(item.createdAt)}</p>
                         <div className={`${item.status === `PENDING` && "bg-yellow-100 text-yellow-800" || item.status === "REJECTED" && "bg-red-100 text-red-800" || item.status === "APPROVED" && "bg-green-100 text-green-800"} grid place-content-center py-1 rounded-full`}><p className='text-xs font-medium'>{item.status}</p></div>
                         <div className='grid ml-auto col-span-4 place-items-center grid-cols-6'>
-                            <button onClick={approveButton} className={`text-white  border border-transparent ${item.isBlocked ? "bg-green-500 hover:bg-green-600" : "bg-red-500 hover:bg-red-600"} shadow-xs rounded-xl px-4 py-1 col-span-2 cursor-pointer  transition duration-150 font-medium}`}>{item.isBlocked ? "Unblock" : "Block"}</button>
+                            <button onClick={()=>blockButton(item._id)} className={`text-white  border border-transparent ${item.isBlocked ? "bg-green-500 hover:bg-green-600" : "bg-red-500 hover:bg-red-600"} shadow-xs rounded-xl px-4 py-1 col-span-2 cursor-pointer  transition duration-150 font-medium}`}>{item.isBlocked ? "Unblock" : "Block"}</button>
                             <button onClick={rejectButton} className='text-red-500 border-red-600 border px-4 py-1 rounded-xl col-span-2 cursor-pointer hover:bg-red-500 transition duration-150 hover:text-white font-medium'>Delete</button>
                         </div>
                     </div>

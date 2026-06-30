@@ -14,7 +14,8 @@ router.get(`/get-all-users`,
     authentication(IAdminRole.ADMIN, IAdminRole.SUPER_ADMIN
     ),
     AdminController.getAllUser);
-
+// *BLOCK USER
+router.patch('/block-user/:id', authentication(IAdminRole.ADMIN ,IAdminRole.SUPER_ADMIN), AdminController.blockUser)
     // *SEE ALL APPLICATIONS
 
 router.get(`/all-applications`,

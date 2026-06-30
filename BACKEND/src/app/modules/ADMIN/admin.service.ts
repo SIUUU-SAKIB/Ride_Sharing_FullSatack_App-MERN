@@ -81,9 +81,11 @@ const getAllUser = async (page: number, limit: number, skip: number) => {
   }
 }
 const blockUser = async (_id: string) => {
+  console.log(_id)
   const user = await UserDB.findById(_id)
+  console.log(user)
   if (!user) {
-    throw new AppError(StatusCodes.NOT_FOUND, "Admin not found")
+    throw new AppError(StatusCodes.NOT_FOUND, "User not found")
   }
   user.isBlocked = true
   await user.save()
@@ -223,5 +225,6 @@ export const AdminService = {
   deleteUser,
   getAllAdmin,
   approveApplication,
-  rejectApplication
+  rejectApplication,
+  blockUser
 }
