@@ -1,3 +1,5 @@
+const URL =process.env.NEXT_PUBLIC_API_URL
+
 const getAllUsers = async(page:number, limit:number) => {
     const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/admin/get-all-users?page=${page}&limit=${limit}`, {
         credentials:'include'
@@ -11,7 +13,7 @@ if (!response.ok) {
 return data;
 }
 const getSingleUser = async(id:string) => {
-const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/admin/get-single-user/${id}`, {
+const response = await fetch(`${URL}/admin/get-single-user/${id}`, {
     credentials:'include'
 })    
   if (!response.ok) {
@@ -20,7 +22,7 @@ const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/admin/get-singl
     return response.json()
 }
 const blockUser = async(id:string) => {
-    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/admin/block-user/${id}`,{
+    const response = await fetch(`${URL}/admin/block-user/${id}`,{
           
             method: "PATCH",
             credentials:"include",
@@ -39,7 +41,7 @@ const blockUser = async(id:string) => {
     return data
 }
 const unblockUser = async(id:string) => {
-    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/admin/unblock-user/${id}`,{
+    const response = await fetch(`${URL}/admin/unblock-user/${id}`,{
           
             method: "PATCH",
             credentials:"include",
@@ -57,4 +59,24 @@ const unblockUser = async(id:string) => {
     }
     return data
 }
-export const AdminServiceForRider = {getAllUsers, blockUser, unblockUser, getSingleUser}
+
+const deleteUser = async(id:string) => {
+    const response = await fetch(`${URL}/admin/delete-user/${id}`,{
+          
+            method: "DELETE",
+            credentials:"include",
+            headers: {
+                "Content-Type": "application/json"
+            },
+        
+    })
+ const data = await response.json()
+    if (!response.ok) {
+        throw new Error(
+            data.message ||
+            "Failed to delete the user"
+        )
+    }
+    return data
+}
+export const AdminServiceForRider = {getAllUsers, blockUser, unblockUser, getSingleUser, deleteUser}

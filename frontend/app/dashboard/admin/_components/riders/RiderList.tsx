@@ -5,8 +5,8 @@ import { AdminServiceForRider } from '@/app/_services/dashboard/admin/rider'
 import { ChevronLeft, ChevronRight, MoveLeft } from 'lucide-react'
 import Image from 'next/image'
 import React from 'react'
-import { FaLeftLong, FaRightLong } from "react-icons/fa6";
 import Swal from "sweetalert2"
+
 type IRideList = {
     search: string,
     status: string
@@ -29,23 +29,18 @@ const headers = [
     { title: "STATUS" },
     { title: "ACTION" },
 ]
-// const content = [
-//     { image: null, name: "Macrus Bennett", phone: "0197923421", email: "demo213@gmail.com", date: "12 aug 2025", status: "APPROVED" },
-//     { image: "/demo_profile.jpg", name: "Macrus Bennett", phone: "0197923421", email: "demo213@gmail.com", date: "12 aug 2025", status: "PENDING" },
-//     { image: "/demo_profile.jpg", name: "Macrus Bennett", phone: "0197923421", email: "demo213@gmail.com", date: "12 aug 2025", status: "PENDING" },
-//     { image: "/demo_profile.jpg", name: "Macrus Bennett", phone: "0197923421", email: "demo213@gmail.com", date: "12 aug 2025", status: "APPROVED" },
-//     { image: undefined, name: "Angelique lapiedra", phone: "0197923421", email: "demo213@gmail.com", date: "12 aug 2025", status: "PENDING" },
-//     { image: "/demo_profile.jpg", name: "Macrus Bennett", phone: "0197923421", email: "demo213@gmail.com", date: "12 aug 2025", status: "REJECTED" },
-// ]
-
 
 const RiderList = ({ search, status }: IRideList) => {
+    // STATES
+    const [filter, setFilter] = React.useState<String>(search)  
+    console.log(search)
     const [page, setPage] = React.useState<number>(1)
     const [limit, setLimit] = React.useState<number>(5)
     const { data, isLoading, isError } = AdminHooks.useGetAllUsers(page, limit)
+    // HOOKS
     const blockUserMutation = AdminHooks.useblockUser()
     const unblcokUserMutation = AdminHooks.useUnblockUser()
-
+    const deleteUserMutation = AdminHooks.useDeleteUser()
     // DATE FORMAT
     const formatDate = (date: string) => {
         const res = new Date(date).toLocaleDateString('en-GB', {
@@ -88,6 +83,24 @@ const RiderList = ({ search, status }: IRideList) => {
 
     function deleteButton(id: string) {
 
+        Swal.fire({
+            title: "Are you sure?",
+            text: `You really want to delete this user?`,
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: `Yes, delete the user!`
+        }).then(async (result) => {
+            if (!result.isConfirmed) return
+            const res = deleteUserMutation.mutate(id)
+            if (result.isConfirmed) Swal.fire({
+                title: `Deleted!`,
+                text: `User has been successfully deleted`,
+                icon: "success"
+            });
+        }
+        );
     }
 
     if (isLoading) {

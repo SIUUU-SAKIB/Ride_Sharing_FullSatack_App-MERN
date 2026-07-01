@@ -74,8 +74,9 @@ const blockAdmin = async (_id: string) => {
 
 
 const getAllUser = async (page: number, limit: number, skip: number) => {
-  const allUser = await UserDB.find().skip(skip).limit(limit)
-  const totalUser = await UserDB.countDocuments()
+  const allUser = await UserDB.find({role:IUserRole.RIDER}).skip(skip).limit(limit)
+  const totalUser = await UserDB.countDocuments({role:"RIDER"})
+  console.log(allUser)
   return {
     allUser, totalUser
   }
@@ -87,6 +88,7 @@ const blockUser = async (_id: string) => {
   }
   user.isBlocked = true
   await user.save()
+
   return user
 }
 const unblockUser = async (_id: string) => {

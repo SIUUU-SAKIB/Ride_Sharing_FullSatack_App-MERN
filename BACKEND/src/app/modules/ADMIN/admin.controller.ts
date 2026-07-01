@@ -169,8 +169,6 @@ const deleteUser = catchAsync(async (req: Request, res: Response) => {
     }
     const {id} = req.params
     await AdminService.deleteUser(id as string)
-
-
     sendResponse(res, {
         success: true,
         statusCode: StatusCodes.OK,

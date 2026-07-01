@@ -41,6 +41,19 @@ const useUnblockUser = () => {
         },
     })
 }
+const useDeleteUser  = () => {
+    const queryClient = useQueryClient()
+    return useMutation({
+        mutationFn:(id:string) => AdminServiceForRider.deleteUser(id),
+        onSuccess:() => {
+            queryClient.invalidateQueries({
+                queryKey:['all-users']
+            })
+        }
+    }
+
+    )
+}
 export const AdminHooks = {
-    useGetAllUsers, useblockUser, useUnblockUser, useGetSingleUser
+    useGetAllUsers, useblockUser, useUnblockUser, useGetSingleUser, useDeleteUser
 }
