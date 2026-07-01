@@ -1,5 +1,7 @@
 import { AdminServiceForRider } from "@/app/_services/dashboard/admin/rider"
-import { useMutation, useQuery } from "@tanstack/react-query"
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
+
+
 
 const useGetAllUsers = (page: number, limit: number) => {
     return useQuery({
@@ -8,11 +10,37 @@ const useGetAllUsers = (page: number, limit: number) => {
     }
     )
 }
+const useGetSingleUser = (id:string) => {
+    return useQuery({
+        queryKey:['get-single-user', id],
+        queryFn: () => AdminServiceForRider.getSingleUser(id),
+        enabled: !!id
+    }
+    )
+}
 const useblockUser = () => {
+    const queryClient = useQueryClient()
     return useMutation({
-        mutationFn: (id:string) => AdminServiceForRider.blockUser(id)
+        mutationFn: (id:string) => AdminServiceForRider.blockUser(id),
+        onSuccess:() => {
+            queryClient.invalidateQueries({
+                queryKey:['all-users']
+            })
+        },
+    })
+}
+
+const useUnblockUser = () => {
+    const queryClient = useQueryClient()
+    return useMutation({
+        mutationFn: (id:string) => AdminServiceForRider.unblockUser(id),
+         onSuccess:() => {
+            queryClient.invalidateQueries({
+                queryKey:['all-users']
+            })
+        },
     })
 }
 export const AdminHooks = {
-    useGetAllUsers, useblockUser
+    useGetAllUsers, useblockUser, useUnblockUser, useGetSingleUser
 }

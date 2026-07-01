@@ -15,12 +15,17 @@ router.get(`/get-all-users`,
     ),
     AdminController.getAllUser);
 // *BLOCK USER
-router.patch('/block-user/:id', authentication(IAdminRole.ADMIN ,IAdminRole.SUPER_ADMIN), AdminController.blockUser)
-    // *SEE ALL APPLICATIONS
+router.patch('/block-user/:id', authentication(IAdminRole.ADMIN, IAdminRole.SUPER_ADMIN), AdminController.blockUser)
+// *SEE ALL APPLICATIONS
 
+// *UBLOCK USER
+router.patch(`/unblock-user/:id`, authentication(IAdminRole.ADMIN, IAdminRole.SUPER_ADMIN), AdminController.unblockUser)
 router.get(`/all-applications`,
-     authentication(IAdminRole.ADMIN, IAdminRole.SUPER_ADMIN),
-      AdminController.allApplications)
+    authentication(IAdminRole.ADMIN, IAdminRole.SUPER_ADMIN),
+    AdminController.allApplications)
+
+    // *DELETE USER
+    router.delete(`/delete-user/:id`, authentication(IAdminRole.ADMIN, IAdminRole.SUPER_ADMIN), AdminController.deleteUser)
 // *GET USER BY ROLE
 
 router.get(`/get-users-by-role`,

@@ -81,13 +81,20 @@ const getAllUser = async (page: number, limit: number, skip: number) => {
   }
 }
 const blockUser = async (_id: string) => {
-  console.log(_id)
   const user = await UserDB.findById(_id)
-  console.log(user)
   if (!user) {
     throw new AppError(StatusCodes.NOT_FOUND, "User not found")
   }
   user.isBlocked = true
+  await user.save()
+  return user
+}
+const unblockUser = async (_id: string) => {
+  const user = await UserDB.findById(_id)
+  if (!user) {
+    throw new AppError(StatusCodes.NOT_FOUND, "User not found")
+  }
+  user.isBlocked = false
   await user.save()
   return user
 }
@@ -118,14 +125,10 @@ const getSingleUser = async (id: string) => {
   return user
 }
 
-const deleteUser = async (id: string, userId: string) => {
+const deleteUser = async (id: string) => {
   const isUserExist = await UserDB.findById(id)
   if (!isUserExist) {
     throw new AppError(StatusCodes.NOT_FOUND, "User not found")
-  }
-  const authenticateAccount = userId === isUserExist._id.toString()
-  if (!authenticateAccount) {
-    throw new AppError(StatusCodes.FORBIDDEN, "You are not allowed to delete this account")
   }
   return await UserDB.findByIdAndDelete(id)
 }
@@ -226,5 +229,6 @@ export const AdminService = {
   getAllAdmin,
   approveApplication,
   rejectApplication,
-  blockUser
+  blockUser,
+  unblockUser
 }

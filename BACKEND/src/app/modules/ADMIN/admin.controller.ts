@@ -64,7 +64,6 @@ const verifyEmail = catchAsync(async (req: Request, res: Response) => {
     await user.save()
     res.redirect(`https://www.pexels.com/`)
 })
-
 const getAllUser = catchAsync(async (req: Request, res: Response) => {
 
     const { page = "1", limit = "5" } = req.query
@@ -95,7 +94,19 @@ const blockUser = catchAsync(async (req: Request, res: Response) => {
         data: result
     })
 })
-
+const unblockUser = catchAsync(async (req: Request, res: Response) => {
+    const  user_id  = req.params.id
+    if (!user_id) {
+        throw new AppError(StatusCodes.BAD_REQUEST, "User id is required")
+    }
+    const result = await AdminService.unblockUser(user_id as string)
+    sendResponse(res, {
+        success: true,
+        statusCode: StatusCodes.OK,
+        message: "User unblocked successfully",
+        data: result
+    })
+})
 
 
 const getAllAdmin = catchAsync(async (req: Request, res: Response) => {
@@ -156,8 +167,8 @@ const deleteUser = catchAsync(async (req: Request, res: Response) => {
     if (!req.user?._id) {
         throw new AppError(StatusCodes.UNAUTHORIZED, "Unauthrized request")
     }
-    const id = req.params.id
-    await AdminService.deleteUser(id as string, req.user?._id)
+    const {id} = req.params
+    await AdminService.deleteUser(id as string)
 
 
     sendResponse(res, {
@@ -178,7 +189,7 @@ const getSingleUser = catchAsync(async (req: Request, res: Response) => {
     sendResponse(res, {
         success: true,
         statusCode: StatusCodes.OK,
-        message: `User with ID ${result?._id} retrived successfully.`,
+        message: `User with ID ${result?._id} fetched successfully.`,
         data: result
     })
 
@@ -242,6 +253,7 @@ export const AdminController = {
     approveApplication,
     rejectApplication,
     allApplications,
-    blockUser
+    blockUser,
+    unblockUser
 }
 

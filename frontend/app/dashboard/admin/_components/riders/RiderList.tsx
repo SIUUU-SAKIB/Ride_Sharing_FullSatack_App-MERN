@@ -1,6 +1,7 @@
 'use client'
 import LoadingScreen from '@/app/_components/ui/LoadingScreen'
 import { AdminHooks } from '@/app/_hooks/dashboard/admin/rider'
+import { AdminServiceForRider } from '@/app/_services/dashboard/admin/rider'
 import { ChevronLeft, ChevronRight, MoveLeft } from 'lucide-react'
 import Image from 'next/image'
 import React from 'react'
@@ -19,7 +20,7 @@ type IRiderInfo = {
     createdAt: string,
     isBlocked: boolean,
     isDeleted: boolean,
-    _id:string
+    _id: string
 }
 
 const headers = [
@@ -42,47 +43,53 @@ const RiderList = ({ search, status }: IRideList) => {
     const [page, setPage] = React.useState<number>(1)
     const [limit, setLimit] = React.useState<number>(5)
     const { data, isLoading, isError } = AdminHooks.useGetAllUsers(page, limit)
-    const blockUserMutation =  AdminHooks.useblockUser()
+    const blockUserMutation = AdminHooks.useblockUser()
+    const unblcokUserMutation = AdminHooks.useUnblockUser()
 
-       const formatDate = (date: string) => {
+    // DATE FORMAT
+    const formatDate = (date: string) => {
         const res = new Date(date).toLocaleDateString('en-GB', {
             day: "numeric",
             month: "short",
             year: "numeric",
-            hour:'numeric',
-            minute:'numeric',
-            second:'numeric'
+            hour: 'numeric',
+            minute: 'numeric',
+            second: 'numeric'
         })
         return res
     }
+    // USER NAME FORMATTER
     const printName = (name: string) => {
         return name.split(' ').map(e => e[0].toUpperCase()).join("")
     }
-    const blockButton = (_id:string) => {
-       Swal.fire({
-  title: "Are you sure?",
-  text: "You really want to block this user?",
-  icon: "warning",
-  showCancelButton: true,
-  confirmButtonColor: "#3085d6",
-  cancelButtonColor: "#d33",
-  confirmButtonText: "Yes, block the user!"
-}).then((result) => {
-    const res = blockUserMutation.mutate(_id)
-    console.log(res)
-  if (result.isConfirmed) Swal.fire({
-    title: "Deleted!",
-    text: "Your file has been deleted.",
-    icon: "success"
-  });
-}
-);
-    }
-    const rejectButton = () => {
-        alert(`rejected`)
+
+    const blockUnblockBtn = async (_id: string) => {
+        const user = await AdminServiceForRider.getSingleUser(_id)
+        const { isBlocked, name } = user?.data
+        Swal.fire({
+            title: "Are you sure?",
+            text: `You really want to ${isBlocked ? "unblock" : "block"} this user?`,
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: `Yes, ${isBlocked ? "unblock" : "block"} the user!`
+        }).then(async (result) => {
+            if (!result.isConfirmed) return
+            isBlocked ? await unblcokUserMutation.mutateAsync(_id) : await blockUserMutation.mutateAsync(_id)
+            if (result.isConfirmed) Swal.fire({
+                title: `${isBlocked ? "Unblocked" : "Blocked"}!`,
+                text: `${name} has been successfully ${isBlocked ? "unblock" : "block"}`,
+                icon: "success"
+            });
+        }
+        );
     }
 
-    
+    function deleteButton(id: string) {
+
+    }
+
     if (isLoading) {
         return <LoadingScreen />
     }
@@ -131,8 +138,8 @@ const RiderList = ({ search, status }: IRideList) => {
                         <p className='text-(--neutral) grid col-span-2'>{formatDate(item.createdAt)}</p>
                         <div className={`${item.status === `PENDING` && "bg-yellow-100 text-yellow-800" || item.status === "REJECTED" && "bg-red-100 text-red-800" || item.status === "APPROVED" && "bg-green-100 text-green-800"} grid place-content-center py-1 rounded-full`}><p className='text-xs font-medium'>{item.status}</p></div>
                         <div className='grid ml-auto col-span-4 place-items-center grid-cols-6'>
-                            <button onClick={()=>blockButton(item._id)} className={`text-white  border border-transparent ${item.isBlocked ? "bg-green-500 hover:bg-green-600" : "bg-red-500 hover:bg-red-600"} shadow-xs rounded-xl px-4 py-1 col-span-2 cursor-pointer  transition duration-150 font-medium}`}>{item.isBlocked ? "Unblock" : "Block"}</button>
-                            <button onClick={rejectButton} className='text-red-500 border-red-600 border px-4 py-1 rounded-xl col-span-2 cursor-pointer hover:bg-red-500 transition duration-150 hover:text-white font-medium'>Delete</button>
+                            <button onClick={() => blockUnblockBtn(item._id)} disabled={blockUserMutation.isPending || unblcokUserMutation.isPending} className={`text-white  border border-transparent ${item.isBlocked ? "bg-green-500 hover:bg-green-600" : "bg-red-500 hover:bg-red-600"} shadow-xs rounded-xl px-4 py-1 col-span-2 cursor-pointer  transition duration-150 font-medium}`}>{item.isBlocked ? "Unblock" : "Block"}</button>
+                            <button onClick={() => deleteButton(item._id)} className='text-red-500 border-red-600 border px-4 py-1 rounded-xl col-span-2 cursor-pointer hover:bg-red-500 transition duration-150 hover:text-white font-medium'>Delete</button>
                         </div>
                     </div>
                 ))
