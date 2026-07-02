@@ -8,8 +8,7 @@ import React from 'react'
 import Swal from "sweetalert2"
 
 type IRideList = {
-    search: string,
-    status: string
+    search: string
 }
 type IRiderInfo = {
     image: string,
@@ -30,13 +29,11 @@ const headers = [
     { title: "ACTION" },
 ]
 
-const RiderList = ({ search, status }: IRideList) => {
+const RiderList = ({ search}: IRideList) => {
     // STATES
-    const [filter, setFilter] = React.useState<String>(search)  
-    console.log(search)
     const [page, setPage] = React.useState<number>(1)
     const [limit, setLimit] = React.useState<number>(5)
-    const { data, isLoading, isError } = AdminHooks.useGetAllUsers(page, limit)
+    const { data, isLoading, isError } = AdminHooks.useGetAllUsers(page, limit, search)
     // HOOKS
     const blockUserMutation = AdminHooks.useblockUser()
     const unblcokUserMutation = AdminHooks.useUnblockUser()

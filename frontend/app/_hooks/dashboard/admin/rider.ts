@@ -3,10 +3,10 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 
 
 
-const useGetAllUsers = (page: number, limit: number) => {
+const useGetAllUsers = (page: number, limit: number, search:string) => {
     return useQuery({
-        queryKey: ['all-users', page, limit],
-        queryFn: () => AdminServiceForRider.getAllUsers(page, limit)
+        queryKey: ['all-users', page, limit, search],
+        queryFn: () => AdminServiceForRider.getAllUsers(page, limit, search)
     }
     )
 }

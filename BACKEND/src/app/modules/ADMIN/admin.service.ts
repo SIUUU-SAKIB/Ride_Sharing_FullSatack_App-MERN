@@ -73,14 +73,47 @@ const blockAdmin = async (_id: string) => {
 }
 
 
-const getAllUser = async (page: number, limit: number, skip: number) => {
-  const allUser = await UserDB.find({role:IUserRole.RIDER}).skip(skip).limit(limit)
-  const totalUser = await UserDB.countDocuments({role:"RIDER"})
-  console.log(allUser)
-  return {
-    allUser, totalUser
-  }
-}
+const getAllUser = async (
+    page: number,
+    limit: number,
+    skip: number,
+    search: string
+) => {
+    const query: any = {
+        role: IUserRole.RIDER,
+    };
+
+    if (search) {
+        query.$or = [
+            {
+                name: {
+                    $regex: search,
+                    $options: "i",
+                },
+            },
+            {
+                email: {
+                    $regex: search,
+                    $options: "i",
+                },
+            },
+            {
+                phone: {
+                    $regex: search,
+                    $options: "i",
+                },
+            },
+        ];
+    }
+    const allUsers = await UserDB.find(query)
+        .skip(skip)
+        .limit(limit);
+    const totalUsers = await UserDB.countDocuments(query);
+    return {
+        allUsers,
+        totalUsers,
+    };
+};
 const blockUser = async (_id: string) => {
   const user = await UserDB.findById(_id)
   if (!user) {

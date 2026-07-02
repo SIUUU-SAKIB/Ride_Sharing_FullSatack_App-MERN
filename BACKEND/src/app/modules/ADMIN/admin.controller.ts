@@ -65,21 +65,36 @@ const verifyEmail = catchAsync(async (req: Request, res: Response) => {
     res.redirect(`https://www.pexels.com/`)
 })
 const getAllUser = catchAsync(async (req: Request, res: Response) => {
+    const {
+        page = "1",
+        limit = "5",
+        search = "",
+    } = req.query;
 
-    const { page = "1", limit = "5" } = req.query
-    const pageNumber = Number(page)
-    const limitNumber = Number(limit)
-    const skip = (pageNumber - 1) * limitNumber
-    const result = await AdminService.getAllUser(pageNumber, limitNumber, skip)
+    const pageNumber = Number(page);
+    const limitNumber = Number(limit);
+    const skip = (pageNumber - 1) * limitNumber;
+
+    const result = await AdminService.getAllUser(
+        pageNumber,
+        limitNumber,
+        skip,
+        search as string
+    );
+
     sendResponse(res, {
         success: true,
         statusCode: StatusCodes.OK,
-        message: "All user retrived successfully 😍",
-        meta: { total: result.totalUser, page: pageNumber, limit: limitNumber, totalPage: Math.ceil(result.totalUser / limitNumber) },
-        data: result.allUser,
-
-    })
-})
+        message: "All users retrieved successfully 😍",
+        meta: {
+            total: result.totalUsers,
+            page: pageNumber,
+            limit: limitNumber,
+            totalPage: Math.ceil(result.totalUsers / limitNumber),
+        },
+        data: result.allUsers,
+    });
+});
 
 const blockUser = catchAsync(async (req: Request, res: Response) => {
     const  user_id  = req.params.id
@@ -161,7 +176,6 @@ const getUserByRole = catchAsync(async (req: Request, res: Response) => {
 
     })
 })
-
 
 const deleteUser = catchAsync(async (req: Request, res: Response) => {
     if (!req.user?._id) {
