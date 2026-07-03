@@ -19,7 +19,8 @@ type IRiderInfo = {
     createdAt: string,
     isBlocked: boolean,
     isDeleted: boolean,
-    _id: string
+    _id: string,
+    profilePhoto:string
 }
 
 const headers = [
@@ -35,9 +36,11 @@ const RiderList = ({ search}: IRideList) => {
     const [limit, setLimit] = React.useState<number>(5)
     const { data, isLoading, isError } = AdminHooks.useGetAllUsers(page, limit, search)
     // HOOKS
+
     const blockUserMutation = AdminHooks.useblockUser()
     const unblcokUserMutation = AdminHooks.useUnblockUser()
     const deleteUserMutation = AdminHooks.useDeleteUser()
+    console.log(data)
     // DATE FORMAT
     const formatDate = (date: string) => {
         const res = new Date(date).toLocaleDateString('en-GB', {
@@ -127,9 +130,9 @@ const RiderList = ({ search}: IRideList) => {
                 data?.data.map((item: IRiderInfo, index: number) => (
                     <div key={index} className={`gap-4 grid grid-cols-12 items-center py-4 ${index !== data?.data?.length - 1 ? "border-b border-zinc-100" : ""}`}>
                         <div className='flex gap-2 items-center col-span-5'>
-                            {item.image ? (
+                            {item?.profilePhoto ? (
                                 <Image
-                                    src={item.image}
+                                    src={item.profilePhoto}
                                     width={500}
                                     height={500}
                                     alt="Profile image"
@@ -174,7 +177,8 @@ const RiderList = ({ search}: IRideList) => {
                     >
                         1
                     </button>
-                    <button
+                    {
+                        data?.meta?.total >= 5 &&  <button
                         onClick={() => setPage(2)}
                         className={`p-2 border transition duration-100 cursor-pointer ${page === 2
                             ? "bg-(--primary) text-white border-(--primary)"
@@ -183,7 +187,9 @@ const RiderList = ({ search}: IRideList) => {
                     >
                         2
                     </button>
-                    <button
+                    }
+                    {
+                         data?.meta?.total >= 15 &&   <button
                         onClick={() => setPage(3)}
                         className={`p-2 border transition duration-100 cursor-pointer ${page === 3
                             ? "bg-(--primary) text-white border-(--primary)"
@@ -192,9 +198,12 @@ const RiderList = ({ search}: IRideList) => {
                     >
                         3
                     </button>
+                    }
+                    
+                  
                     <div className='text-center h-full my-auto text-gray-400 px-2'>...</div>
                     <button
-                        onClick={() => setPage(data?.meta?.totalPage)}
+                        onClick={() => setPage(data?.meta?.total)}
                         className={`p-2 border transition duration-100 cursor-pointer ${page === 3
                             ? "bg-(--primary) text-white border-(--primary)"
                             : "hover:bg-gray-100 border-gray-200"
