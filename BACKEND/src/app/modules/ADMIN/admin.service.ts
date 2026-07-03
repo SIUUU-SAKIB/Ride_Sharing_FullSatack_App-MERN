@@ -77,7 +77,8 @@ const getAllUser = async (
     page: number,
     limit: number,
     skip: number,
-    search: string
+    search: string,
+    isBlocked:string
 ) => {
     const query: any = {
         role: IUserRole.RIDER,
@@ -104,6 +105,12 @@ const getAllUser = async (
                 },
             },
         ];
+    }
+    if(isBlocked === "true") {
+      query.isBlocked = true
+    }
+    if(isBlocked === "false") {
+      query.isBlocked = false
     }
     const allUsers = await UserDB.find(query)
         .skip(skip)

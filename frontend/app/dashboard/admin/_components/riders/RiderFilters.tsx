@@ -17,21 +17,20 @@ const RiderFilters = () => {
                 <select onChange={e => setStatus(e.target.value)} value={status}
                     className='outline-none border-none shadow-xs px-4 py-2 pr-6 bg-zinc-100 rounded-md text-(--neutral)'
                 >
-                    <option value="ALL">All Statuses</option>
-                    <option value="PENDING">Pending</option>
-                    <option value="APPROVED">Approved</option>
-                    <option value="REJECTED">Rejected</option>
+                    <option value="ALL STATUS">All Status</option>
+                    <option value="BLOCKED">Blocked</option>
+                    <option value="UNBLOCKED">Unblocked</option>
                 </select>
             </div>
             <div onClick={() => {
                 setSearch(''),
-                    setStatus('')
+                    setStatus('ALL STATUS')
             }} className="flex justify-self-center gap-1 items-center col-span-1 mt-auto self-center cursor-pointer mb-2" >
                 <MdFilterAltOff className="text-xl text-red-500" />
                 <p className="texxt-red-500 font-medium text-red-500">Clear Filters</p>
             </div>
         </div>
-        <RiderList search={search}  status={status}/>
+        <RiderList search={search} status={status}/>
         </div>
     )
 }

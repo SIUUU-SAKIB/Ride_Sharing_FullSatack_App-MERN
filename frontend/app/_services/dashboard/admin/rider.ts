@@ -1,7 +1,8 @@
 const URL =process.env.NEXT_PUBLIC_API_URL
 
-const getAllUsers = async(page:number, limit:number, search:string) => {
-    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/admin/get-all-users?page=${page}&limit=${limit}&search=${search}`, {
+const getAllUsers = async(page:number, limit:number, search:string, status:string) => {
+    console.log(status)
+    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/admin/get-all-users?page=${page}&limit=${limit}&search=${search}&isBlocked=${status}`, {
         credentials:'include'
     })
     const data = await response.json();

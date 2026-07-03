@@ -69,6 +69,7 @@ const getAllUser = catchAsync(async (req: Request, res: Response) => {
         page = "1",
         limit = "5",
         search = "",
+        isBlocked
     } = req.query;
 
     const pageNumber = Number(page);
@@ -79,7 +80,8 @@ const getAllUser = catchAsync(async (req: Request, res: Response) => {
         pageNumber,
         limitNumber,
         skip,
-        search as string
+        search as string,
+        isBlocked as string
     );
 
     sendResponse(res, {
