@@ -34,7 +34,7 @@ const UserSchema = new Schema<IUser>(
             unique: true,
             lowercase: true,
         },
-        baseLocation:{type:String, required:true, trim:true},
+        baseLocation:{type:String, trim:true},
         password: {
             type: String,
             select: false

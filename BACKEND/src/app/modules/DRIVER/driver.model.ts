@@ -29,9 +29,10 @@ const DriverApplicationSchema = new Schema<IDriverApplication>({
     required: true,
   },
   vehicleName:
-  {type:String,
-     required:true
-    },
+  {
+    type: String,
+    required: true
+  },
   vehicleType: {
     type: String,
     enum: Object.values(IVehicleType),

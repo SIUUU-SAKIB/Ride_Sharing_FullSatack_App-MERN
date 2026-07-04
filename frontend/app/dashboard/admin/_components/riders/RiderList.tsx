@@ -9,7 +9,7 @@ import Swal from "sweetalert2"
 
 type IRideList = {
     search: string,
-    status: string
+    status:string
 }
 type IRiderInfo = {
     image: string,
@@ -21,17 +21,17 @@ type IRiderInfo = {
     isBlocked: boolean,
     isDeleted: boolean,
     _id: string,
-    profilePhoto: string
+    profilePhoto:string
 }
 
 const headers = [
     { title: "RIDER" },
     { title: "APPLIED ON" },
-    { title: "STATUS" },
+    // { title: "STATUS" },
     { title: "ACTION" },
 ]
 
-const RiderList = ({ search, status }: IRideList) => {
+const RiderList = ({ search, status}: IRideList) => {
     // STATES
     const [page, setPage] = React.useState<number>(1)
     const [limit, setLimit] = React.useState<number>(5)
@@ -48,7 +48,7 @@ const RiderList = ({ search, status }: IRideList) => {
     const { data, isLoading, isError } = AdminHooks.useGetAllUsers(page, limit, search, state)
 
     // HOOKS
-    console.log(status)
+console.log(status)
     const blockUserMutation = AdminHooks.useblockUser()
     const unblcokUserMutation = AdminHooks.useUnblockUser()
     const deleteUserMutation = AdminHooks.useDeleteUser()
@@ -131,8 +131,7 @@ const RiderList = ({ search, status }: IRideList) => {
                         className={`
                 ${index === 0 ? 'col-span-5' : ''}
                 ${index === 1 ? 'col-span-2' : ''}
-                ${index === 2 ? 'col-span-2' : ''}
-                ${index === 3 ? 'col-span-3 text-right' : ''}
+                ${index === 2 ? 'col-span-4 text-right' : ''}
             font-medium text-md`}
                     >
                         {item.title}
@@ -141,78 +140,36 @@ const RiderList = ({ search, status }: IRideList) => {
             </div>
             {/* MAIN ITEMS */}
             {
-                data?.meta?.total > 0 ? (
-                    data?.data?.map((item: IRiderInfo, index: number) => (
-                        <div
-                            key={index}
-                            className={`gap-4 grid grid-cols-12 items-center py-4 ${index !== data.data.length - 1 ? "border-b border-zinc-100" : ""
-                                }`}
-                        >
-                            <div className="flex gap-2 items-center col-span-5">
-                                {item.profilePhoto ? (
-                                    <Image
-                                        src={item.profilePhoto}
-                                        width={500}
-                                        height={500}
-                                        alt="Profile image"
-                                        className="w-12 h-12 object-cover rounded-full"
-                                    />
-                                ) : (
-                                    <div className="w-12 h-12 rounded-full bg-green-200 flex items-center justify-center font-semibold text-green-700">
-                                        {printName(item.name)}
-                                    </div>
-                                )}
-
-                                <div>
-                                    <p className="text-lg font-semibold">{item.name}</p>
-                                    <p className="text-base text-(--neutral)">{item.email}</p>
+                data?.meta?.total > 0 ? data?.data?.map((item: IRiderInfo, index: number) => (
+                    <div key={index} className={`gap-4 grid grid-cols-12 items-center py-4 ${index !== data?.data?.length - 1 ? "border-b border-zinc-100" : ""}`}>
+                        <div className='flex gap-2 items-center col-span-5'>
+                            {item?.profilePhoto ? (
+                                <Image
+                                    src={item.profilePhoto}
+                                    width={500}
+                                    height={500}
+                                    alt="Profile image"
+                                    className="w-12 h-12 object-cover rounded-full"
+                                />
+                            ) : (
+                                <div className="w-12 h-12 rounded-full bg-green-200 flex items-center justify-center font-semibold text-green-700">
+                                    {printName(item.name)}
                                 </div>
-                            </div>
-
-                            <p className="text-(--neutral) grid col-span-2">
-                                {formatDate(item.createdAt)}
-                            </p>
-
-                            <div
-                                className={`grid place-content-center py-1 rounded-full ${item.status === "PENDING"
-                                        ? "bg-yellow-100 text-yellow-800"
-                                        : item.status === "REJECTED"
-                                            ? "bg-red-100 text-red-800"
-                                            : "bg-green-100 text-green-800"
-                                    }`}
-                            >
-                                <p className="text-xs font-medium">{item.status}</p>
-                            </div>
-
-                            <div className="grid ml-auto col-span-4 place-items-center grid-cols-6">
-                                <button
-                                    onClick={() => blockUnblockBtn(item._id)}
-                                    disabled={
-                                        blockUserMutation.isPending ||
-                                        unblcokUserMutation.isPending
-                                    }
-                                    className={`text-white border border-transparent ${item.isBlocked
-                                            ? "bg-green-500 hover:bg-green-600"
-                                            : "bg-red-500 hover:bg-red-600"
-                                        } shadow-xs rounded-xl px-4 py-1 col-span-2 cursor-pointer transition duration-150 font-medium`}
-                                >
-                                    {item.isBlocked ? "Unblock" : "Block"}
-                                </button>
-
-                                <button
-                                    onClick={() => deleteButton(item._id)}
-                                    className="text-red-500 border-red-600 border px-4 py-1 rounded-xl col-span-2 cursor-pointer hover:bg-red-500 transition duration-150 hover:text-white font-medium"
-                                >
-                                    Delete
-                                </button>
+                            )}
+                            <div>
+                                <p className='text-lg font-semibold'>{item.name}</p>
+                                <p className='text-base text-(--neutral)'>{item.email}</p>
                             </div>
                         </div>
-                    ))
-                ) : (
-                    <div className="py-10 text-center text-(--neutral)">
-                        No riders found.
+                        <p className='text-(--neutral) grid col-span-2'>{formatDate(item.createdAt)}</p>
+                        <div className={`${item.status === `PENDING` && "bg-yellow-100 text-yellow-800" || item.status === "REJECTED" && "bg-red-100 text-red-800" || item.status === "APPROVED" && "bg-green-100 text-green-800"} grid place-content-center py-1 rounded-full`}><p className='text-xs font-medium'>{item.status}</p></div>
+                        {/* ACTION BUTTONS */}
+                        <div className='grid ml-auto col-span-4 place-items-center grid-cols-6'>
+                            <button onClick={() => blockUnblockBtn(item._id)} disabled={blockUserMutation.isPending || unblcokUserMutation.isPending} className={`text-white  border border-transparent ${item.isBlocked ? "bg-green-500 hover:bg-green-600" : "bg-red-500 hover:bg-red-600"} shadow-xs rounded-xl px-4 py-1 col-span-2 cursor-pointer  transition duration-150 font-medium}`}>{item.isBlocked ? "Unblock" : "Block"}</button>
+                            <button onClick={() => deleteButton(item._id)} className='text-red-500 border-red-600 border px-4 py-1 rounded-xl col-span-2 cursor-pointer hover:bg-red-500 transition duration-150 hover:text-white font-medium'>Delete</button>
+                        </div>
                     </div>
-                )
+                )) : (<div></div>)
             }
             <div className='w-full px-2 py-4 flex items-center justify-between'>
                 <p className='text-sm'>Showing {data?.data?.length} of {data.meta.total} entries</p>
@@ -235,29 +192,29 @@ const RiderList = ({ search, status }: IRideList) => {
                         1
                     </button>
                     {
-                        data?.meta?.total >= 5 && <button
-                            onClick={() => setPage(2)}
-                            className={`p-2 border transition duration-100 cursor-pointer ${page === 2
-                                ? "bg-(--primary) text-white border-(--primary)"
-                                : "hover:bg-gray-100 border-gray-200"
-                                }`}
-                        >
-                            2
-                        </button>
+                        data?.meta?.total >= 5 &&  <button
+                        onClick={() => setPage(2)}
+                        className={`p-2 border transition duration-100 cursor-pointer ${page === 2
+                            ? "bg-(--primary) text-white border-(--primary)"
+                            : "hover:bg-gray-100 border-gray-200"
+                            }`}
+                    >
+                        2
+                    </button>
                     }
                     {
-                        data?.meta?.total >= 15 && <button
-                            onClick={() => setPage(3)}
-                            className={`p-2 border transition duration-100 cursor-pointer ${page === 3
-                                ? "bg-(--primary) text-white border-(--primary)"
-                                : "hover:bg-gray-100 border-gray-200"
-                                }`}
-                        >
-                            3
-                        </button>
+                         data?.meta?.total >= 15 &&   <button
+                        onClick={() => setPage(3)}
+                        className={`p-2 border transition duration-100 cursor-pointer ${page === 3
+                            ? "bg-(--primary) text-white border-(--primary)"
+                            : "hover:bg-gray-100 border-gray-200"
+                            }`}
+                    >
+                        3
+                    </button>
                     }
-
-
+                    
+                  
                     <div className='text-center h-full my-auto text-gray-400 px-2'>...</div>
                     <button
                         onClick={() => setPage(data?.meta?.total)}
