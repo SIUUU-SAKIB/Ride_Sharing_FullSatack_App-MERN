@@ -214,7 +214,17 @@ console.log(status)
                     </button>
                     }
                     
-                  
+                    {
+                        data?.meta?.page >=3 && <button
+                        onClick={() => setPage(page => page+1)}
+                        className={`p-2 border-gray-50 transition duration-100 cursor-pointer ${page === page+1
+                            ? "bg-(--primary) text-white border-(--primary)"
+                            : "hover:bg-gray-100 border-gray-200"
+                            }`}
+                    >
+                        {data?.meta?.page+1}
+                    </button>
+                    }
                     <div className='text-center h-full my-auto text-gray-400 px-2'>...</div>
                     <button
                         onClick={() => setPage(data?.meta?.total)}
