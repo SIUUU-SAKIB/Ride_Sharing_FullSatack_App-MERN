@@ -9,7 +9,7 @@ import Swal from "sweetalert2"
 
 type IRideList = {
     search: string,
-    status:string
+    status: string
 }
 type IRiderInfo = {
     image: string,
@@ -21,7 +21,7 @@ type IRiderInfo = {
     isBlocked: boolean,
     isDeleted: boolean,
     _id: string,
-    profilePhoto:string
+    profilePhoto: string
 }
 
 const headers = [
@@ -31,7 +31,7 @@ const headers = [
     { title: "ACTION" },
 ]
 
-const RiderList = ({ search, status}: IRideList) => {
+const RiderList = ({ search, status }: IRideList) => {
     // STATES
     const [page, setPage] = React.useState<number>(1)
     const [limit, setLimit] = React.useState<number>(5)
@@ -48,7 +48,7 @@ const RiderList = ({ search, status}: IRideList) => {
     const { data, isLoading, isError } = AdminHooks.useGetAllUsers(page, limit, search, state)
 
     // HOOKS
-console.log(status)
+    console.log(status)
     const blockUserMutation = AdminHooks.useblockUser()
     const unblcokUserMutation = AdminHooks.useUnblockUser()
     const deleteUserMutation = AdminHooks.useDeleteUser()
@@ -192,43 +192,64 @@ console.log(status)
                         1
                     </button>
                     {
-                        data?.meta?.total >= 5 &&  <button
-                        onClick={() => setPage(2)}
-                        className={`p-2 border transition duration-100 cursor-pointer ${page === 2
-                            ? "bg-(--primary) text-white border-(--primary)"
-                            : "hover:bg-gray-100 border-gray-200"
-                            }`}
-                    >
-                        2
-                    </button>
+                        data?.meta?.total >= 5 && <button
+                            onClick={() => setPage(2)}
+                            className={`p-2 border transition duration-100 cursor-pointer ${page === 2
+                                ? "bg-(--primary) text-white border-(--primary)"
+                                : "hover:bg-gray-100 border-gray-200"
+                                }`}
+                        >
+                            2
+                        </button>
                     }
                     {
-                         data?.meta?.total >= 15 &&   <button
-                        onClick={() => setPage(3)}
-                        className={`p-2 border transition duration-100 cursor-pointer ${page === 3
-                            ? "bg-(--primary) text-white border-(--primary)"
-                            : "hover:bg-gray-100 border-gray-200"
-                            }`}
-                    >
-                        3
-                    </button>
+                        data?.meta?.total >= 15 && <button
+                            onClick={() => setPage(3)}
+                            className={`p-2 border transition duration-100 cursor-pointer ${page === 3
+                                ? "bg-(--primary) text-white border-(--primary)"
+                                : "hover:bg-gray-100 border-gray-200"
+                                }`}
+                        >
+                            3
+                        </button>
+                    }
+
+                    {
+                        data?.meta?.page >= 3 && <><button
+                            onClick={() => setPage(page => page + 1)}
+                            className={`p-2 border-gray-50 transition duration-100 cursor-pointer ${page === page + 1
+                                ? "bg-(--primary) text-white border-(--primary)"
+                                : "hover:bg-gray-100 border-gray-200"
+                                }`}
+                        >
+                            {data?.meta?.page + 1}
+                        </button>
+                        <button
+                            onClick={() => setPage(page => page + 2)}
+                            className={`p-2 border-gray-50 transition duration-100 cursor-pointer ${page === page + 1
+                                ? "bg-(--primary) text-white border-(--primary)"
+                                : "hover:bg-gray-100 border-gray-200"
+                                }`}
+                        >
+                            {data?.meta?.page + 2}
+                        </button>
+                        <button
+                            onClick={() => setPage(page => page + 3)}
+                            className={`p-2 border-gray-50 transition duration-100 cursor-pointer ${page === page + 1
+                                ? "bg-(--primary) text-white border-(--primary)"
+                                : "hover:bg-gray-100 border-gray-200"
+                                }`}
+                        >
+                            {data?.meta?.page + 3}
+                        </button>
+                        </>
+                        
                     }
                     
-                    {
-                        data?.meta?.page >=3 && <button
-                        onClick={() => setPage(page => page+1)}
-                        className={`p-2 border-gray-50 transition duration-100 cursor-pointer ${page === page+1
-                            ? "bg-(--primary) text-white border-(--primary)"
-                            : "hover:bg-gray-100 border-gray-200"
-                            }`}
-                    >
-                        {data?.meta?.page+1}
-                    </button>
-                    }
                     <div className='text-center h-full my-auto text-gray-400 px-2'>...</div>
                     <button
-                        onClick={() => setPage(data?.meta?.total)}
-                        className={`p-2 border transition duration-100 cursor-pointer ${page === 3
+                        onClick={() => setPage(data?.meta?.totalPage)}
+                        className={`p-2 border transition duration-100 cursor-pointer ${page === data?.meta?.totalPage
                             ? "bg-(--primary) text-white border-(--primary)"
                             : "hover:bg-gray-100 border-gray-200"
                             }`}
