@@ -72,52 +72,52 @@ const blockAdmin = async (_id: string) => {
   return admin
 }
 const getAllUser = async (
-    page: number,
-    limit: number,
-    skip: number,
-    search: string,
-    isBlocked:string
+  page: number,
+  limit: number,
+  skip: number,
+  search: string,
+  isBlocked: string
 ) => {
-    const query: any = {
-        role: IUserRole.RIDER,
-    };
+  const query: any = {
+    role: IUserRole.RIDER,
+  };
 
-    if (search) {
-        query.$or = [
-            {
-                name: {
-                    $regex: search,
-                    $options: "i",
-                },
-            },
-            {
-                email: {
-                    $regex: search,
-                    $options: "i",
-                },
-            },
-            {
-                phone: {
-                    $regex: search,
-                    $options: "i",
-                },
-            },
-        ];
-    }
-    if(isBlocked === "true") {
-      query.isBlocked = true
-    }
-    if(isBlocked === "false") {
-      query.isBlocked = false
-    }
-    const allUsers = await UserDB.find(query)
-        .skip(skip).sort({createdAt:-1})
-        .limit(limit);
-    const totalUsers = await UserDB.countDocuments(query);
-    return {
-        allUsers,
-        totalUsers,
-    };
+  if (search) {
+    query.$or = [
+      {
+        name: {
+          $regex: search,
+          $options: "i",
+        },
+      },
+      {
+        email: {
+          $regex: search,
+          $options: "i",
+        },
+      },
+      {
+        phone: {
+          $regex: search,
+          $options: "i",
+        },
+      },
+    ];
+  }
+  if (isBlocked === "true") {
+    query.isBlocked = true
+  }
+  if (isBlocked === "false") {
+    query.isBlocked = false
+  }
+  const allUsers = await UserDB.find(query)
+    .skip(skip).sort({ createdAt: -1 })
+    .limit(limit);
+  const totalUsers = await UserDB.countDocuments(query);
+  return {
+    allUsers,
+    totalUsers,
+  };
 };
 const blockUser = async (_id: string) => {
   const user = await UserDB.findById(_id)
@@ -208,8 +208,8 @@ const approveApplication = async (_id: string) => {
   const profile = {
     userId: application.userId,
     driverId: "DRV" + Date.now(),
-    name:user.name,
-    email:user.email,
+    name: user.name,
+    email: user.email,
     licenseImage: application.licenseImage,
     vehicleImage: application.vehicleImage,
     vehicleNumber: application.vehicleNumber,
@@ -256,9 +256,29 @@ const rejectApplication = async (_id: string, adminId: string, reason: string) =
   await rejectEmali(user.email, reason, `${enviromentVariables.FRONTEND_URL}/form/reapply`)
   return application;
 }
-const allApplications = async(id:string, page:number, limit:number, search:string) => {
-const result = await DriverApplicationDB.find()
-return result
+const allApplications = async (page: number,
+  limit: number,
+  skip: number,
+  search: string,
+  applicationStatus: string) => {
+  const query: any = {
+    role: "RIDER"
+  }
+  if (search) {
+    query.$or = [
+      { name: { $regex: search, $options: "i" } },
+      { email: { $regex: search, $options: "i" } },
+      { phone: { $regex: search, $options: "i" } },
+      { vehicleName: { $regex: search, $options: "i" } },
+      { vehicleType: { $regex: search, $options: "i" } }
+
+    ]
+  }
+  const allApplications = (await DriverApplicationDB.find(query).skip(skip).sort({createdAt:-1}).limit(limit))
+  const totalApplications = await DriverApplicationDB.countDocuments(query)
+  return {
+    allApplications, totalApplications
+  }
 }
 export const AdminService = {
   createAdmin,
