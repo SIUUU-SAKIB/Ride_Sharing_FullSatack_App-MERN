@@ -71,8 +71,6 @@ const blockAdmin = async (_id: string) => {
   await admin.save()
   return admin
 }
-
-
 const getAllUser = async (
     page: number,
     limit: number,
@@ -113,7 +111,7 @@ const getAllUser = async (
       query.isBlocked = false
     }
     const allUsers = await UserDB.find(query)
-        .skip(skip)
+        .skip(skip).sort({createdAt:-1})
         .limit(limit);
     const totalUsers = await UserDB.countDocuments(query);
     return {
@@ -258,7 +256,10 @@ const rejectApplication = async (_id: string, adminId: string, reason: string) =
   await rejectEmali(user.email, reason, `${enviromentVariables.FRONTEND_URL}/form/reapply`)
   return application;
 }
-
+const allApplications = async(id:string, page:number, limit:number, search:string) => {
+const result = await DriverApplicationDB.find()
+return result
+}
 export const AdminService = {
   createAdmin,
   deleteAdmin,
@@ -271,6 +272,7 @@ export const AdminService = {
   getAllAdmin,
   approveApplication,
   rejectApplication,
+  allApplications,
   blockUser,
   unblockUser
 }

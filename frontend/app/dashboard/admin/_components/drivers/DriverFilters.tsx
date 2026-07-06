@@ -2,29 +2,29 @@
 import { Search } from 'lucide-react'
 import React, { useState } from 'react'
 import SearchResult from './SearchResult'
+import { MdFilterAltOff } from 'react-icons/md'
 
 const DriverFilters = () => {
-    const [searchDriver, setSerchDriver] =  React.useState<string>('')
+    const [search, setSearch] =  React.useState<string>('')
     const [status, setStatus] = React.useState<string>('')
-    const [vehicleType, setVehicleType] = React.useState<string>('')
     return (
         <div className='py-4'>
             <div className='p-4 flex items-center justify-between bg-white'>
                 {/* serarch driver */}
-                <div>
+                <div className='flex-1 pr-8 pl-2' >
                     <p className='text-(--neutral)'>Search Driver</p>
                     <div className='flex gap-2 bg-zinc-100 rounded-md p-2'>
                         <Search className='text-(--neutral) text-xs' />
                         <input 
-                        value={searchDriver}
-                        onChange={(e) => setSerchDriver(e.target.value)}
+                        value={search}
+                        onChange={(e) => setSearch(e.target.value)}
                          type='text' placeholder='Name, Email, or Phone'
                             className='flex-1 border-none outline-none w-full text-sm'
                         />
                     </div>
                 </div>
                 {/* status */}
-                <div>
+                <div className='px-8'>
                     <p className='text-(--neutral)'>Status</p>
                     <select
                     value={status}
@@ -38,7 +38,7 @@ const DriverFilters = () => {
                     </select>
                 </div>
                 {/* vehicle type */}
-                 <div>
+                 {/* <div>
                     <p className='text-(--neutral)'>Vehicle type</p>
                     <select
                     value={vehicleType}
@@ -50,11 +50,17 @@ const DriverFilters = () => {
                         <option value="APPROVED">Three Wheeler</option>
                         <option value="REJECTED">Four Wheeler</option>
                     </select>
-                </div>
+                </div> */}
                 {/* clear filters */}
-                <button className='px-4 py-2 bg-(--primary)/20 text-(--primary) rounded-lg mt-4 cursor-pointer hover:bg-(--primary)/10 transition duration-200'>Clear filters</button>
+               <div onClick={() => {
+                              setSearch(''),
+                                  setStatus('ALL STATUS')
+                          }} className="flex justify-self-center gap-1 items-center col-span-1 mt-auto self-center cursor-pointer mb-2" >
+                              <MdFilterAltOff className="text-xl text-red-500" />
+                              <p className="texxt-red-500 font-medium text-red-500">Clear Filters</p>
+                          </div>
             </div>
-            <SearchResult searchDriver={searchDriver} status= {status} vehicleType={vehicleType}/>
+            <SearchResult search={search} status= {status}/>
         </div>
     )
 }
