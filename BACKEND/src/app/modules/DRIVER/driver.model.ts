@@ -160,11 +160,11 @@ const DriverProfileSchema = new Schema<IDriverProfile>(
     versionKey: false,
   }
 );
+export const DriverApplicationDB = model<IDriverApplication>(
+  "DriverApplication", DriverApplicationSchema
+)
 
 export const DriverProfileDB = model<IDriverProfile>(
   "DriverProfile",
   DriverProfileSchema
 );
-export const DriverApplicationDB = model<IDriverApplication>(
-  "DriverApplication", DriverApplicationSchema
-)

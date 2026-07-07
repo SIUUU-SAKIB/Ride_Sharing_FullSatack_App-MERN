@@ -99,7 +99,7 @@ const getAllUser = catchAsync(async (req: Request, res: Response) => {
 });
 
 const blockUser = catchAsync(async (req: Request, res: Response) => {
-    const  user_id  = req.params.id
+    const user_id = req.params.id
     if (!user_id) {
         throw new AppError(StatusCodes.BAD_REQUEST, "User id is required")
     }
@@ -112,7 +112,7 @@ const blockUser = catchAsync(async (req: Request, res: Response) => {
     })
 })
 const unblockUser = catchAsync(async (req: Request, res: Response) => {
-    const  user_id  = req.params.id
+    const user_id = req.params.id
     if (!user_id) {
         throw new AppError(StatusCodes.BAD_REQUEST, "User id is required")
     }
@@ -183,7 +183,7 @@ const deleteUser = catchAsync(async (req: Request, res: Response) => {
     if (!req.user?._id) {
         throw new AppError(StatusCodes.UNAUTHORIZED, "Unauthrized request")
     }
-    const {id} = req.params
+    const { id } = req.params
     await AdminService.deleteUser(id as string)
     sendResponse(res, {
         success: true,
@@ -245,13 +245,33 @@ const rejectApplication = catchAsync(async (req: Request, res: Response) => {
 })
 
 const allApplications = catchAsync(async (req: Request, res: Response) => {
-    const result = await DriverApplicationDB.find().select("_id userId licenseNumber vehicleNumber vehicleType phoneNumber address status")
+    const { page = 1,
+        limit = 5,
+        search,
+        applicationStatus } = req.query
+    const pageNumber = Number(page)
+    const limitNumber = Number(limit)
+    const skip = (pageNumber - 1) * limitNumber
+
+    const result = await AdminService.allApplications(
+        pageNumber,
+        limitNumber,
+        skip,
+        search as string,
+        applicationStatus as string)
+    console.log(result)
     sendResponse(res, {
         success: true,
         statusCode: StatusCodes.OK,
-        message: "Fetched all applications",
-        data: result
-    })
+        message: "All drivers retrieved successfully 😍",
+        meta: {
+            total: result.totalApplications,
+            page: pageNumber,
+            limit: limitNumber,
+            totalPage: Math.ceil(result.totalApplications / limitNumber),
+        },
+        data: result.allApplications
+    });
 })
 export const AdminController = {
     createAdmin,

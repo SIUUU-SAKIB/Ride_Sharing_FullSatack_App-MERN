@@ -8,58 +8,71 @@ import { AdminValidation } from "./admin.validation";
 
 const router = Router()
 
-// *GET ALL USERS
 
+// *USER ROUTES ================================================
+
+// *all user
 router.get(`/get-all-users`,
-    authentication(IAdminRole.ADMIN, IAdminRole.SUPER_ADMIN
+    authentication(IAdminRole.ADMIN,
+        IAdminRole.SUPER_ADMIN
     ),
     AdminController.getAllUser);
-// *BLOCK USER
-router.patch('/block-user/:id', authentication(IAdminRole.ADMIN, IAdminRole.SUPER_ADMIN), AdminController.blockUser)
+
+// *block user
+router.patch('/block-user/:id', authentication(IAdminRole.ADMIN,
+    IAdminRole.SUPER_ADMIN),
+    AdminController.blockUser)
 // *SEE ALL APPLICATIONS
 
-// *UBLOCK USER
-router.patch(`/unblock-user/:id`, authentication(IAdminRole.ADMIN, IAdminRole.SUPER_ADMIN), AdminController.unblockUser)
-router.get(`/all-applications`,
-    authentication(IAdminRole.ADMIN, IAdminRole.SUPER_ADMIN),
-    AdminController.allApplications)
+// *unblock user
+router.patch(`/unblock-user/:id`, authentication(IAdminRole.ADMIN,
+    IAdminRole.SUPER_ADMIN),
+    AdminController.unblockUser)
 
-    // *DELETE USER
-    router.delete(`/delete-user/:id`, authentication(IAdminRole.ADMIN, IAdminRole.SUPER_ADMIN), AdminController.deleteUser)
-// *GET USER BY ROLE
+// *delete user
+router.delete(`/delete-user/:id`, authentication(IAdminRole.ADMIN,
+    IAdminRole.SUPER_ADMIN), AdminController.deleteUser)
 
+// *get user by role
 router.get(`/get-users-by-role`,
-    authentication(IAdminRole.ADMIN, IAdminRole.SUPER_ADMIN),
+    authentication(IAdminRole.ADMIN,
+        IAdminRole.SUPER_ADMIN),
     AdminController.getUserByRole)
 
-// *UPDATE USER 
-
+// *update user
 router.patch(`/update-user-by-admin/:id`,
     authentication(IAdminRole.ADMIN, IAdminRole.SUPER_ADMIN),
     AdminController.updateUserByAdmin)
 
-// * APPROVE DRIVER APPLICATION
+// *single user
+router.get(`/get-single-user/:id`,
+    authentication(IAdminRole.ADMIN, IAdminRole.SUPER_ADMIN),
+    AdminController.getSingleUser)
+// *--------------------------------------------------------------------------------
 
+
+// *DRIVER ROUTES=====================================================================
+
+// *get all applications
+router.get(`/all-applications`,
+    authentication(IAdminRole.ADMIN, IAdminRole.SUPER_ADMIN),
+    AdminController.allApplications)
+
+// * approve application
 router.patch(`/approve/:applicationId`,
     authentication(IAdminRole.ADMIN, IAdminRole.SUPER_ADMIN),
     AdminController.approveApplication)
 
-// *GET SINGLE USER
-
-router.get(`/get-single-user/:id`,
-    authentication(IAdminRole.ADMIN, IAdminRole.SUPER_ADMIN),
-    AdminController.getSingleUser)
-
-// *REJECT APPLICATION
-
+// *reject application
 router.patch(`/reject-application/:applicationId`,
     authentication(IAdminRole.ADMIN, IAdminRole.SUPER_ADMIN),
     validateZodSchema(AdminValidation.rejectApplication),
     AdminController.rejectApplication)
 
+//* ---------------------------------------------------------------------
 
-// ---------------------------------------------------------------------
-// ** ONLY SUPER_ADMIN CAN CREATE, BLOCK AND DELETE ADMIN 
+// *SUPER ADMIN ROUTES ⭐
+// ** ONLY SUPER_ADMIN CAN CREATE, BLOCK AND DELETE ADMIN ============================================================
 
 router.get(`/get-all-admins`,
     authentication(IAdminRole.SUPER_ADMIN

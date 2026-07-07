@@ -261,9 +261,7 @@ const allApplications = async (page: number,
   skip: number,
   search: string,
   applicationStatus: string) => {
-  const query: any = {
-    role: "RIDER"
-  }
+  const query:any  = {}
   if (search) {
     query.$or = [
       { name: { $regex: search, $options: "i" } },
@@ -271,10 +269,11 @@ const allApplications = async (page: number,
       { phone: { $regex: search, $options: "i" } },
       { vehicleName: { $regex: search, $options: "i" } },
       { vehicleType: { $regex: search, $options: "i" } }
-
+      
     ]
   }
-  const allApplications = (await DriverApplicationDB.find(query).skip(skip).sort({createdAt:-1}).limit(limit))
+
+  const allApplications = await DriverApplicationDB.find(query).skip(skip).sort({createdAt:-1}).limit(limit)
   const totalApplications = await DriverApplicationDB.countDocuments(query)
   return {
     allApplications, totalApplications
