@@ -1,6 +1,6 @@
 import { ChangePasswordPayload, LoginPayload, OTPPayload, RegisterPayload } from "../_interfaces/auth.interface"
 import { apiFetch } from "../lib/apiFetch"
-
+import { URL } from "@/app/_hooks/URL"
 const registerUser = async (data: RegisterPayload) => {
     const formData = new FormData()
     formData.append('name', data.name)
@@ -26,7 +26,7 @@ const registerUser = async (data: RegisterPayload) => {
 }
 
 const loginUser = async (data: LoginPayload) => {
-    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/login`, {
+    const response = await fetch(`${URL}/auth/login`, {
         method: 'POST',
         headers: {
             'Content-type': 'application/json'
@@ -48,7 +48,7 @@ const loginUser = async (data: LoginPayload) => {
     return response
 }
 const getCurrentUser = async () => {
-    const response = await apiFetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/me`, {
+    const response = await apiFetch(`${URL}/auth/me`, {
         credentials: "include"
     })
     if (!response.ok) {
@@ -57,7 +57,7 @@ const getCurrentUser = async () => {
     return response.json()
 }
 const logoutUser = async () => {
-    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/logout`, {
+    const response = await fetch(`${URL}/auth/logout`, {
         method: "POST",
         credentials: "include"
     })
@@ -92,7 +92,7 @@ const forgetPassword = async (
     return data
 }
 const verifyOtp = async (payload: OTPPayload) => {
-    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/reset-password`, {
+    const response = await fetch(`${URL}/auth/reset-password`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
@@ -106,7 +106,7 @@ const verifyOtp = async (payload: OTPPayload) => {
     return data
 }
 const changePassword = async (payload: ChangePasswordPayload) => {
-    const response = await apiFetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/change-password`, {
+    const response = await apiFetch(`${URL}/auth/change-password`, {
         method: 'PATCH',
         headers: {
             "Content-Type": "application/json"
@@ -123,7 +123,7 @@ const changePassword = async (payload: ChangePasswordPayload) => {
 }
 
 const refreshToken = async () => {
-    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/refresh-token`, {
+    const response = await fetch(`${URL}/auth/refresh-token`, {
         method: 'POST',
         credentials: "include"
     })

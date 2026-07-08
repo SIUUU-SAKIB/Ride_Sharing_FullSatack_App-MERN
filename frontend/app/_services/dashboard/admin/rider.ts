@@ -1,4 +1,4 @@
-export const URL =process.env.NEXT_PUBLIC_API_URL
+import { URL } from "@/app/_hooks/URL"
 
 const getAllUsers = async(page:number, limit:number, search:string, status:string) => {
     const response = await fetch(`${URL}/admin/get-all-users?page=${page}&limit=${limit}&search=${search}&isBlocked=${status}`, {
