@@ -1,3 +1,4 @@
+import { AdminHooksForDriver } from '@/app/_hooks/dashboard/admin/driver'
 import Image from 'next/image'
 import React from 'react'
 type SearchResultProps = {
@@ -31,7 +32,11 @@ type SearchResultProps = {
     ]
 
 const SearchResult = ({ search, status }: SearchResultProps) => {
-
+    const [page, setPage] = React.useState<number>(1)
+    const[limit, setLimit] = React.useState<number>(3)
+    const {data, isLoading, isError} = AdminHooksForDriver.useAllApplications(page, limit, search, status)
+    const driverData = data?.data
+console.log(driverData[0].userId.name)
     return (
         <div className='w-full shadow-xs py-8 bg-white my-8 px-2'>
             <ul className="grid grid-cols-9 p-4">

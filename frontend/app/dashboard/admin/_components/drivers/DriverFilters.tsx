@@ -1,7 +1,7 @@
 "use client"
 import { Search } from 'lucide-react'
 import React, { useState } from 'react'
-import SearchResult from './SearchResult'
+import SearchResult from './DriverList'
 import { MdFilterAltOff } from 'react-icons/md'
 
 const DriverFilters = () => {

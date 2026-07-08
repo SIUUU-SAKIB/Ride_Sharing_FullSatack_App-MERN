@@ -8,3 +8,6 @@ const useAllApplications = (page:number, limit:number, search:string,status:stri
     })
 
 }
+export const AdminHooksForDriver = {
+    useAllApplications
+}

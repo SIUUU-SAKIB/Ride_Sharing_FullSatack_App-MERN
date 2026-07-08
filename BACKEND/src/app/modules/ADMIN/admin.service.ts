@@ -273,7 +273,7 @@ const allApplications = async (page: number,
     ]
   }
 
-  const allApplications = await DriverApplicationDB.find(query).skip(skip).sort({createdAt:-1}).limit(limit)
+  const allApplications = await DriverApplicationDB.find(query).populate('userId', 'name email').skip(skip).sort({createdAt:-1}).limit(limit)
   const totalApplications = await DriverApplicationDB.countDocuments(query)
   return {
     allApplications, totalApplications
