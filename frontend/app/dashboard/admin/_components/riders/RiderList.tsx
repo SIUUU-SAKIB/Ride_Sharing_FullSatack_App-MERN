@@ -46,7 +46,6 @@ const RiderList = ({ search, status }: IRideList) => {
         }
     }, [status])
     const { data, isLoading, isError } = AdminHooks.useGetAllUsers(page, limit, search, state)
-console.log(data?.data)
     // HOOKS
     console.log(status)
     const blockUserMutation = AdminHooks.useblockUser()
