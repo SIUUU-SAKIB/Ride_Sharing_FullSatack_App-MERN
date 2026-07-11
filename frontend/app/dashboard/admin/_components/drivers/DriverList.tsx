@@ -1,3 +1,4 @@
+import LoadingScreen from '@/app/_components/ui/LoadingScreen'
 import { AdminHooksForDriver } from '@/app/_hooks/dashboard/admin/driver'
 import { IDriverStatus } from '@/app/_interfaces/driver.interface'
 import Image from 'next/image'
@@ -54,22 +55,26 @@ const contents = [
 const SearchResult = ({ search, status }: SearchResultProps) => {
     const [page, setPage] = React.useState<number>(1)
     const [limit, setLimit] = React.useState<number>(3)
-    const { data:driverData, isLoading, isError } = AdminHooksForDriver.useAllApplications(page, limit, search, status)
+    const { data: driverData, isLoading, isError } = AdminHooksForDriver.useAllApplications(page, limit, search, status)
+console.log(search, status)
+
+    if (isLoading) { return <LoadingScreen /> }
+    if (isError) { return <p className='text-2xl font-bold text-red-500 h-full w-full text-center'>SOMETHING BAD HAPPEND</p> }
     // DATE FORMAT
-    const formatDate = (date:string) => {
-        return  new Date(date).toLocaleDateString('en-GB', {
-            day:"2-digit",
-            month:"numeric",
-            year:'2-digit',
-            hour:"2-digit",
-            minute:"numeric"
+    const formatDate = (date: string) => {
+        return new Date(date).toLocaleDateString('en-GB', {
+            day: "2-digit",
+            month: "numeric",
+            year: '2-digit',
+            hour: "2-digit",
+            minute: "numeric"
         })
     }
     return (
         <div className='w-full shadow-xs py-8 bg-white my-8 px-2'>
             <ul className="grid grid-cols-9 p-4">
                 {items.map((item, index) => (
-                    <li key={item.title} className={`text-(--neutral) ${index === 0 && 'col-span-2' || index === 3 && 'col-span-2' || index === 1 && 'col-span-2' }`}>
+                    <li key={item.title} className={`text-(--neutral) ${index === 0 && 'col-span-2' || index === 3 && 'col-span-2' || index === 1 && 'col-span-2'}`}>
                         {item.title}
                     </li>
                 ))}
@@ -79,7 +84,7 @@ const SearchResult = ({ search, status }: SearchResultProps) => {
                     <div
                         key={index}
                         className={`grid grid-cols-9 items-center p-4 ${index !== contents.length - 1
-                            ? "border-b border-gray-200/50"
+                            ? "border-b border-gray-200/70"
                             : ""
                             }`}
                     >
@@ -99,7 +104,7 @@ const SearchResult = ({ search, status }: SearchResultProps) => {
                             View Details
                         </button>
                     </div>
-                )) : (<div>No driver found</div>)}
+                )) : (<div className='text-xl font-medium text-center'>No driver found</div>)}
             </div>
         </div>
     )
