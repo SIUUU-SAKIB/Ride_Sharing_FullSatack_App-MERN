@@ -3,6 +3,15 @@ import { AdminHooksForDriver } from '@/app/_hooks/dashboard/admin/driver'
 import { IDriverStatus } from '@/app/_interfaces/driver.interface'
 import Image from 'next/image'
 import React from 'react'
+    const formatDate = (date: string) => {
+        return new Date(date).toLocaleDateString('en-GB', {
+            day: "2-digit",
+            month: "numeric",
+            year: '2-digit',
+            hour: "2-digit",
+            minute: "numeric"
+        })
+    }
 type SearchResultProps = {
     search: string,
     status: string,
@@ -61,15 +70,7 @@ console.log(search, status)
     if (isLoading) { return <LoadingScreen /> }
     if (isError) { return <p className='text-2xl font-bold text-red-500 h-full w-full text-center'>SOMETHING BAD HAPPEND</p> }
     // DATE FORMAT
-    const formatDate = (date: string) => {
-        return new Date(date).toLocaleDateString('en-GB', {
-            day: "2-digit",
-            month: "numeric",
-            year: '2-digit',
-            hour: "2-digit",
-            minute: "numeric"
-        })
-    }
+
     return (
         <div className='w-full shadow-xs py-8 bg-white my-8 px-2'>
             <ul className="grid grid-cols-9 p-4">

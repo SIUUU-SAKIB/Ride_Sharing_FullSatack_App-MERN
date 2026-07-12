@@ -47,11 +47,9 @@ const RiderList = ({ search, status }: IRideList) => {
     }, [status])
     const { data, isLoading, isError } = AdminHooks.useGetAllUsers(page, limit, search, state)
     // HOOKS
-    console.log(status)
     const blockUserMutation = AdminHooks.useblockUser()
     const unblcokUserMutation = AdminHooks.useUnblockUser()
     const deleteUserMutation = AdminHooks.useDeleteUser()
-    console.log(data)
     // DATE FORMAT
     const formatDate = (date: string) => {
         const res = new Date(date).toLocaleDateString('en-GB', {
@@ -212,9 +210,31 @@ const RiderList = ({ search, status }: IRideList) => {
                             3
                         </button>
                     }
+                      {
+                        data?.meta?.total >= 20 && <button
+                            onClick={() => setPage(4)}
+                            className={`p-2 border transition duration-100 cursor-pointer ${page === 4
+                                ? "bg-(--primary) text-white border-(--primary)"
+                                : "hover:bg-gray-100 border-gray-200"
+                                }`}
+                        >
+                            4
+                        </button>
+                    }
+                      {
+                        data?.meta?.total >= 25 && <button
+                            onClick={() => setPage(4)}
+                            className={`p-2 border transition duration-100 cursor-pointer ${page === 5
+                                ? "bg-(--primary) text-white border-(--primary)"
+                                : "hover:bg-gray-100 border-gray-200"
+                                }`}
+                        >
+                            5
+                        </button>
+                    }
 
                     {
-                        data?.meta?.page >= 3 && <><button
+                        data?.meta?.page >= 3 && <button
                             onClick={() => setPage(page => page + 1)}
                             className={`p-2 border-gray-50 transition duration-100 cursor-pointer ${page === page + 1
                                 ? "bg-(--primary) text-white border-(--primary)"
@@ -222,26 +242,8 @@ const RiderList = ({ search, status }: IRideList) => {
                                 }`}
                         >
                             {data?.meta?.page + 1}
+
                         </button>
-                            <button
-                                onClick={() => setPage(page => page + 2)}
-                                className={`p-2 border-gray-50 transition duration-100 cursor-pointer ${page === page + 1
-                                    ? "bg-(--primary) text-white border-(--primary)"
-                                    : "hover:bg-gray-100 border-gray-200"
-                                    }`}
-                            >
-                                {data?.meta?.page + 2}
-                            </button>
-                            <button
-                                onClick={() => setPage(page => page + 3)}
-                                className={`p-2 border-gray-50 transition duration-100 cursor-pointer ${page === page + 1
-                                    ? "bg-(--primary) text-white border-(--primary)"
-                                    : "hover:bg-gray-100 border-gray-200"
-                                    }`}
-                            >
-                                {data?.meta?.page + 3}
-                            </button>
-                        </>
                     }
 
                     <div className='text-center h-full my-auto text-gray-400 px-2'>...</div>
