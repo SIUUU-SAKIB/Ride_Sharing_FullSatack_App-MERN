@@ -2,11 +2,10 @@
 import LoadingScreen from '@/app/_components/ui/LoadingScreen'
 import { AdminHooks } from '@/app/_hooks/dashboard/admin/rider'
 import { AdminServiceForRider } from '@/app/_services/dashboard/admin/rider'
-import { ChevronLeft, ChevronRight, MoveLeft } from 'lucide-react'
 import Image from 'next/image'
 import React, { useEffect } from 'react'
 import Swal from "sweetalert2"
-
+import { GoTriangleLeft, GoTriangleRight } from "react-icons/go";
 type IRideList = {
     search: string,
     status: string
@@ -62,6 +61,7 @@ const RiderList = ({ search, status }: IRideList) => {
         })
         return res
     }
+
     // USER NAME FORMATTER
     const printName = (name: string) => {
         return name.split(' ').map(e => e[0].toUpperCase()).join("")
@@ -111,13 +111,9 @@ const RiderList = ({ search, status }: IRideList) => {
         }
         );
     }
-
-    if (isLoading) {
-        return <LoadingScreen />
-    }
-    if (isError) {
-        return <p className='text-red-500 font-bold text-4xl h-full text-center my-auto'>SOMETHING BAD HAPPEND</p>
-    }
+    if (isLoading) return <LoadingScreen />
+    if (isError) return <p className='text-red-500 font-bold text-4xl h-full text-center my-auto'>SOMETHING BAD HAPPEND</p>
+console.log(page)
     return (
         <div className=' bg-white p-4 my-8 '>
             {/* ITEM NAMES */}
@@ -169,100 +165,12 @@ const RiderList = ({ search, status }: IRideList) => {
                 )) : (<div></div>)
             }
             <div className='w-full px-2 py-4 flex items-center justify-between'>
-                <p className='text-sm'>Showing {data?.data?.length} of {data.meta.total} entries</p>
+                <p className='text-sm font-medium'>Showing {data?.data?.length} of {data.meta.total} entries</p>
                 {/* PAGINATION */}
-                <div className='flex items-center'>
-                    <ChevronLeft onClick={() => {
-                        if (page === 1) return
-                        setPage((prev) => prev - 1)
-                    }} strokeWidth={1} className={`cursor-pointer ${page === 1
-                        ? "opacity-40 pointer-events-none"
-                        : "cursor-pointer"
-                        }`} />
-                    <button
-                        onClick={() => setPage(1)}
-                        className={`p-2 border transition duration-100 cursor-pointer ${page === 1
-                            ? "bg-(--primary) text-white border-(--primary)"
-                            : "hover:bg-gray-100 border-gray-200"
-                            }`}
-                    >
-                        1
-                    </button>
-                    {
-                        data?.meta?.total >= 5 && <button
-                            onClick={() => setPage(2)}
-                            className={`p-2 border transition duration-100 cursor-pointer ${page === 2
-                                ? "bg-(--primary) text-white border-(--primary)"
-                                : "hover:bg-gray-100 border-gray-200"
-                                }`}
-                        >
-                            2
-                        </button>
-                    }
-                    {
-                        data?.meta?.total >= 15 && <button
-                            onClick={() => setPage(3)}
-                            className={`p-2 border transition duration-100 cursor-pointer ${page === 3
-                                ? "bg-(--primary) text-white border-(--primary)"
-                                : "hover:bg-gray-100 border-gray-200"
-                                }`}
-                        >
-                            3
-                        </button>
-                    }
-                      {
-                        data?.meta?.total >= 20 && <button
-                            onClick={() => setPage(4)}
-                            className={`p-2 border transition duration-100 cursor-pointer ${page === 4
-                                ? "bg-(--primary) text-white border-(--primary)"
-                                : "hover:bg-gray-100 border-gray-200"
-                                }`}
-                        >
-                            4
-                        </button>
-                    }
-                      {
-                        data?.meta?.total >= 25 && <button
-                            onClick={() => setPage(4)}
-                            className={`p-2 border transition duration-100 cursor-pointer ${page === 5
-                                ? "bg-(--primary) text-white border-(--primary)"
-                                : "hover:bg-gray-100 border-gray-200"
-                                }`}
-                        >
-                            5
-                        </button>
-                    }
-
-                    {
-                        data?.meta?.page >= 3 && <button
-                            onClick={() => setPage(page => page + 1)}
-                            className={`p-2 border-gray-50 transition duration-100 cursor-pointer ${page === page + 1
-                                ? "bg-(--primary) text-white border-(--primary)"
-                                : "hover:bg-gray-100 border-gray-200"
-                                }`}
-                        >
-                            {data?.meta?.page + 1}
-
-                        </button>
-                    }
-
-                    <div className='text-center h-full my-auto text-gray-400 px-2'>...</div>
-                    <button
-                        onClick={() => setPage(data?.meta?.totalPage)}
-                        className={`p-2 border transition duration-100 cursor-pointer ${page === data?.meta?.totalPage
-                            ? "bg-(--primary) text-white border-(--primary)"
-                            : "hover:bg-gray-100 border-gray-200"
-                            }`}
-                    >
-                        {data?.meta?.totalPage}
-                    </button>
-                    <ChevronRight onClick={() => {
-                        if (page === data?.meta?.totalPage) return
-                        setPage((prev) => prev + 1)
-                    }} strokeWidth={1} className={`cursor-pointer ${page === data?.meta?.totalPage
-                        ? "opacity-40 pointer-events-none"
-                        : "cursor-pointer"
-                        }`} />
+                <div className='flex gap-2 items-center'>
+                    <button disabled={page === 1} onClick={() => setPage(page => page - 1)}><GoTriangleLeft className={`text-4xl text-(--primary) bg-(--primary)/20 ${page === 1 ? "cursor-not-allowed" : "cursor-pointer"} hover:bg-(--primary) transition duration-100 hover:text-white `} /></button>
+                    <p className='text-md font-light'>Showing page <span className='font-semibold text-(--primary)'>{data?.meta?.page}</span> of total <span className='font-semibold text-(--primary)'>{data?.meta?.totalPage}</span></p>
+                    <button disabled={page === data?.meta?.totalPage} onClick={() => {setPage(page => page + 1), console.log('working')}}><GoTriangleRight className={`text-4xl text-(--primary) bg-(--primary)/20 ${page === data?.meta?.totalPage ? "cursor-not-allowed" : "cursor-pointer"} hover:bg-(--primary) transition duration-100 hover:text-white `} /></button>
                 </div>
             </div>
         </div>

@@ -1,6 +1,6 @@
 "use client"
 import { Search } from 'lucide-react'
-import React, { useState } from 'react'
+import React from 'react'
 import SearchResult from './DriverList'
 import { MdFilterAltOff } from 'react-icons/md'
 
@@ -18,7 +18,7 @@ const DriverFilters = () => {
                         <input 
                         value={search}
                         onChange={(e) => setSearch(e.target.value)}
-                         type='text' placeholder='Name, Email, or Phone'
+                         type='text' placeholder='License or phone or vehicle number'
                             className='flex-1 border-none outline-none w-full text-sm'
                         />
                     </div>
@@ -31,26 +31,13 @@ const DriverFilters = () => {
                     onChange={(e) => setStatus(e.target.value)}
                      className='outline-none border-none shadow-xs px-4 py-2 pr-6 bg-zinc-100' 
                     >
-                        <option value="ALL">All Statuses</option>
-                        <option value="PENDING">Pending</option>
-                        <option value="APPROVED">Approved</option>
-                        <option value="REJECTED">Rejected</option>
+                        <option value="All">All Statuses</option>
+                        <option value="Pending">Pending</option>
+                        <option value="Approved">Approved</option>
+                        <option value="Rejected">Rejected</option>
                     </select>
                 </div>
-                {/* vehicle type */}
-                 {/* <div>
-                    <p className='text-(--neutral)'>Vehicle type</p>
-                    <select
-                    value={vehicleType}
-                    onChange={(e) => setVehicleType(e.target.value)}
-                     className='outline-none border-none shadow-xs px-4 py-2 pr-6 bg-zinc-100' 
-                    >
-                        <option value="ALL">All Types</option>
-                        <option value="PENDING">Two Wheeler</option>
-                        <option value="APPROVED">Three Wheeler</option>
-                        <option value="REJECTED">Four Wheeler</option>
-                    </select>
-                </div> */}
+             
                 {/* clear filters */}
                <div onClick={() => {
                               setSearch(''),

@@ -6,7 +6,6 @@ const useAllApplications = (page:number, limit:number, search:string,status:stri
         queryKey:[`all-aplications`, page, limit, search, status],
         queryFn:() => AdminServiceForDriver.allApplications(page, limit, search, status)
     })
-
 }
 export const AdminHooksForDriver = {
     useAllApplications

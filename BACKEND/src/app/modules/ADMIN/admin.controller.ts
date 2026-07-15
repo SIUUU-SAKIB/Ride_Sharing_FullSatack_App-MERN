@@ -248,7 +248,7 @@ const allApplications = catchAsync(async (req: Request, res: Response) => {
     const { page = 1,
         limit = 5,
         search,
-        applicationStatus } = req.query
+        status } = req.query
     const pageNumber = Number(page)
     const limitNumber = Number(limit)
     const skip = (pageNumber - 1) * limitNumber
@@ -258,7 +258,7 @@ const allApplications = catchAsync(async (req: Request, res: Response) => {
         limitNumber,
         skip,
         search as string,
-        applicationStatus as string)
+        status as string)
     console.log(result)
     sendResponse(res, {
         success: true,

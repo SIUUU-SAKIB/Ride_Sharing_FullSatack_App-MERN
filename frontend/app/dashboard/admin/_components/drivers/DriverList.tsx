@@ -2,17 +2,19 @@ import LoadingScreen from '@/app/_components/ui/LoadingScreen'
 import { AdminHooksForDriver } from '@/app/_hooks/dashboard/admin/driver'
 import { IDriverStatus } from '@/app/_interfaces/driver.interface'
 import Image from 'next/image'
+import Link from 'next/link'
 import React from 'react'
-    const formatDate = (date: string) => {
-        return new Date(date).toLocaleDateString('en-GB', {
-            day: "2-digit",
-            month: "numeric",
-            year: '2-digit',
-            hour: "2-digit",
-            minute: "numeric"
-        })
-    }
-type SearchResultProps = {
+import { GoTriangleLeft, GoTriangleRight } from 'react-icons/go'
+const formatDate = (date: string) => {
+    return new Date(date).toLocaleDateString('en-GB', {
+        day: "2-digit",
+        month: "numeric",
+        year: '2-digit',
+        hour: "2-digit",
+        minute: "numeric"
+    })
+}
+type DriverListProps = {
     search: string,
     status: string,
 }
@@ -21,6 +23,7 @@ interface userInfo {
     name: string
 }
 interface DriverDetailsProps {
+    _id:string,
     userId: userInfo,
     licenseNumber: string;
     vehicleNumber: string;
@@ -61,16 +64,13 @@ const contents = [
     },
 ]
 
-const SearchResult = ({ search, status }: SearchResultProps) => {
+const DriverList = ({ search, status }: DriverListProps) => {
     const [page, setPage] = React.useState<number>(1)
-    const [limit, setLimit] = React.useState<number>(3)
+    const [limit, setLimit] = React.useState<number>(2)
     const { data: driverData, isLoading, isError } = AdminHooksForDriver.useAllApplications(page, limit, search, status)
-console.log(search, status)
-
     if (isLoading) { return <LoadingScreen /> }
+    console.log(status)
     if (isError) { return <p className='text-2xl font-bold text-red-500 h-full w-full text-center'>SOMETHING BAD HAPPEND</p> }
-    // DATE FORMAT
-
     return (
         <div className='w-full shadow-xs py-8 bg-white my-8 px-2'>
             <ul className="grid grid-cols-9 p-4">
@@ -101,14 +101,26 @@ console.log(search, status)
                         <p className='text-zinc-700 col-span-2'>{formatDate(item.createdAt)}</p>
                         <p className={`font-medium ${item.status === "Approved" && 'text-green-500' || item.status === "Rejected" && 'text-red-500' || item.status === "Pending" && 'text-yellow-500'}`}>{item.status}</p>
 
-                        <button className="font-medium text-red-500  cursor-pointer">
+                        <Link href={`/dashboard/admin/drivers/details/${item._id}}`} 
+                        className="font-medium text-red-500  cursor-pointer">
                             View Details
-                        </button>
+                        </Link>
                     </div>
                 )) : (<div className='text-xl font-medium text-center'>No driver found</div>)}
             </div>
+            <div className='w-full flex items-center justify-between pt-8 px-4'>
+                <p className='text-sm font-medium'>Showing {driverData?.data?.length} of {driverData.meta.total} entries</p>
+                {/* PAGINATION */}
+                <div className='flex gap-2 items-center'>
+                    <button disabled={page === 1} onClick={() => setPage(page => page - 1)}><GoTriangleLeft className={`text-4xl text-(--primary) bg-(--primary)/20 ${page === 1 ? "cursor-not-allowed" : "cursor-pointer"} hover:bg-(--primary) transition duration-100 hover:text-white `} /></button>
+                    <p className='text-md font-light'>Showing page <span className='font-semibold text-(--primary)'>{driverData?.meta?.page}</span> of total <span className='font-semibold text-(--primary)'>{driverData?.meta?.totalPage}</span></p>
+                    <button disabled={page === driverData?.meta?.totalPage} onClick={() => { setPage(page => page + 1), console.log('working') }}><GoTriangleRight className={`text-4xl text-(--primary) bg-(--primary)/20 ${page === driverData?.meta?.totalPage ? "cursor-not-allowed" : "cursor-pointer"} hover:bg-(--primary) transition duration-100 hover:text-white `} /></button>
+                </div>
+            </div>
+
+
         </div>
     )
 }
 
-export default SearchResult
+export default DriverList

@@ -260,19 +260,20 @@ const allApplications = async (page: number,
   limit: number,
   skip: number,
   search: string,
-  applicationStatus: string) => {
+  status: string) => {
   const query:any  = {}
   if (search) {
     query.$or = [
-      { name: { $regex: search, $options: "i" } },
-      { email: { $regex: search, $options: "i" } },
-      { phone: { $regex: search, $options: "i" } },
-      { vehicleName: { $regex: search, $options: "i" } },
-      { vehicleType: { $regex: search, $options: "i" } }
-      
+      { licenseNumber: { $regex: search, $options: "i" } },
+      { phoneNumber: { $regex: search, $options: "i" } },
+      { vehicleName: { $regex: search, $options: "i" } }
     ]
   }
 
+  
+if(status && status !== `All`) {
+query.status = status
+}
   const allApplications = await DriverApplicationDB.find(query).populate('userId', 'name profilePhoto').skip(skip).sort({createdAt:-1}).limit(limit)
   const totalApplications = await DriverApplicationDB.countDocuments(query)
   return {
