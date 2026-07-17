@@ -69,6 +69,11 @@ router.patch(`/reject-application/:applicationId`,
     validateZodSchema(AdminValidation.rejectApplication),
     AdminController.rejectApplication)
 
+// *get single application
+router.get(`/application/:applicationId`,
+    authentication(IAdminRole.ADMIN, IAdminRole.SUPER_ADMIN),
+    AdminController.getsingleApplication)
+
 //* ---------------------------------------------------------------------
 
 // *SUPER ADMIN ROUTES ⭐

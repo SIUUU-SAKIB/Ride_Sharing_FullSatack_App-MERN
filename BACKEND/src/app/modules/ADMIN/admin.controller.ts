@@ -273,6 +273,22 @@ const allApplications = catchAsync(async (req: Request, res: Response) => {
         data: result.allApplications
     });
 })
+
+const getsingleApplication = catchAsync(async (req: Request, res: Response) => {
+    const { applicationId } = req.params;
+    if (!applicationId) {
+        throw new AppError(StatusCodes.BAD_REQUEST, "Application ID required")
+    }
+
+    const result = await AdminService.getsingleApplication(applicationId as string)
+    sendResponse(res, {
+        success: true,
+        statusCode: StatusCodes.OK,
+        message: "Application fetched successfully",
+        data: result
+    })
+})
+
 export const AdminController = {
     createAdmin,
     verifyEmail,
@@ -288,6 +304,7 @@ export const AdminController = {
     rejectApplication,
     allApplications,
     blockUser,
-    unblockUser
+    unblockUser,
+    getsingleApplication
 }
 

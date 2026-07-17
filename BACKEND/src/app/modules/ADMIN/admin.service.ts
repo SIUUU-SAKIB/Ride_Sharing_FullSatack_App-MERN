@@ -280,6 +280,13 @@ query.status = status
     allApplications, totalApplications
   }
 }
+const getsingleApplication = async (_id: string) => {
+  const application = await DriverApplicationDB.findById(_id).populate('userId', 'name profilePhoto email')
+  if (!application) {
+    throw new AppError(StatusCodes.NOT_FOUND, "Application not found")
+  }
+  return application
+}
 export const AdminService = {
   createAdmin,
   deleteAdmin,
@@ -294,5 +301,6 @@ export const AdminService = {
   rejectApplication,
   allApplications,
   blockUser,
-  unblockUser
+  unblockUser,
+  getsingleApplication
 }

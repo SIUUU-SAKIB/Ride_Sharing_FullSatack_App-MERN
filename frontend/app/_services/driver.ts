@@ -22,7 +22,6 @@ const driverApplication = async (payload: DriverApplicationPayload) => {
         credentials: "include"
     })
 
-console.log(response)
     const data = await response.json()
 
     if (!response.ok) {

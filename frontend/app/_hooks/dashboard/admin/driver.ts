@@ -7,6 +7,14 @@ const useAllApplications = (page:number, limit:number, search:string,status:stri
         queryFn:() => AdminServiceForDriver.allApplications(page, limit, search, status)
     })
 }
+
+const useGetApplicationById = (driver_id:string) => {
+    return useQuery({
+        queryKey:[`get-application-by-id`, driver_id],
+        queryFn:() => AdminServiceForDriver.getApplicationById(driver_id)
+    })
+}
 export const AdminHooksForDriver = {
-    useAllApplications
+    useAllApplications,
+    useGetApplicationById
 }

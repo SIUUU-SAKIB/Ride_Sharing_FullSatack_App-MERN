@@ -23,7 +23,7 @@ interface userInfo {
     name: string
 }
 interface DriverDetailsProps {
-    _id:string,
+    _id: string,
     userId: userInfo,
     licenseNumber: string;
     vehicleNumber: string;
@@ -101,8 +101,8 @@ const DriverList = ({ search, status }: DriverListProps) => {
                         <p className='text-zinc-700 col-span-2'>{formatDate(item.createdAt)}</p>
                         <p className={`font-medium ${item.status === "Approved" && 'text-green-500' || item.status === "Rejected" && 'text-red-500' || item.status === "Pending" && 'text-yellow-500'}`}>{item.status}</p>
 
-                        <Link href={`/dashboard/admin/drivers/details/${item._id}}`} 
-                        className="font-medium text-red-500  cursor-pointer">
+                        <Link href={`/dashboard/admin/drivers/details/${item._id}`}
+                            className="font-medium text-red-500  cursor-pointer">
                             View Details
                         </Link>
                     </div>
