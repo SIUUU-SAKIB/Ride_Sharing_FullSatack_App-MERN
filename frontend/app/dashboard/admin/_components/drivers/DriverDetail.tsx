@@ -11,7 +11,7 @@ const DriverDetail = ({ id }: { id: string }) => {
   console.log(id)
   const { data, isLoading, isError, error } = AdminHooksForDriver
     .useGetApplicationById(id as string)
-     
+     console.log(data?.data?.vehicleImage[0].url)
   return (
     <div className='p-8'>
       <div className="flex gap-2 items-center pb-4">
@@ -32,10 +32,10 @@ const DriverDetail = ({ id }: { id: string }) => {
               <div className="gap-2 flex flex-col"> 
                 <p className="text-2xl font-medium ">{data?.data?.userId?.name}</p>
               <div className="flex gap-4">
-                <p className={`bg-red-100 rounded-sm px-2 py-1 text-sm font-light text-red-900`}>{data?.data?.status}</p>
+                <p className={`bg-red-100 rounded-sm px-2 py-1 text-sm text-red-900`}>{data?.data?.status}</p>
                 <div className="flex gap-1 items-center">
                   <Calendar size={16} strokeWidth={0.95}  className="font-light text-xs"/>
-                  <p className="font-light ">Applied on: {formatDate(data?.data?.createdAt)}</p>
+                  <p className="font-light ">Applied on: <span className="font-medium">{formatDate(data?.data?.createdAt)}</span></p>
                 </div>
               </div>
               </div>
@@ -56,38 +56,38 @@ const DriverDetail = ({ id }: { id: string }) => {
              <div className="w-full flex flex-col gap-6">
               <div className="flex items-center justify-between">
                 <p className="text-gray-800">License Number</p>
-                <p className="font-semibold">DL-9987688</p>
+                <p className="font-semibold">{data?.data?.licenseNumber}</p>
               </div>
               <div className="flex items-center justify-between">
                 <p className="text-gray-800">Vehicle</p>
-                <p className="font-semibold">Toyota Prius 200</p>
+                <p className="font-semibold">{data?.data?.vehicleName}</p>
               </div>
               <div className="flex items-center justify-between">
                 <p className="text-gray-800">Vehicle Number</p>
-                <p className="font-semibold">Metro-Ga-12-3458</p>
+                <p className="font-semibold">{data?.data?.vehicleNumber}</p>
               </div>
               <div className="flex items-center justify-between">
                 <p className="text-gray-800">License Number</p>
-                <p className="font-semibold">DL-9987688</p>
+                <p className="font-semibold">{data?.data?.licenseNumber}</p>
               </div>
              </div>
                 {/* part-2 */}
                    <div className="w-full flex flex-col gap-6">
               <div className="flex items-center justify-between">
                 <p className="text-gray-800">Ownership</p>
-                <p className="font-semibold">Owned</p>
+                <p className="font-semibold">{data?.data?.vehicleOwnership}</p>
               </div>
               <div className="flex items-center justify-between">
                 <p className="text-gray-800">Blood Group</p>
-                <p className="font-semibold">A+</p>
+                <p className="font-semibold">{data?.data?.bloodType}</p>
               </div>
               <div className="flex items-center justify-between">
                 <p className="text-gray-800">Gender</p>
-                <p className="font-semibold">Male</p>
+                <p className="font-semibold">{data?.data?.gender}</p>
               </div>
               <div className="flex items-center justify-between">
                 <p className="text-gray-800">Home Address</p>
-                <p className="font-semibold">Masimpur, Doel no: 07, Sylhet.</p>
+                <p className="font-semibold">{data?.data?.address}</p>
               </div>
              </div>
              </div>
@@ -105,7 +105,7 @@ const DriverDetail = ({ id }: { id: string }) => {
             <p>Driving License Image</p>
            <div className="p-4 bg-white shadow-sm rounded-sm">
              <Image
-               src={'/driving License.jpg'}
+               src={data?.data?.licenseImage[0].url}
                alt="driving license image"
                width={500}
                height={500}
@@ -117,19 +117,7 @@ const DriverDetail = ({ id }: { id: string }) => {
             <p>Vehicle Image</p>
            <div className="p-4 bg-white shadow-sm rounded-sm">
              <Image
-               src={'/vehicle image.jpg'}
-               alt="driving license image"
-               width={5000}
-               height={500}
-               className="w-full h-75 object-contain"
-            />
-           </div>
-          </div>
-             <div className="flex flex-col gap-2 w-full">
-            <p>NID Image</p>
-           <div className="p-4 bg-white shadow-sm rounded-sm">
-             <Image
-               src={'/nidimage.jpg'}
+               src={data?.data?.vehicleImage[0].url}
                alt="driving license image"
                width={5000}
                height={500}
