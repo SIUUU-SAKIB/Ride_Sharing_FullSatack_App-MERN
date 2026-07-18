@@ -5,7 +5,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import React from 'react'
 import { GoTriangleLeft, GoTriangleRight } from 'react-icons/go'
-const formatDate = (date: string) => {
+export const formatDate = (date: string) => {
     return new Date(date).toLocaleDateString('en-GB', {
         day: "2-digit",
         month: "numeric",
@@ -69,7 +69,6 @@ const DriverList = ({ search, status }: DriverListProps) => {
     const [limit, setLimit] = React.useState<number>(2)
     const { data: driverData, isLoading, isError } = AdminHooksForDriver.useAllApplications(page, limit, search, status)
     if (isLoading) { return <LoadingScreen /> }
-    console.log(status)
     if (isError) { return <p className='text-2xl font-bold text-red-500 h-full w-full text-center'>SOMETHING BAD HAPPEND</p> }
     return (
         <div className='w-full shadow-xs py-8 bg-white my-8 px-2'>

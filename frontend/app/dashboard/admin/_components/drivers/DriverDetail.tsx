@@ -4,13 +4,14 @@ import { Calendar, CircleCheck, CircleX, Phone } from 'lucide-react';
 import Image from "next/image";
 import Link from "next/link";
 import { GoArrowLeft } from "react-icons/go";
+import { formatDate } from "./DriverList";
 
 
 const DriverDetail = ({ id }: { id: string }) => {
   console.log(id)
   const { data, isLoading, isError, error } = AdminHooksForDriver
     .useGetApplicationById(id as string)
-    console.log(data.data)
+     
   return (
     <div className='p-8'>
       <div className="flex gap-2 items-center pb-4">
@@ -29,12 +30,12 @@ const DriverDetail = ({ id }: { id: string }) => {
                 className="w-16 h-16 object-cover rounded-full"
               />
               <div className="gap-2 flex flex-col"> 
-                <p className="text-2xl font-medium ">Robert Fox</p>
+                <p className="text-2xl font-medium ">{data?.data?.userId?.name}</p>
               <div className="flex gap-4">
-                <p className={`bg-red-100 rounded-sm px-2 py-1 text-sm font-light text-red-900`}>Pending</p>
+                <p className={`bg-red-100 rounded-sm px-2 py-1 text-sm font-light text-red-900`}>{data?.data?.status}</p>
                 <div className="flex gap-1 items-center">
                   <Calendar size={16} strokeWidth={0.95}  className="font-light text-xs"/>
-                  <p className="font-light ">Applied: Oct 24, 2024</p>
+                  <p className="font-light ">Applied on: {formatDate(data?.data?.createdAt)}</p>
                 </div>
               </div>
               </div>
@@ -149,7 +150,7 @@ const DriverDetail = ({ id }: { id: string }) => {
             </div>
             <div className="flex flex-col gap-2">
               <p className="text-gray-800">Rejection reason (optional)</p>
-              <textarea placeholder="Please specify the reason if rejcting this application" className="h-50 w-full shadow-xs border border-gray-100 p-4 rounded-sm active:border-(--primary) "/>
+              <textarea placeholder="Please specify the reason if rejcting this application" className="h-50 w-full shadow-xs border-none outline-none p-4 rounded-sm active:border-(--primary) "/>
             </div>
           </div>
           {/* end of review section  */}
