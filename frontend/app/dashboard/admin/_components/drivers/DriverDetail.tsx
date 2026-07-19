@@ -7,19 +7,24 @@ import { GoArrowLeft, GoMail } from "react-icons/go";
 import { formatDate } from "./DriverList";
 import { MdEmail } from "react-icons/md";
 import React from "react";
+import LoadingScreen from "@/app/_components/ui/LoadingScreen";
 
 
 const DriverDetail = ({ id }: { id: string }) => {
   const [drop, setDrop] = React.useState<boolean>(false)
   const { data, isLoading, isError, error } = AdminHooksForDriver
     .useGetApplicationById(id as string)
-
+    if(isLoading)return <LoadingScreen/>
+    if(error) return <p className="w-full h-full text-center text-2xl font-bold text-red-500">SOMETHING BAD HAPPEND PAL</p>
+  const licenseURL = data?.data?.licenseImage[0].url
+  const vehicleURL = data?.data?.vehicleImage[0].url
   const rejectButton = () => {
     alert(`rejected`)
   }
   const approveButton = () => {
     alert(`APPROVED`)
   }
+
   return (
     <div className='p-8'>
       <div className="flex gap-2 items-center pb-4">
@@ -40,7 +45,7 @@ const DriverDetail = ({ id }: { id: string }) => {
             <div className="gap-2 flex flex-col">
               <p className="text-2xl font-medium ">{data?.data?.userId?.name}</p>
               <div className="flex gap-4">
-                <p className={`bg-red-100 rounded-sm px-2 py-1 text-sm text-red-900`}>{data?.data?.status}</p>
+                <p className={`rounded-sm px-2 py-1 text-sm ${data?.data?.status === "Pending" && "text-gray-700 bg-gray-200" || data?.data?.status === "Approved" && "text-green-700 bg-green-200" || data?.data?.status === "Rejected" && "bg-red-200 text-red-700"}`}>{data?.data?.status}</p>
                 <div className="flex gap-1 items-center">
                   <Calendar size={16} strokeWidth={0.95} className="font-light text-xs" />
                   <p className="font-light ">Applied on: <span className="font-medium">{formatDate(data?.data?.createdAt)}</span></p>
@@ -59,7 +64,7 @@ const DriverDetail = ({ id }: { id: string }) => {
                 onClick={() => setDrop((prev) => !prev)}
                 className="rounded-md p-1 hover:bg-gray-200 transition"
               >
-                <EllipsisVertical strokeWidth={1.5} className="w-5 h-5 cursor-pointer"  />
+                <EllipsisVertical strokeWidth={1.5} className="w-5 h-5 cursor-pointer" />
               </button>
             </div>
 
@@ -141,25 +146,27 @@ const DriverDetail = ({ id }: { id: string }) => {
             <div className="flex flex-col gap-2 w-full">
               <p>Driving License Image</p>
               <div className="p-4 bg-white shadow-sm rounded-sm">
-                <Image
-                  src={data?.data?.licenseImage[0].url}
-                  alt="driving license image"
-                  width={500}
-                  height={500}
-                  className="w-full h-75 object-contain"
-                />
+                {
+                  licenseURL && <Image src={data?.data?.licenseImage[0]?.url || ""}
+                    alt="driving license image"
+                    width={500}
+                    height={500}
+                    className="w-full h-75 object-contain"
+                  />
+                }
               </div>
             </div>
             <div className="flex flex-col gap-2 w-full">
               <p>Vehicle Image</p>
               <div className="p-4 bg-white shadow-sm rounded-sm">
-                <Image
-                  src={data?.data?.vehicleImage[0].url}
-                  alt="driving license image"
-                  width={5000}
-                  height={500}
-                  className="w-full h-75 object-contain"
-                />
+                {
+                  vehicleURL && <Image src={data?.data?.vehicleImage[0]?.url || ""}
+                    alt="driving license image"
+                    width={5000}
+                    height={500}
+                    className="w-full h-75 object-contain"
+                  />
+                }
               </div>
             </div>
           </div>
