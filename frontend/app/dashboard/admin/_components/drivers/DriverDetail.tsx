@@ -73,7 +73,7 @@ const approveButton = () => {
                 <p className={`rounded-sm px-2 py-1 text-sm ${data?.data?.status === "Pending" && "text-gray-700 bg-gray-200" || data?.data?.status === "Approved" && "text-green-700 bg-green-200" || data?.data?.status === "Rejected" && "bg-red-200 text-red-700"}`}>{data?.data?.status}</p>
                 <div className="flex gap-1 items-center">
                   <Calendar size={16} strokeWidth={0.95} className="font-light text-xs" />
-                  <p className="font-light ">Applied on: <span className="font-medium">{formatDate(data?.data?.createdAt)}</span></p>
+                  <p className="font-light ">{data?.data?.status === "Pending" && "Applied on:" || data?.data?.status === "Approved" && "Approved on:" || data?.data?.status === "Pending" && "Applied on:"} <span className="font-medium">{formatDate(data?.data?.createdAt)}</span></p>
                 </div>
               </div>
             </div>
