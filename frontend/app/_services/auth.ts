@@ -26,7 +26,7 @@ const registerUser = async (data: RegisterPayload) => {
 }
 
 const loginUser = async (data: LoginPayload) => {
-    const response = await fetch(`${URL}/auth/login`, {
+    const response = await apiFetch(`${URL}/auth/login`, {
         method: 'POST',
         headers: {
             'Content-type': 'application/json'

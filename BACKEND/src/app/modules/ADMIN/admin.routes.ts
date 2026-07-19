@@ -59,7 +59,7 @@ router.get(`/all-applications`,
     AdminController.allApplications)
 
 // * approve application
-router.patch(`/approve/:applicationId`,
+router.patch(`/approve-application/:applicationId`,
     authentication(IAdminRole.ADMIN, IAdminRole.SUPER_ADMIN),
     AdminController.approveApplication)
 

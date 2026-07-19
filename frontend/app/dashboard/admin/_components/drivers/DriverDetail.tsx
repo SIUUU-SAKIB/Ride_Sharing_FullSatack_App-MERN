@@ -1,19 +1,20 @@
 "use client"
 import { AdminHooksForDriver } from "@/app/_hooks/dashboard/admin/driver";
-import { Calendar, CircleCheck, CircleX, EllipsisVertical, MailPlus, Phone, PhoneCall } from 'lucide-react';
+import { Calendar, CircleCheck, CircleX, EllipsisVertical, MailPlus, PhoneCall } from 'lucide-react';
 import Image from "next/image";
 import Link from "next/link";
 import { GoArrowLeft, GoMail } from "react-icons/go";
 import { formatDate } from "./DriverList";
-import { MdEmail } from "react-icons/md";
 import React from "react";
 import LoadingScreen from "@/app/_components/ui/LoadingScreen";
+import Swal from "sweetalert2";
 
 
 const DriverDetail = ({ id }: { id: string }) => {
   const [drop, setDrop] = React.useState<boolean>(false)
   const { data, isLoading, isError, error } = AdminHooksForDriver
     .useGetApplicationById(id as string)
+    const approveApplicationMutation = AdminHooksForDriver.useApproveApplication()
     if(isLoading)return <LoadingScreen/>
     if(error) return <p className="w-full h-full text-center text-2xl font-bold text-red-500">SOMETHING BAD HAPPEND PAL</p>
   const licenseURL = data?.data?.licenseImage[0].url
@@ -21,10 +22,34 @@ const DriverDetail = ({ id }: { id: string }) => {
   const rejectButton = () => {
     alert(`rejected`)
   }
-  const approveButton = () => {
-    alert(`APPROVED`)
-  }
+const approveButton = () => {
+  Swal.fire({
+    title: "Are you sure?",
+    text: "You really want to approve this application?",
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonColor: "#3085d6",
+    cancelButtonColor: "#d33",
+    confirmButtonText: "Yes, approve this application",
+  }).then(async (result) => {
+    if (!result.isConfirmed) return;
+    try {
+      await approveApplicationMutation.mutateAsync(id);
 
+      Swal.fire({
+        title: "Success!",
+        text: "Application has been approved successfully.",
+        icon: "success",
+      });
+    } catch (error) {
+      Swal.fire({
+        title: "Error!",
+        text: "Failed to approve the application.",
+        icon: "error",
+      });
+    }
+  });
+};
   return (
     <div className='p-8'>
       <div className="flex gap-2 items-center pb-4">
