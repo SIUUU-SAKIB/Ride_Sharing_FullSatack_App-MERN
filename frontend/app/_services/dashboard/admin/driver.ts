@@ -53,7 +53,7 @@ const rejectApplication = async (applicationID: string) => {
     const data = await response.json()
     if (!response.ok) {
         throw new Error(
-            data.message || "Failed to approve driver"
+            data.message || "Failed to Reject Application"
         )
     }
     return data
@@ -61,5 +61,6 @@ const rejectApplication = async (applicationID: string) => {
 export const AdminServiceForDriver = {
     allApplications,
     getApplicationById,
-    approveApplication
+    approveApplication,
+    rejectApplication
 }

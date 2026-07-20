@@ -14,47 +14,52 @@ const DriverDetail = ({ id }: { id: string }) => {
   const [drop, setDrop] = React.useState<boolean>(false)
   const { data, isLoading, isError, error } = AdminHooksForDriver
     .useGetApplicationById(id as string)
-    const approveApplicationMutation = AdminHooksForDriver.useApproveApplication()
-    if(isLoading)return <LoadingScreen/>
-    if(error) return <p className="w-full h-full text-center text-2xl font-bold text-red-500">SOMETHING BAD HAPPEND PAL</p>
+  const approveApplicationMutation = AdminHooksForDriver.useApproveApplication()
+  if (isLoading) return <LoadingScreen />
+  if (error) return <p className="w-full h-full text-center text-2xl font-bold text-red-500">SOMETHING BAD HAPPEND PAL</p>
   const licenseURL = data?.data?.licenseImage[0].url
   const vehicleURL = data?.data?.vehicleImage[0].url
   const rejectButton = () => {
     alert(`rejected`)
   }
-const approveButton = () => {
-  Swal.fire({
-    title: "Are you sure?",
-    text: "You really want to approve this application?",
-    icon: "warning",
-    showCancelButton: true,
-    confirmButtonColor: "#3085d6",
-    cancelButtonColor: "#d33",
-    confirmButtonText: "Yes, approve this application",
-  }).then(async (result) => {
-    if (!result.isConfirmed) return;
-    try {
-      await approveApplicationMutation.mutateAsync(id);
+  const approveButton = () => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You really want to approve this application?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, approve this application",
+    }).then(async (result) => {
+      if (!result.isConfirmed) return;
+      try {
+        await approveApplicationMutation.mutateAsync(id);
 
-      Swal.fire({
-        title: "Success!",
-        text: "Application has been approved successfully.",
-        icon: "success",
-      });
-    } catch (error) {
-      Swal.fire({
-        title: "Error!",
-        text: "Failed to approve the application.",
-        icon: "error",
-      });
-    }
-  });
-};
+        Swal.fire({
+          title: "Success!",
+          text: "Application has been approved successfully.",
+          icon: "success",
+        });
+      } catch (error) {
+        Swal.fire({
+          title: "Error!",
+          text: "Failed to approve the application.",
+          icon: "error",
+        });
+      }
+    });
+  };
   return (
-    <div className='px-8 pt-4'>
+    <div className='px-8 pt-4 relative'>
+      {/* overlay  */}
+      {
+        data?.data?.status === `Rejected` && <div className="w-full h-full absolute top-0 left-0 bg-red-200/50 z-10"></div>
+      }
+
       <div className="flex gap-2 items-center pb-4">
         <GoArrowLeft />
-        <Link href="/dashboard/admin/drivers" className="text-md text-(--neutral)">Back to Drivers List</Link>
+        <Link href="/dashboard/admin/drivers" className="text-md text-(--neutral) z-20">Back to Drivers List</Link>
       </div>
       {/* main data */}
       <div className="flex flex-col w-full p-8 bg-white rounded-sm shadow-xs">
@@ -92,7 +97,6 @@ const approveButton = () => {
                 <EllipsisVertical strokeWidth={1.5} className="w-5 h-5 cursor-pointer" />
               </button>
             </div>
-
             {drop && (
               <div className="absolute right-0 mt-2 w-40 rounded-xl border border-gray-200 bg-white shadow-lg z-50 overflow-hidden">
                 <button
@@ -213,15 +217,21 @@ const approveButton = () => {
         {/* end of review section  */}
         {/* action buttons */}
         <div className="w-full flex justify-end gap-4">
-          <div onClick={rejectButton} className="flex items-center gap-1 px-4 py-2 border-2 border-red-500 rounded-md cursor-pointer">
-            <CircleX className="text-red-500" />
-            <p className="text-red-500 font-medium">Rejct application</p>
-          </div>
+          {
+            data?.data?.status === `Rejected` && <div onClick={rejectButton} className="flex items-center gap-1 px-4 py-2 border-2 border-red-500 rounded-md cursor-pointer z-20 bg-white shadow-2xl">
+              <CircleX className="text-red-500" />
+              <p className="text-red-500 font-medium">Delete application</p>
+            </div> || data?.data?.status === "Pending" && <><div onClick={rejectButton} className="flex items-center gap-1 px-4 py-2 border-2 border-red-500 rounded-md cursor-pointer">
+              <CircleX className="text-red-500" />
+              <p className="text-red-500 font-medium">Rejct application</p>
+            </div>
 
-          <div onClick={approveButton} className="flex items-center gap-1 px-4 py-2 bg-(--primary) rounded-md cursor-pointer">
-            <CircleCheck className="text-white" />
-            <p className="text-white font-medium">Approve Driver</p>
-          </div>
+              <div onClick={approveButton} className="flex items-center gap-1 px-4 py-2 bg-(--primary) rounded-md cursor-pointer">
+                <CircleCheck className="text-white" />
+                <p className="text-white font-medium">Approve Driver</p>
+              </div>
+            </> 
+          }
         </div>
       </div>
 

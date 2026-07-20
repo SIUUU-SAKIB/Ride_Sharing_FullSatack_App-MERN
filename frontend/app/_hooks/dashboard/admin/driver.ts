@@ -1,5 +1,5 @@
 import { AdminServiceForDriver } from "@/app/_services/dashboard/admin/driver"
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
+import { QueryClient, useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 
 const useAllApplications = (page:number, limit:number, search:string,status:string) => {
    return useQuery({
@@ -26,8 +26,22 @@ const useApproveApplication = () => {
         }
     })
 }
+const useRejectApplication = () => {
+    const queryClient = useQueryClient()
+    return useMutation({
+     mutationFn:(applicationID:string) => AdminServiceForDriver.rejectApplication(applicationID),
+     onSuccess:()=>{
+        queryClient.invalidateQueries({
+            queryKey:['get-application-by-id']
+        })
+     }
+
+    }
+    )
+}
 export const AdminHooksForDriver = {
     useAllApplications,
     useGetApplicationById,
-    useApproveApplication
+    useApproveApplication,
+    useRejectApplication
 }
