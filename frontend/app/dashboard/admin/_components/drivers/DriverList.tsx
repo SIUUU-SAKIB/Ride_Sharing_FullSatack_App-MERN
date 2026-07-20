@@ -66,7 +66,7 @@ const contents = [
 
 const DriverList = ({ search, status }: DriverListProps) => {
     const [page, setPage] = React.useState<number>(1)
-    const [limit, setLimit] = React.useState<number>(2)
+    const [limit, setLimit] = React.useState<number>(5)
     const { data: driverData, isLoading, isError } = AdminHooksForDriver.useAllApplications(page, limit, search, status)
     if (isLoading) { return <LoadingScreen /> }
     if (isError) { return <p className='text-2xl font-bold text-red-500 h-full w-full text-center'>SOMETHING BAD HAPPEND</p> }

@@ -51,7 +51,7 @@ const approveButton = () => {
   });
 };
   return (
-    <div className='p-8'>
+    <div className='px-8 pt-4'>
       <div className="flex gap-2 items-center pb-4">
         <GoArrowLeft />
         <Link href="/dashboard/admin/drivers" className="text-md text-(--neutral)">Back to Drivers List</Link>
