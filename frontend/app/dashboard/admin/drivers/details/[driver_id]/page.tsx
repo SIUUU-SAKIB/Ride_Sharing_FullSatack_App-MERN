@@ -1,5 +1,5 @@
 
-import DriverDetail from "../../../_components/drivers/DriverDetail"
+import DriverDetail from "../../../_components/applications/DriverDetail"
 type Props = {
   params:Promise<{
     driver_id:string

@@ -10,7 +10,6 @@ const registerUser = async (data: RegisterPayload) => {
     formData.append('baseLocation',data.baseLocation)
     if (data.profilePhoto?.[0]) {
         formData.append('profileImage', data.profilePhoto[0])
-
     }
     const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/user/create`, {
         method: 'POST',
@@ -71,7 +70,6 @@ const logoutUser = async () => {
 const forgetPassword = async (
     email: string
 ) => {
-
     const response = await fetch(
         `${process.env.NEXT_PUBLIC_API_URL}/auth/forget-password`,
         {
@@ -146,3 +144,6 @@ export const Authentication =
     changePassword,
     refreshToken
 }
+
+// 01711455207
+// 01780385880

@@ -4,23 +4,53 @@ import { Calendar, CircleCheck, CircleX, EllipsisVertical, MailPlus, PhoneCall }
 import Image from "next/image";
 import Link from "next/link";
 import { GoArrowLeft, GoMail } from "react-icons/go";
-import { formatDate } from "./DriverList";
+import { formatDate } from "./ApplicationList";
 import React from "react";
 import LoadingScreen from "@/app/_components/ui/LoadingScreen";
 import Swal from "sweetalert2";
 
 
-const DriverDetail = ({ id }: { id: string }) => {
+const ApplicationDetail = ({ id }: { id: string }) => {
   const [drop, setDrop] = React.useState<boolean>(false)
+  const [rejectReason, setRejectReason] = React.useState<string>('')
   const { data, isLoading, isError, error } = AdminHooksForDriver
     .useGetApplicationById(id as string)
   const approveApplicationMutation = AdminHooksForDriver.useApproveApplication()
+   const rejectApplicationMutaion = AdminHooksForDriver.useRejectApplication()
   if (isLoading) return <LoadingScreen />
   if (error) return <p className="w-full h-full text-center text-2xl font-bold text-red-500">SOMETHING BAD HAPPEND PAL</p>
   const licenseURL = data?.data?.licenseImage[0].url
   const vehicleURL = data?.data?.vehicleImage[0].url
+
+
+
   const rejectButton = () => {
-    alert(`rejected`)
+    
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You really want to reject this application?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, reject this application",
+    }).then(async (result) => {
+      if (!result.isConfirmed) return;
+      try {
+        await rejectApplicationMutaion.mutateAsync(id);
+        Swal.fire({
+          title: "Success!",
+          text: "Application has been rejected successfully.",
+          icon: "success",
+        });
+      } catch (error) {
+        Swal.fire({
+          title: "Error!",
+          text: "Failed to reject the application.",
+          icon: "error",
+        });
+      }
+    });
   }
   const approveButton = () => {
     Swal.fire({
@@ -50,6 +80,9 @@ const DriverDetail = ({ id }: { id: string }) => {
       }
     });
   };
+  const deleteButton = () => {
+    alert(`deleted`)
+  }
   return (
     <div className='px-8 pt-4 relative'>
       {/* overlay  */}
@@ -211,26 +244,29 @@ const DriverDetail = ({ id }: { id: string }) => {
           </div>
           <div className="flex flex-col gap-2">
             <p className="text-gray-800">Rejection reason (optional)</p>
-            <textarea placeholder="Please specify the reason if rejcting this application" className="h-50 w-full shadow-xs border-none outline-none p-4 rounded-sm active:border-(--primary) " />
+            <textarea onChange={(e) => setRejectReason(e.target.value)} placeholder="Please specify the reason if rejcting this application" className="h-50 w-full shadow-xs border-none outline-none p-4 rounded-sm active:border-(--primary) " />
           </div>
         </div>
         {/* end of review section  */}
         {/* action buttons */}
         <div className="w-full flex justify-end gap-4">
           {
-            data?.data?.status === `Rejected` && <div onClick={rejectButton} className="flex items-center gap-1 px-4 py-2 border-2 border-red-500 rounded-md cursor-pointer z-20 bg-white shadow-2xl">
+            data?.data?.status === `Rejected` || data?.data?.status === `Approved`  &&
+            // on rejected=========
+            <div onClick={deleteButton} className="flex items-center gap-1 px-4 py-2 border-2 border-red-500 rounded-md cursor-pointer z-20 bg-white shadow-2xl">
               <CircleX className="text-red-500" />
               <p className="text-red-500 font-medium">Delete application</p>
-            </div> || data?.data?.status === "Pending" && <><div onClick={rejectButton} className="flex items-center gap-1 px-4 py-2 border-2 border-red-500 rounded-md cursor-pointer">
+            </div> || data?.data?.status === "Pending" &&
+            // On pending=========
+            <><div onClick={rejectButton} className="flex items-center gap-1 px-4 py-2 border-2 border-red-500 rounded-md cursor-pointer">
               <CircleX className="text-red-500" />
               <p className="text-red-500 font-medium">Rejct application</p>
             </div>
-
               <div onClick={approveButton} className="flex items-center gap-1 px-4 py-2 bg-(--primary) rounded-md cursor-pointer">
                 <CircleCheck className="text-white" />
                 <p className="text-white font-medium">Approve Driver</p>
               </div>
-            </> 
+            </>
           }
         </div>
       </div>
@@ -240,4 +276,4 @@ const DriverDetail = ({ id }: { id: string }) => {
   )
 }
 
-export default DriverDetail
+export default ApplicationDetail 

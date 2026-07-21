@@ -64,7 +64,7 @@ const contents = [
     },
 ]
 
-const DriverList = ({ search, status }: DriverListProps) => {
+const ApplicationList = ({ search, status }: DriverListProps) => {
     const [page, setPage] = React.useState<number>(1)
     const [limit, setLimit] = React.useState<number>(5)
     const { data: driverData, isLoading, isError } = AdminHooksForDriver.useAllApplications(page, limit, search, status)
@@ -122,4 +122,4 @@ const DriverList = ({ search, status }: DriverListProps) => {
     )
 }
 
-export default DriverList
+export default ApplicationList

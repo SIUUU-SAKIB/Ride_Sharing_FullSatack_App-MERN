@@ -1,10 +1,10 @@
 "use client"
 import { Search } from 'lucide-react'
 import React from 'react'
-import SearchResult from './DriverList'
+import SearchResult from './ApplicationList'
 import { MdFilterAltOff } from 'react-icons/md'
 
-const DriverFilters = () => {
+const ApplicationFilters = () => {
     const [search, setSearch] =  React.useState<string>('')
     const [status, setStatus] = React.useState<string>('')
     return (
@@ -52,4 +52,4 @@ const DriverFilters = () => {
     )
 }
 
-export default DriverFilters
+export default ApplicationFilters

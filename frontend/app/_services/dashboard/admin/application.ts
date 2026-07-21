@@ -58,7 +58,7 @@ const rejectApplication = async (applicationID: string) => {
     }
     return data
 }
-export const AdminServiceForDriver = {
+export const AdminServiceForApplications = {
     allApplications,
     getApplicationById,
     approveApplication,
