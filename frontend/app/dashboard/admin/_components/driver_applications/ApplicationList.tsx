@@ -112,9 +112,13 @@ const ApplicationList = ({ search, status }: DriverListProps) => {
                 <p className='text-sm font-medium'>Showing {driverData?.data?.length} of {driverData.meta.total} entries</p>
                 {/* PAGINATION */}
                 <div className='flex gap-2 items-center'>
-                    <button disabled={page === 1} onClick={() => setPage(page => page - 1)}><GoTriangleLeft className={`text-4xl text-(--primary) bg-(--primary)/20 ${page === 1 ? "cursor-not-allowed" : "cursor-pointer"} hover:bg-(--primary) transition duration-100 hover:text-white `} /></button>
+                    <button disabled={page === 1} onClick={() => setPage(page => page - 1)}>
+                        <GoTriangleLeft className={`text-4xl text-(--primary) bg-(--primary)/20 ${page === 1 ? "cursor-not-allowed" : "cursor-pointer"} hover:bg-(--primary) transition duration-100 hover:text-white `} />
+                    </button>
                     <p className='text-md font-light'>Showing page <span className='font-semibold text-(--primary)'>{driverData?.meta?.page}</span> of total <span className='font-semibold text-(--primary)'>{driverData?.meta?.totalPage}</span></p>
-                    <button disabled={page === driverData?.meta?.totalPage} onClick={() => { setPage(page => page + 1), console.log('working') }}><GoTriangleRight className={`text-4xl text-(--primary) bg-(--primary)/20 ${page === driverData?.meta?.totalPage ? "cursor-not-allowed" : "cursor-pointer"} hover:bg-(--primary) transition duration-100 hover:text-white `} /></button>
+                    <button disabled={page === driverData?.meta?.totalPage} onClick={() => { setPage(page => page + 1) }}>
+                        <GoTriangleRight className={`text-4xl text-(--primary) bg-(--primary)/20 ${page === driverData?.meta?.totalPage ? "cursor-not-allowed" : "cursor-pointer"} hover:bg-(--primary) transition duration-100 hover:text-white `} />
+                    </button>
                 </div>
             </div>
 

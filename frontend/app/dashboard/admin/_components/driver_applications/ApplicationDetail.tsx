@@ -251,11 +251,12 @@ const ApplicationDetail = ({ id }: { id: string }) => {
         {/* action buttons */}
         <div className="w-full flex justify-end gap-4">
           {
-            data?.data?.status === `Rejected` || data?.data?.status === `Approved`  &&
+            data?.data?.status === `Rejected` &&
             // on rejected=========
             <div onClick={deleteButton} className="flex items-center gap-1 px-4 py-2 border-2 border-red-500 rounded-md cursor-pointer z-20 bg-white shadow-2xl">
               <CircleX className="text-red-500" />
               <p className="text-red-500 font-medium">Delete application</p>
+              
             </div> || data?.data?.status === "Pending" &&
             // On pending=========
             <><div onClick={rejectButton} className="flex items-center gap-1 px-4 py-2 border-2 border-red-500 rounded-md cursor-pointer">
@@ -267,6 +268,11 @@ const ApplicationDetail = ({ id }: { id: string }) => {
                 <p className="text-white font-medium">Approve Driver</p>
               </div>
             </>
+            || data?.data?.status === "Approved" &&  <div onClick={deleteButton} className="flex items-center gap-1 px-4 py-2 border-2 border-red-500 rounded-md cursor-pointer z-20 bg-white shadow-2xl">
+              <CircleX className="text-red-500" />
+              <p className="text-red-500 font-medium">View Driver</p>
+              
+            </div> 
           }
         </div>
       </div>
