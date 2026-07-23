@@ -1,5 +1,5 @@
 "use client"
-import { AdminHooksForDriver } from "@/app/_hooks/dashboard/admin/driver";
+import { AdminHooksForApplications } from "@/app/_hooks/dashboard/admin/applications";
 import { Calendar, CircleCheck, CircleX, EllipsisVertical, MailPlus, PhoneCall } from 'lucide-react';
 import Image from "next/image";
 import Link from "next/link";
@@ -13,10 +13,10 @@ import Swal from "sweetalert2";
 const ApplicationDetail = ({ id }: { id: string }) => {
   const [drop, setDrop] = React.useState<boolean>(false)
   const [rejectReason, setRejectReason] = React.useState<string>('')
-  const { data, isLoading, isError, error } = AdminHooksForDriver
+  const { data, isLoading, isError, error } = AdminHooksForApplications
     .useGetApplicationById(id as string)
-  const approveApplicationMutation = AdminHooksForDriver.useApproveApplication()
-   const rejectApplicationMutaion = AdminHooksForDriver.useRejectApplication()
+  const approveApplicationMutation = AdminHooksForApplications.useApproveApplication()
+   const rejectApplicationMutaion = AdminHooksForApplications.useRejectApplication()
   if (isLoading) return <LoadingScreen />
   if (error) return <p className="w-full h-full text-center text-2xl font-bold text-red-500">SOMETHING BAD HAPPEND PAL</p>
   const licenseURL = data?.data?.licenseImage[0].url

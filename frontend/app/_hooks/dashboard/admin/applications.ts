@@ -39,7 +39,7 @@ const useRejectApplication = () => {
     }
     )
 }
-export const AdminHooksForDriver = {
+export const AdminHooksForApplications = {
     useAllApplications,
     useGetApplicationById,
     useApproveApplication,

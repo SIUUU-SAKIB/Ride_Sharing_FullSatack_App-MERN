@@ -19,8 +19,8 @@ const Sidebar = () => {
     const navItems = [
         { id: 1, name: "Dashboard", icon: MdDashboard, href: "/dashboard/admin" },
         { id: 2, name: "Rides", icon: GiPaperClip, href: "/dashboard/admin/rides" },
-        { id: 3, name: "Drivers", icon: PiCarSimpleThin, href: "/dashboard/admin/drivers" },
-        { id: 3, name: "Applications", icon: PiCarSimpleThin, href: "/dashboard/admin/Applications" },
+        // { id: 3, name: "Drivers", icon: PiCarSimpleThin, href: "/dashboard/admin/drivers" },
+        { id: 90, name: "Applications", icon: PiCarSimpleThin, href: "/dashboard/admin/driver_applications" },
         { id: 4, name: "Riders", icon: CiUser, href: "/dashboard/admin/riders" },
         { id: 5, name: "Payments", icon: MdOutlinePayment, href: "/dashboard/admin/payments" },
         { id: 6, name: "Settings", icon: IoSettingsOutline, href: "/dashboard/admin/settings" },

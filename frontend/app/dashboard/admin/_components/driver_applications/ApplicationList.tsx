@@ -1,5 +1,6 @@
 import LoadingScreen from '@/app/_components/ui/LoadingScreen'
-import { AdminHooksForDriver } from '@/app/_hooks/dashboard/admin/driver'
+import { AdminHooksForApplications } from '@/app/_hooks/dashboard/admin/applications'
+
 import { IDriverStatus } from '@/app/_interfaces/driver.interface'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -67,7 +68,7 @@ const contents = [
 const ApplicationList = ({ search, status }: DriverListProps) => {
     const [page, setPage] = React.useState<number>(1)
     const [limit, setLimit] = React.useState<number>(5)
-    const { data: driverData, isLoading, isError } = AdminHooksForDriver.useAllApplications(page, limit, search, status)
+    const { data: driverData, isLoading, isError } = AdminHooksForApplications.useAllApplications(page, limit, search, status)
     if (isLoading) { return <LoadingScreen /> }
     if (isError) { return <p className='text-2xl font-bold text-red-500 h-full w-full text-center'>SOMETHING BAD HAPPEND</p> }
     return (
@@ -100,7 +101,7 @@ const ApplicationList = ({ search, status }: DriverListProps) => {
                         <p className='text-zinc-700 col-span-2'>{formatDate(item.createdAt)}</p>
                         <p className={`font-medium ${item.status === "Approved" && 'text-green-500' || item.status === "Rejected" && 'text-red-500' || item.status === "Pending" && 'text-yellow-500'}`}>{item.status}</p>
 
-                        <Link href={`/dashboard/admin/drivers/details/${item._id}`}
+                        <Link href={`/dashboard/admin/driver_applications/details/${item._id}`}
                             className="font-medium text-red-500  cursor-pointer">
                             View Details
                         </Link>
@@ -122,4 +123,4 @@ const ApplicationList = ({ search, status }: DriverListProps) => {
     )
 }
 
-export default ApplicationList
+export default ApplicationList;

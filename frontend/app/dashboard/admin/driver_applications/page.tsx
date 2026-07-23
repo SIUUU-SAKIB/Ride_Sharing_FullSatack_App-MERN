@@ -1,5 +1,5 @@
 import { CiExport } from 'react-icons/ci'
-import DriverFilters from '../_components/applications/DriverFilters'
+import DriverFilters from '../_components/driver_applications/ApplicationFilter'
 
 const Drivers = () => {
   return (
