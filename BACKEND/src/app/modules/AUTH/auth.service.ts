@@ -8,7 +8,6 @@ import { enviromentVariables } from "../../config/env";
 import { JwtPayload } from "jsonwebtoken";
 import { sendOtp } from "../../utils/sendEmail";
 import { AdminDB } from "../ADMIN/admin.model";
-import { IAdmin } from "../ADMIN/admin.interface";
 import { verifyToken } from "../../utils/jwt/jwt";
 const MAX_ATTEMPTS = 5;
 const LOCK_TIME = 15 * 60 * 1000;
@@ -16,17 +15,16 @@ const LOCK_TIME = 15 * 60 * 1000;
 const credentialsLogin = async (payload: Partial<IUser>) => {
   const { email, password } = payload;
   const user = await UserDB.findOne({ email }).select("+password") || await AdminDB.findOne({ email }).select("+password");
-console.log(payload)
 
   if (!user) {
     throw new AppError(StatusCodes.BAD_REQUEST, "User does not exist");
   }
-  // if (user.lockUntil && user.lockUntil > new Date()) {
-  //   throw new AppError(
-  //     StatusCodes.FORBIDDEN,
-  //     "Account locked. Try again later."
-  //   );
-  // }
+  if (user.lockUntil && user.lockUntil > new Date()) {
+    throw new AppError(
+      StatusCodes.FORBIDDEN,
+      "Account locked. Try again later."
+    );
+  }
   if (!user.isVerified) {
     throw new AppError(StatusCodes.CONFLICT, "You're not verified yet");
   }
