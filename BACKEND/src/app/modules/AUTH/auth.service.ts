@@ -15,7 +15,6 @@ const LOCK_TIME = 15 * 60 * 1000;
 const credentialsLogin = async (payload: Partial<IUser>) => {
   const { email, password } = payload;
   const user = await UserDB.findOne({ email }).select("+password") || await AdminDB.findOne({ email }).select("+password");
-
   if (!user) {
     throw new AppError(StatusCodes.BAD_REQUEST, "User does not exist");
   }
