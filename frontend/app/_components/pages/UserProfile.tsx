@@ -1,6 +1,6 @@
 
 "use client"
-import { Pen, Star, User, Mail, LockKeyholeOpen, LogOut, Phone, MapPin, CarTaxiFront } from "lucide-react"
+import { Pen, Star, User, Mail, LockKeyholeOpen, LogOut, Phone, MapPin, CarTaxiFront, SquarePen } from "lucide-react"
 import Image from "next/image"
 import { useCurrentUser } from "../../_hooks/useCurrentUser"
 import { useLogout } from "../../_hooks/useLogout"
@@ -39,12 +39,15 @@ const UserProfile = () => {
     <div className="max-w-5xl pt-8 mx-auto pb-28 px-4">
       {/* top profile */}
       <div className="flex flex-col justify-center items-center w-full">
-        <Image alt="Profile image"
+       <div className="relative">
+         <Image alt="Profile image"
           width={600}
           height={600}
           src={user?.profilePhoto || "/demo_profile.jpg"}
-          className="rounded-full w-32 h-32 md:w-40 md:h-40 lg:w-50 lg:h-50 object-cover border-2 border-white mb-6"
+          className="rounded-full w-32 h-32 md:w-40 md:h-40 lg:w-50 lg:h-50 object-contain border-2 border-(--primary)  mb-6"
         />
+        <SquarePen className="absolute bottom-10 right-4 text-(--primary) bg-(--white) "/>
+       </div>
         <div className="flex flex-col gap-2 items-center justify-center">
           <h3 className="font-bold text-xl md:text-2xl text-center">{user?.name}</h3>
           <p className="text-(--neutral) font-medium text-sm md:text-md break-all text-center">{user?.email}</p>

@@ -4,7 +4,6 @@ import { useQuery } from "@tanstack/react-query"
 import { CarTaxiFront, Lock } from "lucide-react"
 import Link from 'next/link'
 import React from "react"
-import { useState } from "react"
 const Services = () => {
     const [clicked, setClicked] = React.useState(false)
     return (
