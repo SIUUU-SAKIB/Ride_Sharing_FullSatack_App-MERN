@@ -3,6 +3,7 @@
 import { useCurrentUser } from "@/app/_hooks/useCurrentUser"
 import LocationForm from "../ui/LocationForm"
 import Services from "./Services"
+import MainHomePage from "./MainHomePage"
 
 const HomeLayout = () => {
     const { data: user } = useCurrentUser()
@@ -14,7 +15,7 @@ const HomeLayout = () => {
                 !user ? (
                     <><LocationForm />
                         <Services /></>) :
-                    (<div>USER LOGGED IN NOW!</div>)
+                    (<MainHomePage/>)
             }
         </>
     )
