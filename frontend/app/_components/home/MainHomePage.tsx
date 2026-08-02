@@ -3,8 +3,8 @@ import RadioIcon from '@iconify-react/formkit/radio';
 import PenIcon from '@iconify-react/lucide/pen';
 const MainHomePage = () => {
   return (
-    <div className="w-full">
-      <div className="flex items-center justify-between">
+    <div className="gap-2 min-w-sm bg-white px-4 py-4 rounded-lg">
+      <div className="flex items-center justify-between w-full ">
         <div className="flex flex-col gap-2">
           <p className="text-(--neutral) text-lg">PICKUP</p>
           <div className='flex items-center gap-4'>
