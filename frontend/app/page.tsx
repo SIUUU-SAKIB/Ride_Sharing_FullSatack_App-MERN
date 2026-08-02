@@ -1,7 +1,6 @@
-import LocationForm from "./_components/ui/LocationForm"
+
 import BottomNav from "./_components/Navigation/BottomNav"
 import Nav from "./_components/Navigation/Nav"
-import Services from "./_components/home/Services"
 import HomeLayout from "./_components/home/HomeLayout"
 
 const HomePage = () => {
