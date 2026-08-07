@@ -33,7 +33,7 @@ const MainHomePage = () => {
   return (
     <div className="w-full">
       <p className="text-xl font-bold py-2 text-shadow-2xs">Good {getTimeOfDay()}, {user?.data?.name}</p>
-      <div className="w-full flex flex-col bg-white rounded-xl px-4 py-4">
+      <div className="w-full flex flex-col bg-white rounded-xl px-4 py-2">
       {/* pickup */}
       <div className="flex items-center justify-between border-b border-gray-200 py-4">
         <div className="flex flex-col gap-2 w-full">
@@ -77,7 +77,7 @@ const MainHomePage = () => {
     {/* 2nd part */}
 
     <div className="bg-white p-4 rounded-t-2xl mt-8">
-      <div className="flex items-center justify-center flex-wrap gap-2 max-w-150">
+      <div className="flex items-center justify-center flex-wrap gap-4 max-w-7xl">
         {/*  1st vehicle*/}
         <div className="flex flex-col bg-gray-200 rounded-4xl gap-4 p-4">
            <BikeIcon height="48" className="text-(--primary) mx-auto"/>
@@ -90,7 +90,7 @@ const MainHomePage = () => {
               </div>
            </div>
         </div>
-<div className="flex flex-col bg-gray-200 rounded-4xl gap-4 p-4 flex-wrap">
+<div className="flex flex-col bg-gray-100 shadow-xs rounded-2xl gap-4 p-4 flex-wrap">
            <BikeIcon height="48" className="text-(--primary) mx-auto"/>
            <div>
             <p className="text-md font-bold">Bike</p>
