@@ -8,6 +8,8 @@ import CrossOutlineIcon from '@iconify-react/bitcoin-icons/cross-outline';
 import LocationThinIcon from '@iconify-react/iconamoon/location-thin';
 import React from "react";
 import { useCurrentUser } from "@/app/_hooks/useCurrentUser";
+import BikeIcon from '@iconify-react/mdi/bike';
+import CurrencyTakaIcon from '@iconify-react/tabler/currency-taka';
 
 const getTimeOfDay = () => {
   const hour = new Date().getHours();
@@ -72,6 +74,28 @@ const MainHomePage = () => {
         </div>
       </div>
     </div>
+    {/* 2nd part */}
+
+    <div className="bg-white p-8 rounded-t-2xl mt-8">
+      <div className="flex items-center justify-center w-full">
+        {/*  1st vehicle*/}
+        <div className="flex flex-col bg-gray-200 rounded-4xl gap-4 p-4">
+           <BikeIcon height="64" className="text-(--primary) mx-auto"/>
+           <div>
+            <p className="text-lg font-bold">Bike</p>
+            <p className="text-xs text-(--neutrarl)">3 min away</p>
+            <div className="flex items-center">
+              <CurrencyTakaIcon height="24" />
+             <p className="text-lg text-(--primary)">120</p>
+              </div>
+            
+           </div>
+          
+        </div>
+
+      </div>
+    </div>
+
     </div>
     
   );

@@ -15,7 +15,7 @@ const Nav = () => {
         return<LoadingScreen/>
     }
     return (
-        <div className={`min-w-screen-2xl ${data ? "bg-white/20" : "bg-white"} h-14 px-4 md:px-12 py-8 md:py-8 flex items-center justify-between shadow-xs z-20`}>
+        <div className={`min-w-screen-2xl ${data ? "bg-white/50" : "bg-white"} h-14 px-4 md:px-12 py-8 md:py-8 flex items-center justify-between shadow-xs z-20`}>
             {/* logo container */}
             <div className='flex gap-2 py-2 items-center justify-center text-black '>
                 <div className='flex gap-2 items-center'>
