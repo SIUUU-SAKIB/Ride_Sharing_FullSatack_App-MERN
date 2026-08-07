@@ -10,7 +10,8 @@ import React from "react";
 import { useCurrentUser } from "@/app/_hooks/useCurrentUser";
 import BikeIcon from '@iconify-react/mdi/bike';
 import CurrencyTakaIcon from '@iconify-react/tabler/currency-taka';
-
+import CarIcon from '@iconify-react/mdi/car';
+import MonorailTransitVehicleWithDestinationDisplayIcon from '@iconify-react/pinhead/monorail-transit-vehicle-with-destination-display';
 const getTimeOfDay = () => {
   const hour = new Date().getHours();
 
@@ -24,6 +25,17 @@ const getTimeOfDay = () => {
     return "Night";
   }
 };
+const vehicleInfo = [
+  {
+    title:"Bike", distance:"3" , fare:170, icon:BikeIcon
+  },
+  {
+    title:"CNG", distance:"6" , fare:130, icon:MonorailTransitVehicleWithDestinationDisplayIcon
+  },
+  {
+    title:"Car", distance:"10" , fare:190, icon:CarIcon
+  }
+]
 const MainHomePage = () => {
   const {data:user }= useCurrentUser()
   const [locationToggle, setLocationToggle] = React.useState<boolean>
@@ -79,50 +91,21 @@ const MainHomePage = () => {
     <div className="bg-white p-4 rounded-t-2xl mt-8">
       <div className="flex items-center justify-center flex-wrap gap-4 max-w-7xl">
         {/*  1st vehicle*/}
-        <div className="flex flex-col bg-gray-200 rounded-4xl gap-4 p-4">
-           <BikeIcon height="48" className="text-(--primary) mx-auto"/>
+{
+  vehicleInfo.map(vehicle => <div key={vehicle.title} className="flex flex-col bg-gray-100 shadow-xs rounded-2xl gap-4 p-4 flex-wrap">
+           <vehicle.icon height="48" className="text-(--primary) mx-auto"/>
            <div>
-            <p className="text-md font-bold">Bike</p>
-            <p className="text-xs text-(--neutral)">3 min away</p>
+            <p className="text-md font-bold">{vehicle.title}</p>
+            <p className="text-xs text-(--neutral)">{vehicle.distance} min away</p>
             <div className="flex items-center">
               <CurrencyTakaIcon className="text-(--primary) " height="20" />
-             <p className="text-lg text-(--primary) font-bold">120</p>
+             <p className="text-lg text-(--primary) font-bold">{vehicle.fare}</p>
               </div>
            </div>
-        </div>
-<div className="flex flex-col bg-gray-100 shadow-xs rounded-2xl gap-4 p-4 flex-wrap">
-           <BikeIcon height="48" className="text-(--primary) mx-auto"/>
-           <div>
-            <p className="text-md font-bold">Bike</p>
-            <p className="text-xs text-(--neutral)">3 min away</p>
-            <div className="flex items-center">
-              <CurrencyTakaIcon className="text-(--primary) " height="20" />
-             <p className="text-lg text-(--primary) font-bold">120</p>
-              </div>
-           </div>
-        </div>
-        <div className="flex flex-col bg-gray-200 rounded-4xl gap-4 p-4 flex-wrap">
-           <BikeIcon height="48" className="text-(--primary) mx-auto"/>
-           <div>
-            <p className="text-md font-bold">Bike</p>
-            <p className="text-xs text-(--neutral)">3 min away</p>
-            <div className="flex items-center">
-              <CurrencyTakaIcon className="text-(--primary) " height="20" />
-             <p className="text-lg text-(--primary) font-bold">120</p>
-              </div>
-           </div>
-        </div>
-        <div className="flex flex-col bg-gray-200 rounded-4xl gap-4 p-4 flex-wrap">
-           <BikeIcon height="48" className="text-(--primary) mx-auto"/>
-           <div>
-            <p className="text-md font-bold">Bike</p>
-            <p className="text-xs text-(--neutral)">3 min away</p>
-            <div className="flex items-center">
-              <CurrencyTakaIcon className="text-(--primary) " height="20" />
-             <p className="text-lg text-(--primary) font-bold">120</p>
-              </div>
-           </div>
-        </div>
+        </div>)
+}
+  
+       
       </div>
     </div>
 
