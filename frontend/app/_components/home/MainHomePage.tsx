@@ -76,23 +76,53 @@ const MainHomePage = () => {
     </div>
     {/* 2nd part */}
 
-    <div className="bg-white p-8 rounded-t-2xl mt-8">
-      <div className="flex items-center justify-center w-full">
+    <div className="bg-white p-4 rounded-t-2xl mt-8">
+      <div className="flex items-center justify-center flex-wrap gap-2 max-w-150">
         {/*  1st vehicle*/}
         <div className="flex flex-col bg-gray-200 rounded-4xl gap-4 p-4">
-           <BikeIcon height="64" className="text-(--primary) mx-auto"/>
+           <BikeIcon height="48" className="text-(--primary) mx-auto"/>
            <div>
-            <p className="text-lg font-bold">Bike</p>
-            <p className="text-xs text-(--neutrarl)">3 min away</p>
+            <p className="text-md font-bold">Bike</p>
+            <p className="text-xs text-(--neutral)">3 min away</p>
             <div className="flex items-center">
-              <CurrencyTakaIcon height="24" />
-             <p className="text-lg text-(--primary)">120</p>
+              <CurrencyTakaIcon className="text-(--primary) " height="20" />
+             <p className="text-lg text-(--primary) font-bold">120</p>
               </div>
-            
            </div>
-          
         </div>
-
+<div className="flex flex-col bg-gray-200 rounded-4xl gap-4 p-4 flex-wrap">
+           <BikeIcon height="48" className="text-(--primary) mx-auto"/>
+           <div>
+            <p className="text-md font-bold">Bike</p>
+            <p className="text-xs text-(--neutral)">3 min away</p>
+            <div className="flex items-center">
+              <CurrencyTakaIcon className="text-(--primary) " height="20" />
+             <p className="text-lg text-(--primary) font-bold">120</p>
+              </div>
+           </div>
+        </div>
+        <div className="flex flex-col bg-gray-200 rounded-4xl gap-4 p-4 flex-wrap">
+           <BikeIcon height="48" className="text-(--primary) mx-auto"/>
+           <div>
+            <p className="text-md font-bold">Bike</p>
+            <p className="text-xs text-(--neutral)">3 min away</p>
+            <div className="flex items-center">
+              <CurrencyTakaIcon className="text-(--primary) " height="20" />
+             <p className="text-lg text-(--primary) font-bold">120</p>
+              </div>
+           </div>
+        </div>
+        <div className="flex flex-col bg-gray-200 rounded-4xl gap-4 p-4 flex-wrap">
+           <BikeIcon height="48" className="text-(--primary) mx-auto"/>
+           <div>
+            <p className="text-md font-bold">Bike</p>
+            <p className="text-xs text-(--neutral)">3 min away</p>
+            <div className="flex items-center">
+              <CurrencyTakaIcon className="text-(--primary) " height="20" />
+             <p className="text-lg text-(--primary) font-bold">120</p>
+              </div>
+           </div>
+        </div>
       </div>
     </div>
 
