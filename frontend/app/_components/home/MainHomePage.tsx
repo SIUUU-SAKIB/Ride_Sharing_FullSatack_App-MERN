@@ -9,10 +9,12 @@ import LocationThinIcon from '@iconify-react/iconamoon/location-thin';
 import React from "react";
 import { useCurrentUser } from "@/app/_hooks/useCurrentUser";
 import BikeIcon from '@iconify-react/mdi/bike';
-import CurrencyTakaIcon from '@iconify-react/tabler/currency-taka';
 import CarIcon from '@iconify-react/mdi/car';
 import { TbCurrencyTaka } from "react-icons/tb";
 import MonorailTransitVehicleWithDestinationDisplayIcon from '@iconify-react/pinhead/monorail-transit-vehicle-with-destination-display';
+import { FaArrowRight, FaMoneyBills } from "react-icons/fa6";
+import { ChevronDown } from "lucide-react";
+import { BiSolidCoupon } from "react-icons/bi";
 const getTimeOfDay = () => {
   const hour = new Date().getHours();
 
@@ -43,6 +45,7 @@ const MainHomePage = () => {
     (false)
   const [confirmLocation, setConfirmLocation] = React.useState<boolean>(false)
   const [selectedVehicle, setSelectedVehicle] = React.useState<string>(vehicleInfo[0]?.title)
+  const [paymentMethod, setPaymentMethod] = React.useState<string>('Cash')
   return (
     <div className="w-full">
       <p className="text-xl font-bold py-2 text-shadow-2xs">Good {getTimeOfDay()}, {user?.data?.name}</p>
@@ -88,9 +91,9 @@ const MainHomePage = () => {
         </div>
       </div>
       {/* 2nd part */}
-
-      <div className="bg-white p-2 rounded-t-2xl mt-8">
-        <div className="flex items-center justify-center flex-wrap gap-4 max-w-7xl">
+      {/* vehicles */}
+      <div className="bg-white px-2 py-8 rounded-t-2xl mt-8">
+        <div className="flex items-center justify-center flex-wrap gap-2 max-w-7xl">
           {
             vehicleInfo.map((vehicle, index) => <div onClick={() => setSelectedVehicle(vehicle.title)} key={index} className={`
       flex flex-col
@@ -98,19 +101,18 @@ const MainHomePage = () => {
       shadow-xs
       rounded-2xl
       gap-2
-      px-4
+      px-2
       py-4
       border-2
       transition duration-150
       cursor-pointer
-
       ${selectedVehicle === vehicle.title
                 ? "border-(--primary) bg-green-50 shadow-md"
                 : "border-transparent hover:border-gray-200"
               }
     `}>
               <vehicle.icon
-                height="44"
+                height="40"
                 className={`
         mx-auto my-4
         ${selectedVehicle === vehicle.title
@@ -120,7 +122,7 @@ const MainHomePage = () => {
       `}
               />
               <div>
-                <p className="text-lg font-bold">{vehicle.title}</p>
+                <p className="text-md font-bold">{vehicle.title}</p>
                 <p className="text-xs text-(--neutral)">{vehicle.distance} min away</p>
                 <div className="flex items-center">
                   <TbCurrencyTaka className={`${selectedVehicle === vehicle.title ? "text-(--primary)" : "text-black"} text-xl`} />
@@ -131,7 +133,52 @@ const MainHomePage = () => {
             </div>)
           }
         </div>
+        {/* vehicles end */}
+
+        {/* payment method */}
+        <div className="flex gap-4 items-center justify-between p-2 mt-8">
+          <div className="flex gap-2 items-center">
+            <div className="p-2 bg-gray-200/70 rounded-full"><FaMoneyBills className="text-2xl text-(--primary)" /></div>
+            <div className="flex flex-col">
+              <p className="text-md font-bold">Payment Method</p>
+              <p className="text-xs text-(--neutral)">{paymentMethod === "Cash" && "Payment on Delivery" ||paymentMethod === "Card" && "Payment via Card" || paymentMethod === "Bkash" && "Payment via Bkash"}</p>
+            </div>
+          </div>
+
+<div className="relative inline-flex items-center">
+  <select
+    defaultValue={paymentMethod}
+    onChange={(e) => setPaymentMethod(e.target.value)}
+    className="appearance-none bg-transparent border-none outline-none
+               text-sm font-medium cursor-pointer pr-5"
+  >
+    <option value="Cash">Cash</option>
+    <option value="Bkash">bKash</option>
+    <option value="Card">Card</option>
+  </select>
+
+  <ChevronDown
+    size={14}
+    className="absolute right-1 pointer-events-none text-gray-500"
+  />
+</div>
+
+        </div>
+        {/* payment method end */}
+        {/*coupon  */} 
+        <div className="py-1 px-2 flex gap-2 items-center justify-between bg-gray-100 rounded-full mt-2">
+          <div className="flex gap-2 items-center">
+            <div className="p-2 bg-white rounded-full">
+            <BiSolidCoupon className="text-(--primary) text-2xl"/>
+          </div>
+            <p className="text-md font-bold">Coupon</p>
+          </div>
+          <ChevronDown/>
+        </div>
+        {/* coupon end */}
+<div className="bg-(--primary) rounded-full w-full shadow-(--primary) py-4 px-2 text-white flex items-center gap-4 justify-center my-4 cursor-pointer hover:bg-green-500"><p className="text-xl font-bold">Request Ride</p> <FaArrowRight className="text-xl" /></div>
       </div>
+
 
     </div>
 
