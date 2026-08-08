@@ -42,7 +42,7 @@ const MainHomePage = () => {
   const [locationToggle, setLocationToggle] = React.useState<boolean>
     (false)
   const [confirmLocation, setConfirmLocation] = React.useState<boolean>(false)
-  const [selectedVehicle, setSelectedVehicle] = React.useState<string | null>(null)
+  const [selectedVehicle, setSelectedVehicle] = React.useState<string>(vehicleInfo[0]?.title)
   return (
     <div className="w-full">
       <p className="text-xl font-bold py-2 text-shadow-2xs">Good {getTimeOfDay()}, {user?.data?.name}</p>
@@ -91,7 +91,6 @@ const MainHomePage = () => {
 
       <div className="bg-white p-2 rounded-t-2xl mt-8">
         <div className="flex items-center justify-center flex-wrap gap-4 max-w-7xl">
-          {/*  1st vehicle*/}
           {
             vehicleInfo.map((vehicle, index) => <div onClick={() => setSelectedVehicle(vehicle.title)} key={index} className={`
       flex flex-col
@@ -116,7 +115,7 @@ const MainHomePage = () => {
         mx-auto my-4
         ${selectedVehicle === vehicle.title
                     ? "text-(--primary)"
-                    : "text-zinc-600"
+                    : "text-black"
                   }
       `}
               />
