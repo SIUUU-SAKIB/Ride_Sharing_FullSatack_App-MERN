@@ -46,6 +46,7 @@ const MainHomePage = () => {
   const [confirmLocation, setConfirmLocation] = React.useState<boolean>(false)
   const [selectedVehicle, setSelectedVehicle] = React.useState<string>(vehicleInfo[0]?.title)
   const [paymentMethod, setPaymentMethod] = React.useState<string>('Cash')
+
   return (
     <div className="w-full">
       <p className="text-xl font-bold py-2 text-shadow-2xs">Good {getTimeOfDay()}, {user?.data?.name}</p>
@@ -92,13 +93,11 @@ const MainHomePage = () => {
       </div>
       {/* 2nd part */}
       {/* vehicles */}
-      <div className="bg-white px-2 py-8 rounded-t-2xl mt-8">
-        <div className="flex items-center justify-center flex-wrap gap-2 max-w-7xl">
+      <div className="bg-white px-4 py-8 rounded-2xl mt-8">
+        <div className="flex items-center justify-center flex-wrap gap-2 max-w-7xl mx-auto">
           {
             vehicleInfo.map((vehicle, index) => <div onClick={() => setSelectedVehicle(vehicle.title)} key={index} className={`
-      flex flex-col
-      bg-gray-100
-      shadow-xs
+      flex flex-col bg-gray-100 shadow-xs flex-1 ${index == 2 && "sm:flex-0"}
       rounded-2xl
       gap-2
       px-2
@@ -141,42 +140,42 @@ const MainHomePage = () => {
             <div className="p-2 bg-gray-200/70 rounded-full"><FaMoneyBills className="text-2xl text-(--primary)" /></div>
             <div className="flex flex-col">
               <p className="text-md font-bold">Payment Method</p>
-              <p className="text-xs text-(--neutral)">{paymentMethod === "Cash" && "Payment on Delivery" ||paymentMethod === "Card" && "Payment via Card" || paymentMethod === "Bkash" && "Payment via Bkash"}</p>
+              <p className="text-xs text-(--neutral)">{paymentMethod === "Cash" && "Payment on Delivery" || paymentMethod === "Card" && "Payment via Card" || paymentMethod === "Bkash" && "Payment via Bkash"}</p>
             </div>
           </div>
 
-<div className="relative inline-flex items-center">
-  <select
-    defaultValue={paymentMethod}
-    onChange={(e) => setPaymentMethod(e.target.value)}
-    className="appearance-none bg-transparent border-none outline-none
+          <div className="relative inline-flex items-center">
+            <select
+              defaultValue={paymentMethod}
+              onChange={(e) => setPaymentMethod(e.target.value)}
+              className="appearance-none bg-transparent border-none outline-none
                text-sm font-medium cursor-pointer pr-5"
-  >
-    <option value="Cash">Cash</option>
-    <option value="Bkash">bKash</option>
-    <option value="Card">Card</option>
-  </select>
+            >
+              <option value="Cash">Cash</option>
+              <option value="Bkash">bKash</option>
+              <option value="Card">Card</option>
+            </select>
 
-  <ChevronDown
-    size={14}
-    className="absolute right-1 pointer-events-none text-gray-500"
-  />
-</div>
+            <ChevronDown
+              size={14}
+              className="absolute right-1 pointer-events-none text-gray-600"
+            />
+          </div>
 
         </div>
         {/* payment method end */}
-        {/*coupon  */} 
+        {/*coupon  */}
         <div className="py-1 px-2 flex gap-2 items-center justify-between bg-gray-100 rounded-full mt-2">
           <div className="flex gap-2 items-center">
             <div className="p-2 bg-white rounded-full">
-            <BiSolidCoupon className="text-(--primary) text-2xl"/>
-          </div>
+              <BiSolidCoupon className="text-(--primary) text-2xl" />
+            </div>
             <p className="text-md font-bold">Coupon</p>
           </div>
-          <ChevronDown/>
+          <ChevronDown />
         </div>
         {/* coupon end */}
-<div className="bg-(--primary) rounded-full w-full shadow-(--primary) py-4 px-2 text-white flex items-center gap-4 justify-center my-4 cursor-pointer hover:bg-green-500"><p className="text-xl font-bold">Request Ride</p> <FaArrowRight className="text-xl" /></div>
+        <div className="bg-(--primary) rounded-full w-full shadow-(--primary) py-4 px-2 text-white flex items-center gap-4 justify-center my-4 cursor-pointer hover:bg-green-500"><p className="text-xl font-bold">Request Ride</p> <FaArrowRight className="text-xl" /></div>
       </div>
 
 
