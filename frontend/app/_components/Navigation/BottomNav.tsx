@@ -9,7 +9,7 @@ const BottomNav = () => {
    const logoutMutation = useLogout()
     return (
         <div className='fixed bottom-0 left-0 w-full bg-white mx-auto z-50 '>
-            <ul className='flex items-center justify-between py-4 text-gray-400 px-12 max-w-7xl mx-auto'>
+            <ul className='flex items-center justify-between py-4 text-gray-400 px-6 max-w-7xl mx-auto'>
                 <li>     <Link href={`/`} className='text-xl cursor-pointer flex flex-col gap-1 items-center'>
                     <HousePlus />
                     <p className='text-gray-700  text-sm'>Home</p>

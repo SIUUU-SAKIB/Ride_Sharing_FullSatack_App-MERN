@@ -175,10 +175,10 @@ const MainHomePage = () => {
           <ChevronDown />
         </div>
         {/* coupon end */}
-        <div className="bg-(--primary) rounded-full w-full shadow-(--primary) py-4 px-2 text-white flex items-center gap-4 justify-center my-4 cursor-pointer hover:bg-green-500"><p className="text-xl font-bold">Request Ride</p> <FaArrowRight className="text-xl" /></div>
+        {/* button */}
+        <div onClick={() => {console.log(`clicked`)}} className="bg-(--primary) rounded-full w-full shadow-(--primary) py-4 px-2 text-white flex items-center gap-4 justify-center my-4 cursor-pointer hover:bg-green-900"><p className="text-xl font-bold">Request Ride</p> <FaArrowRight className="text-xl" /></div>
+        {/* button end */}
       </div>
-
-
     </div>
 
   );
