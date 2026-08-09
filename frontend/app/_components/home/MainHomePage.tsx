@@ -140,7 +140,7 @@ const MainHomePage = () => {
             <div className="p-2 bg-gray-200/70 rounded-full"><FaMoneyBills className="text-2xl text-(--primary)" /></div>
             <div className="flex flex-col">
               <p className="text-md font-bold">Payment Method</p>
-              <p className="text-xs text-(--neutral)">{paymentMethod === "Cash" && "Payment on Delivery" || paymentMethod === "Card" && "Payment via Card" || paymentMethod === "Bkash" && "Payment via Bkash"}</p>
+              <p className="text-xs text-(--neutral)">{paymentMethod === "Cash" && "Payment on destination" || paymentMethod === "Card" && "Payment via Card" || paymentMethod === "Bkash" && "Payment via Bkash"}</p>
             </div>
           </div>
 
