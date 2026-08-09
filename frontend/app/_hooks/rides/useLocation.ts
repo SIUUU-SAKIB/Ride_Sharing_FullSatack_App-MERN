@@ -19,30 +19,26 @@ export const useLocation = () => {
             return
         }
 
-       navigator.geolocation.getCurrentPosition(
-        (position) => {
-            setLocation({
-                latitude:position.coords.latitude,
-                longitude:position.coords.longitude
-            });
-            setLoading(false)
-        },
-        (error) => {
-            setError(error.message);
-            setLoading(false)
-        },
-        {
-            enableHighAccuracy:true,
-            timeout:10000,
-            maximumAge:30000
-        }
-
-       );
-
-
+        navigator.geolocation.getCurrentPosition(
+            (position) => {
+                setLocation({
+                    latitude: position.coords.latitude,
+                    longitude: position.coords.longitude
+                });
+                setLoading(false)
+            },
+            (error) => {
+                setError(error.message);
+                setLoading(false)
+            },
+            {
+                enableHighAccuracy: true,
+                timeout: 10000,
+                maximumAge: 30000
+            }
+        );
     }, [])
-
-    return{
+    return {
         location, loading, error
     }
 } 
