@@ -6,7 +6,7 @@ import HomeLayout from "./_components/home/HomeLayout"
 const HomePage = () => {
   return (
     <div className="w-full min-h-screen bg-zinc-900/20">
-      <div className="relative min-h-screen max-w-xl mx-auto bg-[url('/main-bg.png')] bg-cover bg-center shadow-xl">
+      <div className="relative min-h-screen max-w-7xl mx-auto bg-[url('/main-bg.png')] bg-cover bg-center shadow-xl">
         
         <div className="absolute inset-0 bg-gray-100/50" />
 

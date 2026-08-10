@@ -48,7 +48,7 @@ const MainHomePage = () => {
   const [selectedVehicle, setSelectedVehicle] = React.useState<string>(vehicleInfo[0]?.title)
   const [paymentMethod, setPaymentMethod] = React.useState<string>('Cash')
 const {location, loading, error} = useLocation()
-console.log(location,loading, error)
+
   return (
     <div className="w-full">
       <p className="text-xl font-bold py-2 text-shadow-2xs">Good {getTimeOfDay()}, {user?.data?.name}</p>
@@ -99,7 +99,7 @@ console.log(location,loading, error)
         <div className="flex items-center justify-center flex-wrap gap-2 max-w-7xl mx-auto">
           {
             vehicleInfo.map((vehicle, index) => <div onClick={() => setSelectedVehicle(vehicle.title)} key={index} className={`
-      flex flex-col bg-gray-100 shadow-xs flex-1 ${index == 2 && "sm:flex-0"}
+      flex flex-col bg-gray-100 shadow-xs flex-1 
       rounded-2xl
       gap-2
       px-2
@@ -178,7 +178,7 @@ console.log(location,loading, error)
         </div>
         {/* coupon end */}
         {/* button */}
-        <div onClick={() => {console.log(`clicked`)}} className="bg-(--primary) rounded-full w-full shadow-(--primary) py-4 px-2 text-white flex items-center gap-4 justify-center my-4 cursor-pointer hover:bg-green-900"><p className="text-xl font-bold">Request Ride</p> <FaArrowRight className="text-xl" /></div>
+        <div onClick={() => {console.log(`clicked`)}} className="bg-(--primary) rounded-full w-full shadow-(--primary) py-4 px-2 text-white flex items-center gap-4 justify-center my-4 cursor-pointer hover:bg-(--primary)/90"><p className="text-xl font-bold">Request Ride</p> <FaArrowRight className="text-xl" /></div>
         {/* button end */}
       </div>
     </div>
