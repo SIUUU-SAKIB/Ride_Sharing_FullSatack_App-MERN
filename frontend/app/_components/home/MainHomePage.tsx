@@ -48,6 +48,15 @@ const MainHomePage = () => {
   const [selectedVehicle, setSelectedVehicle] = React.useState<string>(vehicleInfo[0]?.title)
   const [paymentMethod, setPaymentMethod] = React.useState<string>('Cash')
 const {location, loading, error} = useLocation()
+console.log(location)
+
+const currentLocationBtn = () => {
+  if(location === null) {
+    return
+  }else {
+    confirmLocation ? setConfirmLocation(false) : setConfirmLocation(true)
+  }
+}
 
   return (
     <div className="w-full">
@@ -61,7 +70,7 @@ const {location, loading, error} = useLocation()
             <div className="flex items-center justify-between ">
               {
                 !locationToggle ? (<div className="flex gap-2 items-center"> {confirmLocation ? (<ConfirmedLocation height="24" className="text-(--primary)" />) : (<UnconfirmedLocation height="24" className="text-(--primary)" />)}
-                  <p onClick={() => confirmLocation ? setConfirmLocation(false) : setConfirmLocation(true)} className="text-lg font-bold cursor-pointer">Current Location</p></div>
+                  <p onClick={currentLocationBtn} className="text-lg font-bold cursor-pointer">Current Location</p></div>
                 ) : (<div className="flex gap-2 items-center w-full">
                   <LocationThinIcon height="30" />
                   <input autoFocus placeholder="Picup Address" className="border-none outline-none flex-1" />
