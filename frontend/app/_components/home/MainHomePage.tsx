@@ -16,6 +16,7 @@ import { FaArrowRight, FaMoneyBills } from "react-icons/fa6";
 import { ChevronDown } from "lucide-react";
 import { BiSolidCoupon } from "react-icons/bi";
 import { useLocation } from "@/app/_hooks/rides/useLocation";
+import RideMap from "../maps/RideMap";
 const getTimeOfDay = () => {
   const hour = new Date().getHours();
 
@@ -48,14 +49,10 @@ const MainHomePage = () => {
   const [selectedVehicle, setSelectedVehicle] = React.useState<string>(vehicleInfo[0]?.title)
   const [paymentMethod, setPaymentMethod] = React.useState<string>('Cash')
 const {location, loading, error} = useLocation()
-console.log(location)
+
 
 const currentLocationBtn = () => {
-  if(location === null) {
-    return
-  }else {
     confirmLocation ? setConfirmLocation(false) : setConfirmLocation(true)
-  }
 }
 
   return (
@@ -103,6 +100,7 @@ const currentLocationBtn = () => {
         </div>
       </div>
       {/* 2nd part */}
+      <RideMap/>
       {/* vehicles */}
       <div className="bg-white px-4 py-8 rounded-2xl mt-8">
         <div className="flex items-center justify-center flex-wrap gap-2 max-w-7xl mx-auto">
