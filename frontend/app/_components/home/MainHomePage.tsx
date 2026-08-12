@@ -17,6 +17,7 @@ import { ChevronDown } from "lucide-react";
 import { BiSolidCoupon } from "react-icons/bi";
 import { useLocation } from "@/app/_hooks/rides/useLocation";
 import RideMap from "../maps/RideMap";
+import LoadingScreen from "../ui/LoadingScreen";
 const getTimeOfDay = () => {
   const hour = new Date().getHours();
 
@@ -49,8 +50,6 @@ const MainHomePage = () => {
   const [selectedVehicle, setSelectedVehicle] = React.useState<string>(vehicleInfo[0]?.title)
   const [paymentMethod, setPaymentMethod] = React.useState<string>('Cash')
 const {location, loading, error} = useLocation()
-
-
 const currentLocationBtn = () => {
     confirmLocation ? setConfirmLocation(false) : setConfirmLocation(true)
 }
@@ -58,6 +57,11 @@ const currentLocationBtn = () => {
   return (
     <div className="w-full">
       <p className="text-xl font-bold py-2 text-shadow-2xs">Good {getTimeOfDay()}, {user?.data?.name}</p>
+            <div className="py-8">
+                    {
+                      loading?(<LoadingScreen/>):(<RideMap/>)
+                    }
+            </div>
       <div className="w-full flex flex-col bg-white rounded-xl px-4 py-2">
         {/* pickup */}
         <div className="flex items-center justify-between border-b border-gray-200 py-4">
@@ -100,7 +104,6 @@ const currentLocationBtn = () => {
         </div>
       </div>
       {/* 2nd part */}
-      <RideMap/>
       {/* vehicles */}
       <div className="bg-white px-4 py-8 rounded-2xl mt-8">
         <div className="flex items-center justify-center flex-wrap gap-2 max-w-7xl mx-auto">
