@@ -7,6 +7,7 @@ type Location ={
   latitude:number, 
   logitude:number,
   loading:any,
+  distance:number
 }
 const RideMap = () => {
   const mapContainer = React.useRef<HTMLDivElement | null>(null)
@@ -45,7 +46,6 @@ const RideMap = () => {
    }
    if (!location || !map.current)return
    const userLocation:[number, number] = [location.longitude, location.latitude]
-console.log(location)
    map.current.flyTo({
     center:userLocation,
     zoom:15,
