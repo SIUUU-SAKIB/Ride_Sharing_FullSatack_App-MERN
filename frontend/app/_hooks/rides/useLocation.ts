@@ -1,56 +1,20 @@
-"use client";
+"use client"
 
-import { useEffect, useState } from "react";
+import React from "react"
+type location = {
+  latitude:number,
+  longitude:number,
+  accuracy: number
+}
 
-type Location = {
-  latitude: number;
-  longitude: number;
-  accuracy: number;
-};
+const useLocation = () => {
+  const [location, setLocation] = React.useState<Location | null>(null)
+  const [loading, setLoading] = React.useState<boolean>(true)
+  const [error, setError] = React.useState<string>(null)
 
-export const useLocation = () => {
-  const [location, setLocation] = useState<Location | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const getCurrentLocation = React.useCallback(()=>{
+    if
+  })
+}
 
-  useEffect(() => {
-    if (!navigator.geolocation) {
-      setError("Geolocation is not supported in this browser");
-      setLoading(false);
-      return;
-    }
-
-    navigator.geolocation.getCurrentPosition(
-      (position) => {
-        console.log({
-          latitude: position.coords.latitude,
-          longitude: position.coords.longitude,
-          accuracy: position.coords.accuracy,
-        });
-
-        setLocation({
-          latitude: position.coords.latitude,
-          longitude: position.coords.longitude,
-          accuracy: position.coords.accuracy,
-        });
-
-        setLoading(false);
-      },
-      (error) => {
-        setError(error.message);
-        setLoading(false);
-      },
-      {
-        enableHighAccuracy: true,
-        timeout: 15000,
-        maximumAge: 0,
-      }
-    );
-  }, []);
-
-  return {
-    location,
-    loading,
-    error,
-  };
-};
+export default useLocation
