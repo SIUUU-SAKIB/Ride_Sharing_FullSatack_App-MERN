@@ -3,12 +3,8 @@ import React, { useEffect } from "react"
 import * as maptilersdk from "@maptiler/sdk";
 import "@maptiler/sdk/dist/maptiler-sdk.css";
 import { useLocation } from "@/app/_hooks/rides/useLocation";
-type Location ={
-  latitude:number, 
-  logitude:number,
-  loading:any,
-  distance:number
-}
+
+
 const RideMap = () => {
   const mapContainer = React.useRef<HTMLDivElement | null>(null)
   const map = React.useRef<maptilersdk.Map | null> (null)
