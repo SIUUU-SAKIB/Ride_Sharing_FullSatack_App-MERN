@@ -58,6 +58,8 @@ const MainHomePage = () => {
   const [selectedVehicle, setSelectedVehicle] = React.useState<string>(vehicleInfo[0]?.title)
   const [paymentMethod, setPaymentMethod] = React.useState<string>('Cash')
   const currentLocationBtn = () => {
+    getCurrentLocation()
+    console.log(getCurrentLocation)
     confirmLocation ? setConfirmLocation(false) : setConfirmLocation(true)
   }
   return (
