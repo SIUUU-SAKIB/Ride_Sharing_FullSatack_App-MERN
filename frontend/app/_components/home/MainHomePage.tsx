@@ -15,9 +15,11 @@ import MonorailTransitVehicleWithDestinationDisplayIcon from '@iconify-react/pin
 import { FaArrowRight, FaMoneyBills } from "react-icons/fa6";
 import { ChevronDown } from "lucide-react";
 import { BiSolidCoupon } from "react-icons/bi";
-import { useLocation } from "@/app/_hooks/rides/useLocation";
+
 import RideMap from "../maps/RideMap";
 import LoadingScreen from "../ui/LoadingScreen";
+import useLocation from "@/app/_hooks/rides/useLocation";
+
 const getTimeOfDay = () => {
   const hour = new Date().getHours();
 
@@ -43,55 +45,99 @@ const vehicleInfo = [
   }
 ]
 const MainHomePage = () => {
+  const {
+    location,
+    loading,
+    error,
+    getCurrentLocation,
+  } = useLocation();
   const { data: user } = useCurrentUser()
   const [locationToggle, setLocationToggle] = React.useState<boolean>
     (false)
   const [confirmLocation, setConfirmLocation] = React.useState<boolean>(false)
   const [selectedVehicle, setSelectedVehicle] = React.useState<string>(vehicleInfo[0]?.title)
   const [paymentMethod, setPaymentMethod] = React.useState<string>('Cash')
-const {location, loading, error} = useLocation()
-const currentLocationBtn = () => {
+  const currentLocationBtn = () => {
     confirmLocation ? setConfirmLocation(false) : setConfirmLocation(true)
-}
-console.log(location)
+  }
   return (
     <div className="w-full">
       <p className="text-xl font-bold py-2 text-shadow-2xs">Good {getTimeOfDay()}, {user?.data?.name}</p>
-            <div className="py-8">
-                    {
-                      loading?(<LoadingScreen/>):(<RideMap/>)
-                    }
-            </div>
+      <div className="py-8">
+        {
+          loading ? (<p className="text-xl text-(--primary)">Loading Map....</p>) : (<RideMap location={location} />)
+        }
+      </div>
       <div className="w-full flex flex-col bg-white rounded-xl px-4 py-2">
         {/* pickup */}
         <div className="flex items-center justify-between border-b border-gray-200 py-4">
           <div className="flex flex-col gap-2 w-full">
-            <p className="text-(--neutral) text-md">PICKUP</p>
+            <p className="text-(--neutral) text-md">
+              PICKUP
+            </p>
 
-            <div className="flex items-center justify-between ">
-              {
-                !locationToggle ? (<div className="flex gap-2 items-center"> {confirmLocation ? (<ConfirmedLocation height="24" className="text-(--primary)" />) : (<UnconfirmedLocation height="24" className="text-(--primary)" />)}
-                  <p onClick={currentLocationBtn} className="text-lg font-bold cursor-pointer">Current Location</p></div>
-                ) : (<div className="flex gap-2 items-center w-full">
+            <div className="flex items-center justify-between">
+              {!locationToggle ? (
+                <button
+                  type="button"
+                  onClick={currentLocationBtn}
+                  disabled={loading}
+                  className="flex gap-2 items-center cursor-pointer disabled:cursor-wait disabled:opacity-60"
+                >
+                  {confirmLocation ? (
+                    <ConfirmedLocation
+                      height="24"
+                      className="text-(--primary)"
+                    />
+                  ) : (
+                    <UnconfirmedLocation
+                      height="24"
+                      className="text-(--primary)"
+                    />
+                  )}
+
+                  <p className="text-lg font-bold">
+                    {loading
+                      ? "Getting current location..."
+                      : "Current Location"}
+                  </p>
+                </button>
+              ) : (
+                <div className="flex gap-2 items-center w-full">
                   <LocationThinIcon height="30" />
-                  <input autoFocus placeholder="Picup Address" className="border-none outline-none flex-1" />
-                </div>)
-              }
-              {
-                locationToggle ? (<button onClick={() => {
-                  setLocationToggle(false)
-                }} className="p-2 rounded-full hover:bg-gray-100 transition cursor-pointer">
+
+                  <input
+                    autoFocus
+                    placeholder="Pickup Address"
+                    className="border-none outline-none flex-1"
+                  />
+                </div>
+              )}
+
+              {locationToggle ? (
+                <button
+                  type="button"
+                  onClick={() => {
+                    setLocationToggle(false);
+                  }}
+                  className="p-2 rounded-full hover:bg-gray-100 transition cursor-pointer"
+                >
                   <CrossOutlineIcon height="28" />
-                </button>) : (<button onClick={() => {
-                  setLocationToggle(true)
-                  setConfirmLocation(false)
-                }} className="p-2 rounded-full hover:bg-gray-100 transition cursor-pointer">
+                </button>
+              ) : (
+                <button
+                  type="button"
+                  onClick={() => {
+                    setLocationToggle(true);
+                    setConfirmLocation(false);
+                  }}
+                  className="p-2 rounded-full hover:bg-gray-100 transition cursor-pointer"
+                >
                   <PenIcon height="22" />
-                </button>)
-              }
+                </button>
+              )}
             </div>
           </div>
-
         </div>
         {/* destination */}
         <div className="flex flex-col gap-2 border-cd border-gray-200 py-4">
@@ -188,7 +234,7 @@ console.log(location)
         </div>
         {/* coupon end */}
         {/* button */}
-        <div onClick={() => {console.log(`clicked`)}} className="bg-(--primary) rounded-full w-full shadow-(--primary) py-4 px-2 text-white flex items-center gap-4 justify-center my-4 cursor-pointer hover:bg-(--primary)/90"><p className="text-xl font-bold">Request Ride</p> <FaArrowRight className="text-xl" /></div>
+        <div onClick={() => { console.log(`clicked`) }} className="bg-(--primary) rounded-full w-full shadow-(--primary) py-4 px-2 text-white flex items-center gap-4 justify-center my-4 cursor-pointer hover:bg-(--primary)/90"><p className="text-xl font-bold">Request Ride</p> <FaArrowRight className="text-xl" /></div>
         {/* button end */}
       </div>
     </div>

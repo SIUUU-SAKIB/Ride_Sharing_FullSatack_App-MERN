@@ -2,14 +2,21 @@
 import React, { useEffect } from "react"
 import * as maptilersdk from "@maptiler/sdk";
 import "@maptiler/sdk/dist/maptiler-sdk.css";
-import { useLocation } from "@/app/_hooks/rides/useLocation";
+import useLocation from "@/app/_hooks/rides/useLocation";
 
+type RideMapProps = {
+  location : {
+    latitude:number,
+    longitude:number,
+    accuracy:number
+  } | null
+}
 
-const RideMap = () => {
+const RideMap = ({location}:RideMapProps) => {
   const mapContainer = React.useRef<HTMLDivElement | null>(null)
   const map = React.useRef<maptilersdk.Map | null> (null)
   const marker = React.useRef<maptilersdk.Marker | null> (null)
-  const {location, loading, error} = useLocation()
+
 
   React.useEffect(() => {
     if (!mapContainer.current) return;
