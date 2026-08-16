@@ -2,15 +2,10 @@
 import React, { useEffect } from "react"
 import * as maptilersdk from "@maptiler/sdk";
 import "@maptiler/sdk/dist/maptiler-sdk.css";
-import useLocation from "@/app/_hooks/rides/useLocation";
+import { RideMapProps } from "@/app/_types/location";
 
-type RideMapProps = {
-  location : {
-    latitude:number,
-    longitude:number,
-    accuracy:number
-  } | null
-}
+
+
 
 const RideMap = ({location}:RideMapProps) => {
   const mapContainer = React.useRef<HTMLDivElement | null>(null)

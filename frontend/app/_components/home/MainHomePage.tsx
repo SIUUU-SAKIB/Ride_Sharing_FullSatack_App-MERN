@@ -15,11 +15,13 @@ import MonorailTransitVehicleWithDestinationDisplayIcon from '@iconify-react/pin
 import { FaArrowRight, FaMoneyBills } from "react-icons/fa6";
 import { ChevronDown } from "lucide-react";
 import { BiSolidCoupon } from "react-icons/bi";
-
 import RideMap from "../maps/RideMap";
-import LoadingScreen from "../ui/LoadingScreen";
 import useLocation from "@/app/_hooks/rides/useLocation";
-
+type Place = {
+  address:string,
+  latitude:number,
+  longitude:number
+}
 const getTimeOfDay = () => {
   const hour = new Date().getHours();
 
@@ -45,6 +47,7 @@ const vehicleInfo = [
   }
 ]
 const MainHomePage = () => {
+  // HOOKS=============
   const {
     location,
     loading,
@@ -52,16 +55,21 @@ const MainHomePage = () => {
     getCurrentLocation,
   } = useLocation();
   const { data: user } = useCurrentUser()
+  // STATES=========
   const [locationToggle, setLocationToggle] = React.useState<boolean>
     (false)
   const [confirmLocation, setConfirmLocation] = React.useState<boolean>(false)
   const [selectedVehicle, setSelectedVehicle] = React.useState<string>(vehicleInfo[0]?.title)
   const [paymentMethod, setPaymentMethod] = React.useState<string>('Cash')
+const [pickupLocation, setPickupLocation] = React.useState<Place | null>(null)
+const [pickupMode, setPickupMode] = React.useState<'current' | 'manual'>('current')
+
+  // BUTTONS============
   const currentLocationBtn = () => {
     getCurrentLocation()
-    console.log(getCurrentLocation)
     confirmLocation ? setConfirmLocation(false) : setConfirmLocation(true)
-  }
+  } 
+
   return (
     <div className="w-full">
       <p className="text-xl font-bold py-2 text-shadow-2xs">Good {getTimeOfDay()}, {user?.data?.name}</p>
