@@ -1,5 +1,4 @@
 "use client";
-
 import ConfirmedLocation from "@iconify-react/formkit/radio";
 import UnconfirmedLocation from '@iconify-react/akar-icons/radio';
 import PenIcon from "@iconify-react/lucide/pen";
@@ -17,11 +16,9 @@ import { ChevronDown } from "lucide-react";
 import { BiSolidCoupon } from "react-icons/bi";
 import RideMap from "../maps/RideMap";
 import useLocation from "@/app/_hooks/rides/useLocation";
-type Place = {
-  address:string,
-  latitude:number,
-  longitude:number
-}
+import { Place } from "@/app/_types/location";
+import PickupSearch from "./PickupSearch";
+
 const getTimeOfDay = () => {
   const hour = new Date().getHours();
 
@@ -78,6 +75,7 @@ const [pickupMode, setPickupMode] = React.useState<'current' | 'manual'>('curren
           loading ? (<p className="text-xl text-(--primary)">Loading Map....</p>) : (<RideMap location={location} />)
         }
       </div>
+      <PickupSearch/>
       <div className="w-full flex flex-col bg-white rounded-xl px-4 py-2">
         {/* pickup */}
         <div className="flex items-center justify-between border-b border-gray-200 py-4">
