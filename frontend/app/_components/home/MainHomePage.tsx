@@ -47,16 +47,24 @@ const MainHomePage = () => {
   const [confirmLocation, setConfirmLocation] = React.useState<boolean>(false)
   const [selectedVehicle, setSelectedVehicle] = React.useState<string>(vehicleInfo[0]?.title)
   const [paymentMethod, setPaymentMethod] = React.useState<string>('Cash')
+
+  //PICKUP 
 const [pickupQuery, setPickupQuery] = React.useState<string>('')
 const [pickupResults, setPickupResults] = React.useState<Place[]>([]);
 const [pickupLocation, setPickupLocation] = React.useState<Place | null >(null)
+// DESTINATION
+const [destinationQuery, setDestinationQuery] = React.useState("");
+const [destinationResults, setDestinationResults] =
+  React.useState<Place[]>([]);
+const [destinationLocation, setDestinationLocation] =
+  React.useState<Place | null>(null);
 
   // BUTTONS============
   const currentLocationBtn = () => {
     getCurrentLocation()
     confirmLocation ? setConfirmLocation(false) : setConfirmLocation(true)
   } 
-
+// console.log(pickupQuery, pickupLocation)
   return (
     <div className="w-full">
       <p className="text-xl font-bold py-2 text-shadow-2xs">Good {getTimeOfDay()}, {user?.data?.name}</p>
@@ -92,7 +100,6 @@ const [pickupLocation, setPickupLocation] = React.useState<Place | null >(null)
                       className="text-(--primary)"
                     />
                   )}
-
                   <p className="text-lg font-bold">
                     {loading
                       ? "Getting current location..."
@@ -142,6 +149,28 @@ const [pickupLocation, setPickupLocation] = React.useState<Place | null >(null)
                 </button>
               )}
             </div>
+            {
+              pickupResults.length > 0 && (
+                <div className="mt-3 flex flex-col gap-1">
+                  {pickupResults.map((place, index) => (
+                    <button
+                    key={`${place.latitude}--${place.longitude}--${index}`}
+                    type="button"
+                    onClick={() => {
+                      setPickupLocation(place)
+                      setPickupQuery(place.address)
+                      setPickupResults([])
+                      setLocationToggle(false)
+                      console.log(pickupLocation, pickupQuery)
+                    }}
+                    className="w-full text-left p-3 rounded-lg hover:bg-gray-100"
+                    >
+                      <p className="font-medium text-sm text-black">{place.address}</p>
+                    </button>
+                  ))}
+                </div>
+              )
+            }
           </div>
         </div>
         {/* destination */}
