@@ -17,21 +17,10 @@ import { BiSolidCoupon } from "react-icons/bi";
 import RideMap from "../maps/RideMap";
 import useLocation from "@/app/_hooks/rides/useLocation";
 import { Place } from "@/app/_types/location";
-import PickupSearch from "./PickupSearch";
+import { getTimeOfDay } from "./helper/getTimeOfDay";
+import { searchPickupLocation } from "./helper/searchPickupLocation";
 
-const getTimeOfDay = () => {
-  const hour = new Date().getHours();
 
-  if (hour >= 5 && hour < 12) {
-    return "Morning";
-  } else if (hour >= 12 && hour < 17) {
-    return "Afternoon";
-  } else if (hour >= 17 && hour < 21) {
-    return "Evening";
-  } else {
-    return "Night";
-  }
-};
 const vehicleInfo = [
   {
     title: "Bike", distance: "3", fare: 170, icon: BikeIcon
@@ -58,8 +47,9 @@ const MainHomePage = () => {
   const [confirmLocation, setConfirmLocation] = React.useState<boolean>(false)
   const [selectedVehicle, setSelectedVehicle] = React.useState<string>(vehicleInfo[0]?.title)
   const [paymentMethod, setPaymentMethod] = React.useState<string>('Cash')
-const [pickupLocation, setPickupLocation] = React.useState<Place | null>(null)
-const [pickupMode, setPickupMode] = React.useState<'current' | 'manual'>('current')
+const [pickupQuery, setPickupQuery] = React.useState<string>('')
+const [pickupResults, setPickupResults] = React.useState<Place[]>([]);
+const [pickupLocation, setPickupLocation] = React.useState<Place | null >(null)
 
   // BUTTONS============
   const currentLocationBtn = () => {
@@ -75,7 +65,6 @@ const [pickupMode, setPickupMode] = React.useState<'current' | 'manual'>('curren
           loading ? (<p className="text-xl text-(--primary)">Loading Map....</p>) : (<RideMap location={location} />)
         }
       </div>
-      <PickupSearch/>
       <div className="w-full flex flex-col bg-white rounded-xl px-4 py-2">
         {/* pickup */}
         <div className="flex items-center justify-between border-b border-gray-200 py-4">
@@ -116,6 +105,14 @@ const [pickupMode, setPickupMode] = React.useState<'current' | 'manual'>('curren
 
                   <input
                     autoFocus
+                    value={pickupQuery}
+                    onChange={(e) => setPickupQuery(e.target.value)}
+                    onKeyDown={async(e) => {
+                      if(e.key === `Enter`) {
+                        const results = await searchPickupLocation(pickupQuery);
+                        setPickupResults(results)
+                      }
+                    }}
                     placeholder="Pickup Address"
                     className="border-none outline-none flex-1"
                   />
