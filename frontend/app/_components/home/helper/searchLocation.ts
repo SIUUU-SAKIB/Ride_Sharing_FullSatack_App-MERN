@@ -1,6 +1,6 @@
 import { Place } from "@/app/_types/location"
 
-export const searchPickupLocation = async (query: string) => {
+export const searchLocation = async (query: string) => {
   if (!query) {
     return []
   }

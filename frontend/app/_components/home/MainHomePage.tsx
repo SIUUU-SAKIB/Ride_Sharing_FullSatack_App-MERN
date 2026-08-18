@@ -18,7 +18,7 @@ import RideMap from "../maps/RideMap";
 import useLocation from "@/app/_hooks/rides/useLocation";
 import { Place } from "@/app/_types/location";
 import { getTimeOfDay } from "./helper/getTimeOfDay";
-import { searchPickupLocation } from "./helper/searchPickupLocation";
+import { searchLocation } from "./helper/searchLocation";
 
 
 const vehicleInfo = [
@@ -49,22 +49,21 @@ const MainHomePage = () => {
   const [paymentMethod, setPaymentMethod] = React.useState<string>('Cash')
 
   //PICKUP 
-const [pickupQuery, setPickupQuery] = React.useState<string>('')
-const [pickupResults, setPickupResults] = React.useState<Place[]>([]);
-const [pickupLocation, setPickupLocation] = React.useState<Place | null >(null)
-// DESTINATION
-const [destinationQuery, setDestinationQuery] = React.useState("");
-const [destinationResults, setDestinationResults] =
-  React.useState<Place[]>([]);
-const [destinationLocation, setDestinationLocation] =
-  React.useState<Place | null>(null);
+  const [pickupQuery, setPickupQuery] = React.useState<string>('')
+  const [pickupResults, setPickupResults] = React.useState<Place[]>([]);
+  const [pickupLocation, setPickupLocation] = React.useState<Place | null>(null)
+  // DESTINATION
+  const [destinationQuery, setDestinationQuery] = React.useState<string>("");
+  const [destinationResults, setDestinationResults] =
+    React.useState<Place[]>([]);
+  const [destinationLocation, setDestinationLocation] = React.useState<Place | null>(null);
 
   // BUTTONS============
   const currentLocationBtn = () => {
     getCurrentLocation()
     confirmLocation ? setConfirmLocation(false) : setConfirmLocation(true)
-  } 
-// console.log(pickupQuery, pickupLocation)
+  }
+  console.log(pickupLocation.address)
   return (
     <div className="w-full">
       <p className="text-xl font-bold py-2 text-shadow-2xs">Good {getTimeOfDay()}, {user?.data?.name}</p>
@@ -113,10 +112,12 @@ const [destinationLocation, setDestinationLocation] =
                   <input
                     autoFocus
                     value={pickupQuery}
-                    onChange={(e) => setPickupQuery(e.target.value)}
-                    onKeyDown={async(e) => {
-                      if(e.key === `Enter`) {
-                        const results = await searchPickupLocation(pickupQuery);
+                    onChange={(e) =>{ setPickupQuery(e.target.value)
+                      
+                    }}
+                    onKeyDown={async (e) => {
+                      if (e.key === `Enter`) {
+                        const results = await searchLocation(pickupQuery);
                         setPickupResults(results)
                       }
                     }}
@@ -149,21 +150,21 @@ const [destinationLocation, setDestinationLocation] =
                 </button>
               )}
             </div>
+            {/* pickup results */}
             {
               pickupResults.length > 0 && (
                 <div className="mt-3 flex flex-col gap-1">
                   {pickupResults.map((place, index) => (
                     <button
-                    key={`${place.latitude}--${place.longitude}--${index}`}
-                    type="button"
-                    onClick={() => {
-                      setPickupLocation(place)
-                      setPickupQuery(place.address)
-                      setPickupResults([])
-                      setLocationToggle(false)
-                      console.log(pickupLocation, pickupQuery)
-                    }}
-                    className="w-full text-left p-3 rounded-lg hover:bg-gray-100"
+                      key={`${place.latitude}--${place.longitude}--${index}`}
+                      type="button"
+                      onClick={() => {
+                        setPickupLocation(place)
+                        setPickupQuery(place.address)
+                        setPickupResults([])
+                        setLocationToggle(false)
+                      }}
+                      className="w-full text-left p-3 rounded-lg hover:bg-gray-100"
                     >
                       <p className="font-medium text-sm text-black">{place.address}</p>
                     </button>
@@ -176,11 +177,52 @@ const [destinationLocation, setDestinationLocation] =
         {/* destination */}
         <div className="flex flex-col gap-2 border-cd border-gray-200 py-4">
 
-          <p className="text-md text-(--neutral)">DESTINATION</p>
-          <div className="flex gap-2 items-center justify-center">
-            <SearchIcon height="30" />
-            <input autoFocus placeholder="Where to go?" className="border-none outline-none w-full" />
+          <p className="text-md text-(--neutral)">
+            DESTINATION
+          </p>
+
+          <div className="flex gap-2 items-center w-full">
+            <SearchIcon height="28" />
+
+            <input
+              autoFocus
+              value={destinationQuery}
+              onChange={(e) =>
+                setDestinationQuery(e.target.value)
+              }
+              onKeyDown={async (e) => {
+                if (e.key === "Enter") {
+                  const results = await searchLocation(destinationQuery);
+
+                  setDestinationResults(results);
+                }
+              }}
+              placeholder="Where to go?"
+              className="border-none outline-none flex-1"
+            />
           </div>
+            {
+             destinationResults.length > 0 && (
+                <div className="mt-3 flex flex-col gap-1">
+                  {destinationResults.map((place, index) => (
+                    <button
+                    key={`${place.latitude}--${place.longitude}--${index}`}
+                    type="button"
+                    onClick={() => {
+                      setDestinationLocation(place)
+                      setDestinationQuery(place.address)
+                      setDestinationResults([])
+                      setLocationToggle(false)
+                      
+                    }}
+                    className="w-full text-left p-3 rounded-lg hover:bg-gray-100"
+                    >
+                      <p className="font-medium text-sm text-black">{place.address}</p>
+                    </button>
+                  ))}
+                </div>
+              )
+            }
         </div>
       </div>
       {/* 2nd part */}
