@@ -63,7 +63,8 @@ const MainHomePage = () => {
     getCurrentLocation()
     confirmLocation ? setConfirmLocation(false) : setConfirmLocation(true)
   }
-  console.log(pickupLocation.address)
+  console.log(pickupQuery, pickupLocation?.latitude, pickupLocation?.longitude)
+  console.log(destinationQuery, destinationLocation?.latitude, destinationLocation?.longitude)
   return (
     <div className="w-full">
       <p className="text-xl font-bold py-2 text-shadow-2xs">Good {getTimeOfDay()}, {user?.data?.name}</p>

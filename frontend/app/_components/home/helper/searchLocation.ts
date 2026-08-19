@@ -10,7 +10,12 @@ export const searchLocation = async (query: string) => {
     return []
   }
   try {
-    const response = await fetch(`https://api.maptiler.com/geocoding/${encodeURIComponent(query)}.json?key=${apiKey}`)
+    const response = await fetch(
+  `https://api.maptiler.com/geocoding/${encodeURIComponent(query)}.json` +
+  `?key=${apiKey}` +
+  `&limit=10` +
+  `&country=bd` +
+  `&types=address,poi,neighbourhood,locality`)
     if (!response.ok) {
       throw new Error(`Failed to search location`)
     }
