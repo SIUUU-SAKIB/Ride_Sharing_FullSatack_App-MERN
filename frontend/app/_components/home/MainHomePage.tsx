@@ -5,7 +5,7 @@ import PenIcon from "@iconify-react/lucide/pen";
 import SearchIcon from '@iconify-react/material-symbols-light/search';
 import CrossOutlineIcon from '@iconify-react/bitcoin-icons/cross-outline';
 import LocationThinIcon from '@iconify-react/iconamoon/location-thin';
-import React from "react";
+import React, { useState } from "react";
 import { useCurrentUser } from "@/app/_hooks/useCurrentUser";
 import BikeIcon from '@iconify-react/mdi/bike';
 import CarIcon from '@iconify-react/mdi/car';
@@ -52,6 +52,8 @@ const MainHomePage = () => {
   const [pickupQuery, setPickupQuery] = React.useState<string>('')
   const [pickupResults, setPickupResults] = React.useState<Place[]>([]);
   const [pickupLocation, setPickupLocation] = React.useState<Place | null>(null)
+  // CURRENT LOCATION
+  const [currentLocation, setCurrentLocation] = React.useState<Place[]>([])
   // DESTINATION
   const [destinationQuery, setDestinationQuery] = React.useState<string>("");
   const [destinationResults, setDestinationResults] =
@@ -68,11 +70,11 @@ const MainHomePage = () => {
   return (
     <div className="w-full">
       <p className="text-xl font-bold py-2 text-shadow-2xs">Good {getTimeOfDay()}, {user?.data?.name}</p>
-      <div className="py-8">
+      {/* <div className="py-8">
         {
           loading ? (<p className="text-xl text-(--primary)">Loading Map....</p>) : (<RideMap location={location} />)
         }
-      </div>
+      </div> */}
       <div className="w-full flex flex-col bg-white rounded-xl px-4 py-2">
         {/* pickup */}
         <div className="flex items-center justify-between border-b border-gray-200 py-4">

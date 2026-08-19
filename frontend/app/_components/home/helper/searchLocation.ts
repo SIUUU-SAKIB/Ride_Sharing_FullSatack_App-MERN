@@ -20,6 +20,7 @@ export const searchLocation = async (query: string) => {
       throw new Error(`Failed to search location`)
     }
     const data = await response.json()
+    console.log(data)
   const places: Place[] =
       data.features?.map((feature: any) => ({
         address: feature.place_name,
