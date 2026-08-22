@@ -61,10 +61,12 @@ const MainHomePage = () => {
   const [destinationLocation, setDestinationLocation] = React.useState<Place | null>(null);
 
   // BUTTONS============
-  const currentLocationBtn = () => {
-    getCurrentLocation()
+  const currentLocationBtn =() => {
+  const currentLocation = getCurrentLocation();
+  setConfirmLocation(true); 
     confirmLocation ? setConfirmLocation(false) : setConfirmLocation(true)
   }
+  
   console.log(pickupQuery, pickupLocation?.latitude, pickupLocation?.longitude)
   console.log(destinationQuery, destinationLocation?.latitude, destinationLocation?.longitude)
   return (
@@ -103,9 +105,7 @@ const MainHomePage = () => {
                     />
                   )}
                   <p className="text-lg font-bold">
-                    {loading
-                      ? "Getting current location..."
-                      : "Current Location"}
+                    Current Location
                   </p>
                 </button>
               ) : (
