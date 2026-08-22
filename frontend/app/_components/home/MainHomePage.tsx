@@ -62,7 +62,7 @@ const MainHomePage = () => {
 
   // BUTTONS============
   const currentLocationBtn =() => {
-  const currentLocation = getCurrentLocation();
+getCurrentLocation();
   setConfirmLocation(true); 
     confirmLocation ? setConfirmLocation(false) : setConfirmLocation(true)
   }
