@@ -14,11 +14,10 @@ import MonorailTransitVehicleWithDestinationDisplayIcon from '@iconify-react/pin
 import { FaArrowRight, FaMoneyBills } from "react-icons/fa6";
 import { ChevronDown } from "lucide-react";
 import { BiSolidCoupon } from "react-icons/bi";
-import RideMap from "../maps/RideMap";
 import useLocation from "@/app/_hooks/rides/useLocation";
 import { Place } from "@/app/_types/location";
 import { getTimeOfDay } from "./helper/getTimeOfDay";
-import { searchLocation } from "./helper/searchLocation";
+import { getAddressFromCoordinates, searchLocation } from "./helper/searchLocation";
 
 
 const vehicleInfo = [
@@ -33,6 +32,7 @@ const vehicleInfo = [
   }
 ]
 const MainHomePage = () => {
+
   // HOOKS=============
   const {
     location,
@@ -41,6 +41,25 @@ const MainHomePage = () => {
     getCurrentLocation,
   } = useLocation();
   const { data: user } = useCurrentUser()
+    // SIDE EFFECTS
+  
+React.useEffect(() => {
+if(!location){
+  return
+}
+
+const updatePickupLocation = async() => {
+  const place = await getAddressFromCoordinates(
+    location.latitude,
+    location.longitude
+  )
+  if(place) {
+    setPickupLocation(place)
+  }
+  
+  updatePickupLocation()
+}
+ },[location])
   // STATES=========
   const [locationToggle, setLocationToggle] = React.useState<boolean>
     (false)
@@ -61,12 +80,11 @@ const MainHomePage = () => {
   const [destinationLocation, setDestinationLocation] = React.useState<Place | null>(null);
 
   // BUTTONS============
-  const currentLocationBtn =() => {
-getCurrentLocation();
-  setConfirmLocation(true); 
+  const currentLocationBtn = () => {
+    getCurrentLocation();
     confirmLocation ? setConfirmLocation(false) : setConfirmLocation(true)
   }
-  
+
   console.log(pickupQuery, pickupLocation?.latitude, pickupLocation?.longitude)
   console.log(destinationQuery, destinationLocation?.latitude, destinationLocation?.longitude)
   return (
@@ -90,7 +108,7 @@ getCurrentLocation();
                 <button
                   type="button"
                   onClick={currentLocationBtn}
-                  disabled={loading}
+                  // disabled={loading}
                   className="flex gap-2 items-center cursor-pointer disabled:cursor-wait disabled:opacity-60"
                 >
                   {confirmLocation ? (
@@ -105,7 +123,9 @@ getCurrentLocation();
                     />
                   )}
                   <p className="text-lg font-bold">
-                    Current Location
+                   {
+                    !loading ? "Getting current location" : "Current location"
+                   }
                   </p>
                 </button>
               ) : (
@@ -115,8 +135,9 @@ getCurrentLocation();
                   <input
                     autoFocus
                     value={pickupQuery}
-                    onChange={(e) =>{ setPickupQuery(e.target.value)
-                      
+                    onChange={(e) => {
+                      setPickupQuery(e.target.value)
+
                     }}
                     onKeyDown={async (e) => {
                       if (e.key === `Enter`) {
@@ -204,11 +225,11 @@ getCurrentLocation();
               className="border-none outline-none flex-1"
             />
           </div>
-            {
-             destinationResults.length > 0 && (
-                <div className="mt-3 flex flex-col gap-1">
-                  {destinationResults.map((place, index) => (
-                    <button
+          {
+            destinationResults.length > 0 && (
+              <div className="mt-3 flex flex-col gap-1">
+                {destinationResults.map((place, index) => (
+                  <button
                     key={`${place.latitude}--${place.longitude}--${index}`}
                     type="button"
                     onClick={() => {
@@ -216,16 +237,16 @@ getCurrentLocation();
                       setDestinationQuery(place.address)
                       setDestinationResults([])
                       setLocationToggle(false)
-                      
+
                     }}
                     className="w-full text-left p-3 rounded-lg hover:bg-gray-100"
-                    >
-                      <p className="font-medium text-sm text-black">{place.address}</p>
-                    </button>
-                  ))}
-                </div>
-              )
-            }
+                  >
+                    <p className="font-medium text-sm text-black">{place.address}</p>
+                  </button>
+                ))}
+              </div>
+            )
+          }
         </div>
       </div>
       {/* 2nd part */}

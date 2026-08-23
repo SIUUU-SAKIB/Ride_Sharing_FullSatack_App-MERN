@@ -30,7 +30,7 @@ const useLocation = () => {
       (error) => {
         console.log("Locatoin error", error)
         setError(error.message)
-        setLoading(true)
+        setLoading(false)
       }, {
       enableHighAccuracy: true,
       timeout: 15000,
@@ -39,9 +39,6 @@ const useLocation = () => {
     )
  
   }, [])
-  useEffect(() => {
-    getCurrentLocation()
-  }, [getCurrentLocation])
   return {
     location,
     loading,
