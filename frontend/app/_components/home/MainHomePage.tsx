@@ -41,25 +41,6 @@ const MainHomePage = () => {
     getCurrentLocation,
   } = useLocation();
   const { data: user } = useCurrentUser()
-    // SIDE EFFECTS
-  
-React.useEffect(() => {
-if(!location){
-  return
-}
-
-const updatePickupLocation = async() => {
-  const place = await getAddressFromCoordinates(
-    location.latitude,
-    location.longitude
-  )
-  if(place) {
-    setPickupLocation(place)
-  }
-  
-  updatePickupLocation()
-}
- },[location])
   // STATES=========
   const [locationToggle, setLocationToggle] = React.useState<boolean>
     (false)
@@ -71,22 +52,36 @@ const updatePickupLocation = async() => {
   const [pickupQuery, setPickupQuery] = React.useState<string>('')
   const [pickupResults, setPickupResults] = React.useState<Place[]>([]);
   const [pickupLocation, setPickupLocation] = React.useState<Place | null>(null)
-  // CURRENT LOCATION
-  const [currentLocation, setCurrentLocation] = React.useState<Place[]>([])
   // DESTINATION
   const [destinationQuery, setDestinationQuery] = React.useState<string>("");
   const [destinationResults, setDestinationResults] =
     React.useState<Place[]>([]);
   const [destinationLocation, setDestinationLocation] = React.useState<Place | null>(null);
-
   // BUTTONS============
   const currentLocationBtn = () => {
-    getCurrentLocation();
+     getCurrentLocation();
     confirmLocation ? setConfirmLocation(false) : setConfirmLocation(true)
   }
 
-  console.log(pickupQuery, pickupLocation?.latitude, pickupLocation?.longitude)
-  console.log(destinationQuery, destinationLocation?.latitude, destinationLocation?.longitude)
+React.useEffect(() => {
+  if (!location) {
+    console.log("No location found");
+    return;
+  }
+
+  const updatePickupLocation = async () => {
+    const place = await getAddressFromCoordinates(
+      location.latitude,
+      location.longitude
+    );
+    if (place) {
+      setPickupLocation(place);
+    }
+  };
+
+  updatePickupLocation();
+}, [location]);
+console.log(pickupLocation)
   return (
     <div className="w-full">
       <p className="text-xl font-bold py-2 text-shadow-2xs">Good {getTimeOfDay()}, {user?.data?.name}</p>
@@ -108,7 +103,7 @@ const updatePickupLocation = async() => {
                 <button
                   type="button"
                   onClick={currentLocationBtn}
-                  // disabled={loading}
+                  disabled={loading}
                   className="flex gap-2 items-center cursor-pointer disabled:cursor-wait disabled:opacity-60"
                 >
                   {confirmLocation ? (
@@ -124,7 +119,7 @@ const updatePickupLocation = async() => {
                   )}
                   <p className="text-lg font-bold">
                    {
-                    !loading ? "Getting current location" : "Current location"
+                    loading ? "Getting current location" : "Current location"
                    }
                   </p>
                 </button>
@@ -176,7 +171,7 @@ const updatePickupLocation = async() => {
             </div>
             {/* pickup results */}
             {
-              pickupResults.length > 0 && (
+              pickupResults.length > 0 || pickupLocation && (
                 <div className="mt-3 flex flex-col gap-1">
                   {pickupResults.map((place, index) => (
                     <button
@@ -191,6 +186,7 @@ const updatePickupLocation = async() => {
                       className="w-full text-left p-3 rounded-lg hover:bg-gray-100"
                     >
                       <p className="font-medium text-sm text-black">{place.address}</p>
+                      
                     </button>
                   ))}
                 </div>

@@ -4,7 +4,7 @@ import React, { useEffect } from "react"
 
 const useLocation = () => {
   const [location, setLocation] = React.useState<Location | null>(null);
-  const [loading, setLoading] = React.useState<boolean>(true)
+  const [loading, setLoading] = React.useState<boolean>(false)
   const [error, setError] = React.useState<string | null>(null)
 
   const getCurrentLocation = React.useCallback(() => {
@@ -39,6 +39,7 @@ const useLocation = () => {
     )
  
   }, [])
+
   return {
     location,
     loading,

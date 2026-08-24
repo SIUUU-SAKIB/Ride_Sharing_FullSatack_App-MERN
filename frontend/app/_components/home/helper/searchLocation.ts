@@ -32,19 +32,15 @@ export const searchLocation = async (query: string) => {
     return []
   }
 }
-const name = `Aminul Islam Sakib`
-console.log(name.toUpperCase() + `is 29 years old`)
 export const getAddressFromCoordinates = async (
   latitude: number,
-  longitude: number
-): Promise<Place | null> => {
+  longitude: number)=>{
   const apiKey = process.env.NEXT_PUBLIC_MAPTILER_API_KEY;
-
   if (!apiKey) {
     console.error("MapTiler API key is missing");
     return null;
   }
-
+  
   try {
     const response = await fetch(
       `https://api.maptiler.com/geocoding/${longitude},${latitude}.json?key=${apiKey}`
@@ -55,13 +51,10 @@ export const getAddressFromCoordinates = async (
     }
 
     const data = await response.json();
-console.log(data)
     const feature = data.features?.[0];
-
     if (!feature) {
       return null;
     }
-
     return {
       address: feature.place_name,
       latitude,
