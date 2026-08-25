@@ -1,7 +1,6 @@
 import { Types } from "mongoose";
 import { IVehicleType } from "../DRIVER/driver.interface";
 
-
 export interface IRideLocation {
     lat: number,
     lng: number,
