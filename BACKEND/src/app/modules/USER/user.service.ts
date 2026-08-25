@@ -56,11 +56,11 @@ const createUser = async (payload: IUser) => {
         verificationToken: token,
         verificationTokenExpires: new Date(Date.now() + 5 * 60 * 1000),
     });
-    // if(enviromentVariables.NODE_ENVIROMENT === "development") {
-    //     user.isVerified = true
-    //    await user.save()
-    //    return user
-    // }
+    if(enviromentVariables.NODE_ENVIROMENT === "development") {
+        user.isVerified = true
+       await user.save()
+       return user
+    }
     await sendVerifyEmail(user.email, "Verify Email", link);
     return user;
 };

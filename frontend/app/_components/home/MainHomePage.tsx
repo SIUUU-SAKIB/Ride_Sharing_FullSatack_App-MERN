@@ -18,7 +18,7 @@ import useLocation from "@/app/_hooks/rides/useLocation";
 import { Place } from "@/app/_types/location";
 import { getTimeOfDay } from "./helper/getTimeOfDay";
 import { getAddressFromCoordinates, searchLocation } from "./helper/searchLocation";
-
+import LocationAlt2FilledIcon from '@iconify-react/boxicons/location-alt-2-filled';
 
 const vehicleInfo = [
   {
@@ -68,7 +68,6 @@ React.useEffect(() => {
     console.log("No location found");
     return;
   }
-
   const updatePickupLocation = async () => {
     const place = await getAddressFromCoordinates(
       location.latitude,
@@ -81,7 +80,7 @@ React.useEffect(() => {
 
   updatePickupLocation();
 }, [location]);
-console.log(pickupLocation?.address)
+console.log(pickupLocation)
   return (
     <div className="w-full">
       <p className="text-xl font-bold py-2 text-shadow-2xs">Good {getTimeOfDay()}, {user?.data?.name}</p>
@@ -129,7 +128,7 @@ console.log(pickupLocation?.address)
 
                   <input
                     autoFocus
-                    value={pickupQuery}
+                    value={pickupQuery }
                     onChange={(e) => {
                       setPickupQuery(e.target.value)
 
@@ -181,7 +180,7 @@ console.log(pickupLocation?.address)
                         setPickupLocation(place)
                         setPickupQuery(place.address)
                         setPickupResults([])
-                        setLocationToggle(false)
+                        // setLocationToggle(false)
                       }}
                       className="w-full text-left p-3 rounded-lg hover:bg-gray-100"
                     >
@@ -195,7 +194,10 @@ console.log(pickupLocation?.address)
              
           </div>
      {
-                  pickupLocation && <p className="text-sm text-black">{pickupLocation?.address}</p>
+                  pickupLocation &&<div className="flex gap-2 items-center">
+                    <LocationAlt2FilledIcon height="24" className="text-(--primary)"/>
+                     <p className="text-sm text-black font-medium">{pickupLocation?.address}</p>
+                  </div>
                  }
         </div>
              
@@ -237,7 +239,7 @@ console.log(pickupLocation?.address)
                       setDestinationLocation(place)
                       setDestinationQuery(place.address)
                       setDestinationResults([])
-                      setLocationToggle(false)
+                      // setLocationToggle(false)
 
                     }}
                     className="w-full text-left p-3 rounded-lg hover:bg-gray-100"
@@ -249,6 +251,12 @@ console.log(pickupLocation?.address)
             )
           }
         </div>
+             {
+                  destinationLocation &&<div className="flex gap-2 items-center">
+                    <LocationAlt2FilledIcon height="24" className="text-(--primary)"/>
+                     <p className="text-md text-black font-medium">{destinationLocation?.address}</p>
+                  </div>
+                 }
       </div>
       {/* 2nd part */}
       {/* vehicles */}
