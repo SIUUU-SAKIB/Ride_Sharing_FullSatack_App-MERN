@@ -63,24 +63,24 @@ const MainHomePage = () => {
     confirmLocation ? setConfirmLocation(false) : setConfirmLocation(true)
   }
 
-React.useEffect(() => {
-  if (!location) {
-    console.log("No location found");
-    return;
-  }
+// React.useEffect(() => {
+//   if (!location) {
+//     console.log("No location found");
+//     return;
+//   }
 
-  const updatePickupLocation = async () => {
-    const place = await getAddressFromCoordinates(
-      location.latitude,
-      location.longitude
-    );
-    if (place) {
-      setPickupLocation(place);
-    }
-  };
+//   const updatePickupLocation = async () => {
+//     const place = await getAddressFromCoordinates(
+//       location.latitude,
+//       location.longitude
+//     );
+//     if (place) {
+//       setPickupLocation(place);
+//     }
+//   };
 
-  updatePickupLocation();
-}, [location]);
+//   updatePickupLocation();
+// }, [location]);
 console.log(pickupLocation)
   return (
     <div className="w-full">

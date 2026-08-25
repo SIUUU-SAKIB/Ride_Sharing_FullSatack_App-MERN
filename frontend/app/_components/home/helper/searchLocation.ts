@@ -1,6 +1,7 @@
 import { Place } from "@/app/_types/location"
 
 export const searchLocation = async (query: string) => {
+  console.log(query)
   if (!query) {
     return []
   }
@@ -26,12 +27,18 @@ export const searchLocation = async (query: string) => {
         latitude: feature.geometry.coordinates[1],
         longitude: feature.geometry.coordinates[0],
       })) ?? [];
+      console.log(places)
       return places
+
   } catch (error) {
     console.log(`Failed to search location`)
     return []
   }
 }
+console.log(`FUCKIONG SHIT`)
+
+
+
 export const getAddressFromCoordinates = async (
   latitude: number,
   longitude: number)=>{
