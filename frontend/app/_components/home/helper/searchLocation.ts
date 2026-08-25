@@ -35,7 +35,7 @@ export const searchLocation = async (query: string) => {
     return []
   }
 }
-console.log(`FUCKIONG SHIT`)
+
 
 
 

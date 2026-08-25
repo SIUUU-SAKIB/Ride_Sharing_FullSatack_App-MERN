@@ -63,25 +63,25 @@ const MainHomePage = () => {
     confirmLocation ? setConfirmLocation(false) : setConfirmLocation(true)
   }
 
-// React.useEffect(() => {
-//   if (!location) {
-//     console.log("No location found");
-//     return;
-//   }
+React.useEffect(() => {
+  if (!location) {
+    console.log("No location found");
+    return;
+  }
 
-//   const updatePickupLocation = async () => {
-//     const place = await getAddressFromCoordinates(
-//       location.latitude,
-//       location.longitude
-//     );
-//     if (place) {
-//       setPickupLocation(place);
-//     }
-//   };
+  const updatePickupLocation = async () => {
+    const place = await getAddressFromCoordinates(
+      location.latitude,
+      location.longitude
+    );
+    if (place) {
+      setPickupLocation(place);
+    }
+  };
 
-//   updatePickupLocation();
-// }, [location]);
-console.log(pickupLocation)
+  updatePickupLocation();
+}, [location]);
+console.log(pickupLocation?.address)
   return (
     <div className="w-full">
       <p className="text-xl font-bold py-2 text-shadow-2xs">Good {getTimeOfDay()}, {user?.data?.name}</p>
@@ -92,7 +92,7 @@ console.log(pickupLocation)
       </div> */}
       <div className="w-full flex flex-col bg-white rounded-xl px-4 py-2">
         {/* pickup */}
-        <div className="flex items-center justify-between border-b border-gray-200 py-4">
+        <div className="flex flex-col items-start justify-between border-b border-gray-200 py-4">
           <div className="flex flex-col gap-2 w-full">
             <p className="text-(--neutral) text-md">
               PICKUP
@@ -171,7 +171,7 @@ console.log(pickupLocation)
             </div>
             {/* pickup results */}
             {
-              pickupResults.length > 0 || pickupLocation && (
+              pickupResults.length > 0 && (
                 <div className="mt-3 flex flex-col gap-1">
                   {pickupResults.map((place, index) => (
                     <button
@@ -186,14 +186,19 @@ console.log(pickupLocation)
                       className="w-full text-left p-3 rounded-lg hover:bg-gray-100"
                     >
                       <p className="font-medium text-sm text-black">{place.address}</p>
-                      
                     </button>
                   ))}
+                
                 </div>
-              )
+              ) 
             }
+             
           </div>
+     {
+                  pickupLocation && <p className="text-sm text-black">{pickupLocation?.address}</p>
+                 }
         </div>
+             
         {/* destination */}
         <div className="flex flex-col gap-2 border-cd border-gray-200 py-4">
 
