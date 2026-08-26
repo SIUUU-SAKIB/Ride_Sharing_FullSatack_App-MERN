@@ -62,7 +62,7 @@ const MainHomePage = () => {
      getCurrentLocation();
     confirmLocation ? setConfirmLocation(false) : setConfirmLocation(true)
   }
-
+console.log(`AMY DOUXXX`)
 React.useEffect(() => {
   if (!location) {
     console.log("No location found");

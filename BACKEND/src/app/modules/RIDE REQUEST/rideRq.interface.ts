@@ -6,7 +6,6 @@ export interface IRideLocation {
     lng: number,
     address: string
 }
-
 export enum PaymentStatus {
     PAID = "PAID",
     UNPAID = "UNPAID"
@@ -16,11 +15,9 @@ export enum PaymentMethod {
     CARD = "CARD",
     CASH = "CASH"
 }
-
 export enum RideRequestStatus {
     PENDING = "PENDING",
     MATCHED = "MATCHED",
-    ONGOING = "OGOING",
     CANCELLED = "CANCELLED",
     EXPIRED = "EXPIRED"
 }
@@ -41,5 +38,4 @@ export interface IRideRequest {
     cancelledAt?: Date,
     fulfilledAt?: Date,
     createdAt?: Date,
-    updatedAt?: Date
-}
+    updatedAt?: Date}

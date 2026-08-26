@@ -1,31 +1,31 @@
 import { ObjectId, Schema, Types } from "mongoose";
 
 export enum IVehicleType {
-    TWO_WHEELER = "Two Wheeler",
-    THREE_WHEELER = "Three Wheeler",
-    FOUR_WHEELER = "Four Wheeler"
+    BIKE = "BIKE",
+    CNG = "CNG",
+    CAR = "CAR"
 }
 export enum IGender {
     MALE = "Male",
     FEMALE = "Female",
-    TRANSGENDER = "Transgender"
+    OTHER = "Other"
 }
 export enum IVehicleOwnsership {
     OWNED = "Owned",
     RENT = "Rent"
 }
 export enum IDriverStatus {
-    PENDING = "Pending",
-    APPROVED = "Approved",
-    REJECTED = "Rejected"
+    PENDING = "PENDING",
+    APPROVED = "APPROVED",
+    REJECTED = "REJECTED"
 }
 
 export interface IDriverApplication {
-    userId?:Types.ObjectId,
+    userId?: Types.ObjectId,
     licenseNumber: string;
     vehicleNumber: string;
     vehicleType: IVehicleType;
-    vehicleName:string,
+    vehicleName: string,
     nidNumber: string;
     phoneNumber: string;
     bloodType: string;
@@ -33,29 +33,29 @@ export interface IDriverApplication {
     gender: IGender;
     vehicleOwnership: IVehicleOwnsership;
     licenseImage: string;
-    reviewdBy?:Types.ObjectId,
-    reviewerName?:string,
-    reviewerEmail?:string,
-    reviewdAt?:Date,
-    rejectionReason?:string,
+    reviewdBy?: Types.ObjectId,
+    reviewerName?: string,
+    reviewerEmail?: string,
+    reviewdAt?: Date,
+    rejectionReason?: string,
     vehicleImage: string;
     status: IDriverStatus;
-    isBlocked:boolean
+    isBlocked: boolean
 }
 
 export interface IDriverProfile {
     userId?: Types.ObjectId,
-    driverId?:string,
-    name?:string,
-    email?:string,
+    driverId?: string,
+    name?: string,
+    email?: string,
     vehicleNumber: string,
-    phone:string,
+    phone: string,
     vehicleType: IVehicleType,
     licenseNumber: string,
     isActive?: boolean,
     isBlocked?: boolean,
     bloodType?: string,
-    isAvailable?:boolean,
+    isAvailable?: boolean,
     address: string,
     status?: IDriverStatus
 }
