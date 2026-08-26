@@ -28,7 +28,7 @@ const vehicleInfo = [
     title: "CNG", distance: "6", fare: 130, icon: MonorailTransitVehicleWithDestinationDisplayIcon
   },
   {
-    title: "Car", distance: "10", fare: 190, icon: CarIcon
+    title: "CAR", distance: "10", fare: 190, icon: CarIcon
   }
 ]
 const MainHomePage = () => {
@@ -45,9 +45,9 @@ const MainHomePage = () => {
   const [locationToggle, setLocationToggle] = React.useState<boolean>
     (false)
   const [confirmLocation, setConfirmLocation] = React.useState<boolean>(false)
-  const [selectedVehicle, setSelectedVehicle] = React.useState<string>(vehicleInfo[0]?.title)
+  const [selectedVehicle, setSelectedVehicle] = React.useState<string>('')
   const [paymentMethod, setPaymentMethod] = React.useState<string>('Cash')
-
+console.log(selectedVehicle)
   //PICKUP 
   const [pickupQuery, setPickupQuery] = React.useState<string>('')
   const [pickupResults, setPickupResults] = React.useState<Place[]>([]);
@@ -62,7 +62,7 @@ const MainHomePage = () => {
      getCurrentLocation();
     confirmLocation ? setConfirmLocation(false) : setConfirmLocation(true)
   }
-console.log(`AMY DOUXXX`)
+// FOR GETTING CURRENT LOCATION
 React.useEffect(() => {
   if (!location) {
     console.log("No location found");
@@ -80,7 +80,22 @@ React.useEffect(() => {
 
   updatePickupLocation();
 }, [location]);
-console.log(pickupLocation)
+const rideRequestPayload = {
+  "pickupLocation": {
+    "lat": pickupLocation?.latitude,
+    "lng": pickupLocation?.longitude,
+    "address": pickupLocation?.address
+  },
+  "dropoffLocation": {
+    "lat": destinationLocation?.latitude,
+    "lng": destinationLocation?.longitude,
+    "address": destinationLocation?.address
+  },
+  "vehicleRequest": "BIKE",
+  "estimatedPassengers": 1,
+  "payment": "BKASH",
+  "specificInstruction": "Call me when you arrive"
+}
   return (
     <div className="w-full">
       <p className="text-xl font-bold py-2 text-shadow-2xs">Good {getTimeOfDay()}, {user?.data?.name}</p>
@@ -118,7 +133,7 @@ console.log(pickupLocation)
                   )}
                   <p className="text-lg font-bold">
                    {
-                    loading ? "Getting current location" : "Current location"
+                    loading ? "Getting current location..." : "Current location"
                    }
                   </p>
                 </button>
