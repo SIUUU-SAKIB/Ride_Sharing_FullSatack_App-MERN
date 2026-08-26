@@ -32,7 +32,8 @@ export interface IDriver extends IUser {
     isAvailable: boolean,
     currentLocation: {
         lat: number,
-        lng: number
+        lng: number,
+        address?:string
     }
     rating?: number
 }
@@ -45,17 +46,13 @@ export interface IRide {
     distanceKM?: number;
     estimatedFare?: number;
     finalFare?: number;
-
     status: RideStatus;
-
     paymentStatus: PaymentStatus;
     paymentMethod: PaymentMethod;
-
     requestedAt: Date;
     acceptedAt?: Date;
     startedAt?: Date;
     completedAt?: Date,
     cancelledAt?: Date,
-
     cancelledBy?: IAdminRole | IUserRole
 }
