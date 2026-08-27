@@ -1,5 +1,6 @@
 'use client'
 import React from 'react'
+import UserOutlinedIcon from '@iconify-react/ant-design/user-outlined';
 type PassengerSelectorProps = {
     value:number,
     onChange : (value:number) => void,
@@ -14,16 +15,16 @@ const PassengerSelector = ({value, onChange, min=1, max=6}:PassengerSelectorProp
      }
     }  
     const increase = () => {
-    if(value < 0) {
+  
         onChange(value + 1);
-    }
+    
     } 
      return (
     <div className="flex items-center justify-between py-3">
       {/* Left side */}
       <div className="flex items-center gap-3">
         <div className="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center text-(--primary)">
-          <span className="text-lg">👤</span>
+          <UserOutlinedIcon height="1024" className='text-xl text-(--primary)' />
         </div>
 
         <div>
@@ -43,7 +44,7 @@ const PassengerSelector = ({value, onChange, min=1, max=6}:PassengerSelectorProp
           onClick={decrease}
           disabled={value <= min}
           className="w-8 h-8 rounded-full bg-gray-100 text-lg font-bold
-                     hover:bg-gray-200 transition
+                     hover:bg-gray-200 transition cursor-pointer
                      disabled:opacity-40 disabled:cursor-not-allowed"
         >
           −
@@ -58,7 +59,7 @@ const PassengerSelector = ({value, onChange, min=1, max=6}:PassengerSelectorProp
           onClick={increase}
           disabled={value >= max}
           className="w-8 h-8 rounded-full bg-gray-100 text-lg font-bold
-                     hover:bg-gray-200 transition
+                     hover:bg-gray-200 transition cursor-pointer
                      disabled:opacity-40 disabled:cursor-not-allowed"
         >
           +
