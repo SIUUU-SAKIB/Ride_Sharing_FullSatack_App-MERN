@@ -19,6 +19,7 @@ import { Place } from "@/app/_types/location";
 import { getTimeOfDay } from "./helper/getTimeOfDay";
 import { getAddressFromCoordinates, searchLocation } from "./helper/searchLocation";
 import LocationAlt2FilledIcon from '@iconify-react/boxicons/location-alt-2-filled';
+import PassengerSelector from "./PassengerSelector";
 
 const vehicleInfo = [
   {
@@ -52,6 +53,7 @@ console.log(selectedVehicle)
   const [pickupQuery, setPickupQuery] = React.useState<string>('')
   const [pickupResults, setPickupResults] = React.useState<Place[]>([]);
   const [pickupLocation, setPickupLocation] = React.useState<Place | null>(null)
+  const [estimatedPassengers, setEstimatedPassengers] = React.useState<number>(1)
   // DESTINATION
   const [destinationQuery, setDestinationQuery] = React.useState<string>("");
   const [destinationResults, setDestinationResults] =
@@ -91,7 +93,7 @@ const rideRequestPayload = {
     "lng": destinationLocation?.longitude,
     "address": destinationLocation?.address
   },
-  "vehicleRequest": "BIKE",
+  "vehicleRequest": selectedVehicle,
   "estimatedPassengers": 1,
   "payment": "BKASH",
   "specificInstruction": "Call me when you arrive"
@@ -266,6 +268,7 @@ const rideRequestPayload = {
             )
           }
         </div>
+        {/* DESTINATION RESULT */}
              {
                   destinationLocation &&<div className="flex gap-2 items-center">
                     <LocationAlt2FilledIcon height="24" className="text-(--primary)"/>
@@ -274,6 +277,7 @@ const rideRequestPayload = {
                  }
       </div>
       {/* 2nd part */}
+     
       {/* vehicles */}
       <div className="bg-white px-4 py-8 rounded-2xl mt-8">
         <div className="flex items-center justify-center flex-wrap gap-2 max-w-7xl mx-auto">
@@ -315,7 +319,12 @@ const rideRequestPayload = {
           }
         </div>
         {/* vehicles end */}
-
+ {/* estimated passenger */}
+      <PassengerSelector
+      value={estimatedPassengers}
+      onChange={setEstimatedPassengers}
+      />
+{/* {estimated passenger end} */}
         {/* payment method */}
         <div className="flex gap-4 items-center justify-between p-2 mt-8">
           <div className="flex gap-2 items-center">

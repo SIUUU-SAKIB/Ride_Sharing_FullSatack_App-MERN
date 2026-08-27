@@ -18,9 +18,54 @@ const PassengerSelector = ({value, onChange, min=1, max=6}:PassengerSelectorProp
         onChange(value + 1);
     }
     } 
-    return (
-    <div>PassengerSelector</div>
-  )
+     return (
+    <div className="flex items-center justify-between py-3">
+      {/* Left side */}
+      <div className="flex items-center gap-3">
+        <div className="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center text-(--primary)">
+          <span className="text-lg">👤</span>
+        </div>
+
+        <div>
+          <p className="font-bold text-base">
+            Passengers
+          </p>
+          <p className="text-xs text-gray-500">
+            How many passengers?
+          </p>
+        </div>
+      </div>
+
+      {/* Right side */}
+      <div className="flex items-center gap-3">
+        <button
+          type="button"
+          onClick={decrease}
+          disabled={value <= min}
+          className="w-8 h-8 rounded-full bg-gray-100 text-lg font-bold
+                     hover:bg-gray-200 transition
+                     disabled:opacity-40 disabled:cursor-not-allowed"
+        >
+          −
+        </button>
+
+        <span className="w-5 text-center font-bold">
+          {value}
+        </span>
+
+        <button
+          type="button"
+          onClick={increase}
+          disabled={value >= max}
+          className="w-8 h-8 rounded-full bg-gray-100 text-lg font-bold
+                     hover:bg-gray-200 transition
+                     disabled:opacity-40 disabled:cursor-not-allowed"
+        >
+          +
+        </button>
+      </div>
+    </div>
+  );
 }
 
 export default PassengerSelector
