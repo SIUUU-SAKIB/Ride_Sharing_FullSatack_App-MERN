@@ -10,6 +10,23 @@ type PassengerSelectorProps = {
 
 }
 const PassengerSelector = ({value, onChange,vehicle, min=1, max=6}:PassengerSelectorProps) => {
+  const [message, setMessage] = React.useState<string | null>(null)
+  const getMaxPassengers = (vehicle:string | undefined) => {
+    switch (vehicle) {
+      case "BIKE":
+        return 1;
+      case "CNG":
+        return 3;
+      case "CAR":
+        return 6
+
+      default:
+        return 1
+
+    }
+  }
+  const maximum = getMaxPassengers(vehicle)
+  console.log(maximum)
     const decrease = () => {
      if(value > min) {
         onChange(value - 1);
@@ -20,7 +37,7 @@ const PassengerSelector = ({value, onChange,vehicle, min=1, max=6}:PassengerSele
         onChange(value + 1);
     
     } 
-    console.log(vehicle)
+ 
      return (
     <div className="flex items-center justify-between pt-4 px-2">
       {/* Left side */}
