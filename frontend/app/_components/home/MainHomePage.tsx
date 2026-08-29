@@ -326,7 +326,7 @@ const rideRequestPayload = {
       />
 {/* {estimated passenger end} */}
         {/* payment method */}
-        <div className="flex gap-4 items-center justify-between p-2 mt-8">
+        <div className="flex gap-4 items-center justify-between p-2 mt-3">
           <div className="flex gap-2 items-center">
             <div className="p-2 bg-gray-200/70 rounded-full"><FaMoneyBills className="text-2xl text-(--primary)" /></div>
             <div className="flex flex-col">

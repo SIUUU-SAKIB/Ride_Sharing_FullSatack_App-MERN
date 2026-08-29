@@ -20,12 +20,11 @@ const PassengerSelector = ({value, onChange, min=1, max=6}:PassengerSelectorProp
     
     } 
      return (
-    <div className="flex items-center justify-between py-3">
+    <div className="flex items-center justify-between pt-4">
       {/* Left side */}
-      <div className="flex items-center gap-3">
-        <div className="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center text-(--primary)">
-          <UserOutlinedIcon height="1024" className='text-xl text-(--primary)' />
-        </div>
+      <div className="flex items-center gap-4">
+          <UserOutlinedIcon height="28" className='text-xl text-(--primary)' />
+    
 
         <div>
           <p className="font-bold text-base">
