@@ -1,14 +1,15 @@
 'use client'
 import React from 'react'
-import UserOutlinedIcon from '@iconify-react/ant-design/user-outlined';
+import UserSolidIcon from '@iconify-react/basil/user-solid';
 type PassengerSelectorProps = {
     value:number,
     onChange : (value:number) => void,
     min?:number,
-    max?:number
+    max?:number,
+    vehicle?:string
 
 }
-const PassengerSelector = ({value, onChange, min=1, max=6}:PassengerSelectorProps) => {
+const PassengerSelector = ({value, onChange,vehicle, min=1, max=6}:PassengerSelectorProps) => {
     const decrease = () => {
      if(value > min) {
         onChange(value - 1);
@@ -19,13 +20,14 @@ const PassengerSelector = ({value, onChange, min=1, max=6}:PassengerSelectorProp
         onChange(value + 1);
     
     } 
+    console.log(vehicle)
      return (
-    <div className="flex items-center justify-between pt-4">
+    <div className="flex items-center justify-between pt-4 px-2">
       {/* Left side */}
       <div className="flex items-center gap-4">
-          <UserOutlinedIcon height="28" className='text-xl text-(--primary)' />
-    
-
+         <div className="p-2 bg-gray-200/70 rounded-full">
+           <UserSolidIcon height="26" className='text-xl text-(--primary) ' />
+         </div>
         <div>
           <p className="font-bold text-base">
             Passengers

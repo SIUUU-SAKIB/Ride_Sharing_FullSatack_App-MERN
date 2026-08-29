@@ -20,10 +20,10 @@ import { getTimeOfDay } from "./helper/getTimeOfDay";
 import { getAddressFromCoordinates, searchLocation } from "./helper/searchLocation";
 import LocationAlt2FilledIcon from '@iconify-react/boxicons/location-alt-2-filled';
 import PassengerSelector from "./PassengerSelector";
-
+import MotorcycleIcon from '@iconify-react/fa7-solid/motorcycle';
 const vehicleInfo = [
   {
-    title: "Bike", distance: "3", fare: 170, icon: BikeIcon
+    title: "BIKE", distance: "3", fare: 170, icon: MotorcycleIcon
   },
   {
     title: "CNG", distance: "6", fare: 130, icon: MonorailTransitVehicleWithDestinationDisplayIcon
@@ -323,6 +323,7 @@ const rideRequestPayload = {
       <PassengerSelector
       value={estimatedPassengers}
       onChange={setEstimatedPassengers}
+      vehicle={selectedVehicle || "N/A"}
       />
 {/* {estimated passenger end} */}
         {/* payment method */}
