@@ -54,6 +54,8 @@ console.log(selectedVehicle)
   const [pickupResults, setPickupResults] = React.useState<Place[]>([]);
   const [pickupLocation, setPickupLocation] = React.useState<Place | null>(null)
   const [estimatedPassengers, setEstimatedPassengers] = React.useState<number>(1)
+  const [passengerMessage, setPassengerMessage] =
+  React.useState<string | null>(null);
   // DESTINATION
   const [destinationQuery, setDestinationQuery] = React.useState<string>("");
   const [destinationResults, setDestinationResults] =
@@ -63,6 +65,13 @@ console.log(selectedVehicle)
   const currentLocationBtn = () => {
      getCurrentLocation();
     confirmLocation ? setConfirmLocation(false) : setConfirmLocation(true)
+  }
+  // HANLDE PASSENGER LIMIT
+  const handlePassengerLimit = (message:string) => {
+    setPassengerMessage(message)
+    setTimeout(() => {
+      setPassengerMessage(null)
+    }, 2000);
   }
 // FOR GETTING CURRENT LOCATION
 React.useEffect(() => {
@@ -98,6 +107,7 @@ const rideRequestPayload = {
   "payment": "BKASH",
   "specificInstruction": "Call me when you arrive"
 }
+console.log(passengerMessage, "asdfs")
   return (
     <div className="w-full">
       <p className="text-xl font-bold py-2 text-shadow-2xs">Good {getTimeOfDay()}, {user?.data?.name}</p>
@@ -324,6 +334,7 @@ const rideRequestPayload = {
       value={estimatedPassengers}
       onChange={setEstimatedPassengers}
       vehicle={selectedVehicle || "N/A"}
+      onLimitReached={handlePassengerLimit}
       />
 {/* {estimated passenger end} */}
         {/* payment method */}
@@ -371,6 +382,13 @@ const rideRequestPayload = {
         <div onClick={() => { console.log(`clicked`) }} className="bg-(--primary) rounded-full w-full shadow-(--primary) py-4 px-2 text-white flex items-center gap-4 justify-center my-4 cursor-pointer hover:bg-(--primary)/90"><p className="text-xl font-bold">Request Ride</p> <FaArrowRight className="text-xl" /></div>
         {/* button end */}
       </div>
+      {passengerMessage && (
+  <div className="fixed bottom-24 left-1/2 -translate-x-1/2 z-50
+                  bg-black text-white px-4 py-2 rounded-lg
+                  text-sm shadow-lg">
+    {passengerMessage}
+  </div>
+)}
     </div>
 
   );

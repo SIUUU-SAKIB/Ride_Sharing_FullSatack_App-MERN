@@ -2,16 +2,16 @@
 import React from 'react'
 import UserSolidIcon from '@iconify-react/basil/user-solid';
 type PassengerSelectorProps = {
-    value:number,
-    onChange : (value:number) => void,
-    min?:number,
-    max?:number,
-    vehicle?:string
+  value: number,
+  onChange: (value: number) => void,
+  vehicle?: string,
+  min?: number,
+  onLimitReached: (message: string) => void
 
 }
-const PassengerSelector = ({value, onChange,vehicle, min=1, max=6}:PassengerSelectorProps) => {
+const PassengerSelector = ({ value, onChange, vehicle, onLimitReached, min = 1 }: PassengerSelectorProps) => {
   const [message, setMessage] = React.useState<string | null>(null)
-  const getMaxPassengers = (vehicle:string | undefined) => {
+  const getMaxPassengers = (vehicle: string | undefined) => {
     switch (vehicle) {
       case "BIKE":
         return 1;
@@ -26,25 +26,31 @@ const PassengerSelector = ({value, onChange,vehicle, min=1, max=6}:PassengerSele
     }
   }
   const maximum = getMaxPassengers(vehicle)
-  console.log(maximum)
-    const decrease = () => {
-     if(value > min) {
-        onChange(value - 1);
-     }
-    }  
-    const increase = () => {
-  
-        onChange(value + 1);
-    
-    } 
- 
-     return (
+
+  const decrease = () => {
+    if (value > min) {
+      onChange(value - 1);
+    }
+  }
+  const increase = () => {
+    if (value >= maximum) {
+      onLimitReached(`Maximum ${maximum} passenger allowed for ${vehicle}`)
+      return;
+    }
+    onChange(value + 1);
+  }
+  React.useEffect(() => {
+    if (value > maximum) {
+      onChange(maximum);
+    }
+  }, [vehicle, maximum, value, onChange]);
+  return (
     <div className="flex items-center justify-between pt-4 px-2">
       {/* Left side */}
       <div className="flex items-center gap-4">
-         <div className="p-2 bg-gray-200/70 rounded-full">
-           <UserSolidIcon height="26" className='text-xl text-(--primary) ' />
-         </div>
+        <div className="p-2 bg-gray-200/70 rounded-full">
+          <UserSolidIcon height="26" className='text-xl text-(--primary) ' />
+        </div>
         <div>
           <p className="font-bold text-base">
             Passengers
@@ -75,7 +81,7 @@ const PassengerSelector = ({value, onChange,vehicle, min=1, max=6}:PassengerSele
         <button
           type="button"
           onClick={increase}
-          disabled={value >= max}
+          disabled={value === 6}
           className="w-8 h-8 rounded-full bg-gray-100 text-lg font-bold
                      hover:bg-gray-200 transition cursor-pointer
                      disabled:opacity-40 disabled:cursor-not-allowed"
@@ -83,7 +89,9 @@ const PassengerSelector = ({value, onChange,vehicle, min=1, max=6}:PassengerSele
           +
         </button>
       </div>
-    </div>
+      
+  </div>
+
   );
 }
 
