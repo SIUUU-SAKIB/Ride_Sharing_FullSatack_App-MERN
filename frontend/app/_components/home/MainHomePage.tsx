@@ -103,11 +103,10 @@ const rideRequestPayload = {
     "address": destinationLocation?.address
   },
   "vehicleRequest": selectedVehicle,
-  "estimatedPassengers": 1,
-  "payment": "BKASH",
-  "specificInstruction": "Call me when you arrive"
+  "estimatedPassengers": estimatedPassengers,
+  "payment": paymentMethod
 }
-console.log(passengerMessage, "asdfs")
+
   return (
     <div className="w-full">
       <p className="text-xl font-bold py-2 text-shadow-2xs">Good {getTimeOfDay()}, {user?.data?.name}</p>
