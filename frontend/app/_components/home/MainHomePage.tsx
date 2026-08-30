@@ -54,7 +54,7 @@ console.log(selectedVehicle)
   const [pickupResults, setPickupResults] = React.useState<Place[]>([]);
   const [pickupLocation, setPickupLocation] = React.useState<Place | null>(null)
   const [estimatedPassengers, setEstimatedPassengers] = React.useState<number>(1)
-  const [passengerMessage, setPassengerMessage] =
+  const [message, setMessage] =
   React.useState<string | null>(null);
   // DESTINATION
   const [destinationQuery, setDestinationQuery] = React.useState<string>("");
@@ -67,10 +67,10 @@ console.log(selectedVehicle)
     confirmLocation ? setConfirmLocation(false) : setConfirmLocation(true)
   }
   // HANLDE PASSENGER LIMIT
-  const handlePassengerLimit = (message:string) => {
-    setPassengerMessage(message)
+  const showMessage = (message:string) => {
+    setMessage(message)
     setTimeout(() => {
-      setPassengerMessage(null)
+      setMessage(null)
     }, 2000);
   }
 // FOR GETTING CURRENT LOCATION
@@ -104,8 +104,34 @@ const rideRequestPayload = {
   },
   "vehicleRequest": selectedVehicle,
   "estimatedPassengers": estimatedPassengers,
-  "payment": paymentMethod
+  "payment": paymentMethod || "CASH"
 }
+const rideBtn = async () => {
+  if (!pickupLocation) {
+    showMessage("Please select a pickup location");
+    return;
+  }
+
+  if (!destinationLocation) {
+    showMessage("Please select a destination");
+    return;
+  }
+
+  if (!selectedVehicle) {
+    showMessage("Please select a vehicle");
+    return;
+  }
+
+  try {
+    const response = await createRideRequest(
+      rideRequestPayload
+    );
+
+    console.log("Ride created:", response);
+  } catch (error) {
+    console.error("Ride request failed:", error);
+  }
+};
 
   return (
     <div className="w-full">
@@ -333,7 +359,7 @@ const rideRequestPayload = {
       value={estimatedPassengers}
       onChange={setEstimatedPassengers}
       vehicle={selectedVehicle || "N/A"}
-      onLimitReached={handlePassengerLimit}
+      onLimitReached={setMessage}
       />
 {/* {estimated passenger end} */}
         {/* payment method */}
@@ -378,14 +404,14 @@ const rideRequestPayload = {
         </div>
         {/* coupon end */}
         {/* button */}
-        <div onClick={() => { console.log(`clicked`) }} className="bg-(--primary) rounded-full w-full shadow-(--primary) py-4 px-2 text-white flex items-center gap-4 justify-center my-4 cursor-pointer hover:bg-(--primary)/90"><p className="text-xl font-bold">Request Ride</p> <FaArrowRight className="text-xl" /></div>
+        <div onClick={rideBtn} className="bg-(--primary) rounded-full w-full shadow-(--primary) py-4 px-2 text-white flex items-center gap-4 justify-center my-4 cursor-pointer hover:bg-(--primary)/90"><p className="text-xl font-bold">Request Ride</p> <FaArrowRight className="text-xl" /></div>
         {/* button end */}
       </div>
-      {passengerMessage && (
+      {message && (
   <div className="fixed bottom-24 left-1/2 -translate-x-1/2 z-50
                   bg-black text-white px-4 py-2 rounded-lg
                   text-sm shadow-lg">
-    {passengerMessage}
+    {message}
   </div>
 )}
     </div>
