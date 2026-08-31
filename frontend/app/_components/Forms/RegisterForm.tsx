@@ -40,7 +40,7 @@ const RegisterForm = () => {
   const mutation = useMutation({
     mutationFn: Authentication.registerUser
   })
-  const { register, watch, reset, handleSubmit, setError, formState: { errors, isSubmitting } } = useForm<FormFields>({
+  const { register, watch, reset, handleSubmit, setError, formState: { errors} } = useForm<FormFields>({
     resolver: zodResolver(schema)
   })
   const onSubmit: SubmitHandler<FormFields> = async (data) => {

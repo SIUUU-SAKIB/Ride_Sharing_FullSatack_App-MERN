@@ -21,6 +21,7 @@ import { getAddressFromCoordinates, searchLocation } from "./helper/searchLocati
 import LocationAlt2FilledIcon from '@iconify-react/boxicons/location-alt-2-filled';
 import PassengerSelector from "./PassengerSelector";
 import MotorcycleIcon from '@iconify-react/fa7-solid/motorcycle';
+import { useCreateRideRequest } from "@/app/_hooks/rides/ride_request";
 const vehicleInfo = [
   {
     title: "BIKE", distance: "3", fare: 170, icon: MotorcycleIcon
@@ -33,8 +34,8 @@ const vehicleInfo = [
   }
 ]
 const MainHomePage = () => {
-
   // HOOKS=============
+  const {mutate,isPending, isSuccess, isError, data} = useCreateRideRequest()
   const {
     location,
     loading,
@@ -91,22 +92,8 @@ React.useEffect(() => {
 
   updatePickupLocation();
 }, [location]);
-const rideRequestPayload = {
-  "pickupLocation": {
-    "lat": pickupLocation?.latitude,
-    "lng": pickupLocation?.longitude,
-    "address": pickupLocation?.address
-  },
-  "dropoffLocation": {
-    "lat": destinationLocation?.latitude,
-    "lng": destinationLocation?.longitude,
-    "address": destinationLocation?.address
-  },
-  "vehicleRequest": selectedVehicle,
-  "estimatedPassengers": estimatedPassengers,
-  "payment": paymentMethod || "CASH"
-}
-const rideBtn = async () => {
+
+const rideBtn = () => {
   if (!pickupLocation) {
     showMessage("Please select a pickup location");
     return;
@@ -122,15 +109,27 @@ const rideBtn = async () => {
     return;
   }
 
-  try {
-    const response = await createRideRequest(
-      rideRequestPayload
-    );
-
-    console.log("Ride created:", response);
-  } catch (error) {
-    console.error("Ride request failed:", error);
+  if (!paymentMethod) {
+    showMessage("Please select a payment method");
+    return;
   }
+
+  const rideRequestPayload = {
+    pickupLocation: {
+      lat: pickupLocation.latitude,
+      lng: pickupLocation.longitude,
+      address: pickupLocation.address,
+    },
+    dropoffLocation: {
+      lat: destinationLocation.latitude,
+      lng: destinationLocation.longitude,
+      address: destinationLocation.address,
+    },
+    vehicleRequest: selectedVehicle,
+    estimatedPassengers:estimatedPassengers,
+    payment: paymentMethod.toUpperCase(),
+  };
+  mutate(rideRequestPayload);
 };
 
   return (
@@ -404,7 +403,7 @@ const rideBtn = async () => {
         </div>
         {/* coupon end */}
         {/* button */}
-        <div onClick={rideBtn} className="bg-(--primary) rounded-full w-full shadow-(--primary) py-4 px-2 text-white flex items-center gap-4 justify-center my-4 cursor-pointer hover:bg-(--primary)/90"><p className="text-xl font-bold">Request Ride</p> <FaArrowRight className="text-xl" /></div>
+        <button type="button" onClick={rideBtn} disabled={isPending} className="bg-(--primary) rounded-full w-full shadow-(--primary) py-4 px-2 text-white flex items-center gap-4 justify-center my-4 cursor-pointer hover:bg-(--primary)/90"><p className="text-xl font-bold">{isPending ? "Requesting Ride" : "Request Ride"}</p> <FaArrowRight className="text-xl" /></button>
         {/* button end */}
       </div>
       {message && (

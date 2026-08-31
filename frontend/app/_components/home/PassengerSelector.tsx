@@ -10,7 +10,7 @@ type PassengerSelectorProps = {
 
 }
 const PassengerSelector = ({ value, onChange, vehicle, onLimitReached, min = 1 }: PassengerSelectorProps) => {
-  const [message, setMessage] = React.useState<string | null>(null)
+
   const getMaxPassengers = (vehicle: string | undefined) => {
     switch (vehicle) {
       case "BIKE":

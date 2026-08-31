@@ -5,7 +5,13 @@ export const useCreateRideRequest =() => {
     const queryClient = useQueryClient();
     return useMutation({
         mutationFn:(payload:RideRequestPayload) => 
-             createRideRequstService(payload)
+             createRideRequstService(payload),
+        onSuccess:(data) => {
+            console.log(`Ride requset created ${data}`)
+        },
+        onError:(data) => {
+            console.log(`Ride request failed ${data}`)
+        }
         
     })
 
