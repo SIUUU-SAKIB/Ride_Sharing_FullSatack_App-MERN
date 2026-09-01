@@ -1,16 +1,16 @@
 
 "use client"
-import { Pen, Star, User, Mail, LockKeyholeOpen, LogOut, Phone, MapPin, CarTaxiFront, SquarePen } from "lucide-react"
+import { Pen, User, Mail, LockKeyholeOpen, LogOut, Phone, MapPin, CarTaxiFront, SquarePen } from "lucide-react"
 import Image from "next/image"
-import { useCurrentUser } from "../../_hooks/useCurrentUser"
-import { useLogout } from "../../_hooks/useLogout"
+
 import Link from "next/link"
-import { useRouter } from "next/navigation"
 import { MdOutlineVerified } from "react-icons/md"
-import LoadingScreen from "../ui/LoadingScreen"
+import LoadingScreen from "../../ui/LoadingScreen"
+import { useLogout } from "@/app/_hooks/useLogout"
+import { useCurrentUser } from "@/app/_hooks/useCurrentUser"
+
 
 const UserProfile = () => {
-  const router = useRouter()
     const logoutMutation = useLogout()
   const { data, isLoading, isError } = useCurrentUser()
   if(isError) {

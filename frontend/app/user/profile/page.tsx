@@ -1,6 +1,7 @@
+import UserProfile from '@/app/_components/home/pages/UserProfile'
 import BottomNav from '@/app/_components/Navigation/BottomNav'
 import Nav from '@/app/_components/Navigation/Nav'
-import UserProfile from '@/app/_components/pages/UserProfile'
+
 
 const Profile = () => {
   return (

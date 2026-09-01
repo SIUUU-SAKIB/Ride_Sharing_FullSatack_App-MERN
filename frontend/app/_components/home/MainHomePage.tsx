@@ -22,6 +22,8 @@ import LocationAlt2FilledIcon from '@iconify-react/boxicons/location-alt-2-fille
 import PassengerSelector from "./PassengerSelector";
 import MotorcycleIcon from '@iconify-react/fa7-solid/motorcycle';
 import { useCreateRideRequest } from "@/app/_hooks/rides/ride_request";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
 const vehicleInfo = [
   {
     title: "BIKE", distance: "3", fare: 170, icon: MotorcycleIcon
@@ -35,7 +37,7 @@ const vehicleInfo = [
 ]
 const MainHomePage = () => {
   // HOOKS=============
-  const {mutate,isPending, isSuccess, isError, data} = useCreateRideRequest()
+  const {mutate,isPending, isSuccess, isError, data:ridesData} = useCreateRideRequest()
   const {
     location,
     loading,
@@ -43,6 +45,8 @@ const MainHomePage = () => {
     getCurrentLocation,
   } = useLocation();
   const { data: user } = useCurrentUser()
+  // VARIABLES
+  const router  = useRouter()
   // STATES=========
   const [locationToggle, setLocationToggle] = React.useState<boolean>
     (false)
@@ -74,6 +78,7 @@ console.log(selectedVehicle)
       setMessage(null)
     }, 2000);
   }
+
 // FOR GETTING CURRENT LOCATION
 React.useEffect(() => {
   if (!location) {
@@ -129,7 +134,12 @@ const rideBtn = () => {
     estimatedPassengers:estimatedPassengers,
     payment: paymentMethod.toUpperCase(),
   };
-  mutate(rideRequestPayload);
+  mutate(rideRequestPayload, {
+    onSuccess:(response) => {
+      console.log(response, "from ride request")
+router.push(`/rides/${response.data._id}`)
+    }
+  });
 };
 
   return (
@@ -403,7 +413,7 @@ const rideBtn = () => {
         </div>
         {/* coupon end */}
         {/* button */}
-        <button type="button" onClick={rideBtn} disabled={isPending} className="bg-(--primary) rounded-full w-full shadow-(--primary) py-4 px-2 text-white flex items-center gap-4 justify-center my-4 cursor-pointer hover:bg-(--primary)/90"><p className="text-xl font-bold">{isPending ? "Requesting Ride" : "Request Ride"}</p> <FaArrowRight className="text-xl" /></button>
+       <button type="button" onClick={rideBtn} disabled={isPending} className="bg-(--primary) rounded-full w-full shadow-(--primary) py-4 px-2 text-white flex items-center gap-4 justify-center my-4 cursor-pointer hover:bg-(--primary)/90"><p className="text-xl font-bold">{isPending ? "Requesting Ride" : "Request Ride"}</p> <FaArrowRight className="text-xl" /></button>
         {/* button end */}
       </div>
       {message && (
