@@ -69,7 +69,13 @@ const RideRequest = async (riderId: string, payload: Partial<IRideRequest>) => {
   const rideRq = await RideRequestDB.create(mainPayload)
   return rideRq
 }
-
+const getSingleRideRequst = async(_id:string) => {
+const rideRequest =await RideRequestDB.find({_id})
+if(!rideRequest) {
+  throw new AppError(StatusCodes.NOT_FOUND, "No ride requst found")
+}
+return rideRequest
+}
 const acceptRideRequest = async (_id: string, rideId: string) => {
 
   const driver = await DriverProfileDB.findOne({ userId: _id });
@@ -121,4 +127,4 @@ const acceptRideRequest = async (_id: string, rideId: string) => {
 };
 
 
-export const RideRequestService = { RideRequest, acceptRideRequest }
+export const RideRequestService = { RideRequest, acceptRideRequest, getSingleRideRequst }

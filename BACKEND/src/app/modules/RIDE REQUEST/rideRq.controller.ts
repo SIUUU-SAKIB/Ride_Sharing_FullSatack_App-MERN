@@ -19,7 +19,21 @@ const rideRequest = catchAsync(async (req: Request, res: Response) => {
         data: result
     })
 })
+const getSingleRideRequest = catchAsync(async(req:Request,res:Response) => {
+    const {id} = req.params;
+    const userId = req.user?._id;
+    if(!id) {
+        throw new AppError(StatusCodes.NOT_FOUND, "Ride requst id required")
+    }
+    const result = await RideRequestService.getSingleRideRequst(id as string, userId)
+    sendResponse(res, {
+        success:true,
+        statusCode:200,
+        message:"Ride Request fetched successfully",
+        data:result
+    })
 
+})
 
 const acceptRideRequest = catchAsync(async (req: Request, res: Response) => {
     const driverID = req.user?._id;
@@ -40,4 +54,4 @@ const acceptRideRequest = catchAsync(async (req: Request, res: Response) => {
 })
 
 
-export const RideRequestController = { rideRequest, acceptRideRequest}
+export const RideRequestController = { rideRequest, acceptRideRequest, getSingleRideRequest}
