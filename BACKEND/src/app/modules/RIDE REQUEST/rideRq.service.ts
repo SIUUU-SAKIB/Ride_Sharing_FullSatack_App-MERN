@@ -69,10 +69,15 @@ const RideRequest = async (riderId: string, payload: Partial<IRideRequest>) => {
   const rideRq = await RideRequestDB.create(mainPayload)
   return rideRq
 }
-const getSingleRideRequst = async(_id:string) => {
-const rideRequest =await RideRequestDB.find({_id})
+const getSingleRideRequst = async(id:string, rider_id:string) => {
+const rideRequest =await RideRequestDB.findById(id)
 if(!rideRequest) {
   throw new AppError(StatusCodes.NOT_FOUND, "No ride requst found")
+}
+if(rideRequest) {
+  if(rider_id !== rideRequest?.riderId.toString()) {
+  throw new AppError(StatusCodes.NOT_ACCEPTABLE, 'You do not require authorization to view this ride request.')
+}
 }
 return rideRequest
 }
