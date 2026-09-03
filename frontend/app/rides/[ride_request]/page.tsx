@@ -1,11 +1,13 @@
-import React from 'react'
 
-const RideRequest = async({params}:{params:Promise<{ride_request:string}>}) => {
-  const  {ride_request}=await params
-  console.log(ride_request)
-
+import Link from 'next/link';
+const RideRequest = async ({ params }: { params: Promise<{ ride_request: string }> }) => {
+  const { ride_request } = await params;
   return (
-    <div>RideRequest</div>
+    <div className="">
+      <div className="w-full flex items-start justify-center">
+        <Link href={'/'}></Link>
+      </div>
+    </div>
   )
 }
 
