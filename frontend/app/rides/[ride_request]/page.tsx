@@ -1,13 +1,11 @@
 
-import Link from 'next/link';
+import Ride_request from '../_component/Ride_request';
 const RideRequest = async ({ params }: { params: Promise<{ ride_request: string }> }) => {
   const { ride_request } = await params;
   return (
-    <div className="">
-      <div className="w-full flex items-start justify-center">
-        <Link href={'/'}></Link>
-      </div>
-    </div>
+
+        <Ride_request id={ride_request}/>
+
   )
 }
 
