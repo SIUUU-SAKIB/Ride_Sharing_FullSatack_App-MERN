@@ -19,8 +19,18 @@ const Ride_request = (id:RideRequestIdProps) => {
     {title:'Fare', info:"160.76 TK", icon:CiMoneyBill},
     {title:'Payment Method', info:"Cash", icon:MdOutlinePayment},
   ]
+  const html = <div className='w-4 h-4 bg-[#dee2e6]/30 rounded-full border-gray-100 shadow-xs'></div>
+  const activeHtml = <div className='w-4 h-4 bg-(--primary)/30 rounded-full'><div className='w-2 h-2 bg-(--primary) rounded-full'></div></div>
   const rideStatus = [
-    {title:"Requst Submitted", activeHtml:<div className='w-4 h-4 bg-(--primary)/30 rounded-full'><div className='w-2 h-2 bg-(--primary) rounded-full'></div></div>, html:<div className='w-4 h-4 bg-[#dee2e6]/30 rounded-full border-gray-100 shadow-xs'></div>}
+    {title:"Requst Submitted"},
+    {title:"Finding a Driver"},
+    {title:"Driver Accepted"},
+    {title:"Ride Started"},
+    {title:"Ride Completed"}
+  ]
+  const indicators = [
+    {serial:1},  {serial:2}, {serial:3}, {serial:4}, {serial:5},
+    
   ]
   return (
     <div className="max-w-120 min-h-screen bg-[#dee2e6]/30 shadow-xs mx-auto p-4">
@@ -77,7 +87,11 @@ const Ride_request = (id:RideRequestIdProps) => {
           }
         </div>
         {/* ride information ==== */}
-        <div className='min-h-40 bg-white p-4 rounded-lg shadow-xs'>
+        <div className='min-h-40 bg-white p-4 rounded-lg shadow-xs flex gap-2 items-center'>
+          {/* indicators */}
+          <div className='flex flex-col gap-4 items-center'>
+
+          </div>
 
         </div>
     </div>
