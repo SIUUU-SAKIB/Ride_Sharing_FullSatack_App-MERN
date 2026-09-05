@@ -18,10 +18,12 @@ const Ride_request = (id:RideRequestIdProps) => {
     {title:'Distance', info:"18.87 KM", icon:RiPinDistanceLine},
     {title:'Fare', info:"160.76 TK", icon:CiMoneyBill},
     {title:'Payment Method', info:"Cash", icon:MdOutlinePayment},
-
+  ]
+  const rideStatus = [
+    {title:"Requst Submitted", activeHtml:<div className='w-4 h-4 bg-(--primary)/30 rounded-full'><div className='w-2 h-2 bg-(--primary) rounded-full'></div></div>, html:<div className='w-4 h-4 bg-[#dee2e6]/30 rounded-full border-gray-100 shadow-xs'></div>}
   ]
   return (
-    <div className="max-w-120 min-h-screen bg-gray-100/50 shadow-xs mx-auto p-4">
+    <div className="max-w-120 min-h-screen bg-[#dee2e6]/30 shadow-xs mx-auto p-4">
       {/* 1st container */}
          <div className="flex max-w-100 flex-col items-center justify-center min-h-50 bg-white shadow-sm mx-auto gap-2 rounded-xl">
             <div className="p-4 bg-(--primary)/20 rounded-full">
@@ -48,7 +50,7 @@ const Ride_request = (id:RideRequestIdProps) => {
              </div>
           </div>
           {/* end of side items ======== */}
-          {/* pickup and destination */}
+          {/* 3rd container // pickup and destination */}
           <div className='MAIN_CONTAINER flex flex-col gap-6 pl-2'>
             <div className='PICKUP_CONTAIENR flex gap-2 items-start flex-col'>
               <p className='text-(--neutral) text-md'>PICKUP</p>
@@ -63,12 +65,20 @@ const Ride_request = (id:RideRequestIdProps) => {
         </div>
         {/* end of 2nd container ========== */}
         {/* ride information */}
-        <div className='RIDE INFORMATION min-h-40 rounded-xl bg-white flex gap-2 p-2 flex-col'>
+        <div className='RIDE INFORMATION min-h-40 rounded-xl bg-white grid grid-cols-2 items-center gap-4 p-2 mt-4'>
           {
-            rideInformation.map((data, index) => <div key={index} className='flex gap-2 items-start justify-center w-full'>
-
+            rideInformation.map((data, index) => <div key={index} className={`flex gap-4 bg-[#dee2e6]/30 items-center p-2 w-full shadow-xs rounded-lg ${index !== 4 ? "col-span-1":"col-span-2"}`}>
+            {data?.icon && <data.icon className='text-xl'/>}
+            <div className='flex flex-col gap-1'>
+              <p className='text-xs text-black/80'>{data.title}</p>
+              <p className='text-sm font-medium'>{data.info}</p>
+            </div>
             </div>)
           }
+        </div>
+        {/* ride information ==== */}
+        <div className='min-h-40 bg-white p-4 rounded-lg shadow-xs'>
+
         </div>
     </div>
   )
