@@ -8,22 +8,7 @@ import { FiUser, FiUsers } from "react-icons/fi";
 import { RiPinDistanceLine } from "react-icons/ri";
 import { MdOutlinePayment } from "react-icons/md";
 import { CiMoneyBill } from "react-icons/ci";
-type RideRequestIdProps = {
-  id: string
-}
-
-const Ride_request = (id: RideRequestIdProps) => {
-  const rideInformation = [
-    { title: 'Vehicle', info: "Car", icon: IoCarOutline },
-    { title: 'Passengers', info: "6", icon: FiUser },
-    { title: 'Distance', info: "18.87 KM", icon: RiPinDistanceLine },
-    { title: 'Fare', info: "160.76 TK", icon: CiMoneyBill },
-    { title: 'Payment Method', info: "Cash", icon: MdOutlinePayment },
-  ]
-  const fulfilledHtml = <div className='bg-(--primary) flex items-center justify-center p-2 rounded-full'>
-    <IoMdCheckmark className='text-white text-xs' />
-  </div>
-  const pendingHtml = <div className='w-8 h-8 bg-(--primary)/30 rounded-full flex items-center justify-center'><div className='w-3 h-3 rounded-full bg-(--primary)'></div></div>
+import { useGetRideRequest } from '@/app/_hooks/rides/ride_request';
 
 
   const rideStatus = [
@@ -37,7 +22,26 @@ const Ride_request = (id: RideRequestIdProps) => {
     { serial: 1 }, { serial: 2 }, { serial: 3 }, { serial: 4 }, { serial: 5 },
 
   ]
+const Ride_request = (id: string) => {
+
+      const {data} = useGetRideRequest(id.id as string)
+
+  const rideInformation = [
+    { title: 'Vehicle', info: data?.data?.vehicleRequest, icon: IoCarOutline },
+    { title: 'Passengers', info: data?.data?.estimatedPassengers, icon: FiUser },
+    { title: 'Distance', info: data?.data?.distanceKM, icon: RiPinDistanceLine },
+    { title: 'Fare', info: data?.data?.estimatedFare, icon: CiMoneyBill },
+    { title: 'Payment Method', info: data?.data?.payment, icon: MdOutlinePayment },
+  ]
+  const fulfilledHtml = <div className='bg-(--primary) flex items-center justify-center p-2 rounded-full'>
+    <IoMdCheckmark className='text-white text-xs' />
+  </div>
+  const pendingHtml = <div className='w-8 h-8 bg-(--primary)/30 rounded-full flex items-center justify-center'><div className='w-3 h-3 rounded-full bg-(--primary)'></div></div>
+
+
+
   return (
+
     <div className="max-w-120 min-h-screen bg-[#dee2e6]/30 shadow-xs mx-auto p-4">
       {/* 1st container */}
       <div className="flex max-w-100 flex-col items-center justify-center min-h-50 bg-white shadow-sm mx-auto gap-2 rounded-xl">
@@ -69,12 +73,12 @@ const Ride_request = (id: RideRequestIdProps) => {
         <div className='MAIN_CONTAINER flex flex-col gap-6 pl-2'>
           <div className='PICKUP_CONTAIENR flex gap-2 items-start flex-col'>
             <p className='text-(--neutral) text-md'>PICKUP</p>
-            <p className='text-sm'>Shahjalal Uposhohor, Main Road, 3100 Sylhet, Sadar Upazilla, Bangladesh</p>
+            <p className='text-sm'>{data?.data?.pickupLocation.address}</p>
           </div>
 
           <div className='DESTINATION_CONTAINER flex gap-2 items-start flex-col'>
             <p className='text-(--neutral) text-md'>DESTINATION</p>
-            <p className='text-sm'>Shahjalal Uposhohor, Main Road, 3100 Sylhet, Sadar Upazilla, Bangladesh</p>
+            <p className='text-sm'>{data?.data?.dropoffLocation.address}</p>
           </div>
         </div>
       </div>
@@ -92,34 +96,39 @@ const Ride_request = (id: RideRequestIdProps) => {
         }
       </div>
       {/* ride information ==== */}
-      <div className="min-h-40 bg-white p-4 rounded-lg shadow-xs flex gap-2 items-center">
+      <div className="min-h-40 bg-white p-4 rounded-lg shadow-xs flex gap-2 items-center mt-8">
 
-  {/* Indicators */}
-  <div className="relative flex flex-col gap-4 items-center">
+        {/* Indicators */}
+        <div className="relative flex flex-col gap-4 items-center">
 
-    <div className="absolute top-4 bottom-4 w-px bg-gray-300" />
-    <div className="relative z-10 flex flex-col gap-4">
-      {indicators.map((e) => (
-        <div
-          key={e.serial}
-          className="w-8 h-8 bg-(--primary)/30 rounded-full flex items-center justify-center"
-        >
-          <div className="w-3 h-3 rounded-full bg-(--primary)" />
+          <div className="absolute top-4 bottom-4 w-px bg-gray-300" />
+          <div className="relative z-10 flex flex-col gap-4">
+            {indicators.map((e) => (
+              <div
+                key={e.serial}
+                className="w-8 h-8 bg-(--primary)/30 rounded-full flex items-center justify-center"
+              >
+                <div className="w-3 h-3 rounded-full bg-(--primary)" />
+              </div>
+            ))}
+          </div>
         </div>
-      ))}
-    </div>
-  </div>
-  {/* Ride status */}
-  <div className="flex flex-col gap-4">
-    {rideStatus.map((ride, index) => (
-      <div key={index} className="h-8 flex items-center">
-        {ride.title}
-      </div>
-    ))}
-  </div>
+        {/* Ride status */}
+        <div className="flex flex-col gap-4">
+          {rideStatus.map((ride, index) => (
+            <div key={index} className={`h-8 flex items-center text-md `}>
+              {ride.title}
+            </div>
+          ))}
+        </div>
 
-</div>
+      </div>
+      {/* end of ride information */}
+      {/* button */}
+      <button className='mb-20 mt-8 w-full py-4 border-2 bg-white text-lg border-red-500 rounded-lg px-4 text-red-600 font-medium'>Can Ride Request</button>
+          <BottomNav/>
     </div>
+
   )
 }
 export default Ride_request

@@ -1,8 +1,8 @@
-import { createRideRequstService, RideRequestPayload } from "@/app/_services/rideRequest"
-import { useMutation, useQueryClient } from "@tanstack/react-query"
+
+import { createRideRequstService, getRideRequest, RideRequestPayload } from "@/app/_services/rides/rideRequest";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 
 export const useCreateRideRequest =() => {
-    const queryClient = useQueryClient();
     return useMutation({
         mutationFn:(payload:RideRequestPayload) => 
              createRideRequstService(payload),
@@ -16,3 +16,9 @@ export const useCreateRideRequest =() => {
     })
 
 }
+export const useGetRideRequest = (id: string) => {
+  return useQuery({
+    queryKey: ["get_ride_request", id],
+    queryFn: () => getRideRequest(id),
+  });
+};
