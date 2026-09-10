@@ -4,7 +4,7 @@ import MagnifyingGlassIcon from '@iconify-react/at-icons/magnifying-glass';
 import LocationAlt2FilledIcon from '@iconify-react/boxicons/location-alt-2-filled';
 import { IoMdCheckmark } from "react-icons/io";
 import { IoCarOutline } from "react-icons/io5";
-import { FiUser, FiUsers } from "react-icons/fi";
+import { FiUser} from "react-icons/fi";
 import { RiPinDistanceLine } from "react-icons/ri";
 import { MdOutlinePayment } from "react-icons/md";
 import { CiMoneyBill } from "react-icons/ci";
