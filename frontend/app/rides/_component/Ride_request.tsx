@@ -24,7 +24,7 @@ import { useGetRideRequest } from '@/app/_hooks/rides/ride_request';
   ]
 const Ride_request = (id: string) => {
 
-      const {data} = useGetRideRequest(id.id as string)
+      const {data} = useGetRideRequest(id.id)
 
   const rideInformation = [
     { title: 'Vehicle', info: data?.data?.vehicleRequest, icon: IoCarOutline },
@@ -38,7 +38,7 @@ const Ride_request = (id: string) => {
   </div>
   const pendingHtml = <div className='w-8 h-8 bg-(--primary)/30 rounded-full flex items-center justify-center'><div className='w-3 h-3 rounded-full bg-(--primary)'></div></div>
 
-
+console.log(`Nelly Kent full porn videos`)
 
   return (
 
