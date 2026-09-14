@@ -136,7 +136,6 @@ const rideBtn = () => {
   };
   mutate(rideRequestPayload, {
     onSuccess:(response) => {
-      console.log(response, "from ride request")
 router.push(`/rides/${response.data._id}`)
     }
   });

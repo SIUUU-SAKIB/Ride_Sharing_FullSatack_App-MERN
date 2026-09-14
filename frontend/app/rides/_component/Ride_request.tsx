@@ -9,7 +9,7 @@ import { RiPinDistanceLine } from "react-icons/ri";
 import { MdOutlinePayment } from "react-icons/md";
 import { CiMoneyBill } from "react-icons/ci";
 import { useGetRideRequest } from '@/app/_hooks/rides/ride_request';
-
+import {motion} from "motion/react"
 
   const rideStatus = [
     { title: "Requst Submitted" },
@@ -24,7 +24,7 @@ import { useGetRideRequest } from '@/app/_hooks/rides/ride_request';
   ]
 const Ride_request = (id: string) => {
 
-      const {data} = useGetRideRequest(id.id)
+      const {data} = useGetRideRequest(id)
 
   const rideInformation = [
     { title: 'Vehicle', info: data?.data?.vehicleRequest, icon: IoCarOutline },
@@ -38,16 +38,18 @@ const Ride_request = (id: string) => {
   </div>
   const pendingHtml = <div className='w-8 h-8 bg-(--primary)/30 rounded-full flex items-center justify-center'><div className='w-3 h-3 rounded-full bg-(--primary)'></div></div>
 
-console.log(`Nelly Kent full porn videos`)
-
   return (
 
     <div className="max-w-120 min-h-screen bg-[#dee2e6]/30 shadow-xs mx-auto p-4">
       {/* 1st container */}
       <div className="flex max-w-100 flex-col items-center justify-center min-h-50 bg-white shadow-sm mx-auto gap-2 rounded-xl">
-        <div className="p-4 bg-(--primary)/20 rounded-full">
+        <motion.div
+        initial={{ scale: 0.5, opacity: 0.5 }}
+        animate={{ scale: 1, opacity: 1 }}
+        transition={{ duration: 2, repeat: Infinity, repeatType: "reverse" }}
+         className="p-4 bg-(--primary)/20 rounded-full">
           <MagnifyingGlassIcon height="24" className='text-(--primary)' />
-        </div>
+        </motion.div>
         <p className='text-xl font-bold'>Finding a Driver</p>
         <p>Your ride request has been submitted</p>
         <div className='flex gap-2 items-center py-1 px-2 bg-(--primary)/20 rounded-full'>
