@@ -10,6 +10,7 @@ import { MdOutlinePayment } from "react-icons/md";
 import { CiMoneyBill } from "react-icons/ci";
 import { useGetRideRequest } from '@/app/_hooks/rides/ride_request';
 import {motion} from "motion/react"
+import LoadingScreen from '@/app/_components/ui/LoadingScreen';
 
   const rideStatus = [
     { title: "Requst Submitted" },
@@ -23,9 +24,11 @@ import {motion} from "motion/react"
 
   ]
 const Ride_request = (id: string) => {
-
-      const {data} = useGetRideRequest(id)
-
+  const {data, isLoading, isError} = useGetRideRequest(id.id)
+  console.log(data)
+  // if(isLoading){
+  //   return <LoadingScreen/>
+  // }
   const rideInformation = [
     { title: 'Vehicle', info: data?.data?.vehicleRequest, icon: IoCarOutline },
     { title: 'Passengers', info: data?.data?.estimatedPassengers, icon: FiUser },
@@ -44,9 +47,9 @@ const Ride_request = (id: string) => {
       {/* 1st container */}
       <div className="flex max-w-100 flex-col items-center justify-center min-h-50 bg-white shadow-sm mx-auto gap-2 rounded-xl">
         <motion.div
-        initial={{ scale: 0.5, opacity: 0.5 }}
+        initial={{ scale: 0.8, opacity: 0.5 }}
         animate={{ scale: 1, opacity: 1 }}
-        transition={{ duration: 2, repeat: Infinity, repeatType: "reverse" }}
+        transition={{ duration: 0.5, repeat: Infinity, repeatType: "reverse", ease: "easeInOut" }}
          className="p-4 bg-(--primary)/20 rounded-full">
           <MagnifyingGlassIcon height="24" className='text-(--primary)' />
         </motion.div>
