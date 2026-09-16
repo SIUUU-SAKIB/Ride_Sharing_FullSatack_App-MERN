@@ -24,7 +24,7 @@ import LoadingScreen from '@/app/_components/ui/LoadingScreen';
 
   ]
 const Ride_request = (id: string) => {
-  const {data, isLoading, isError} = useGetRideRequest(id.id)
+  const {data, isLoading, isError} = useGetRideRequest(id.id as string)
   console.log(data)
   // if(isLoading){
   //   return <LoadingScreen/>
