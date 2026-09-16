@@ -3,14 +3,14 @@ type RideReqNavProps = {
   rideStatus: string;
 };
 const Ride_Req_Nav = ({rideStatus}:RideReqNavProps) => {
-    console.log(rideStatus + "from nav")
+    
     const items = [
-        {name:'STATUS'},{name:'PENDING'},{name:'MATHCED'},{name:'EXPIRED'}
+        {name:'PENDING'},{name:'MATCHED'},{name:'CANCELLED'},{name:'EXPIRED'}
     ]
   return (
-    <ul className='w-full flex gap-5 items-center justify-between p-2 border border-gray-200 shadow-xs rounded-lg mb-4'>
+    <ul className=' flex gap-5 items-center justify-between p-2 border border-gray-200 shadow-xs rounded-lg mb-4'>
         {
-            items.map((item, index) =>( <li key={index} className="font-semibold text-sm text-zinc-700">
+            items.map((item, index) =>( <li key={index} className={`font-semibold text-sm ${item.name === rideStatus ? "shadow-xs text-white px-2 py-1 bg-green-600 rounded-lg":"text-zinc-700 "}`}>
                 {item.name}
             </li>))
         }
@@ -18,4 +18,4 @@ const Ride_Req_Nav = ({rideStatus}:RideReqNavProps) => {
   )
 }
 
-export default Ride_Req_Nav
+export default Ride_Req_Nav;
