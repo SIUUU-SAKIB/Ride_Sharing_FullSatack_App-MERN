@@ -11,6 +11,7 @@ import { CiMoneyBill } from "react-icons/ci";
 import { useGetRideRequest } from '@/app/_hooks/rides/ride_request';
 import {motion} from "motion/react"
 import LoadingScreen from '@/app/_components/ui/LoadingScreen';
+import Ride_Req_Nav from './Ride_Req_Nav';
 
   const rideStatus = [
     { title: "Requst Submitted" },
@@ -25,10 +26,6 @@ import LoadingScreen from '@/app/_components/ui/LoadingScreen';
   ]
 const Ride_request = (id: string) => {
   const {data, isLoading, isError} = useGetRideRequest(id.id as string)
-  console.log(data)
-  // if(isLoading){
-  //   return <LoadingScreen/>
-  // }
   const rideInformation = [
     { title: 'Vehicle', info: data?.data?.vehicleRequest, icon: IoCarOutline },
     { title: 'Passengers', info: data?.data?.estimatedPassengers, icon: FiUser },
@@ -36,14 +33,12 @@ const Ride_request = (id: string) => {
     { title: 'Fare', info: data?.data?.estimatedFare, icon: CiMoneyBill },
     { title: 'Payment Method', info: data?.data?.payment, icon: MdOutlinePayment },
   ]
-  const fulfilledHtml = <div className='bg-(--primary) flex items-center justify-center p-2 rounded-full'>
-    <IoMdCheckmark className='text-white text-xs' />
-  </div>
-  const pendingHtml = <div className='w-8 h-8 bg-(--primary)/30 rounded-full flex items-center justify-center'><div className='w-3 h-3 rounded-full bg-(--primary)'></div></div>
-
+console.log(data?.data?.status)
   return (
 
     <div className="max-w-120 min-h-screen bg-[#dee2e6]/30 shadow-xs mx-auto p-4">
+    {/* ride_request NAVIGATION */}
+    <Ride_Req_Nav rideStatus={data?.data?.status}/>
       {/* 1st container */}
       <div className="flex max-w-100 flex-col items-center justify-center min-h-50 bg-white shadow-sm mx-auto gap-2 rounded-xl">
         <motion.div
