@@ -11,7 +11,9 @@ import { CiMoneyBill } from "react-icons/ci";
 import { useGetRideRequest } from '@/app/_hooks/rides/ride_request';
 import { motion } from "motion/react"
 import Ride_Req_Nav from './Ride_Req_Nav';
-
+type RideRequestIDProps = {
+  id:string
+}
 const rideStatus = [
   { title: "Requst Submitted" },
   { title: "Finding a Driver" },
@@ -23,8 +25,9 @@ const indicators = [
   { serial: 1 }, { serial: 2 }, { serial: 3 }, { serial: 4 }, { serial: 5 },
 
 ]
-const Ride_request = (id: string) => {
-  const { data, isLoading, isError } = useGetRideRequest(id.id as string)
+const Ride_request = ({id}:RideRequestIDProps) => {
+  const { data, isLoading, isError } = useGetRideRequest(id)
+  console.log(id)
   const status = data?.data?.status
   const rideInformation = [
     { title: 'Vehicle', info: data?.data?.vehicleRequest, icon: IoCarOutline },
@@ -55,14 +58,13 @@ const Ride_request = (id: string) => {
           status === "CANCELLED" && `Ride Request Cancelled` ||
           status === "EXPIRED" && "Ride Request Expired"}</p>
 
-
         <p className='text-center'>{status === "PENDING" && "Ride Request Submitted" ||
           status === "MATCHED" && "Your driver has accepted and heading to your way" ||
           status === "CANCELLED" && "Your ride request has been cancelled" ||
           status === "EXPIRED" && "Your ride request expired because no driver accepted in time"}</p>
-        <div className='flex gap-2 items-center py-1 px-2 bg-(--primary)/20 rounded-full'>
+        <div className={`flex items-center py-1 px-2 ${status ==="PENDING" && 'bg-(--primary)/20'} rounded-full`}>
           <div className='dot w-2 h-2 bg-(--primary) rounded-full'></div>
-          <p className={`text-(--primary) text-sm px-2 py-1`}>{status === "PENDING" && "Pending" ||
+          <p className={`text-(--primary) text-sm px-2`}>{status === "PENDING" && "Pending" ||
             status === "CANCELLED" && "Cancelled" ||
             status === "EXPIRED" && "Expired" ||
             status === "MATCHED" && "Matched"}</p>
