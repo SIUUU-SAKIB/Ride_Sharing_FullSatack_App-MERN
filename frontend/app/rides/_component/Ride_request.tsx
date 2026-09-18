@@ -4,28 +4,28 @@ import MagnifyingGlassIcon from '@iconify-react/at-icons/magnifying-glass';
 import LocationAlt2FilledIcon from '@iconify-react/boxicons/location-alt-2-filled';
 import { IoMdCheckmark } from "react-icons/io";
 import { IoCarOutline } from "react-icons/io5";
-import { FiUser} from "react-icons/fi";
+import { FiUser } from "react-icons/fi";
 import { RiPinDistanceLine } from "react-icons/ri";
 import { MdOutlinePayment } from "react-icons/md";
 import { CiMoneyBill } from "react-icons/ci";
 import { useGetRideRequest } from '@/app/_hooks/rides/ride_request';
-import {motion} from "motion/react"
-import LoadingScreen from '@/app/_components/ui/LoadingScreen';
+import { motion } from "motion/react"
 import Ride_Req_Nav from './Ride_Req_Nav';
 
-  const rideStatus = [
-    { title: "Requst Submitted" },
-    { title: "Finding a Driver" },
-    { title: "Driver Accepted" },
-    { title: "Ride Started" },
-    { title: "Ride Completed" }
-  ]
-  const indicators = [
-    { serial: 1 }, { serial: 2 }, { serial: 3 }, { serial: 4 }, { serial: 5 },
+const rideStatus = [
+  { title: "Requst Submitted" },
+  { title: "Finding a Driver" },
+  { title: "Driver Accepted" },
+  { title: "Ride Started" },
+  { title: "Ride Completed" }
+]
+const indicators = [
+  { serial: 1 }, { serial: 2 }, { serial: 3 }, { serial: 4 }, { serial: 5 },
 
-  ]
+]
 const Ride_request = (id: string) => {
-  const {data, isLoading, isError} = useGetRideRequest(id.id as string)
+  const { data, isLoading, isError } = useGetRideRequest(id.id as string)
+  const status = data?.data?.status
   const rideInformation = [
     { title: 'Vehicle', info: data?.data?.vehicleRequest, icon: IoCarOutline },
     { title: 'Passengers', info: data?.data?.estimatedPassengers, icon: FiUser },
@@ -33,26 +33,39 @@ const Ride_request = (id: string) => {
     { title: 'Fare', info: data?.data?.estimatedFare, icon: CiMoneyBill },
     { title: 'Payment Method', info: data?.data?.payment, icon: MdOutlinePayment },
   ]
-console.log(data?.data?.status)
   return (
 
     <div className="max-w-120 min-h-screen bg-[#dee2e6]/30 shadow-xs mx-auto p-4">
-    {/* ride_request NAVIGATION */}
-    <Ride_Req_Nav rideStatus={data?.data?.status}/>
+      {/* ride_request NAVIGATION */}
+      <Ride_Req_Nav rideStatus={data?.data?.status} />
+      {/* DRIVER INFO ON *MATCHED* */}
+      {/* PENDING UI */}
       {/* 1st container */}
-      <div className="flex max-w-100 flex-col items-center justify-center min-h-50 bg-white shadow-sm mx-auto gap-2 rounded-xl">
+      <div className="flex max-w-100 flex-col items-center justify-center min-h-55 bg-white shadow-sm mx-auto gap-2 rounded-xl">
         <motion.div
-        initial={{ scale: 0.8, opacity: 0.5 }}
-        animate={{ scale: 1, opacity: 1 }}
-        transition={{ duration: 0.5, repeat: Infinity, repeatType: "reverse", ease: "easeInOut" }}
-         className="p-4 bg-(--primary)/20 rounded-full">
+          initial={{ scale: 0.8, opacity: 0.5 }}
+          animate={{ scale: 1, opacity: 1 }}
+          transition={{ duration: 0.5, repeat: Infinity, repeatType: "reverse", ease: "easeInOut" }}
+          className="p-4 bg-(--primary)/20 rounded-full">
           <MagnifyingGlassIcon height="24" className='text-(--primary)' />
         </motion.div>
-        <p className='text-xl font-bold'>Finding a Driver</p>
-        <p>Your ride request has been submitted</p>
+        <p className='text-xl font-bold'>{
+          status === "MATCHED" && "Driver Found" ||
+          status === "PENDING" && "Finding a Driver" ||
+          status === "CANCELLED" && `Ride Request Cancelled` ||
+          status === "EXPIRED" && "Ride Request Expired"}</p>
+
+
+        <p className='text-center'>{status === "PENDING" && "Ride Request Submitted" ||
+          status === "MATCHED" && "Your driver has accepted and heading to your way" ||
+          status === "CANCELLED" && "Your ride request has been cancelled" ||
+          status === "EXPIRED" && "Your ride request expired because no driver accepted in time"}</p>
         <div className='flex gap-2 items-center py-1 px-2 bg-(--primary)/20 rounded-full'>
           <div className='dot w-2 h-2 bg-(--primary) rounded-full'></div>
-          <p className='text-(--primary) text-sm'>Active</p>
+          <p className={`text-(--primary) text-sm px-2 py-1`}>{status === "PENDING" && "Pending" ||
+            status === "CANCELLED" && "Cancelled" ||
+            status === "EXPIRED" && "Expired" ||
+            status === "MATCHED" && "Matched"}</p>
         </div>
 
       </div>
@@ -126,9 +139,10 @@ console.log(data?.data?.status)
       {/* end of ride information */}
       {/* button */}
       <button className='mb-20 mt-8 w-full py-4 border-2 bg-white text-lg border-red-500 rounded-lg px-4 text-red-600 font-medium'>Can Ride Request</button>
-          <BottomNav/>
+      <BottomNav />
     </div>
 
   )
 }
 export default Ride_request
+
