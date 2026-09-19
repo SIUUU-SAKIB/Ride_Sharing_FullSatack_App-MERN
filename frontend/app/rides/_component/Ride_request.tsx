@@ -2,7 +2,6 @@
 import BottomNav from '@/app/_components/Navigation/BottomNav';
 import MagnifyingGlassIcon from '@iconify-react/at-icons/magnifying-glass';
 import LocationAlt2FilledIcon from '@iconify-react/boxicons/location-alt-2-filled';
-import { IoMdCheckmark } from "react-icons/io";
 import { IoCarOutline } from "react-icons/io5";
 import { FiUser } from "react-icons/fi";
 import { RiPinDistanceLine } from "react-icons/ri";
@@ -27,7 +26,6 @@ const indicators = [
 ]
 const Ride_request = ({id}:RideRequestIDProps) => {
   const { data, isLoading, isError } = useGetRideRequest(id)
-  console.log(id)
   const status = data?.data?.status
   const rideInformation = [
     { title: 'Vehicle', info: data?.data?.vehicleRequest, icon: IoCarOutline },
