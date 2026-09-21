@@ -16,10 +16,9 @@ export enum PaymentMethod {
     CASH = "CASH"
 }
 export enum RideRequestStatus {
-    PENDING = "PENDING",
-    MATCHED = "MATCHED",
-    CANCELLED = "CANCELLED",
-    EXPIRED = "EXPIRED"
+  PENDING = "PENDING",
+  REQUEST_CANCELLED = "REQUEST_CANCELLED",
+  EXPIRED = "EXPIRED",
 }
 export interface IRideRequest {
     _id?:Types.ObjectId,
