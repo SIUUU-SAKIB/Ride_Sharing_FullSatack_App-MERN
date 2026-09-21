@@ -11,20 +11,83 @@ import Top_Notification from './Top_Notification';
 type RideRequestIDProps = {
   id:string
 }
-const rideStatus = [
-  { title: "Requst Submitted" },
-  { title: "Finding a Driver" },
-  { title: "Driver Accepted" },
-  { title: "Ride Started" },
-  { title: "Ride Completed" }
-]
-const indicators = [
-  { serial: 1 }, { serial: 2 }, { serial: 3 }, { serial: 4 }, { serial: 5 },
+enum RideStatus {
+  DRIVER_ACCEPTED = "DRIVER_ACCEPTED",
+  DRIVER_ARRIVING = "DRIVER_ARRIVING",
+  DRIVER_ARRIVED = "DRIVER_ARRIVED",
+  IN_PROGRESS = "IN_PROGRESS",
+  COMPLETED = "COMPLETED",
+  CANCELLED = "CANCELLED",
+  PENDING = "PENDING",
+  REQUEST_CANCELLED = "REQUEST_CANCELLED",
+  EXPIRED = "EXPIRED",
+}
+const rideActionConfig: Record<
+  RideStatus,
+  {
+    label: string | null;
+    action: string | null;
+    className: string;
+  }
+> = {
+  PENDING: {
+    label: "Cancel Ride Request",
+    action: "cancel_request",
+    className: "border-red-500 text-red-500",
+  },
 
-]
+  REQUEST_CANCELLED: {
+    label: "Request Another Ride",
+    action: "request_again",
+    className: "bg-(--primary) text-white",
+  },
+
+  EXPIRED: {
+    label: "Request Another Ride",
+    action: "request_again",
+    className: "bg-(--primary) text-white",
+  },
+
+  DRIVER_ACCEPTED: {
+    label: "Track Driver",
+    action: "track_driver",
+    className: "bg-(--primary) text-white",
+  },
+
+  DRIVER_ARRIVING: {
+    label: "Track Driver",
+    action: "track_driver",
+    className: "bg-(--primary) text-white",
+  },
+
+  DRIVER_ARRIVED: {
+    label: null,
+    action: null,
+    className: "",
+  },
+
+  IN_PROGRESS: {
+    label: "View Trip",
+    action: "view_trip",
+    className: "bg-(--primary) text-white",
+  },
+
+  COMPLETED: {
+    label: "Rate Your Ride",
+    action: "rate_ride",
+    className: "bg-(--primary) text-white",
+  },
+
+  CANCELLED: {
+    label: "Request Another Ride",
+    action: "request_again",
+    className: "bg-(--primary) text-white",
+  },
+};
+
 const Ride = ({id}:RideRequestIDProps) => {
   const { data, isLoading, isError } = useGetRideRequest(id)
-  const status = data?.data?.status
+  const status:RideStatus = data?.data?.status
   const rideInformation = [
     { title: 'Vehicle', info: data?.data?.vehicleRequest, icon: IoCarOutline },
     { title: 'Passengers', info: data?.data?.estimatedPassengers, icon: FiUser },
@@ -32,14 +95,15 @@ const Ride = ({id}:RideRequestIDProps) => {
     { title: 'Fare', info: data?.data?.estimatedFare, icon: CiMoneyBill },
     { title: 'Payment Method', info: data?.data?.payment, icon: MdOutlinePayment },
   ]
+ const currentAction = rideActionConfig[status];
   return (
 
     <div className="max-w-120 min-h-screen bg-[#dee2e6]/30 shadow-xs mx-auto p-4">
 
       {/* DRIVER INFO ON *MATCHED* */}
       {/* <DriverInfo/> */}
-      {/* PENDING UI */}
-      {/* top notification */}
+      
+      {/* 1st container */}
       <Top_Notification status={status}/>
       {/* 2nd container */}
       <div className='flex min-h-40 gap-2 p-4 bg-white rounded-xl shadow-sm mt-8 '>
@@ -79,37 +143,14 @@ const Ride = ({id}:RideRequestIDProps) => {
           </div>)
         }
       </div>
-      {/* ride information ==== */}
-      <div className="min-h-40 bg-white p-4 rounded-lg shadow-xs flex gap-2 items-center mt-8">
 
-        {/* Indicators */}
-        <div className="relative flex flex-col gap-4 items-center">
-
-          <div className="absolute top-4 bottom-4 w-px bg-gray-300" />
-          <div className="relative z-10 flex flex-col gap-4">
-            {indicators.map((e) => (
-              <div
-                key={e.serial}
-                className="w-8 h-8 bg-(--primary)/30 rounded-full flex items-center justify-center"
-              >
-                <div className="w-3 h-3 rounded-full bg-(--primary)" />
-              </div>
-            ))}
-          </div>
-        </div>
-        {/* Ride status */}
-        <div className="flex flex-col gap-4">
-          {rideStatus.map((ride, index) => (
-            <div key={index} className={`h-8 flex items-center text-md `}>
-              {ride.title}
-            </div>
-          ))}
-        </div>
-
-      </div>
       {/* end of ride information */}
       {/* button */}
-      <button className='mb-20 mt-8 w-full py-4 border-2 bg-white text-lg border-red-500 rounded-lg px-4 text-red-600 font-medium'>Can Ride Request</button>
+       {currentAction && (
+        <button className='w-full py-4 rounded-lg bg-green-500/70 text-white font-semibold mt-4 text-lg'>
+          {currentAction.label}
+        </button>
+      )}
       <BottomNav />
     </div>
 
