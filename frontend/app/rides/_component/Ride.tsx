@@ -9,7 +9,8 @@ import { MdOutlinePayment } from "react-icons/md";
 import { CiMoneyBill } from "react-icons/ci";
 import { useGetRideRequest } from '@/app/_hooks/rides/ride_request';
 import { motion } from "motion/react"
-import Ride_Req_Nav from './Ride_Req_Nav';
+import Ride_Req_Nav from './Ride_nav';
+import DriverInfo from './DriverInfo';
 type RideRequestIDProps = {
   id:string
 }
@@ -24,7 +25,7 @@ const indicators = [
   { serial: 1 }, { serial: 2 }, { serial: 3 }, { serial: 4 }, { serial: 5 },
 
 ]
-const Ride_request = ({id}:RideRequestIDProps) => {
+const Ride = ({id}:RideRequestIDProps) => {
   const { data, isLoading, isError } = useGetRideRequest(id)
   const status = data?.data?.status
   const rideInformation = [
@@ -40,9 +41,10 @@ const Ride_request = ({id}:RideRequestIDProps) => {
       {/* ride_request NAVIGATION */}
       <Ride_Req_Nav rideStatus={data?.data?.status} />
       {/* DRIVER INFO ON *MATCHED* */}
+      {/* <DriverInfo/> */}
       {/* PENDING UI */}
       {/* 1st container */}
-      <div className="flex max-w-100 flex-col items-center justify-center min-h-55 bg-white shadow-sm mx-auto gap-2 rounded-xl">
+      <div className="flex max-w-100 flex-col items-center justify-center w-full min-h-55 bg-white shadow-sm mx-auto gap-2 rounded-xl">
         <motion.div
           initial={{ scale: 0.8, opacity: 0.5 }}
           animate={{ scale: 1, opacity: 1 }}
@@ -56,11 +58,11 @@ const Ride_request = ({id}:RideRequestIDProps) => {
           status === "CANCELLED" && `Ride Request Cancelled` ||
           status === "EXPIRED" && "Ride Request Expired"}</p>
 
-        <p className='text-center'>{status === "PENDING" && "Ride Request Submitted" ||
+        <p className='text-center px-2'>{status === "PENDING" && "Ride Request Submitted" ||
           status === "MATCHED" && "Your driver has accepted and heading to your way" ||
           status === "CANCELLED" && "Your ride request has been cancelled" ||
           status === "EXPIRED" && "Your ride request expired because no driver accepted in time"}</p>
-        <div className={`flex items-center py-1 px-2 ${status ==="PENDING" && 'bg-(--primary)/20'} rounded-full`}>
+        <div className={`flex items-center py-1 px-2 ${status ==="PENDING" && 'bg-(--primary)/20' ||status ==="EXPIRED" && 'bg-red-500/30' } rounded-full`}>
           <div className='dot w-2 h-2 bg-(--primary) rounded-full'></div>
           <p className={`text-(--primary) text-sm px-2`}>{status === "PENDING" && "Pending" ||
             status === "CANCELLED" && "Cancelled" ||
@@ -144,5 +146,5 @@ const Ride_request = ({id}:RideRequestIDProps) => {
 
   )
 }
-export default Ride_request
+export default Ride
 

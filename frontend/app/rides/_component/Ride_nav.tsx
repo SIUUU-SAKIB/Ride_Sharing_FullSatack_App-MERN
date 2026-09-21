@@ -2,7 +2,7 @@ import React from 'react'
 type RideReqNavProps = {
   rideStatus: string;
 };
-const Ride_Req_Nav = ({rideStatus}:RideReqNavProps) => {
+const Ride_Nav = ({rideStatus}:RideReqNavProps) => {
     
     const items = [
         {name:'PENDING'},{name:'MATCHED'},{name:'CANCELLED'},{name:'EXPIRED'}
@@ -18,4 +18,4 @@ const Ride_Req_Nav = ({rideStatus}:RideReqNavProps) => {
   )
 }
 
-export default Ride_Req_Nav;
+export default Ride_Nav;
