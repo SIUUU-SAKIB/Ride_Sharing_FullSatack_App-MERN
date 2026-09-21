@@ -4,11 +4,15 @@ import { IAdminRole } from "../ADMIN/admin.interface";
 import { IRideLocation, PaymentMethod } from "../RIDE REQUEST/rideRq.interface";
 
 export enum RideStatus {
-    REQUESTED = "REQUESTED",
-    ACCEPTED = "ACCEPTED",
-    ONGOING = "ONGOING",
-    COMPLETED = "COMPLETED",
-    CANCELLED = "CANCELLED",
+  REQUESTED = "REQUESTED",
+  SEARCHING_DRIVER = "SEARCHING_DRIVER",
+  DRIVER_ACCEPTED = "DRIVER_ACCEPTED",
+  DRIVER_ARRIVING = "DRIVER_ARRIVING",
+  DRIVER_ARRIVED = "DRIVER_ARRIVED",
+  IN_PROGRESS = "IN_PROGRESS",
+  COMPLETED = "COMPLETED",
+  CANCELLED = "CANCELLED",
+  EXPIRED = "EXPIRED",
 }
 
 export enum PaymentStatus {

@@ -32,11 +32,11 @@ const updateRideStatus = async (
         throw new AppError(400, "Ride already cancelled");
     }
 
-    if (status === RideStatus.ONGOING && ride.status !== RideStatus.ACCEPTED) {
+    if (status === RideStatus.IN_PROGRESS && ride.status !== RideStatus.DRIVER_ACCEPTED) {
         throw new AppError(400, "Ride must be accepted first");
     }
 
-    if (status === RideStatus.COMPLETED && ride.status !== RideStatus.ONGOING) {
+    if (status === RideStatus.COMPLETED && ride.status !== RideStatus.IN_PROGRESS) {
         throw new AppError(400, "Ride must be ongoing first");
     }
 
