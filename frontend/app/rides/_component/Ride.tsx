@@ -84,6 +84,7 @@ const rideActionConfig: Record<
     className: "bg-(--primary) text-white",
   },
 };
+console.log('in the name of l;ove')
 
 const Ride = ({id}:RideRequestIDProps) => {
   const { data, isLoading, isError } = useGetRideRequest(id)
