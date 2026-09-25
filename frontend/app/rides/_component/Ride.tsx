@@ -11,19 +11,23 @@ import Top_Notification from './Top_Notification';
 type RideRequestIDProps = {
   id:string
 }
-enum RideStatus {
+export enum RideRequestStatus {
+  PENDING = "PENDING",
+  REQUEST_CANCELLED = "REQUEST_CANCELLED",
+  EXPIRED = "EXPIRED",
+}
+
+export enum RideStatus {
   DRIVER_ACCEPTED = "DRIVER_ACCEPTED",
   DRIVER_ARRIVING = "DRIVER_ARRIVING",
   DRIVER_ARRIVED = "DRIVER_ARRIVED",
   IN_PROGRESS = "IN_PROGRESS",
   COMPLETED = "COMPLETED",
   CANCELLED = "CANCELLED",
-  PENDING = "PENDING",
-  REQUEST_CANCELLED = "REQUEST_CANCELLED",
-  EXPIRED = "EXPIRED",
 }
+type RideActionStatus = RideRequestStatus | RideStatus;
 const rideActionConfig: Record<
-  RideStatus,
+  RideActionStatus,
   {
     label: string | null;
     action: string | null;
@@ -84,11 +88,13 @@ const rideActionConfig: Record<
     className: "bg-(--primary) text-white",
   },
 };
-console.log('in the name of l;ove')
-
+type RideActionProps = {
+  status: RideStatus;
+};
 const Ride = ({id}:RideRequestIDProps) => {
   const { data, isLoading, isError } = useGetRideRequest(id)
-  const status:RideStatus = data?.data?.status
+  const status = data?.data?.status as RideActionStatus 
+  const currentAction = status ? rideActionConfig[status] : undefined
   const rideInformation = [
     { title: 'Vehicle', info: data?.data?.vehicleRequest, icon: IoCarOutline },
     { title: 'Passengers', info: data?.data?.estimatedPassengers, icon: FiUser },
@@ -96,9 +102,8 @@ const Ride = ({id}:RideRequestIDProps) => {
     { title: 'Fare', info: data?.data?.estimatedFare, icon: CiMoneyBill },
     { title: 'Payment Method', info: data?.data?.payment, icon: MdOutlinePayment },
   ]
- const currentAction = rideActionConfig[status];
-  return (
 
+  return (
     <div className="max-w-120 min-h-screen bg-[#dee2e6]/30 shadow-xs mx-auto p-4">
 
       {/* DRIVER INFO ON *MATCHED* */}
@@ -147,11 +152,11 @@ const Ride = ({id}:RideRequestIDProps) => {
 
       {/* end of ride information */}
       {/* button */}
-       {currentAction && (
+       {/* {currentAction && (
         <button className='w-full py-4 rounded-lg bg-green-500/70 text-white font-semibold mt-4 text-lg'>
           {currentAction.label}
         </button>
-      )}
+      )} */}
       <BottomNav />
     </div>
 
