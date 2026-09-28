@@ -152,11 +152,11 @@ const Ride = ({id}:RideRequestIDProps) => {
 
       {/* end of ride information */}
       {/* button */}
-       {/* {currentAction && (
+       {currentAction && (
         <button className='w-full py-4 rounded-lg bg-green-500/70 text-white font-semibold mt-4 text-lg'>
           {currentAction.label}
         </button>
-      )} */}
+      )}
       <BottomNav />
     </div>
 

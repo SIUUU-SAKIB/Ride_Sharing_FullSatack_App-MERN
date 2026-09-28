@@ -7,11 +7,11 @@ import React from "react"
 const Services = () => {
     const [clicked, setClicked] = React.useState(false)
     return (
-        <div className="fixed bottom-30 bg-white max-screen-xl md:min-w-screen-xl mx-auto flex flex-col gap-4 items-center py-4 px-4 z-10 rounded-lg justify-center">
+        <div className="flex items-center w-full flex-col gap-2 bg-white px-4 py-4 rounded-lg">
             <p className="text-2xl font-semibold text-black">Select Service</p>
 
-            <div onClick={() => setClicked(false)} className={`p-2 rounded-xl flex gap-2 ${!clicked && "border-(--primary) bg-(--primary)/10 border"} cursor-pointer`}>
-                <div className="flex gap-x-4 items-center justify-center w-full">
+            <div onClick={() => setClicked(false)} className={`p-2 rounded-xl flex gap-2 ${!clicked && "border-(--primary) bg-(--primary)/10 border"} cursor-pointer w-full`}>
+                <div className="flex gap-x-4 items-center justify-center">
                     <CarTaxiFront size={50} className="text-(--primary) font-semibold  bg-white p-2 rounded-sm" />
                     <div className="flex flex-col items-start ">
                         <p className="text-lg font-semibold text-black">Ride Pro</p>
@@ -20,7 +20,7 @@ const Services = () => {
                 </div>
             </div>
 
-            <div onClick={() => setClicked(true)} className={`p-2 rounded-xl flex gap-2 ${clicked && "border-(--primary) bg-(--primary)/10 border"} cursor-pointer`}>
+            <div onClick={() => setClicked(true)} className={`p-2 rounded-xl flex gap-2 ${clicked && "border-(--primary) bg-(--primary)/10 border"} w-full cursor-pointer`}>
 
                 <div className="flex gap-x-4 items-center justify-center">
                     <CarTaxiFront size={50} className="text-(--primary) font-semibold  bg-white p-2 rounded-sm" />
@@ -31,9 +31,10 @@ const Services = () => {
                 </div>
             </div>
 
-            <Link href={`/login`} className="text-lg bg-(--primary) px-16 py-4 rounded-2xl shadow-md text-white font-bold text-shadow-xs flex gap-2 cursor-pointer  mt-4">
+           <Link href={`/login`} className="text-lg bg-(--primary) px-16 py-4 rounded-2xl shadow-md text-white font-bold text-shadow-xs flex gap-2 cursor-pointer text-center mt-4 w-full items-center justify-center">
                 <Lock strokeWidth={3} />
-                Log in to Reqeust Ride </Link>
+           <p>Log in to Reqeust Ride</p>
+                 </Link>
         </div>
     )
 }

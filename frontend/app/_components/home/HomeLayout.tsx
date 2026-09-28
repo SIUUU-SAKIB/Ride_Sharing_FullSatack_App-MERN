@@ -12,8 +12,9 @@ const HomeLayout = () => {
             {
                 
                 !user ? (
-                    <><LocationForm />
-                        <Services /></>) :
+                    <div className="flex items-center justify-center flex-col gap-12 max-w-7xl"
+                    ><LocationForm />
+                        <Services /></div>) :
                     (<MainHomePage 
                     />)
             }
