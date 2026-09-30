@@ -1,6 +1,4 @@
 'use client'
-
-import { useQuery } from "@tanstack/react-query"
 import { CarTaxiFront, Lock } from "lucide-react"
 import Link from 'next/link'
 import React from "react"
@@ -38,5 +36,5 @@ const Services = () => {
         </div>
     )
 }
-
+console.log(`EMMA PEAK WAS FUCKING AWESOME`)
 export default Services
