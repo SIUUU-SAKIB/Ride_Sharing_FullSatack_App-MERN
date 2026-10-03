@@ -23,9 +23,9 @@ const RideRequest = async (riderId: string, payload: Partial<IRideRequest>) => {
   }
   const existingRide = await RideRequestDB.findOne({
     riderId,
-    status: { $in: [RideRequestStatus.PENDING, RideRequestStatus.MATCHED] }
+    status: { $in: [RideRequestStatus.PENDING] }
   })
-  if (existingRide?.status === RideRequestStatus.PENDING || existingRide?.status === RideRequestStatus.MATCHED) {
+  if (existingRide?.status === RideRequestStatus.PENDING) {
     throw new AppError(StatusCodes.BAD_REQUEST, "You already have an active ride request")
   }
   if (!payload.pickupLocation || !payload.dropoffLocation) {

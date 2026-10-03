@@ -36,5 +36,5 @@ const Services = () => {
         </div>
     )
 }
-console.log(`EMMA PEAK WAS FUCKING AWESOME`)
+
 export default Services
