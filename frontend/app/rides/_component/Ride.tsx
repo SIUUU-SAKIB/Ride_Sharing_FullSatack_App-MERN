@@ -123,7 +123,7 @@ const Ride = ({id}:RideRequestIDProps) => {
           </div>
         </div>
         {/* end of side items ======== */}
-        {/* 3rd container // pickup and destination */}
+        {/* 3rd container // pickcdup and destination */}
         <div className='MAIN_CONTAINER flex flex-col gap-6 pl-2'>
           <div className='PICKUP_CONTAIENR flex gap-2 items-start flex-col'>
             <p className='text-(--neutral) text-md'>PICKUP</p>

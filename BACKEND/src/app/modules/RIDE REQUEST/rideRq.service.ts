@@ -6,7 +6,6 @@ import { RideRequestDB } from "./rideRq.model";
 import { calculateDistanceKM } from "../../utils/ride/calculateDistance";
 import { DriverProfileDB } from "../DRIVER/driver.model";
 import { RidesDB } from "../RIDES/rides.model";
-import { RideStatus } from "../RIDES/rides.interface";
 import { IVehicleType } from "../DRIVER/driver.interface";
 
 const BASE_FARE = 50
@@ -69,17 +68,17 @@ const RideRequest = async (riderId: string, payload: Partial<IRideRequest>) => {
   const rideRq = await RideRequestDB.create(mainPayload)
   return rideRq
 }
-const getSingleRideRequst = async(id:string, rider_id:string) => {
-const rideRequest =await RideRequestDB.findById(id)
-if(!rideRequest) {
-  throw new AppError(StatusCodes.NOT_FOUND, "No ride requst found")
-}
-if(rideRequest) {
-  if(rider_id !== rideRequest?.riderId.toString()) {
-  throw new AppError(StatusCodes.NOT_ACCEPTABLE, 'You do not require authorization to view this ride request.')
-}
-}
-return rideRequest
+const getSingleRideRequst = async (id: string, rider_id: string) => {
+  const rideRequest = await RideRequestDB.findById(id)
+  if (!rideRequest) {
+    throw new AppError(StatusCodes.NOT_FOUND, "No ride requst found")
+  }
+  if (rideRequest) {
+    if (rider_id !== rideRequest?.riderId.toString()) {
+      throw new AppError(StatusCodes.NOT_ACCEPTABLE, 'You do not require authorization to view this ride request.')
+    }
+  }
+  return rideRequest
 }
 const acceptRideRequest = async (_id: string, rideId: string) => {
 
@@ -104,7 +103,6 @@ const acceptRideRequest = async (_id: string, rideId: string) => {
     {
       $set: {
         driverId: driver.userId,
-        status: RideRequestStatus.MATCHED,
         fulfilledAt: now
       }
     },
@@ -124,12 +122,18 @@ const acceptRideRequest = async (_id: string, rideId: string) => {
     driverId: driver.userId,
     pickupLocation: rideRq.pickupLocation,
     dropoffLocation: rideRq.dropoffLocation,
-    status: RideStatus.ACCEPTED,
+    // status: RideStatus.ACCEPTED,
     requestedAt: rideRq.createdAt,
     acceptedAt: now,
     estimatedFare: rideRq.estimatedFare
   });
 };
 
+export const RideRequestService =
+{
+  RideRequest,
+  acceptRideRequest,
+  getSingleRideRequst
+}
 
-export const RideRequestService = { RideRequest, acceptRideRequest, getSingleRideRequst }
+// sakib sabbir shihab shazzad nahid al amin kawsar

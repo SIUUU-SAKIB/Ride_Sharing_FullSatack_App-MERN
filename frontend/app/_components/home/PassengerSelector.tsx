@@ -14,7 +14,7 @@ const PassengerSelector = ({ value, onChange, vehicle, onLimitReached, min = 1 }
   const getMaxPassengers = (vehicle: string | undefined) => {
     switch (vehicle) {
       case "BIKE":
-        return 1;
+        return 0;
       case "CNG":
         return 3;
       case "CAR":
