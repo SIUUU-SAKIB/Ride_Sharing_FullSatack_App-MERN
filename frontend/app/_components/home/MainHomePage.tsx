@@ -37,7 +37,7 @@ const vehicleInfo = [
 ]
 const MainHomePage = () => {
   // HOOKS=============
-  const {mutate,isPending, isSuccess, isError, data:ridesData} = useCreateRideRequest()
+  const { mutate, isPending, isSuccess, isError, data: ridesData } = useCreateRideRequest()
   const {
     location,
     loading,
@@ -46,21 +46,21 @@ const MainHomePage = () => {
   } = useLocation();
   const { data: user } = useCurrentUser()
   // VARIABLES
-  const router  = useRouter()
+  const router = useRouter()
   // STATES=========
   const [locationToggle, setLocationToggle] = React.useState<boolean>
     (false)
   const [confirmLocation, setConfirmLocation] = React.useState<boolean>(false)
   const [selectedVehicle, setSelectedVehicle] = React.useState<string>('')
   const [paymentMethod, setPaymentMethod] = React.useState<string>('Cash')
-console.log(selectedVehicle)
+  console.log(selectedVehicle)
   //PICKUP 
   const [pickupQuery, setPickupQuery] = React.useState<string>('')
   const [pickupResults, setPickupResults] = React.useState<Place[]>([]);
   const [pickupLocation, setPickupLocation] = React.useState<Place | null>(null)
   const [estimatedPassengers, setEstimatedPassengers] = React.useState<number>(1)
   const [message, setMessage] =
-  React.useState<string | null>(null);
+    React.useState<string | null>(null);
   // DESTINATION
   const [destinationQuery, setDestinationQuery] = React.useState<string>("");
   const [destinationResults, setDestinationResults] =
@@ -68,78 +68,78 @@ console.log(selectedVehicle)
   const [destinationLocation, setDestinationLocation] = React.useState<Place | null>(null);
   // BUTTONS============
   const currentLocationBtn = () => {
-     getCurrentLocation();
+    getCurrentLocation();
     confirmLocation ? setConfirmLocation(false) : setConfirmLocation(true)
   }
   // HANLDE PASSENGER LIMIT
-  const showMessage = (message:string) => {
+  const showMessage = (message: string) => {
     setMessage(message)
     setTimeout(() => {
       setMessage(null)
     }, 2000);
   }
 
-// FOR GETTING CURRENT LOCATION
-React.useEffect(() => {
-  if (!location) {
-    console.log("No location found");
-    return;
-  }
-  const updatePickupLocation = async () => {
-    const place = await getAddressFromCoordinates(
-      location.latitude,
-      location.longitude
-    );
-    if (place) {
-      setPickupLocation(place);
+  // FOR GETTING CURRENT LOCATION
+  React.useEffect(() => {
+    if (!location) {
+      console.log("No location found");
+      return;
     }
-  };
+    const updatePickupLocation = async () => {
+      const place = await getAddressFromCoordinates(
+        location.latitude,
+        location.longitude
+      );
+      if (place) {
+        setPickupLocation(place);
+      }
+    };
 
-  updatePickupLocation();
-}, [location]);
+    updatePickupLocation();
+  }, [location]);
 
-const rideBtn = () => {
-  if (!pickupLocation) {
-    showMessage("Please select a pickup location");
-    return;
-  }
-
-  if (!destinationLocation) {
-    showMessage("Please select a destination");
-    return;
-  }
-
-  if (!selectedVehicle) {
-    showMessage("Please select a vehicle");
-    return;
-  }
-
-  if (!paymentMethod) {
-    showMessage("Please select a payment method");
-    return;
-  }
-
-  const rideRequestPayload = {
-    pickupLocation: {
-      lat: pickupLocation.latitude,
-      lng: pickupLocation.longitude,
-      address: pickupLocation.address,
-    },
-    dropoffLocation: {
-      lat: destinationLocation.latitude,
-      lng: destinationLocation.longitude,
-      address: destinationLocation.address,
-    },
-    vehicleRequest: selectedVehicle,
-    estimatedPassengers:estimatedPassengers,
-    payment: paymentMethod.toUpperCase(),
-  };
-  mutate(rideRequestPayload, {
-    onSuccess:(response) => {
-router.push(`/rides/${response.data._id}`)
+  const rideBtn = () => {
+    if (!pickupLocation) {
+      showMessage("Please select a pickup location");
+      return;
     }
-  });
-};
+
+    if (!destinationLocation) {
+      showMessage("Please select a destination");
+      return;
+    }
+
+    if (!selectedVehicle) {
+      showMessage("Please select a vehicle");
+      return;
+    }
+
+    if (!paymentMethod) {
+      showMessage("Please select a payment method");
+      return;
+    }
+
+    const rideRequestPayload = {
+      pickupLocation: {
+        lat: pickupLocation.latitude,
+        lng: pickupLocation.longitude,
+        address: pickupLocation.address,
+      },
+      dropoffLocation: {
+        lat: destinationLocation.latitude,
+        lng: destinationLocation.longitude,
+        address: destinationLocation.address,
+      },
+      vehicleRequest: selectedVehicle,
+      estimatedPassengers: estimatedPassengers,
+      payment: paymentMethod.toUpperCase(),
+    };
+    mutate(rideRequestPayload, {
+      onSuccess: (response) => {
+        router.push(`/rides/${response.data._id}`)
+      }
+    });
+  };
 
   return (
     <div className="w-full">
@@ -177,9 +177,9 @@ router.push(`/rides/${response.data._id}`)
                     />
                   )}
                   <p className="text-lg font-bold">
-                   {
-                    loading ? "Getting current location..." : "Current location"
-                   }
+                    {
+                      loading ? "Getting current location..." : "Current location"
+                    }
                   </p>
                 </button>
               ) : (
@@ -188,7 +188,7 @@ router.push(`/rides/${response.data._id}`)
 
                   <input
                     autoFocus
-                    value={pickupQuery }
+                    value={pickupQuery}
                     onChange={(e) => {
                       setPickupQuery(e.target.value)
 
@@ -247,20 +247,20 @@ router.push(`/rides/${response.data._id}`)
                       <p className="font-medium text-sm text-black">{place.address}</p>
                     </button>
                   ))}
-                
+
                 </div>
-              ) 
+              )
             }
-             
+
           </div>
-     {
-                  pickupLocation &&<div className="flex gap-2 items-center">
-                    <LocationAlt2FilledIcon height="24" className="text-(--primary)"/>
-                     <p className="text-sm text-black font-medium">{pickupLocation?.address}</p>
-                  </div>
-                 }
+          {
+            pickupLocation && <div className="flex gap-2 items-center">
+              <LocationAlt2FilledIcon height="24" className="text-(--primary)" />
+              <p className="text-sm text-black font-medium">{pickupLocation?.address}</p>
+            </div>
+          }
         </div>
-             
+
         {/* destination */}
         <div className="flex flex-col gap-2 border-cd border-gray-200 py-4">
 
@@ -312,28 +312,20 @@ router.push(`/rides/${response.data._id}`)
           }
         </div>
         {/* DESTINATION RESULT */}
-             {
-                  destinationLocation &&<div className="flex gap-2 items-center">
-                    <LocationAlt2FilledIcon height="24" className="text-(--primary)"/>
-                     <p className="text-md text-black font-medium">{destinationLocation?.address}</p>
-                  </div>
-                 }
+        {
+          destinationLocation && <div className="flex gap-2 items-center">
+            <LocationAlt2FilledIcon height="24" className="text-(--primary)" />
+            <p className="text-md text-black font-medium">{destinationLocation?.address}</p>
+          </div>
+        }
       </div>
       {/* 2nd part */}
-     
+
       {/* vehicles */}
       <div className="bg-white px-4 py-8 rounded-2xl mt-8">
         <div className="flex items-center justify-center flex-wrap gap-2 max-w-7xl mx-auto">
           {
-            vehicleInfo.map((vehicle, index) => <div onClick={() => setSelectedVehicle(vehicle.title)} key={index} className={`
-      flex flex-col bg-gray-100 shadow-xs flex-1 
-      rounded-2xl
-      gap-2
-      px-2
-      py-4
-      border-2
-      transition duration-150
-      cursor-pointer
+            vehicleInfo.map((vehicle, index) => <div onClick={() => setSelectedVehicle(vehicle.title)} key={index} className={`flex flex-col bg-gray-100 shadow-xs flex-1 rounded-2xl gap-2 px-2 py-4border-2 transition duration-150 cursor-pointer
       ${selectedVehicle === vehicle.title
                 ? "border-(--primary) bg-green-50 shadow-md"
                 : "border-transparent hover:border-gray-200"
@@ -362,14 +354,14 @@ router.push(`/rides/${response.data._id}`)
           }
         </div>
         {/* vehicles end */}
- {/* estimated passenger */}
-      <PassengerSelector
-      value={estimatedPassengers}
-      onChange={setEstimatedPassengers}
-      vehicle={selectedVehicle || "N/A"}
-      onLimitReached={setMessage}
-      />
-{/* {estimated passenger end} */}
+        {/* estimated passenger */}
+        <PassengerSelector
+          value={estimatedPassengers}
+          onChange={setEstimatedPassengers}
+          vehicle={selectedVehicle || "N/A"}
+          onLimitReached={setMessage}
+        />
+        {/* {estimated passenger end} */}
         {/* payment method */}
         <div className="flex gap-4 items-center justify-between p-2 mt-3">
           <div className="flex gap-2 items-center">
@@ -412,16 +404,16 @@ router.push(`/rides/${response.data._id}`)
         </div>
         {/* coupon end */}
         {/* button */}
-       <button type="button" onClick={rideBtn} disabled={isPending} className="bg-(--primary) rounded-full w-full shadow-(--primary) py-4 px-2 text-white flex items-center gap-4 justify-center my-4 cursor-pointer hover:bg-(--primary)/90"><p className="text-xl font-bold">{isPending ? "Requesting Ride" : "Request Ride"}</p> <FaArrowRight className="text-xl" /></button>
+        <button type="button" onClick={rideBtn} disabled={isPending} className="bg-(--primary) rounded-full w-full shadow-(--primary) py-4 px-2 text-white flex items-center gap-4 justify-center my-4 cursor-pointer hover:bg-(--primary)/90"><p className="text-xl font-bold">{isPending ? "Requesting Ride" : "Request Ride"}</p> <FaArrowRight className="text-xl" /></button>
         {/* button end */}
       </div>
       {message && (
-  <div className="fixed bottom-24 left-1/2 -translate-x-1/2 z-50
+        <div className="fixed bottom-24 left-1/2 -translate-x-1/2 z-50
                   bg-black text-white px-4 py-2 rounded-lg
                   text-sm shadow-lg">
-    {message}
-  </div>
-)}
+          {message}
+        </div>
+      )}
     </div>
 
   );

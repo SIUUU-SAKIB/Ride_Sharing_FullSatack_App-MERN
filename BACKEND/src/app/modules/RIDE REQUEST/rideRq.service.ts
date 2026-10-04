@@ -46,7 +46,7 @@ const RideRequest = async (riderId: string, payload: Partial<IRideRequest>) => {
   const { lat: lat1, lng: lng1 } = payload.pickupLocation
   const { lat: lat2, lng: lng2 } = payload.dropoffLocation
 
-  const rideExpires = new Date(Date.now() + 20 * 60 * 1000)
+  const rideExpires = new Date(Date.now() + 60 * 60 * 1000)
   const rawDistance = calculateDistanceKM(lat1, lng1, lat2, lng2);
   const distanceKM = Number(rawDistance.toFixed(2));
 
@@ -83,7 +83,6 @@ const getSingleRideRequst = async (id: string, rider_id: string) => {
 const acceptRideRequest = async (_id: string, rideId: string) => {
 
   const driver = await DriverProfileDB.findOne({ userId: _id });
-  console.log(driver)
   if (!driver) {
     throw new AppError(404, "Driver not found");
   }
@@ -122,7 +121,7 @@ const acceptRideRequest = async (_id: string, rideId: string) => {
     driverId: driver.userId,
     pickupLocation: rideRq.pickupLocation,
     dropoffLocation: rideRq.dropoffLocation,
-    // status: RideStatus.ACCEPTED,
+    status: RideRequestStatus.ACCEPTED,
     requestedAt: rideRq.createdAt,
     acceptedAt: now,
     estimatedFare: rideRq.estimatedFare

@@ -19,6 +19,7 @@ export enum RideRequestStatus {
   PENDING = "PENDING",
   REQUEST_CANCELLED = "REQUEST_CANCELLED",
   EXPIRED = "EXPIRED",
+  ACCEPTED = "ACCEPTED"
 }
 export interface IRideRequest {
     _id?:Types.ObjectId,
