@@ -49,7 +49,6 @@ const RideRequest = async (riderId: string, payload: Partial<IRideRequest>) => {
   const rideExpires = new Date(Date.now() + 60 * 60 * 1000)
   const rawDistance = calculateDistanceKM(lat1, lng1, lat2, lng2);
   const distanceKM = Number(rawDistance.toFixed(2));
-
   const estimatedFare = Number(calculateFare(distanceKM).toFixed(2));
 
   const mainPayload = {
@@ -135,4 +134,4 @@ export const RideRequestService =
   getSingleRideRequst
 }
 
-// sakib sabbir shihab shazzad nahid al amin kawsar
+// SAKIB SABBIR SHIHAB EFTI SHAJJAD 
