@@ -102,7 +102,7 @@ const Ride = ({id}:RideRequestIDProps) => {
     { title: 'Fare', info: data?.data?.estimatedFare, icon: CiMoneyBill },
     { title: 'Payment Method', info: data?.data?.payment, icon: MdOutlinePayment },
   ]
-
+console.log(`hello`)
   return (
     <div className="max-w-120 min-h-screen bg-[#dee2e6]/30 shadow-xs mx-auto p-4">
 
